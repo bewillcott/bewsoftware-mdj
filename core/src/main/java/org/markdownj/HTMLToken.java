@@ -1,8 +1,9 @@
 package org.markdownj;
 
 public class HTMLToken {
-    private boolean isTag;
-    private String text;
+
+    private final boolean isTag;
+    private final String text;
 
     private HTMLToken(boolean tag, String value) {
         isTag = tag;
@@ -18,7 +19,8 @@ public class HTMLToken {
     }
 
     /**
-     * @return <code>true</code> if this is a tag, <code>false</code> if it's text.
+     * @return <code>true</code> if this is a tag, <code>false</code> if it's
+     *         text.
      */
     public boolean isTag() {
         return isTag;
