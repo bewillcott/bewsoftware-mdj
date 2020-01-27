@@ -2,21 +2,24 @@ package org.markdownj.test;
 
 import java.util.Arrays;
 import java.util.Collection;
-import static org.junit.Assert.*;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.markdownj.MarkdownProcessor;
 
-@RunWith(Parameterized.class)
-public class PreserveHtmlBlockTagsTest {
-    private MarkdownProcessor m;
-    private String value;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    @Parameters
-    public static Collection<Object[]> testHtml() {
-        return Arrays.asList(new Object[][] {
+public class PreserveHtmlBlockTagsTest {
+
+    private MarkdownProcessor m;
+
+    @BeforeEach
+    public void setup() {
+        m = new MarkdownProcessor();
+    }
+
+    public static Collection<String[]> testHtml() {
+        return Arrays.asList(new String[][]{
             {"<h1>Chapter One</h1>"},
             {"<H1>Chapter One</H1>"},
             {"<div>\n  <div>Text</div>\n</div>"},
@@ -30,13 +33,9 @@ public class PreserveHtmlBlockTagsTest {
         });
     }
 
-    public PreserveHtmlBlockTagsTest(String value) {
-        this.m      = new MarkdownProcessor();
-        this.value  = value;
-    }
-
-    @Test
-    public void testRoundtripPreservesTags() {
+    @ParameterizedTest(name = "{index}: {1}")
+    @MethodSource("testHtml")
+    public void testRoundtripPreservesTags(String value) {
         assertEquals(value, m.markdown(value).trim());
     }
 

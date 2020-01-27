@@ -143,7 +143,8 @@ This is a normal paragraph.
 # Result 12
 <p>This is a normal paragraph.</p>
 
-<pre><code>This is a preformatted
+<pre><code>
+This is a preformatted
 code block.
 </code></pre>
 

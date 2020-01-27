@@ -132,7 +132,8 @@ This is a normal paragraph.
 # Result 10
 <p>This is a normal paragraph.</p>
 
-<pre><code>This is a $4 preformatted
+<pre><code>
+This is a $4 preformatted
 code block.
 </code></pre>
 
@@ -152,7 +153,8 @@ For example, to add an HTML table to a Markdown article:
 # Result 11
 <p>For example, to add an HTML table to a Markdown article:</p>
 
-<pre><code>This is a regular paragraph.
+<pre><code>
+This is a regular paragraph.
 
 &lt;table&gt;
     &lt;tr&gt;
@@ -181,7 +183,8 @@ This is not part of the code block.
 # Result 11
 <p>For example, to add an HTML table to a Markdown article:</p>
 
-<pre><code>This is a regular paragraph.
+<pre><code>
+This is a regular paragraph.
 
 &lt;table&gt;
     &lt;tr&gt;
@@ -213,12 +216,14 @@ document, sort of like footnotes.
 <p>Because link names may contain spaces, this shortcut even works for
 multiple words in the link text:</p>
 
-<pre><code>Visit [Daring Fireball][] for more information.
+<pre><code>
+Visit [Daring Fireball][] for more information.
 </code></pre>
 
 <p>And then define the link:</p>
 
-<pre><code>[Daring Fireball]: http://daringfireball.net/
+<pre><code>
+[Daring Fireball]: http://daringfireball.net/
 </code></pre>
 
 <p>Link definitions can be placed anywhere in your Markdown document. I
@@ -256,7 +261,7 @@ This is a normal paragraph.
 # Result 14
 <p>This is a normal paragraph.</p>
 
-<pre class="java">
+<pre class="java"><code>
 package org.markdownj;
 
 import java.util.regex.Matcher;
@@ -264,7 +269,7 @@ import java.util.regex.Matcher;
 public interface Replacement {
     String replacement(Matcher m);
 }
-</pre>
+</code></pre>
 
 
 # Test 15 (block code with language detection; edge case: spaces)
@@ -277,10 +282,10 @@ This is a normal paragraph.
 # Result 15
 <p>This is a normal paragraph.</p>
 
-<pre class="java">
+<pre class="java"><code>
 This is a $4 preformatted
 code block.
-</pre>
+</code></pre>
 
 
 # Test 16 (block code with language detection; edge case: empty lang)
@@ -293,7 +298,33 @@ This is a normal paragraph.
 # Result 16
 <p>This is a normal paragraph.</p>
 
-<pre><code>lang:
+<pre><code>
+lang:
 This is a $4 preformatted
 code block.
+</code></pre>
+
+
+# Test 17 (three chunks separated by blank lines)
+Here we have three chunks separated by blank lines
+
+    chunk1
+
+    chunk2
+  
+ 
+ 
+    chunk3
+
+# Result 17
+<p>Here we have three chunks separated by blank lines</p>
+
+<pre><code>
+chunk1
+
+chunk2
+
+
+
+chunk3
 </code></pre>

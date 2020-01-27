@@ -39,6 +39,7 @@ software, even if advised of the possibility of such damage.
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
         <version>9</version>
+        <relativePath></relativePath>
     </parent>
 
     <groupId>org.markdownj</groupId>
@@ -96,7 +97,7 @@ software, even if advised of the possibility of such damage.
         <connection>scm:git:git://github.com/myabc/markdownj.git</connection>
         <developerConnection>scm:git:git@github.com:myabc/markdownj.git</developerConnection>
         <url>http://github.com/myabc/markdownj/</url>
-        <tag>master</tag>
+        <tag>markdownj-0.4</tag>
     </scm>
 
     <issueManagement>
@@ -120,15 +121,15 @@ software, even if advised of the possibility of such damage.
                 met:
 
                 * Redistributions of source code must retain the above copyright notice,
-                  this list of conditions and the following disclaimer.
+                this list of conditions and the following disclaimer.
 
                 * Redistributions in binary form must reproduce the above copyright
-                  notice, this list of conditions and the following disclaimer in the
-                  documentation and/or other materials provided with the distribution.
+                notice, this list of conditions and the following disclaimer in the
+                documentation and/or other materials provided with the distribution.
 
                 * Neither the name "Markdown" nor the names of its contributors may
-                  be used to endorse or promote products derived from this software
-                  without specific prior written permission.
+                be used to endorse or promote products derived from this software
+                without specific prior written permission.
 
                 This software is provided by the copyright holders and contributors "as
                 is" and any express or implied warranties, including, but not limited
@@ -178,57 +179,79 @@ software, even if advised of the possibility of such damage.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.5</version>
+                <version>3.1.1</version>
                 <configuration />
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.4.2</version>
+                <version>3.0.0-M1</version>
             </plugin>
-           <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-plugin</artifactId>
-                <version>1.9</version>
+                <version>1.11.2</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.scm</groupId>
                         <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>1.9</version>
+                        <version>1.11.2</version>
                     </dependency>
                 </dependencies>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
+                <version>3.8.1</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>13</source>
+                    <target>13</target>
                     <encoding>UTF-8</encoding>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.8.2</version>
                 <configuration>
                     <locales>en</locales>
                 </configuration>
             </plugin>
-           <plugin>
-               <artifactId>maven-resources-plugin</artifactId>
-               <version>2.2</version>
-               <configuration>
-                   <encoding>UTF-8</encoding>
-               </configuration>
-           </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
         </plugins>
     </build>
 
     <dependencies>
+        <!-- TESTING DEPENDENCIES -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.6.0-M1</version>
             <scope>test</scope>
             <optional>true</optional>
         </dependency>
@@ -238,9 +261,8 @@ software, even if advised of the possibility of such damage.
         <module>core</module>
     </modules>
 
-    <properties>
-        <site.directory>${basedir}</site.directory>
-        <junit.version>4.11</junit.version>
+    <properties><!--
+        <site.directory>${basedir}</site.directory>-->
         <ant.version>1.7.1</ant.version>
     </properties>
 

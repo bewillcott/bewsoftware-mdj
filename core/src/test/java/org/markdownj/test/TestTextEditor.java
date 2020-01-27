@@ -1,8 +1,9 @@
 package org.markdownj.test;
 
-import static org.junit.Assert.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.markdownj.TextEditor;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestTextEditor {
 
@@ -13,9 +14,7 @@ public class TestTextEditor {
         assertEquals("    ", new TextEditor("  \t").detabify().toString());
         assertEquals("    ", new TextEditor("   \t").detabify().toString());
         assertEquals("        ", new TextEditor("    \t").detabify().toString());
-
         assertEquals("     ", new TextEditor("\t ").detabify().toString());
         assertEquals("        ", new TextEditor("\t \t").detabify().toString());
     }
-
 }

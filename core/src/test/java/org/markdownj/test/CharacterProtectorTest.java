@@ -1,10 +1,12 @@
 package org.markdownj.test;
 
 import java.util.Collection;
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.markdownj.CharacterProtector;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  *
@@ -14,7 +16,7 @@ public class CharacterProtectorTest {
 
     private CharacterProtector characterProtector;
 
-    @Before
+    @BeforeEach
     public void createCharacterProtector() {
         characterProtector = new CharacterProtector();
     }
@@ -27,7 +29,7 @@ public class CharacterProtectorTest {
 
     @Test
     public void testGetAllEncodedTokens() {
-        Collection tokens = characterProtector.getAllEncodedTokens();
+        Collection<String> tokens = characterProtector.getAllEncodedTokens();
         assertEquals(0, tokens.size());
 
         characterProtector.encode("<nav><div></div></nav>");
@@ -36,17 +38,22 @@ public class CharacterProtectorTest {
         assertEquals(3, tokens.size());
     }
 
-    @Test(expected=UnsupportedOperationException.class)
+    @Test
     public void testGetAllEncodedTokensCanNotModified1() {
-        Collection tokens = characterProtector.getAllEncodedTokens();
-        tokens.clear();
+        Collection<String> tokens = characterProtector.getAllEncodedTokens();
+
+        assertThrows(UnsupportedOperationException.class, () -> tokens.clear(),
+                     "Trying to modify an 'unmodifiableSet'");
     }
 
-    @Test(expected=UnsupportedOperationException.class)
+    @Test
     public void testGetAllEncodedTokensCanNotModified2() {
-        Collection tokens = characterProtector.getAllEncodedTokens();
-        tokens.add("another_token");
-        tokens.remove("another_token");
+        Collection<String> tokens = characterProtector.getAllEncodedTokens();
+
+        assertThrows(UnsupportedOperationException.class, () -> {
+                 tokens.add("another_token");
+                 tokens.remove("another_token");
+             }, "Trying to modify an 'unmodifiableSet'");
     }
 
 }

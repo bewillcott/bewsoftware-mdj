@@ -13,7 +13,7 @@ If you're after the core functionality provided by MarkdownJ, add `markdown-core
 <dependency>
   <groupId>org.markdownj</groupId>
   <artifactId>markdownj-core</artifactId>
-  <version>0.4</version>
+  <version>0.5-SNAPSHOT</version>
 </dependency>
 ```
 

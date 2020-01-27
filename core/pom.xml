@@ -38,7 +38,7 @@ software, even if advised of the possibility of such damage.
     <parent>
         <groupId>org.markdownj</groupId>
         <artifactId>markdownj</artifactId>
-        <version>0.5-SNAPSHOT</version>
+        <version>0.4</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -53,7 +53,7 @@ software, even if advised of the possibility of such damage.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.16</version>
+                <version>3.0.0-M4</version>
                 <configuration>
                     <includes>
                         <include>**/*.java</include>
@@ -63,6 +63,40 @@ software, even if advised of the possibility of such damage.
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>org.markdownj.MarkdownProcessor</mainClass>
+                            <addBuildEnvironmentEntries>true</addBuildEnvironmentEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/libs
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>  
         </plugins>
     </build>
 
@@ -71,14 +105,14 @@ software, even if advised of the possibility of such damage.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>3.1.1</version>
                 <configuration />
             </plugin>
         </plugins>
     </reporting>
-
-    <properties>
-        <site.directory>${basedir}/../</site.directory>
-    </properties>
-
+    <!--
+        <properties>
+            <site.directory>${basedir}/../</site.directory>
+        </properties>
+    -->
 </project>

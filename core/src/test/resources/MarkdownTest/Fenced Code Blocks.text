@@ -1,0 +1,25 @@
+## Fenced Code Blocks
+
+This should be converted to a code block (using: ``` - 3 or more back-ticks):
+```
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+```
+Now we will continue with the narrative.
+
+This should be converted to a code block (using: ~~~ - 3 or more tildes):
+~~~
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+~~~
+Now we will continue with the narrative.
