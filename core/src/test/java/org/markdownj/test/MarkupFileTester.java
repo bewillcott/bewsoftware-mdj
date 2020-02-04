@@ -87,8 +87,7 @@ public class MarkupFileTester {
             file = new File(fileUrl.getFile());
         }
 
-        FileReader fileReader = new FileReader(file);
-        BufferedReader in = new BufferedReader(fileReader);
+        BufferedReader in = new BufferedReader(new FileReader(file));
         StringBuilder test = null;
         StringBuilder result = null;
 
@@ -123,8 +122,7 @@ public class MarkupFileTester {
 
                 curbuf = result;
             } else {
-                curbuf.append(line);
-                curbuf.append("\n");
+                curbuf.append(line).append("\n");
             }
         }
 
@@ -137,23 +135,24 @@ public class MarkupFileTester {
             return;
         }
 
-        String test = chomp(testbuf.toString());
-        String result = chomp(resultbuf.toString());
+//        String test = chomp(testbuf.toString());
+//        String result = chomp(resultbuf.toString());
+        String test = testbuf.toString().stripTrailing();
+        String result = resultbuf.toString().stripTrailing();
         String id = testNumber + "(" + testName + ")";
 
         list.add(new TestResultPair(id, test, result));
     }
 
-    private static String chomp(String s) {
-        int lastPos = s.length() - 1;
-
-        while (s.charAt(lastPos) == '\n' || s.charAt(lastPos) == '\r') {
-            lastPos--;
-        }
-
-        return s.substring(0, lastPos + 1);
-    }
-
+//    private static String chomp(String s) {
+//        int lastPos = s.length() - 1;
+//
+//        while (s.charAt(lastPos) == '\n' || s.charAt(lastPos) == '\r') {
+//            lastPos--;
+//        }
+//
+//        return s.substring(0, lastPos + 1);
+//    }
     @ParameterizedTest(name = "{index}: {1}")
     @MethodSource("testResultPairs")
     public void runTest(TestResultPair pair) {

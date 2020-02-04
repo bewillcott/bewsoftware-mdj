@@ -91,6 +91,15 @@ software, even if advised of the possibility of such damage.
             </roles>
             <timezone>UTC+5</timezone>
         </developer>
+        <developer>
+            <id>bewillcott</id>
+            <name>Bradley Willcott</name>
+            <email>bw.opensource@yahoo.com</email>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Australia/Perth</timezone>
+        </developer>
     </developers>
 
     <scm>
@@ -259,6 +268,7 @@ software, even if advised of the possibility of such damage.
 
     <modules>
         <module>core</module>
+        <module>markdownj-cli</module>
     </modules>
 
     <properties><!--

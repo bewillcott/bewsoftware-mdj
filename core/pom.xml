@@ -38,15 +38,16 @@ software, even if advised of the possibility of such damage.
     <parent>
         <groupId>org.markdownj</groupId>
         <artifactId>markdownj</artifactId>
-        <version>0.4</version>
+        <version>0.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <packaging>jar</packaging>
 
     <artifactId>markdownj-core</artifactId>
-    <name>MarkdownJ Core</name>
+    <name>MarkdownJ Core Library</name>
     <description>Core functionality provided by MarkdownJ.</description>
+    <version>0.5-SNAPSHOT</version>
 
     <build>
         <plugins>
@@ -69,10 +70,10 @@ software, even if advised of the possibility of such damage.
                 <version>3.2.0</version>
                 <configuration>
                     <archive>
-                        <manifest>
+                        <manifest><!--
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>org.markdownj.MarkdownProcessor</mainClass>
+                            <mainClass>org.markdownj.MarkdownProcessor</mainClass> -->
                             <addBuildEnvironmentEntries>true</addBuildEnvironmentEntries>
                         </manifest>
                     </archive>
@@ -90,6 +91,8 @@ software, even if advised of the possibility of such damage.
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <includeScope>runtime</includeScope>
+                            <excludeScope>test</excludeScope>
                             <outputDirectory>
                                 ${project.build.directory}/libs
                             </outputDirectory>
@@ -99,20 +102,13 @@ software, even if advised of the possibility of such damage.
             </plugin>  
         </plugins>
     </build>
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.1.1</version>
-                <configuration />
-            </plugin>
-        </plugins>
-    </reporting>
     <!--
         <properties>
             <site.directory>${basedir}/../</site.directory>
         </properties>
     -->
+    <properties>
+        <maven.compiler.source>13</maven.compiler.source>
+        <maven.compiler.target>13</maven.compiler.target>
+    </properties>
 </project>

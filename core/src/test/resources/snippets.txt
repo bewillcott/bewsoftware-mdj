@@ -132,10 +132,12 @@ This is a normal paragraph.
 # Result 10
 <p>This is a normal paragraph.</p>
 
-<pre><code>
+<pre>
+    <code>
 This is a $4 preformatted
 code block.
-</code></pre>
+    </code>
+</pre>
 
 # Test 11 (coded HTML, from syntax.text)
 For example, to add an HTML table to a Markdown article:
@@ -153,7 +155,8 @@ For example, to add an HTML table to a Markdown article:
 # Result 11
 <p>For example, to add an HTML table to a Markdown article:</p>
 
-<pre><code>
+<pre>
+    <code>
 This is a regular paragraph.
 
 &lt;table&gt;
@@ -163,7 +166,8 @@ This is a regular paragraph.
 &lt;/table&gt;
 
 This is another regular paragraph.
-</code></pre>
+    </code>
+</pre>
 
 # Test 11 (coded HTML with following paragraph)
 For example, to add an HTML table to a Markdown article:
@@ -183,7 +187,8 @@ This is not part of the code block.
 # Result 11
 <p>For example, to add an HTML table to a Markdown article:</p>
 
-<pre><code>
+<pre>
+    <code>
 This is a regular paragraph.
 
 &lt;table&gt;
@@ -193,7 +198,8 @@ This is a regular paragraph.
 &lt;/table&gt;
 
 This is another regular paragraph.
-</code></pre>
+    </code>
+</pre>
 
 <p>This is not part of the code block.</p>
 
@@ -216,15 +222,19 @@ document, sort of like footnotes.
 <p>Because link names may contain spaces, this shortcut even works for
 multiple words in the link text:</p>
 
-<pre><code>
+<pre>
+    <code>
 Visit [Daring Fireball][] for more information.
-</code></pre>
+    </code>
+</pre>
 
 <p>And then define the link:</p>
 
-<pre><code>
+<pre>
+    <code>
 [Daring Fireball]: http://daringfireball.net/
-</code></pre>
+    </code>
+</pre>
 
 <p>Link definitions can be placed anywhere in your Markdown document. I
 tend to put them immediately after each paragraph in which they're
@@ -261,7 +271,8 @@ This is a normal paragraph.
 # Result 14
 <p>This is a normal paragraph.</p>
 
-<pre class="java"><code>
+<pre class="java">
+    <code>
 package org.markdownj;
 
 import java.util.regex.Matcher;
@@ -269,7 +280,8 @@ import java.util.regex.Matcher;
 public interface Replacement {
     String replacement(Matcher m);
 }
-</code></pre>
+    </code>
+</pre>
 
 
 # Test 15 (block code with language detection; edge case: spaces)
@@ -282,10 +294,12 @@ This is a normal paragraph.
 # Result 15
 <p>This is a normal paragraph.</p>
 
-<pre class="java"><code>
+<pre class="java">
+    <code>
 This is a $4 preformatted
 code block.
-</code></pre>
+    </code>
+</pre>
 
 
 # Test 16 (block code with language detection; edge case: empty lang)
@@ -298,11 +312,13 @@ This is a normal paragraph.
 # Result 16
 <p>This is a normal paragraph.</p>
 
-<pre><code>
+<pre>
+    <code>
 lang:
 This is a $4 preformatted
 code block.
-</code></pre>
+    </code>
+</pre>
 
 
 # Test 17 (three chunks separated by blank lines)
@@ -319,7 +335,8 @@ Here we have three chunks separated by blank lines
 # Result 17
 <p>Here we have three chunks separated by blank lines</p>
 
-<pre><code>
+<pre>
+    <code>
 chunk1
 
 chunk2
@@ -327,4 +344,5 @@ chunk2
 
 
 chunk3
-</code></pre>
+    </code>
+</pre>

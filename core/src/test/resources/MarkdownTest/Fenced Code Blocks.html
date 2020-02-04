@@ -1,22 +1,35 @@
 <h2>Fenced Code Blocks</h2>
 
-<p>This should be converted to a code block (using: ``` - 3 or more back-ticks):</p>
+<p>This should be converted to a code block (using: ``` - 3 back-ticks):</p>
 
-<pre><code>
+<pre>
+    <code>
+/**
+ * Sample class with Javadoc comment.
+ */
 public class Fred {
     public final String text;
 
+    /*
+     * Good place to start
+     */
     public Fred(String text){
         this.text = text
     }
+
+    public String toString(){
+        return text;
+    }
 }
-</code></pre>
+    </code>
+</pre>
 
 <p>Now we will continue with the narrative.</p>
 
-<p>This should be converted to a code block (using: ~~~ - 3 or more tildes):</p>
+<p>This should be converted to a code block (using: ``` - 3 back-ticks):</p>
 
-<pre><code>
+<pre class="java">
+    <code>
 public class Fred {
     public final String text;
 
@@ -24,6 +37,39 @@ public class Fred {
         this.text = text
     }
 }
-</code></pre>
+    </code>
+</pre>
+
+<p>Now we will continue with the narrative.</p>
+
+<p>This should be converted to a code block (using: ~~~ - 3 tildes):</p>
+
+<pre class="prettyprint">
+    <code class="language-java">
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+    </code>
+</pre>
+
+<p>Now we will continue with the narrative.</p>
+
+<p>This should be converted to a code block (using: ~~~ - 3 tildes):</p>
+
+<pre>
+    <code class="language-java">
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+    </code>
+</pre>
 
 <p>Now we will continue with the narrative.</p>

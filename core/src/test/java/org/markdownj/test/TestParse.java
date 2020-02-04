@@ -16,7 +16,7 @@ public class TestParse {
         String result = mp.markdown(TEST_TEXT);
 
         System.out.println("org.markdownj.test.TestParse.main()");
-        System.out.println("Should be: " + TEST_TEXT);
+        System.out.println("Source: " + TEST_TEXT);
         System.out.println("Result is: " + result);
     }
 }

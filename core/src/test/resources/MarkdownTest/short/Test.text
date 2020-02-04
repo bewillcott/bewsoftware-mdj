@@ -2,21 +2,11 @@
 
 This should be converted to a code block (using: ``` - 3 back-ticks):
 ```
-/**
- * Sample class with Javadoc comment.
- */
 public class Fred {
     public final String text;
 
-    /*
-     * Good place to start
-     */
     public Fred(String text){
         this.text = text
-    }
-
-    public String toString(){
-        return text;
     }
 }
 ```

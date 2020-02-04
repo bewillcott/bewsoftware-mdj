@@ -1,0 +1,18 @@
+
+## Task list items
+
+- [ ] foo
+- [x] bar
+
+<!-- -->
+
+- [ ]! foo2
+- [x]! bar2
+
+<!-- -->
+
+- [x] foo
+  - [ ] bar
+  - [x] baz
+- [ ] bim
+

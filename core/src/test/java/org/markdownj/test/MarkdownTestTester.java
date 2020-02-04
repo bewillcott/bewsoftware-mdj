@@ -58,6 +58,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MarkdownTestTester {
 
     private final static String MARKDOWN_TEST_DIR = "/MarkdownTest";
+//    private final static String MARKDOWN_TEST_DIR = "/MarkdownTest/short";
 
     public static Collection<String[]> markdownTests() {
         List<String[]> list = new ArrayList<>();
@@ -90,6 +91,7 @@ public class MarkdownTestTester {
         String testText = slurp(dir + File.separator + test + ".text");
         String htmlText = slurp(dir + File.separator + test + ".html");
         MarkdownProcessor markup = new MarkdownProcessor();
+//        System.out.println(testText);
         String markdownText = markup.markdown(testText);
         assertEquals(htmlText.trim(), markdownText.trim(), test);
     }
