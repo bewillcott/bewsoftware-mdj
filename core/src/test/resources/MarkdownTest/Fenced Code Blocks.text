@@ -23,7 +23,7 @@ public class Fred {
 Now we will continue with the narrative.
 
 This should be converted to a code block (using: ``` - 3 back-ticks):
-``` lang: java
+```lang: java
 public class Fred {
     public final String text;
 
@@ -35,7 +35,7 @@ public class Fred {
 Now we will continue with the narrative.
 
 This should be converted to a code block (using: ~~~ - 3 tildes):
-~~~ [prettyprint] [language-java] 
+~~~[prettyprint][language-java] 
 public class Fred {
     public final String text;
 
@@ -46,8 +46,9 @@ public class Fred {
 ~~~
 Now we will continue with the narrative.
 
-This should be converted to a code block (using: ~~~ - 3 tildes):
-~~~ [][language-java] 
+This should be converted to a code block (using: ~~~ - 3 tildes)  
+with an _id_ of "cb":
+~~~[#cb][][language-java] 
 public class Fred {
     public final String text;
 

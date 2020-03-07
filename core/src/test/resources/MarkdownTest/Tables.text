@@ -8,7 +8,7 @@ Example 198:
 Example 199:
 
 | abc | defghi |
-:-: | -----------:
+-:- | -----------:
 bar | baz
 
 Example 200:
@@ -23,7 +23,7 @@ Example 200:
 | abc | def |
 | --- | --- |
 | bar | baz |
-~~~ [prettyprint][language-java]
+~~~[prettyprint][language-java]
 public String toPrint(){
     return "Hello World!";
 }
@@ -73,3 +73,4 @@ Example 205:
 | abc | def |
 | --- | --- |
 fred
+

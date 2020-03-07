@@ -1,0 +1,236 @@
+<p><a href="../Fenced Code Blocks.html">Back</a> <a href="../index.html">Home</a></p>
+
+<hr>
+
+<h2 id="top">Fenced Code Blocks Examples</h2>
+
+<p>This will be converted to a code block (using: ``` - 3 back-ticks):</p>
+
+<pre>
+    <code>
+```
+/**
+ * Sample class with Javadoc comment.
+ */
+public class Fred {
+    public final String text;
+
+    /*
+     * Good place to start
+     */
+    public Fred(String text){
+        this.text = text
+    }
+
+    public String toString(){
+        return text;
+    }
+}
+```
+    </code>
+</pre>
+
+<p>Produces this:</p>
+
+<pre>
+    <code>
+&lt;pre&gt;
+    &lt;code&gt;
+/**
+ * Sample class with Javadoc comment.
+ */
+public class Fred {
+    public final String text;
+
+    /*
+     * Good place to start
+     */
+    public Fred(String text){
+        this.text = text
+    }
+
+    public String toString(){
+        return text;
+    }
+}
+    &lt;/code&gt;
+&lt;/pre&gt;
+    </code>
+</pre>
+
+<p>Results in this:</p>
+
+<pre>
+    <code>
+/**
+ * Sample class with Javadoc comment.
+ */
+public class Fred {
+    public final String text;
+
+    /*
+     * Good place to start
+     */
+    public Fred(String text){
+        this.text = text
+    }
+
+    public String toString(){
+        return text;
+    }
+}
+    </code>
+</pre>
+
+<p>Now we will continue with the narrative. <a href="#top">&uarr;</a></p>
+
+<p>This should be converted to a code block (using: ``` - 3 back-ticks):</p>
+
+<pre>
+    <code>
+```lang: java
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+```
+    </code>
+</pre>
+
+<p>Produces this:</p>
+
+<pre>
+    <code>
+&lt;pre class="java"&gt;
+    &lt;code&gt;
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+    &lt;/code&gt;
+&lt;/pre&gt;
+    </code>
+</pre>
+
+<p>Results in this:</p>
+
+<pre class="java">
+    <code>
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+    </code>
+</pre>
+
+<p>Now we will continue with the narrative. <a href="#top">&uarr;</a></p>
+
+<p>This should be converted to a code block (using: ~~~ - 3 tildes):</p>
+
+<pre>
+    <code>
+~~~[prettyprint][language-java] 
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+~~~
+    </code>
+</pre>
+
+<p>Produces this:</p>
+
+<pre>
+    <code>
+&lt;pre class="prettyprint"&gt;
+    &lt;code class="language-java"&gt;
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+    &lt;/code&gt;
+&lt;/pre&gt;
+    </code>
+</pre>
+
+<p>Results in this:</p>
+
+<pre class="prettyprint">
+    <code class="language-java">
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+    </code>
+</pre>
+
+<p>Now we will continue with the narrative. <a href="#top">&uarr;</a></p>
+
+<p>This should be converted to a code block (using: ~~~ - 3 tildes):</p>
+
+<pre>
+    <code>
+~~~[][language-java] 
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+~~~
+    </code>
+</pre>
+
+<p>Produces this:</p>
+
+<pre>
+    <code>
+&lt;pre&gt;
+    &lt;code class="language-java"&gt;
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+    &lt;/code&gt;
+&lt;/pre&gt;
+    </code>
+</pre>
+
+<p>Results in this:</p>
+
+<pre>
+    <code class="language-java">
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+    </code>
+</pre>
+
+<p>Now we will continue with the narrative. <a href="#top">&uarr;</a></p>
+

@@ -1,0 +1,52 @@
+<p><a href="index.html">Home</a></p>
+
+<hr>
+
+<h2>Headings</h2>
+
+<p>Headings now have the following additional options:</p>
+
+<ul>
+<li>You can set an "<code>id=""</code>" for each as needed.</li>
+<li>You can add a link to the end of the heading text.</li>
+</ul>
+
+<p><strong>Note:</strong> This is not available with the dashed "<code>----</code>" and equals "<code>====</code>"
+versions of headings.</p>
+
+<pre>
+    <code>
+#[#main] The main heading
+    </code>
+</pre>
+
+<p>Produces this:</p>
+
+<pre>
+    <code>
+&lt;h1 id="main"&gt;The main heading&lt;/h1&gt;
+    </code>
+</pre>
+
+<p>Results in this:</p>
+
+<h1 id="main">The main heading</h1>
+
+<pre>
+    <code>
+## Sub heading ## [&amp;uarr;](#main)
+    </code>
+</pre>
+
+<p>Produces this:</p>
+
+<pre>
+    <code>
+&lt;h2&gt;Sub heading &lt;a href="#main"&gt;&amp;uarr;&lt;/a&gt;&lt;/h2&gt;
+    </code>
+</pre>
+
+<p>Results in this:</p>
+
+<h2>Sub heading <a href="#main">&uarr;</a></h2>
+

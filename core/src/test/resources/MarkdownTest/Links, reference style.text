@@ -7,9 +7,7 @@ Foo [bar]
 
 [1]: /url/  "Title"
 
-
-With [embedded [brackets]] [b].
-
+With [embedded \[brackets\]][b].
 
 Indented [once][].
 
@@ -27,16 +25,15 @@ Indented [four][] times.
 
     [four]: /url
 
-
 [b]: /url/
 
 * * *
 
-[this] [this] should work
+[this] [this] won't work
 
-So should [this][this].
+But [this][this] should.
 
-And [this] [].
+And not [this] [].
 
 And [this][].
 
@@ -67,3 +64,31 @@ breaks] across lines, but with a line-ending space.
 
 
 [link breaks]: /url/
+
+***
+
+Images:
+
+![foo bar]
+
+[foo bar]: train.jpg "train & tracks"
+
+![foo][*bar*]
+
+[*bar*]: /url
+
+![foo][BAR]
+
+[BAR]: /url/junk
+
+![foo]
+[]
+
+[foo]: /url "title"
+
+Link id is case-sensitive:
+
+![Fooby]
+
+[fooby]: /url "title"
+

@@ -47,7 +47,17 @@ software, even if advised of the possibility of such damage.
     <artifactId>markdownj-core</artifactId>
     <name>MarkdownJ Core Library</name>
     <description>Core functionality provided by MarkdownJ.</description>
-    <version>0.5-SNAPSHOT</version>
+    <version>0.5.15-SNAPSHOT</version>
+
+    <!--
+        <properties>
+            <site.directory>${basedir}/../</site.directory>
+        </properties>
+    -->
+    <properties>
+        <maven.compiler.source>13</maven.compiler.source>
+        <maven.compiler.target>13</maven.compiler.target>
+    </properties>
 
     <build>
         <plugins>
@@ -70,9 +80,9 @@ software, even if advised of the possibility of such damage.
                 <version>3.2.0</version>
                 <configuration>
                     <archive>
-                        <manifest><!--
+                        <manifest>
                             <addClasspath>true</addClasspath>
-                            <classpathPrefix>libs/</classpathPrefix>
+                            <classpathPrefix>libs/</classpathPrefix><!--
                             <mainClass>org.markdownj.MarkdownProcessor</mainClass> -->
                             <addBuildEnvironmentEntries>true</addBuildEnvironmentEntries>
                         </manifest>
@@ -102,13 +112,4 @@ software, even if advised of the possibility of such damage.
             </plugin>  
         </plugins>
     </build>
-    <!--
-        <properties>
-            <site.directory>${basedir}/../</site.directory>
-        </properties>
-    -->
-    <properties>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
-    </properties>
 </project>

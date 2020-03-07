@@ -42,10 +42,25 @@ import java.util.concurrent.ConcurrentMap;
 
 public class CharacterProtector {
 
-    private final ConcurrentMap<String, String> protectMap = new ConcurrentHashMap<>();
-    private final ConcurrentMap<String, String> unprotectMap = new ConcurrentHashMap<>();
     private static final String GOOD_CHARS = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+    private static final int NUMOFCHARS = 20;
+
+    /**
+     * Use to find encoded strings.
+     * <p>
+     * Provides a named group: <code>encoded</code>.<br>
+     * This gives you the encoded string to provide to {@link #decode(java.lang.String)}.
+     * </p>
+     */
+    public static final String REGEX = "^(?<encoded>[0-9a-zA-Z]{" + NUMOFCHARS + "})$";
+
+    private final ConcurrentMap<String, String> protectMap = new ConcurrentHashMap<>();
     private final Random rnd = new Random();
+    private final ConcurrentMap<String, String> unprotectMap = new ConcurrentHashMap<>();
+
+    public String decode(String coded) {
+        return unprotectMap.get(coded);
+    }
 
     public String encode(String literal) {
         String encoded = protectMap.get(literal);
@@ -63,12 +78,13 @@ public class CharacterProtector {
         return encoded;
     }
 
-    public String decode(String coded) {
-        return unprotectMap.get(coded);
-    }
-
     public Collection<String> getAllEncodedTokens() {
         return Collections.unmodifiableSet(unprotectMap.keySet());
+    }
+
+    @Override
+    public String toString() {
+        return protectMap.toString();
     }
 
     private String addToken(String literal) {
@@ -83,14 +99,10 @@ public class CharacterProtector {
     private String longRandomString() {
         StringBuilder sb = new StringBuilder();
         final int CHAR_MAX = GOOD_CHARS.length();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < NUMOFCHARS; i++) {
             sb.append(GOOD_CHARS.charAt(rnd.nextInt(CHAR_MAX)));
         }
         return sb.toString();
     }
 
-    @Override
-    public String toString() {
-        return protectMap.toString();
-    }
 }

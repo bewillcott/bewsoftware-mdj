@@ -8,14 +8,16 @@ This & that.
 
 6 > 5.
 
-Here's a [link] [1] with an ampersand in the URL.
+Here's a [link][1] with an ampersand in the URL.
 
-Here's a link with an ampersand in the link text: [AT&T] [2].
+Here's a link with an ampersand in the link text: [AT&T][2].
 
 Here's an inline [link](/script?foo=1&bar=2).
 
 Here's an inline [link](</script?foo=1&bar=2>).
-
+```
+\\[Fred]: https:www.example.com
+```
 
 [1]: http://example.com/?foo=1&bar=2
 [2]: http://att.com/  "AT&T"

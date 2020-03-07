@@ -1,0 +1,382 @@
+<head>
+    <style type="text/css">
+        table {
+            border: 3px solid black;
+            border-collapse: collapse;
+        }
+
+        .tableHeader {
+            border: 2px solid red;
+            padding: 5px;
+            text-align: left;
+            background-color: gold;
+        }
+
+        .tbRow {
+            background-color: lightyellow;
+            border: 1px solid black;
+            padding: 5px;
+        }
+
+        .tbTotal {
+            background-color: goldenrod;
+            color: deeppink;
+            border: 2px solid black;
+            padding: 5px;
+       }
+    </style>
+</head>
+
+<h2>Tables (Enhanced)</h2>
+
+<p>Now you can add a caption. But wait, there's more.  It can have  the same type
+of borders as your <code>&lt;table&gt;</code>.</p>
+
+<p>The single line on top of the table becomes the caption. However, there must
+be a blank line before it.  Use any formatting Markdownj offers, on the text.</p>
+
+<p>To add bordering, enclose the text within square brackets: [ ]</p>
+
+<p>Next, you can add bordering to any or all of the tags: <code>&lt;table&gt;</code>, <code>&lt;th&gt;</code> or <code>&lt;td&gt;</code>.
+Do this by using the square brackets at the end of each line.  An empty bracket <code>[]</code>
+means use the default settings: <code>border width: 1px, padding: 5px</code>. Alternatively,
+you can set one or both of them using that order [bw, p]: <code>[3 7]</code> or <code>[3,7]</code> or <code>[3]</code>.</p>
+
+<p>There is also another nice helpful feature, rolling format.  Set one or more of 
+your <code>&lt;td&gt;</code> lines to include borders, then leave the rest to Markdownj.  It will 
+use those settings in a round-robin way to format the following lines.  For example,
+each of the tables below are using this way to format bracketed lines.</p>
+
+<p>Now, if for some reason you wish to use a different format  for say the last line,
+or you wish to turn off this auto formatting, then simply added a bracket option
+to your line.  To reset/clear out the formatting list, use <code>[0]</code>.  This will turn
+off the formatting for that and subsequent unbracketed lines.  Notice the last line of
+each table below has its own bracketed options.  Check out the results in your
+browser.</p>
+
+<pre>
+    <code>
+[__This is junk__]
+| abc | def |[3 7]
+| -:-- | --- |[4]
+| bar |[]
+| oh    | _shoot_!|
+| just for | fun |
+| bar | baz | boo |[0]
+||Boo hoo|
+|My My |What a day|[2]
+    </code>
+</pre>
+
+<table style="border: 4px solid black;border-collapse: collapse;padding: 5px">
+  <caption style="border-left: 4px solid black;border-top: 4px solid black;border-right: 4px solid black;padding: 5px">
+<b>This is junk</b>
+  </caption>
+  <thead>
+    <tr>
+      <th style="border: 3px solid black;padding: 7px;text-align: center">
+abc
+      </th>
+      <th style="border: 3px solid black;padding: 7px;">
+def
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: center">
+bar
+      </td>
+      <td style="border: 1px solid black;padding: 5px;">
+&nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: center">
+oh
+      </td>
+      <td style="border: 1px solid black;padding: 5px;">
+<i>shoot</i>!
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: center">
+just for
+      </td>
+      <td style="border: 1px solid black;padding: 5px;">
+fun
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: center">
+bar
+      </td>
+      <td>
+baz
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: center">
+
+      </td>
+      <td>
+Boo hoo
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid black;padding: 5px;text-align: center">
+My My
+      </td>
+      <td style="border: 2px solid black;padding: 5px;">
+What a day
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<pre>
+    <code>
+___Bulk Purchases___
+| Product | Qty | $Price | $Total |[3 7]
+| :------ | -:- | -----: | -----: |[4]
+| Coffee  | 10  | 10.50  | 105.00 |[]
+| Tea     | 10  |  8.00  |  80.00 |
+| Milk    | 5   | 10.00  |  50.00 |
+| Totals  | 25  |        | 235.00 |[2,6]
+    </code>
+</pre>
+
+<table style="border: 4px solid black;border-collapse: collapse;padding: 5px">
+  <caption>
+<b><i>Bulk Purchases</i></b>
+  </caption>
+  <thead>
+    <tr>
+      <th style="border: 3px solid black;padding: 7px;text-align: left">
+Product
+      </th>
+      <th style="border: 3px solid black;padding: 7px;text-align: center">
+Qty
+      </th>
+      <th style="border: 3px solid black;padding: 7px;text-align: right">
+$Price
+      </th>
+      <th style="border: 3px solid black;padding: 7px;text-align: right">
+$Total
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Coffee
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: center">
+10
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+10.50
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+105.00
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Tea
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: center">
+10
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+8.00
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+80.00
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Milk
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: center">
+5
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+10.00
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+50.00
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid black;padding: 6px;text-align: left">
+Totals
+      </td>
+      <td style="border: 2px solid black;padding: 6px;text-align: center">
+25
+      </td>
+      <td style="border: 2px solid black;padding: 6px;text-align: right">
+
+      </td>
+      <td style="border: 2px solid black;padding: 6px;text-align: right">
+235.00
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h3>What's next you might ask? <a href="#gt">*</a></h3>
+
+<p>Well how about adding an '<i>id</i>' to the table, or even a row?  By adding the <i>id</i>
+to the delimiter row, it gets added to the <code>&lt;table&gt;</code> tag.</p>
+
+<pre>
+    <code>
+This is a great table
+| Left Foot | Right Foot |
+| :--- | ---: |[#gt][3]
+| Up | down |[]
+| Up | Up |
+| Down | Up |
+| Down | Down |
+| Finished | Fini |[2]
+    </code>
+</pre>
+
+<table id="gt" style="border: 3px solid black;border-collapse: collapse;padding: 5px">
+  <caption>
+This is a great table
+  </caption>
+  <thead>
+    <tr>
+      <th style="text-align: left">
+Left Foot
+      </th>
+      <th style="text-align: right">
+Right Foot
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Up
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+down
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Up
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+Up
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Down
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+Up
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Down
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+Down
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 2px solid black;padding: 5px;text-align: left">
+Finished
+      </td>
+      <td style="border: 2px solid black;padding: 5px;text-align: right">
+Fini
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h3>Now ... classes <a href="#great">*</a></h3>
+
+<p>In true ccs format, you can use classes to set the styling of your table and it's
+rows.</p>
+
+<pre>
+    <code>
+This is an even greater table
+| Left Foot | Right Foot |[tableHeader]
+| :--- | ---: |[#great]
+| Up | down |[tbRow]
+| Up | Up |
+| Down | Up |
+| Down | Down |
+| Finished | Fini |[#end][tbTotal]
+    </code>
+</pre>
+
+<table id="great">
+  <caption>
+This is an even greater table
+  </caption>
+  <thead>
+    <tr>
+      <th class="tableHeader" style="text-align: left">
+Left Foot
+      </th>
+      <th class="tableHeader" style="text-align: right">
+Right Foot
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="tbRow" style="text-align: left">
+Up
+      </td>
+      <td class="tbRow" style="text-align: right">
+down
+      </td>
+    </tr>
+    <tr>
+      <td class="tbRow" style="text-align: left">
+Up
+      </td>
+      <td class="tbRow" style="text-align: right">
+Up
+      </td>
+    </tr>
+    <tr>
+      <td class="tbRow" style="text-align: left">
+Down
+      </td>
+      <td class="tbRow" style="text-align: right">
+Up
+      </td>
+    </tr>
+    <tr>
+      <td class="tbRow" style="text-align: left">
+Down
+      </td>
+      <td class="tbRow" style="text-align: right">
+Down
+      </td>
+    </tr>
+    <tr id="end">
+      <td class="tbTotal" style="text-align: left">
+Finished
+      </td>
+      <td class="tbTotal" style="text-align: right">
+Fini
+      </td>
+    </tr>
+  </tbody>
+</table>

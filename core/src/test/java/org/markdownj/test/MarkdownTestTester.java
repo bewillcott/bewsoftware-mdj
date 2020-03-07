@@ -90,8 +90,8 @@ public class MarkdownTestTester {
     public void runTest(String dir, String test) throws IOException {
         String testText = slurp(dir + File.separator + test + ".text");
         String htmlText = slurp(dir + File.separator + test + ".html");
+
         MarkdownProcessor markup = new MarkdownProcessor();
-//        System.out.println(testText);
         String markdownText = markup.markdown(testText);
         assertEquals(htmlText.trim(), markdownText.trim(), test);
     }
@@ -99,6 +99,7 @@ public class MarkdownTestTester {
     private String slurp(String fileName) throws IOException {
         URL fileUrl = this.getClass().getResource(fileName);
         File file = new File(URLDecoder.decode(fileUrl.getFile(), "UTF-8"));
+
         StringBuilder sb;
 
         try (BufferedReader in = new BufferedReader(new FileReader(file))) {

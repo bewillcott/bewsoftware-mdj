@@ -1,0 +1,137 @@
+<p><a href="index.html">Home</a></p>
+
+<hr>
+
+<h2 id="top">Fenced Code Blocks</h2>
+
+<p>The idea was taken from the <a href="https://github.github.com/gfm/#fenced-code-blocks" target="_blank">GitHub Flavored Markdown Spec</a>. <br>
+However, I have made this spec somewhat tighter than the GFMS.</p>
+
+<h3>The Specification</h3>
+
+<p>Fenced Code Blocks start with a fence of either triple back-ticks: "```", 
+or triple tildes: "~~~", and end with its duplicate.  The fence must start
+at the beginning of the line.  Every line in between the fences is wrapped 
+inside <br>
+"<code>&lt;pre&gt;&lt;code&gt; ... &lt;/code&gt;&lt;/pre&gt;</code>" tags.</p>
+
+<p>Unlike the GFMS version, you <em>must</em> have both fences or the code block
+will not be recognized.  Also, the <a href="https://github.github.com/gfm/#info-string" target="_blank">info-string</a> has been replaced with
+bracketed options.</p>
+
+<p>You can add classes to either both the "<code>&lt;pre&gt;</code>" and "<code>&lt;code&gt;</code>" tags, 
+or either one of them, or neither one:</p>
+
+<pre>
+    <code>
+```[pre tag classes][code tag classes]
+Code
+```
+    </code>
+</pre>
+
+<p>Example 1:</p>
+
+<pre>
+    <code>
+```[prettyprint][language-java]
+Code
+```
+    </code>
+</pre>
+
+<p>Produces this:</p>
+
+<pre>
+    <code>
+&lt;pre class="prettyprint"&gt;
+    &lt;code class="language-java"&gt;
+Code
+    &lt;/code&gt;
+&lt;/pre&gt;
+    </code>
+</pre>
+
+<p>Results in this:</p>
+
+<pre class="prettyprint">
+    <code class="language-java">
+Code
+    </code>
+</pre>
+
+<p>You can also add an "<code>id="newId"</code>" attribute to the "<code>&lt;pre&gt;</code>" tag. <br>
+By inserting an option box just after the fence, and putting a <b>#</b> at the
+beginning.  The rest of the text in the box becomes the <i>id</i>.</p>
+
+<pre>
+    <code>
+```[#newId][pre tag classes][code tag classes]
+```
+    </code>
+</pre>
+
+<p>Example 2:</p>
+
+<pre>
+    <code>
+```[#example2]
+Some code
+```
+    </code>
+</pre>
+
+<p>Produces this:</p>
+
+<pre>
+    <code>
+&lt;pre id="example2"&gt;
+    &lt;code&gt;
+Some code
+    &lt;/code&gt;
+&lt;/pre&gt;
+    </code>
+</pre>
+
+<p>Results in this:</p>
+
+<pre id="example2">
+    <code>
+Some code
+    </code>
+</pre>
+
+<p>or</p>
+
+<p>Example 3:</p>
+
+<pre>
+    <code>
+```[#example3][prettyprint][language-java]
+Some more code
+```
+    </code>
+</pre>
+
+<p>Produces this:</p>
+
+<pre>
+    <code>
+&lt;pre id="example3" class="prettyprint"&gt;
+    &lt;code class="language-java"&gt;
+Some more code
+    &lt;/code&gt;
+&lt;/pre&gt;
+    </code>
+</pre>
+
+<p>Results in this:</p>
+
+<pre id="example3" class="prettyprint">
+    <code class="language-java">
+Some more code
+    </code>
+</pre>
+
+<p>Check out these <a href="examples/Fenced Code Blocks (examples).html">examples</a>. <a href="#top">&uarr;</a></p>
+

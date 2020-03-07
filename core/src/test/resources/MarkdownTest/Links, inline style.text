@@ -7,3 +7,17 @@ Just a [URL](/url/).
 [URL and title](/url/	"title preceded by a tab").
 
 [Empty]().
+
+Images:
+
+![foo](/url "title")
+
+![foo bar](/url2)
+
+An image that is a link:
+[![Go to W3Schools!](smiley.gif "Some image title")](https://www.w3schools.com)
+
+[![Go to W3Schools!](smiley.gif)](https://www.w3schools.com)
+
+![](/url)
+

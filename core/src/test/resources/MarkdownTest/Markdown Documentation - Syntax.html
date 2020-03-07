@@ -37,7 +37,7 @@
 <p><strong>Note:</strong> This document is itself written using Markdown; you
 can <a href="/projects/markdown/syntax.text">see the source for it by adding '.text' to the URL</a>.</p>
 
-<hr />
+<hr>
 
 <h2 id="overview">Overview</h2>
 
@@ -197,7 +197,7 @@ Markdown to write about HTML code. (As opposed to raw HTML, which is a
 terrible format for writing about HTML syntax, because every single <code>&lt;</code>
 and <code>&amp;</code> in your example code needs to be escaped.)</p>
 
-<hr />
+<hr>
 
 <h2 id="block">Block Elements</h2>
 
@@ -206,7 +206,7 @@ and <code>&amp;</code> in your example code needs to be escaped.)</p>
 <p>A paragraph is simply one or more consecutive lines of text, separated
 by one or more blank lines. (A blank line is any line that looks like a
 blank line -- a line containing nothing but spaces or tabs is considered
-blank.) Normal paragraphs should not be intended with spaces or tabs.</p>
+blank.) Normal paragraphs should not be indented with spaces or tabs.</p>
 
 <p>The implication of the "one or more consecutive lines of text" rule is
 that Markdown supports "hard-wrapped" text paragraphs. This differs
@@ -678,7 +678,7 @@ _ _ _
     </code>
 </pre>
 
-<hr />
+<hr>
 
 <h2 id="span">Span Elements</h2>
 
@@ -731,11 +731,11 @@ This is [an example][id] reference-style link.
     </code>
 </pre>
 
-<p>You can optionally use a space to separate the sets of brackets:</p>
+<p>You can't use any spaces to separate the sets of brackets:</p>
 
 <pre>
     <code>
-This is [an example] [id] reference-style link.
+This is [a broken example] [id] reference-style link.
     </code>
 </pre>
 
@@ -781,7 +781,7 @@ or tabs for padding, which tends to look better with longer URLs:</p>
 <p>Link definitions are only used for creating links during Markdown
 processing, and are stripped from your document in the HTML output.</p>
 
-<p>Link definition names may constist of letters, numbers, spaces, and punctuation -- but they are <em>not</em> case sensitive. E.g. these two links:</p>
+<p>Link definition names may consist of letters, numbers, spaces, and punctuation -- they are case sensitive. E.g. these two links:</p>
 
 <pre>
     <code>
@@ -790,7 +790,7 @@ processing, and are stripped from your document in the HTML output.</p>
     </code>
 </pre>
 
-<p>are equivalent.</p>
+<p>are not equivalent.</p>
 
 <p>The <em>implicit link name</em> shortcut allows you to omit the name of the
 link, in which case the link text itself is used as the name.
@@ -837,8 +837,8 @@ document, sort of like footnotes.</p>
 
 <pre>
     <code>
-I get 10 times more traffic from [Google] [1] than from
-[Yahoo] [2] or [MSN] [3].
+I get 10 times more traffic from [Google][1] than from
+[Yahoo][2] or [MSN][3].
 
   [1]: http://google.com/        "Google"
   [2]: http://search.yahoo.com/  "Yahoo Search"
@@ -1096,13 +1096,16 @@ are defined using syntax identical to link references:</p>
 dimensions of an image; if this is important to you, you can simply
 use regular HTML <code>&lt;img&gt;</code> tags.</p>
 
-<hr />
+<hr>
 
 <h2 id="misc">Miscellaneous</h2>
 
 <h3 id="autolink">Automatic Links</h3>
 
-<p>Markdown supports a shortcut style for creating "automatic" links for URLs and email addresses: simply surround the URL or email address with angle brackets. What this means is that if you want to show the actual text of a URL or email address, and also have it be a clickable link, you can do this:</p>
+<p>Markdown supports a shortcut style for creating "automatic" links for URLs and 
+email addresses: simply surround the URL or email address with angle brackets. 
+What this means is that if you want to show the actual text of a URL or email address,
+ and also have it be a clickable link, you can do this:</p>
 
 <pre>
     <code>
@@ -1179,3 +1182,4 @@ _   underscore
 !   exclamation mark
     </code>
 </pre>
+
