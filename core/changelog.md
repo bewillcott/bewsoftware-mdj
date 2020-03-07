@@ -21,4 +21,7 @@ All the code was reviewed and updated to latest Java features.
 - Fenced Code Blocks
 - Tables
 
-For latest information on changes, goto the manual.
+For latest information on changes, goto the [manual].
+
+
+[manual]:src/docs/manual
