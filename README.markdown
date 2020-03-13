@@ -13,14 +13,16 @@ If you're after the core functionality provided by MarkdownJ, add `markdown-core
 <dependency>
   <groupId>org.markdownj</groupId>
   <artifactId>markdownj-core</artifactId>
-  <version>0.5-SNAPSHOT</version>
+  <version>0.4</version>
 </dependency>
 ```
-
+### Releases
+There is a new **Interim Release**: [0.5.15-SNAPSHOT][rel]
 ### Related Projects
 
 * [markdownj-ant-utils][markdownj-ant-utils] – Markdown-based `FilterReader` for Ant.
 * [markdownj-dingus][markdownj-dingus] – [Web Dingus using MarkdownJ][dingus] source.
+- [Markdownj CLI][mjc]
 
 ### License
 
@@ -30,4 +32,6 @@ LICENSE file.
 [dingus]:http://dingus.markdownj.org
 [markdownj-dingus]:https://github.com/myabc/markdownj-dingus/
 [markdownj-ant-utils]:https://github.com/myabc/markdownj-ant-utils/
+[mjc]:https://github.com/bewillcott/markdownj-cli
+[rel]:https://github.com/bewillcott/markdownj/releases
 
