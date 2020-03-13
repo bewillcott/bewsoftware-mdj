@@ -1,7 +1,8 @@
-## Unordered
+##[#unordered] Unordered
 
 Asterisks tight:
 
+[#list1]
 *	asterisk 1
 *	asterisk 2
 *	asterisk 3
@@ -9,6 +10,7 @@ Asterisks tight:
 
 Asterisks loose:
 
+[#list2]
 *	asterisk 1
 
 *	asterisk 2
@@ -19,6 +21,7 @@ Asterisks loose:
 
 Pluses tight:
 
+[#list3]
 +	Plus 1
 +	Plus 2
 +	Plus 3
@@ -26,6 +29,7 @@ Pluses tight:
 
 Pluses loose:
 
+[#list4]
 +	Plus 1
 
 +	Plus 2
@@ -37,6 +41,7 @@ Pluses loose:
 
 Minuses tight:
 
+[#list5]
 -	Minus 1
 -	Minus 2
 -	Minus 3
@@ -44,6 +49,7 @@ Minuses tight:
 
 Minuses loose:
 
+[#list6]
 -	Minus 1
 
 -	Minus 2
@@ -51,16 +57,18 @@ Minuses loose:
 -	Minus 3
 
 
-## Ordered
+##[#ordered] Ordered
 
 Tight:
 
+[#list7]
 1.	First
 2.	Second
 3.	Third
 
 and:
 
+[#list8]
 1. One
 2. Two
 3. Three
@@ -68,6 +76,7 @@ and:
 
 Loose using tabs:
 
+[#list9]
 1.	First
 
 2.	Second
@@ -76,6 +85,7 @@ Loose using tabs:
 
 and using spaces:
 
+[#list10]
 1. One
 
 2. Two
@@ -84,6 +94,7 @@ and using spaces:
 
 Multiple paragraphs:
 
+[#list11]
 1.	Item 1, graf one.
 
 	Item 2. graf two. The quick brown fox jumped over the lazy dog's
@@ -97,12 +108,14 @@ Multiple paragraphs:
 
 ## Nested
 
+[#list12]
 *	Tab
 	*	Tab
 		*	Tab
 
 Here's another:
 
+[#list13]
 1. First
 2. Second:
 	* Fee
@@ -112,6 +125,7 @@ Here's another:
 
 Same thing but with paragraphs:
 
+[#list14]
 1. First
 
 2. Second:
@@ -124,6 +138,7 @@ Same thing but with paragraphs:
 
 This was an error in Markdown 1.0.1:
 
+[#list15]
 *	this
 
 	*	sub

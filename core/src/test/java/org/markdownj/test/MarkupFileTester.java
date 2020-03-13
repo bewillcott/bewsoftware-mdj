@@ -1,38 +1,37 @@
 /*
-Copyright (c) 2005, Pete Bevin.
-<http://markdownj.petebevin.com>
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-* Redistributions of source code must retain the above copyright notice,
-  this list of conditions and the following disclaimer.
-
-* Redistributions in binary form must reproduce the above copyright
-  notice, this list of conditions and the following disclaimer in the
-  documentation and/or other materials provided with the distribution.
-
-* Neither the name "Markdown" nor the names of its contributors may
-  be used to endorse or promote products derived from this software
-  without specific prior written permission.
-
-This software is provided by the copyright holders and contributors "as
-is" and any express or implied warranties, including, but not limited
-to, the implied warranties of merchantability and fitness for a
-particular purpose are disclaimed. In no event shall the copyright owner
-or contributors be liable for any direct, indirect, incidental, special,
-exemplary, or consequential damages (including, but not limited to,
-procurement of substitute goods or services; loss of use, data, or
-profits; or business interruption) however caused and on any theory of
-liability, whether in contract, strict liability, or tort (including
-negligence or otherwise) arising in any way out of the use of this
-software, even if advised of the possibility of such damage.
-
-*/
-
+ * Copyright (c) 2005, Pete Bevin.
+ * <http://markdownj.petebevin.com>
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ *  - Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ *  - Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ *  - Neither the name "Markdown" nor the names of its contributors may
+ *    be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * This software is provided by the copyright holders and contributors "as
+ * is" and any express or implied warranties, including, but not limited
+ * to, the implied warranties of merchantability and fitness for a
+ * particular purpose are disclaimed. In no event shall the copyright owner
+ * or contributors be liable for any direct, indirect, incidental, special,
+ * exemplary, or consequential damages (including, but not limited to,
+ * procurement of substitute goods or services; loss of use, data, or
+ * profits; or business interruption) however caused and on any theory of
+ * liability, whether in contract, strict liability, or tort (including
+ * negligence or otherwise) arising in any way out of the use of this
+ * software, even if advised of the possibility of such damage.
+ *
+ */
 package org.markdownj.test;
 
 import java.io.BufferedReader;
@@ -46,54 +45,49 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import static org.junit.Assert.*;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.markdownj.MarkdownProcessor;
 
-@RunWith(value = Parameterized.class)
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class MarkupFileTester {
 
-    private final static String[] TEST_FILENAMES = new String[] {
+    private final static String[] TEST_FILENAMES = new String[]{
         "/dingus.txt",
         "/paragraphs.txt",
         "/snippets.txt",
         "/lists.txt"
     };
 
-    TestResultPair pair;
+    public static Collection<TestResultPair[]> testResultPairs() throws IOException {
+        List<TestResultPair> fullResultPairList = new ArrayList<>();
 
-    @Parameters
-    public static Collection<Object[]> testResultPairs() throws IOException {
-        List<TestResultPair> fullResultPairList = new ArrayList<TestResultPair>();
         for (String filename : TEST_FILENAMES) {
             fullResultPairList.addAll(newTestResultPairList(filename));
         }
 
-        Collection<Object[]> testResultPairs = new ArrayList<Object[]>();
-        for (TestResultPair p : fullResultPairList) {
-            testResultPairs.add(new Object[] { p });
-        }
+        ArrayList<TestResultPair[]> testResultPairs = new ArrayList<>();
+
+        fullResultPairList.forEach((p) -> {
+            testResultPairs.add(new TestResultPair[]{p});
+        });
+
         return testResultPairs;
     }
 
-    public MarkupFileTester(TestResultPair pair) {
-        this.pair = pair;
-    }
-
-    public static List<TestResultPair> newTestResultPairList(String filename) throws IOException {
-        List<TestResultPair> list = new ArrayList<TestResultPair>();
+    private static List<TestResultPair> newTestResultPairList(String filename) throws IOException {
+        List<TestResultPair> list = new ArrayList<>();
         URL fileUrl = MarkupFileTester.class.getResource(filename);
         File file;
+
         try {
-          file = new File(fileUrl.toURI());
-        } catch(URISyntaxException e) {
-          file = new File(fileUrl.getFile());
+            file = new File(fileUrl.toURI());
+        } catch (URISyntaxException e) {
+            file = new File(fileUrl.getFile());
         }
-        FileReader fileReader = new FileReader(file);
-        BufferedReader in = new BufferedReader(fileReader);
+
+        BufferedReader in = new BufferedReader(new FileReader(file));
         StringBuilder test = null;
         StringBuilder result = null;
 
@@ -128,40 +122,41 @@ public class MarkupFileTester {
 
                 curbuf = result;
             } else {
-                curbuf.append(line);
-                curbuf.append("\n");
+                curbuf.append(line).append("\n");
             }
         }
 
         addTestResultPair(list, test, result, testNumber, testName);
-
         return list;
     }
 
-    private static void addTestResultPair(List list, StringBuilder testbuf, StringBuilder resultbuf, String testNumber, String testName) {
+    private static void addTestResultPair(List<TestResultPair> list, StringBuilder testbuf, StringBuilder resultbuf, String testNumber, String testName) {
         if (testbuf == null || resultbuf == null) {
             return;
         }
 
-        String test = chomp(testbuf.toString());
-        String result = chomp(resultbuf.toString());
-
+//        String test = chomp(testbuf.toString());
+//        String result = chomp(resultbuf.toString());
+        String test = testbuf.toString().stripTrailing();
+        String result = resultbuf.toString().stripTrailing();
         String id = testNumber + "(" + testName + ")";
 
         list.add(new TestResultPair(id, test, result));
     }
 
-    private static String chomp(String s) {
-        int lastPos = s.length() - 1;
-        while (s.charAt(lastPos) == '\n' || s.charAt(lastPos) == '\r') {
-            lastPos--;
-        }
-        return s.substring(0, lastPos + 1);
-    }
-
-    @Test
-    public void runTest() {
+//    private static String chomp(String s) {
+//        int lastPos = s.length() - 1;
+//
+//        while (s.charAt(lastPos) == '\n' || s.charAt(lastPos) == '\r') {
+//            lastPos--;
+//        }
+//
+//        return s.substring(0, lastPos + 1);
+//    }
+    @ParameterizedTest(name = "{index}: {1}")
+    @MethodSource("testResultPairs")
+    public void runTest(TestResultPair pair) {
         MarkdownProcessor markup = new MarkdownProcessor();
-        assertEquals(pair.toString(), pair.getResult().trim(), markup.markdown(pair.getTest()).trim());
+        assertEquals(pair.result.trim(), markup.markdown(pair.test).trim(), pair.name);
     }
 }

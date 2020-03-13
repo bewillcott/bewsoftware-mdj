@@ -1,0 +1,76 @@
+
+Example 198:
+
+| foo | bar |
+| --- | --- |
+| baz | bim |
+
+Example 199:
+
+| abc | defghi |
+-:- | -----------:
+bar | baz
+
+Example 200:
+
+| f\|oo  |
+| ------ |
+| b `\|` az |
+| b **\|** im |
+
+ Example 201:
+
+| abc | def |
+| --- | --- |
+| bar | baz |
+~~~[prettyprint][language-java]
+public String toPrint(){
+    return "Hello World!";
+}
+~~~
+
+| abc | def |
+| --- | --- |
+| bar | baz |
+ - -     - -     - - - 
+
+| abc | def |
+| --- | --- |
+| bar | baz |
+> bar
+
+   ***
+
+   _ _ _ _ _ _ _
+
+Example 202:
+
+| abc | def |
+| --- | --- |
+| bar | baz |
+bar
+
+bar
+
+Example 203:
+
+| abc | def |
+| --- |
+| bar |
+
+Example 204:
+
+| abc | def |
+| --- | --- |
+| bar |
+| bar | baz | boo |
+
+Example 205:
+
+| abc | def |
+| --- | --- |
+
+| abc | def |
+| --- | --- |
+fred
+

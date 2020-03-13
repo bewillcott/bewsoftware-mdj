@@ -1,0 +1,60 @@
+## Fenced Code Blocks
+
+This should be converted to a code block (using: ``` - 3 back-ticks):
+```
+/**
+ * Sample class with Javadoc comment.
+ */
+public class Fred {
+    public final String text;
+
+    /*
+     * Good place to start
+     */
+    public Fred(String text){
+        this.text = text
+    }
+
+    public String toString(){
+        return text;
+    }
+}
+```
+Now we will continue with the narrative.
+
+This should be converted to a code block (using: ``` - 3 back-ticks):
+```lang: java
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+```
+Now we will continue with the narrative.
+
+This should be converted to a code block (using: ~~~ - 3 tildes):
+~~~[prettyprint][language-java] 
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+~~~
+Now we will continue with the narrative.
+
+This should be converted to a code block (using: ~~~ - 3 tildes)  
+with an _id_ of "cb":
+~~~[#cb][][language-java] 
+public class Fred {
+    public final String text;
+
+    public Fred(String text){
+        this.text = text
+    }
+}
+~~~
+Now we will continue with the narrative.

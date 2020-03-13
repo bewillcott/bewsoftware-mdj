@@ -3,7 +3,7 @@
 _italic_   __bold__
 # Result 1
 <p><em>italic</em>   <strong>bold</strong>
-<em>italic</em>   <strong>bold</strong></p>
+<i>italic</i>   <b>bold</b></p>
 
 # Test 2 (Links/Inline)
 An [example](http://url.com/ "Title")
@@ -18,7 +18,7 @@ An [example](http://www.example.com/)
 # Test 4 (Inline images)
 ![alt textPane](/path/img.jpg "Title")
 # Result 4
-<p><img src="/path/img.jpg" alt="alt textPane" title="Title" /></p>
+<p><img src="/path/img.jpg" alt="alt textPane" title="Title"></p>
 
 # Test 5 (setext-style headers)
 Header 1
@@ -83,11 +83,14 @@ Header 2
 # Result 9
 <ul>
 <li>Abacus
-<ul><li>ass</li></ul></li>
+<ul>
+<li>ass</li></ul></li>
 <li>Bastard
-<ol><li>bitch</li>
+<ol>
+<li>bitch</li>
 <li>bupkis
-<ul><li>BELITTLER</li></ul></li>
+<ul>
+<li>BELITTLER</li></ul></li>
 <li>burper</li></ol></li>
 <li>Cunning</li>
 </ul>
@@ -143,9 +146,12 @@ This is a normal paragraph.
 # Result 12
 <p>This is a normal paragraph.</p>
 
-<pre><code>This is a preformatted
+<pre>
+    <code>
+This is a preformatted
 code block.
-</code></pre>
+    </code>
+</pre>
 
 # Test 13 (Horizontal Rules)
 ---
@@ -155,17 +161,17 @@ code block.
 - - - -
 
 # Result 13
-<hr />
+<hr>
 
-<hr />
+<hr>
 
-<hr />
+<hr>
 
 # Test 14 (Manual line breaks)
 Roses are red,  
 Violets are blue.
 
 # Result 14
-<p>Roses are red, <br />
+<p>Roses are red, <br>
 Violets are blue.</p>
 

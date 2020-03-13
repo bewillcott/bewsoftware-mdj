@@ -22,7 +22,7 @@ Span-level HTML tags -- e.g. `<span>`, `<cite>`, or `<del>`
 TODO - is _italic_underscore_ italic?
 
 # Result 3
-<p>TODO - is <em>italic</em>underscore_ italic?</p>
+<p>TODO - is <i>italic</i>underscore_ italic?</p>
 
 # Test 4 (from syntax.textPane)
 Note that Markdown formatting syntax is not processed within block-level
@@ -77,8 +77,8 @@ Readability, however, is emphasized above all else. A Markdown-formatted
 document should be publishable as-is, as plain text, without looking
 like it's been marked up with tags or formatting instructions. While
 Markdown's syntax has been influenced by several existing text-to-HTML
-filters -- including [Setext] [1], [atx] [2], [Textile] [3], [reStructuredText] [4],
-[Grutatext] [5], and [EtText] [6] -- the single biggest source of
+filters -- including [Setext][1], [atx][2], [Textile][3], [reStructuredText][4],
+[Grutatext][5], and [EtText][6] -- the single biggest source of
 inspiration for Markdown's syntax is the format of plain text email.
 
   [1]: http://docutils.sourceforge.net/mirror/setext.html
@@ -132,9 +132,12 @@ This is a normal paragraph.
 # Result 10
 <p>This is a normal paragraph.</p>
 
-<pre><code>This is a $4 preformatted
+<pre>
+    <code>
+This is a $4 preformatted
 code block.
-</code></pre>
+    </code>
+</pre>
 
 # Test 11 (coded HTML, from syntax.text)
 For example, to add an HTML table to a Markdown article:
@@ -152,7 +155,9 @@ For example, to add an HTML table to a Markdown article:
 # Result 11
 <p>For example, to add an HTML table to a Markdown article:</p>
 
-<pre><code>This is a regular paragraph.
+<pre>
+    <code>
+This is a regular paragraph.
 
 &lt;table&gt;
     &lt;tr&gt;
@@ -161,7 +166,8 @@ For example, to add an HTML table to a Markdown article:
 &lt;/table&gt;
 
 This is another regular paragraph.
-</code></pre>
+    </code>
+</pre>
 
 # Test 11 (coded HTML with following paragraph)
 For example, to add an HTML table to a Markdown article:
@@ -181,7 +187,9 @@ This is not part of the code block.
 # Result 11
 <p>For example, to add an HTML table to a Markdown article:</p>
 
-<pre><code>This is a regular paragraph.
+<pre>
+    <code>
+This is a regular paragraph.
 
 &lt;table&gt;
     &lt;tr&gt;
@@ -190,7 +198,8 @@ This is not part of the code block.
 &lt;/table&gt;
 
 This is another regular paragraph.
-</code></pre>
+    </code>
+</pre>
 
 <p>This is not part of the code block.</p>
 
@@ -213,13 +222,19 @@ document, sort of like footnotes.
 <p>Because link names may contain spaces, this shortcut even works for
 multiple words in the link text:</p>
 
-<pre><code>Visit [Daring Fireball][] for more information.
-</code></pre>
+<pre>
+    <code>
+Visit [Daring Fireball][] for more information.
+    </code>
+</pre>
 
 <p>And then define the link:</p>
 
-<pre><code>[Daring Fireball]: http://daringfireball.net/
-</code></pre>
+<pre>
+    <code>
+[Daring Fireball]: http://daringfireball.net/
+    </code>
+</pre>
 
 <p>Link definitions can be placed anywhere in your Markdown document. I
 tend to put them immediately after each paragraph in which they're
@@ -257,6 +272,7 @@ This is a normal paragraph.
 <p>This is a normal paragraph.</p>
 
 <pre class="java">
+    <code>
 package org.markdownj;
 
 import java.util.regex.Matcher;
@@ -264,6 +280,7 @@ import java.util.regex.Matcher;
 public interface Replacement {
     String replacement(Matcher m);
 }
+    </code>
 </pre>
 
 
@@ -278,8 +295,10 @@ This is a normal paragraph.
 <p>This is a normal paragraph.</p>
 
 <pre class="java">
+    <code>
 This is a $4 preformatted
 code block.
+    </code>
 </pre>
 
 
@@ -293,7 +312,37 @@ This is a normal paragraph.
 # Result 16
 <p>This is a normal paragraph.</p>
 
-<pre><code>lang:
+<pre>
+    <code>
+lang:
 This is a $4 preformatted
 code block.
-</code></pre>
+    </code>
+</pre>
+
+
+# Test 17 (three chunks separated by blank lines)
+Here we have three chunks separated by blank lines
+
+    chunk1
+
+    chunk2
+  
+ 
+ 
+    chunk3
+
+# Result 17
+<p>Here we have three chunks separated by blank lines</p>
+
+<pre>
+    <code>
+chunk1
+
+chunk2
+
+
+
+chunk3
+    </code>
+</pre>

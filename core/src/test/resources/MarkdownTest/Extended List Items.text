@@ -1,0 +1,25 @@
+
+## Task list items
+
+- [ ] foo
+- [x] bar
+
+<!-- -->
+
+1.  [ ]! foo2
+2.  [x]! bar2
+
+<!-- -->
+
+- [x] foo
+  - [ ] bar
+  - [x] baz
+- [ ] bim
+
+<!-- -->
+
+- [x] Don't know what.
+  - [ ] Hey there!
+  - [x] Maybe true too.
+- [ ] Did it work?
+

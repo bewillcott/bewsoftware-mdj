@@ -1,0 +1,187 @@
+<h1>Change Log - Markdownj-Core</h1>
+
+<h2>What's New</h2>
+
+<p>This version is a fork of the <a href="https://github.com/myabc/markdownj" target="_blank">main</a> project.  I don't know if it will
+be integrated back into that project, or continue as a separate one.</p>
+
+<h2>Version: 0.5.x Snapshot</h2>
+
+<h3>Code review</h3>
+
+<p>All the code was reviewed and updated to latest Java features.</p>
+
+<ul>
+<li>Where useful, anonymous classes were converted to the Lambda format.</li>
+<li>To help with clarity, I also ran the Netbeans: Source->Organize Members menu
+option.</li>
+<li>Cleaned up some code that was either unnecessary, or could be redone in a less verbose
+manner.</li>
+</ul>
+
+<h3>Extended markdown capability</h3>
+
+<h4>Fenced Code Blocks</h4>
+
+<p>Start line with "~~~" or "```". The fencing requires that the block ends with the <br>
+same sequence as it starts with.  Wraps the text between the fences in:</p>
+
+<pre>
+    <code>
+&lt;pre&gt;
+    &lt;code&gt;
+The text
+    &lt;/code&gt;
+&lt;/pre&gt;
+    </code>
+</pre>
+
+<h4>Tables</h4>
+
+<pre>
+    <code>
+This would be the table's caption
+| Col1 Header | Col2 Header |Col3 Header|Col 4    |[]
+| :----       | -:-         | ---:      |  :---:  |[#Id][]
+| Left        | Center      |Right      |Justified|[]
+| Row 2       | More text   |           |         |
+    </code>
+</pre>
+
+<table id="Id" style="border: 1px solid black;border-collapse: collapse;padding: 5px">
+  <caption>
+This would be the table's caption
+  </caption>
+  <thead>
+    <tr>
+      <th style="border: 1px solid black;padding: 5px;text-align: left">
+Col1 Header
+      </th>
+      <th style="border: 1px solid black;padding: 5px;text-align: center">
+Col2 Header
+      </th>
+      <th style="border: 1px solid black;padding: 5px;text-align: right">
+Col3 Header
+      </th>
+      <th style="border: 1px solid black;padding: 5px;text-align: justify">
+Col 4
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Left
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: center">
+Center
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+Right
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: justify">
+Justified
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Row 2
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: center">
+More text
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: justify">
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<p>A Table begins and ends with a blank line.</p>
+
+<p>If present, the first row above the table becomes the table's "caption". If the
+<i>caption</i> text is bracketed thus: <code>[This would be the table's caption]</code>, then it would
+be given the same borders as are set for the <code>&lt;table&gt;</code> element.  See table below <a href="#Id2">&darr;</a></p>
+
+<p>Each line begins and ends with a pipe character '|', with additional such
+to separate columns.</p>
+
+<p>Each line can have an optional <b>[]</b> bracketed parameter or two.
+If just one is provided, then when empty <code>[]</code>, adds a border around that row.
+If it contains text, the text is inserted into a 'class=' attribute
+for that row.</p>
+
+<p>Special cases:</p>
+
+<ul>
+<li>The delimiter row (contains the <code>-</code> and <code>:</code> characters) sets the parameters for the <code>&lt;table&gt;</code> tag.</li>
+<li>Data rows:
+<ul>
+<li>If just the first one is set with a bracketed parameter, then this will be used for all
+data rows.</li>
+<li>Subsequent rows can be set to either the same class(es) as the
+first row or to different class(es).</li>
+<li>Any following rows not set, will be configured using the row
+sequencing of the first set of rows, in rotation.</li></ul></li>
+</ul>
+
+<table id="Id2" style="border: 1px solid black;border-collapse: collapse;padding: 5px">
+  <caption style="border-left: 1px solid black;border-top: 1px solid black;border-right: 1px solid black;padding: 5px">
+This would be the table's caption
+  </caption>
+  <thead>
+    <tr>
+      <th style="border: 1px solid black;padding: 5px;text-align: left">
+Col1 Header
+      </th>
+      <th style="border: 1px solid black;padding: 5px;text-align: center">
+Col2 Header
+      </th>
+      <th style="border: 1px solid black;padding: 5px;text-align: right">
+Col3 Header
+      </th>
+      <th style="border: 1px solid black;padding: 5px;text-align: justify">
+Col 4
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Left
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: center">
+Center
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+Right
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: justify">
+Justified
+      </td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black;padding: 5px;text-align: left">
+Row 2
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: center">
+More text
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: right">
+
+      </td>
+      <td style="border: 1px solid black;padding: 5px;text-align: justify">
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h3>Further Reading</h3>
+
+<p>You can find a lot more information in the manual.</p>

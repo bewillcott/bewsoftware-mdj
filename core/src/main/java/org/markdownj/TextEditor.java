@@ -1,38 +1,37 @@
 /*
-Copyright (c) 2005, Pete Bevin.
-<http://markdownj.petebevin.com>
-
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-* Redistributions of source code must retain the above copyright notice,
-  this list of conditions and the following disclaimer.
-
-* Redistributions in binary form must reproduce the above copyright
-  notice, this list of conditions and the following disclaimer in the
-  documentation and/or other materials provided with the distribution.
-
-* Neither the name "Markdown" nor the names of its contributors may
-  be used to endorse or promote products derived from this software
-  without specific prior written permission.
-
-This software is provided by the copyright holders and contributors "as
-is" and any express or implied warranties, including, but not limited
-to, the implied warranties of merchantability and fitness for a
-particular purpose are disclaimed. In no event shall the copyright owner
-or contributors be liable for any direct, indirect, incidental, special,
-exemplary, or consequential damages (including, but not limited to,
-procurement of substitute goods or services; loss of use, data, or
-profits; or business interruption) however caused and on any theory of
-liability, whether in contract, strict liability, or tort (including
-negligence or otherwise) arising in any way out of the use of this
-software, even if advised of the possibility of such damage.
-
-*/
-
+ * Copyright (c) 2005, Pete Bevin.
+ * <http://markdownj.petebevin.com>
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ *  - Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ *  - Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ *  - Neither the name "Markdown" nor the names of its contributors may
+ *    be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * This software is provided by the copyright holders and contributors "as
+ * is" and any express or implied warranties, including, but not limited
+ * to, the implied warranties of merchantability and fitness for a
+ * particular purpose are disclaimed. In no event shall the copyright owner
+ * or contributors be liable for any direct, indirect, incidental, special,
+ * exemplary, or consequential damages (including, but not limited to,
+ * procurement of substitute goods or services; loss of use, data, or
+ * profits; or business interruption) however caused and on any theory of
+ * liability, whether in contract, strict liability, or tort (including
+ * negligence or otherwise) arising in any way out of the use of this
+ * software, even if advised of the possibility of such damage.
+ *
+ */
 package org.markdownj;
 
 import java.util.ArrayList;
@@ -41,11 +40,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.util.regex.Pattern.CASE_INSENSITIVE;
+import static java.util.regex.Pattern.MULTILINE;
 
 /**
  * Mutable String with common operations used in Markdown processing.
  */
 public class TextEditor {
+
+    private boolean found;
     private StringBuilder text;
 
     /**
@@ -59,81 +62,22 @@ public class TextEditor {
     }
 
     /**
-     * Give up the contents of the TextEditor.
-     * @return
-     */
-    @Override
-    public String toString() {
-        return text.toString();
-    }
-
-    /**
-     * Replace all occurrences of the regular expression with the replacement.  The replacement string
-     * can contain $1, $2 etc. referring to matched groups in the regular expression.
+     * Add a string to the end of the buffer.
      *
-     * @param regex
-     * @param replacement
-     * @return
+     * @param s
      */
-    public TextEditor replaceAll(String regex, String replacement) {
-        if (text.length() > 0) {
-            final String r = replacement;
-            Pattern p = Pattern.compile(regex, Pattern.MULTILINE);
-            Matcher m = p.matcher(text);
-            StringBuffer sb = new StringBuffer();
-            while (m.find()) {
-                m.appendReplacement(sb, r);
-            }
-            m.appendTail(sb);
-            text = new StringBuilder(sb.toString());
-        }
-        return this;
+    public void append(CharSequence s) {
+        text.append(s);
     }
 
     /**
-     * Same as replaceAll(String, String), but does not interpret
-     * $1, $2 etc. in the replacement string.
-     * @param regex
-     * @param replacement
-     * @return
-     */
-    public TextEditor replaceAllLiteral(String regex, final String replacement) {
-        return replaceAll(Pattern.compile(regex, Pattern.MULTILINE), new Replacement() {
-            public String replacement(Matcher m) {
-                return replacement;
-            }
-        });
-    }
-
-    /**
-     * Replace all occurrences of the Pattern.  The Replacement object's replace() method is
-     * called on each match, and it provides a replacement, which is placed literally
-     * (i.e., without interpreting $1, $2 etc.)
-     *
-     * @param pattern
-     * @param replacement
-     * @return
-     */
-    public TextEditor replaceAll(Pattern pattern, Replacement replacement) {
-        Matcher m = pattern.matcher(text);
-        int lastIndex = 0;
-        StringBuilder sb = new StringBuilder();
-        while (m.find()) {
-            sb.append(text.subSequence(lastIndex, m.start()));
-            sb.append(replacement.replacement(m));
-            lastIndex = m.end();
-        }
-        sb.append(text.subSequence(lastIndex, text.length()));
-        text = sb;
-        return this;
-    }
-
-    /**
-     * Remove all occurrences of the given regex pattern, replacing them
-     * with the empty string.
+     * Remove all occurrences of the given regex pattern, replacing them with
+     * the empty string.
      *
      * @param pattern Regular expression
-     * @return
+     *
+     * @return this object for chaining purposes.
+     *
      * @see java.util.regex.Pattern
      */
     public TextEditor deleteAll(String pattern) {
@@ -142,7 +86,8 @@ public class TextEditor {
 
     /**
      * Convert tabs to spaces given the default tab width of 4 spaces.
-     * @return
+     *
+     * @return this object for chaining purposes.
      */
     public TextEditor detabify() {
         return detabify(4);
@@ -151,29 +96,59 @@ public class TextEditor {
     /**
      * Convert tabs to spaces.
      *
-     * @param tabWidth  Number of spaces per tab.
-     * @return
+     * @param tabWidth Number of spaces per tab.
+     *
+     * @return this object for chaining purposes.
      */
     public TextEditor detabify(final int tabWidth) {
-        replaceAll(Pattern.compile("(.*?)\\t"), new Replacement() {
-            public String replacement(Matcher m) {
-                String lineSoFar = m.group(1);
-                int width = lineSoFar.length();
-                StringBuilder replacement = new StringBuilder(lineSoFar);
-                do {
-                    replacement.append(' ');
-                    ++width;
-                } while (width % tabWidth != 0);
-                return replacement.toString();
-            }
-        });
+        replaceAll(Pattern.compile("(.*?)\\t"), (Matcher m) -> {
+               String lineSoFar = m.group(1);
+               int width = lineSoFar.length();
+               StringBuilder replacement = new StringBuilder(lineSoFar);
+
+               do {
+                   replacement.append(' ');
+                   ++width;
+               } while (width % tabWidth != 0);
+
+               return replacement.toString();
+           });
+
         return this;
     }
 
     /**
-     * Remove a number of spaces at the start of each line.
+     * Introduce a number of spaces at the start of each line.
+     *
      * @param spaces
-     * @return
+     *
+     * @return this object for chaining purposes.
+     */
+    public TextEditor indent(int spaces) {
+        StringBuilder sb = new StringBuilder(spaces);
+
+        for (int i = 0; i < spaces; i++) {
+            sb.append(' ');
+        }
+
+        return replaceAll("^", sb.toString());
+    }
+
+    /**
+     * Find out whether the buffer is empty.
+     *
+     * @return status
+     */
+    public boolean isEmpty() {
+        return text.length() == 0;
+    }
+
+    /**
+     * Remove a number of spaces at the start of each line.
+     *
+     * @param spaces
+     *
+     * @return this object for chaining purposes.
      */
     public TextEditor outdent(int spaces) {
         return deleteAll("^(\\t|[ ]{1," + spaces + "})");
@@ -181,58 +156,148 @@ public class TextEditor {
 
     /**
      * Remove one tab width (4 spaces) from the start of each line.
-     * @return
+     *
+     * @return this object for chaining purposes.
      */
     public TextEditor outdent() {
         return outdent(4);
     }
 
     /**
-     * Remove leading and trailing space from the start and end of the buffer.  Intermediate
-     * lines are not affected.
-     * @return
+     * Add a string to the start of the first line of the buffer.
+     *
+     * @param s
      */
-    public TextEditor trim() {
-        text = new StringBuilder(text.toString().trim());
+    public void prepend(CharSequence s) {
+        text.insert(0, s);
+    }
+
+    /**
+     * Prepend a char to each line of the text block.<br>
+     * This is primarily used to protect a Code Block from being reformatted a
+     * second time.
+     *
+     * @param c ASCII character (\x02 recommended)
+     *
+     * @return this object for chaining purposes.
+     */
+    public TextEditor prependCharToLines(Character c) {
+        return replaceAll("^", c.toString());
+    }
+
+    /**
+     * The reverse of
+     * {@link #prependCharToLines(java.lang.Character) prependCharToLines(c)}
+     *
+     * @param c ASCII character (\x02 recommended).  <b>MUST</b> be the same
+     *          character used with {@code prependCharToLines(c)}
+     *
+     * @return this object for chaining purposes.
+     */
+    public TextEditor removePrependedCharFromLines(Character c) {
+        return replaceAll("^" + c.toString(), "");
+    }
+
+    /**
+     * Replace all occurrences of the regular expression with the replacement.
+     * The replacement string can contain $1, $2 etc. referring to matched
+     * groups in the regular expression.
+     *
+     * @param regex
+     * @param replacement
+     *
+     * @return this object for chaining purposes.
+     */
+    public TextEditor replaceAll(String regex, String replacement) {
+        if (text.length() > 0) {
+            final String r = replacement;
+            Pattern p = Pattern.compile(regex, MULTILINE);
+            Matcher m = p.matcher(text);
+            StringBuffer sb = new StringBuffer();
+
+            found = false;
+
+            while (m.find()) {
+                found = true;
+                m.appendReplacement(sb, r);
+            }
+
+            m.appendTail(sb);
+            text = new StringBuilder(sb.toString());
+        }
+
         return this;
     }
 
     /**
-     * Introduce a number of spaces at the start of each line.
-     * @param spaces
-     * @return
+     * Replace all occurrences of the Pattern. The Replacement object's
+     * replace() method is called on each match, and it provides a replacement,
+     * which is placed literally (i.e., without interpreting $1, $2 etc.)
+     *
+     * @param pattern
+     * @param replacement
+     *
+     * @return this object for chaining purposes.
      */
-    public TextEditor indent(int spaces) {
-        StringBuilder sb = new StringBuilder(spaces);
-        for (int i = 0; i < spaces; i++) {
-            sb.append(' ');
+    public TextEditor replaceAll(Pattern pattern, Replacement replacement) {
+        Matcher m = pattern.matcher(text);
+        int lastIndex = 0;
+        StringBuilder sb = new StringBuilder();
+
+        found = false;
+
+        while (m.find()) {
+            found = true;
+            sb.append(text.subSequence(lastIndex, m.start()));
+            sb.append(replacement.replacement(m));
+            lastIndex = m.end();
         }
-        return replaceAll("^", sb.toString());
+
+        sb.append(text.subSequence(lastIndex, text.length()));
+        text = sb;
+
+        return this;
     }
 
     /**
-     * Add a string to the end of the buffer.
-     * @param s
+     * Same as replaceAll(String, String), but does not interpret $1, $2 etc. in
+     * the replacement string.
+     *
+     * @param regex
+     * @param replacement
+     *
+     * @return this object for chaining purposes.
      */
-    public void append(CharSequence s) {
-        text.append(s);
+    public TextEditor replaceAllLiteral(String regex, final String replacement) {
+        return replaceAll(Pattern.compile(regex, MULTILINE), (Matcher m) -> replacement);
+    }
+
+    /**
+     * Give up the contents of the TextEditor.
+     *
+     * @return this object for chaining purposes.
+     */
+    @Override
+    public String toString() {
+        return text.toString();
     }
 
     /**
      * Parse HTML tags, returning a Collection of HTMLToken objects.
-     * @return
+     *
+     * @return tokens collection.
      */
     public Collection<HTMLToken> tokenizeHTML() {
-        List<HTMLToken> tokens = new ArrayList<HTMLToken>();
+        List<HTMLToken> tokens = new ArrayList<>();
         String nestedTags = nestedTagsRegex(6);
 
-        Pattern p = Pattern.compile("" +
-                "(?s:<!(--.*?--\\s*)+>)" +
-                "|" +
-                "(?s:<\\?.*?\\?>)" +
-                "|" +
-                nestedTags +
-                "", Pattern.CASE_INSENSITIVE);
+        Pattern p = Pattern.compile(""
+                                    + "(?s:<!(--.*?--\\s*)+>)"
+                                    + "|"
+                                    + "(?s:<\\?.*?\\?>)"
+                                    + "|"
+                                    + nestedTags
+                                    + "", CASE_INSENSITIVE);
 
         Matcher m = p.matcher(text);
         int lastPos = 0;
@@ -243,6 +308,7 @@ public class TextEditor {
             tokens.add(HTMLToken.tag(text.substring(m.start(), m.end())));
             lastPos = m.end();
         }
+
         if (lastPos < text.length()) {
             tokens.add(HTMLToken.text(text.substring(lastPos, text.length())));
         }
@@ -251,9 +317,36 @@ public class TextEditor {
     }
 
     /**
-     * Regex to match a tag, possibly with nested tags such as <a href="<MTFoo>">.
+     * Remove leading and trailing space from the start and end of the buffer.
+     * Intermediate lines are not affected.
      *
-     * @param depth - How many levels of tags-within-tags to allow.  The example <a href="<MTFoo>"> has depth 2.
+     * @return this object for chaining purposes.
+     */
+    public TextEditor trim() {
+        text = new StringBuilder(text.toString().trim());
+
+        return this;
+    }
+
+    /**
+     * Result of last regex search performed by replaceAll*() methods.
+     *
+     * @see TextEditor#replaceAll(Pattern, Replacement)
+     * @see TextEditor#replaceAll(String, String)
+     * @see TextEditor#replaceAllLiteral(String, String)
+     *
+     * @return {@code True} if found, {@code false} otherwise.
+     */
+    public boolean wasFound() {
+        return found;
+    }
+
+    /**
+     * Regex to match a tag, possibly with nested tags such as <a
+     * href="<MTFoo>">.
+     *
+     * @param depth - How many levels of tags-within-tags to allow. The example
+     *              <a href="<MTFoo>"> has depth 2.
      */
     private String nestedTagsRegex(int depth) {
         if (depth == 0) {
@@ -263,19 +356,4 @@ public class TextEditor {
         }
     }
 
-    /**
-     * Add a string to the start of the first line of the buffer.
-     * @param s
-     */
-    public void prepend(CharSequence s) {
-        text.insert(0, s);
-    }
-
-    /**
-     * Find out whether the buffer is empty.
-     * @return
-     */
-    public boolean isEmpty() {
-        return text.length() == 0;
-    }
 }
