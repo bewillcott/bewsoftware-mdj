@@ -51,7 +51,6 @@ class TableRow {
                     tr.borderWidth = parseInt(tr.classes.substring(1, attrib.length() - 1).trim());
                     tr.status.setBorder();
                 } else {
-//                    System.out.println("TableRow - tr.classes:\n" + tr.classes);
                     Matcher m = Pattern.compile("^(?:\\[#(?<id>\\w+)\\])?$").matcher(tr.classes);
 
                     if (m.find()) {
@@ -60,7 +59,10 @@ class TableRow {
                         tr.status.unsetClasses();
 
                     } else {
-                        Matcher m2 = Pattern.compile("^(?:\\[#(?<id>\\w*)?\\])?\\[(?<borderWidth>\\d+)(?:(?:[, ][ ]*)(?<cellPadding>\\d+))?\\]$").matcher(tr.classes);
+                        Matcher m2 = Pattern.compile("^(?:\\[#(?<id>\\w*)?\\])?"
+                                                     + "\\[(?<border>(?<borderWidth>\\d+)"
+                                                     + "(?:(?:[, ][ ]*)(?<cellPadding>\\d+))?)?\\]$")
+                                .matcher(tr.classes);
 
                         if (m2.find()) {
                             tr.id = m2.group("id");
@@ -69,14 +71,20 @@ class TableRow {
                                 tr.status.setId();
                             }
 
-                            tr.borderWidth = parseInt(m2.group("borderWidth"));
-                            String cellPadding = m2.group("cellPadding");
+                            String border = m2.group("border");
 
-                            if (cellPadding != null) {
-                                tr.cellPadding = parseInt(cellPadding);
+                            if (border == null) {
+                                tr.status.setBorder();
+                            } else {
+                                tr.borderWidth = parseInt(m2.group("borderWidth"));
+                                String cellPadding = m2.group("cellPadding");
+
+                                if (cellPadding != null) {
+                                    tr.cellPadding = parseInt(cellPadding);
+                                }
+
+                                tr.status.setBorder();
                             }
-
-                            tr.status.setBorder();
                         } else {
                             Matcher m3 = Pattern.compile("^(?:\\[#(?<id>\\w*)?\\])?\\[(?<classes>[^\\]]+)\\]$").matcher(tr.classes);
 

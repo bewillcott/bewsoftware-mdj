@@ -1,3 +1,10 @@
+@@@
+
+use: articles
+title: Markdownj Core Library | Links and Auto Links
+
+@@@
+
 [Home]
 
 ---
@@ -14,4 +21,8 @@
     it easy to go back and forth between them, or just getting back to where
     you left off.
 
+Check out these examples: [&rarr;][ex]
+
+
+[ex]:examples/Links and Auto Links (examples).html
 [Home]:index.html

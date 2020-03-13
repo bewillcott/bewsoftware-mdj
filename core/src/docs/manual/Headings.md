@@ -1,3 +1,10 @@
+@@@
+
+use: articles
+title: Markdownj Core Library | Headings
+
+@@@
+
 [Home]
 
 ---

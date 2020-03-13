@@ -102,7 +102,7 @@ public class MarkdownTestTester {
 
         StringBuilder sb;
 
-        try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+        try ( BufferedReader in = new BufferedReader(new FileReader(file))) {
             sb = new StringBuilder();
             String line;
             while ((line = in.readLine()) != null) {

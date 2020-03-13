@@ -1,8 +1,15 @@
+@@@
+
+use: articles
+title: Markdownj Core Library | Fenced Code Blocks (Examples)
+
+@@@
+
 [Back] [Home]
 
 ---
 
-##[#top] Fenced Code Blocks Examples
+##[#top] Fenced Code Block Examples
 
 This will be converted to a code block (using: ``` - 3 back-ticks):
 ~~~
@@ -195,4 +202,3 @@ Now we will continue with the narrative. [&uarr;](#top)
 
 [Back]:../Fenced Code Blocks.html
 [Home]:../index.html
-

@@ -1,3 +1,10 @@
+@@@
+
+use: articles
+title: Markdownj Core Library | Fenced Code Blocks
+
+@@@
+
 [Home]
 
 ---
@@ -10,10 +17,9 @@ However, I have made this spec somewhat tighter than the GFMS.
 ### The Specification
 
 Fenced Code Blocks start with a fence of either triple back-ticks: "```", 
-or triple tildes: "~~~", and end with its duplicate.  The fence must start
+or triple tildes: "~~~", and ends with its duplicate.  The fence must start
 at the beginning of the line.  Every line in between the fences is wrapped 
-inside  
-"`<pre><code> ... </code></pre>`" tags.
+inside "`<pre><code> ... </code></pre>`" tags.
 
 Unlike the GFMS version, you *must* have both fences or the code block
 will not be recognized.  Also, the [info-string]! has been replaced with
@@ -107,4 +113,3 @@ Check out these [examples]. [&uarr;](#top)
 [gfms]:https://github.github.com/gfm/#fenced-code-blocks
 [info-string]:https://github.github.com/gfm/#info-string
 [examples]:examples/Fenced Code Blocks (examples).html
-

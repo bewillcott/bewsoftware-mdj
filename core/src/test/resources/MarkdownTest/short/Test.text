@@ -1,11 +1,7 @@
 
-`\&#123;`  
-~~~
-\&#123;
-~~~
-&#123;
 
-
-train.jpg `"train & tracks"`  
-train.jpg "train & tracks"
-
+This would be the table's caption.
+| Col1 Header | Col2 Header |Col3 Header|Col 4|[]
+| :---- | -:- | ---:|  :---: |[#Id][]
+| Left | Center |Right|Justified|[]
+| Row 2 | More text || |[]

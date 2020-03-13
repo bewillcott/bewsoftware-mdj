@@ -1,32 +1,10 @@
-<head>
-    <style type="text/css">
-        table {
-            border: 3px solid black;
-            border-collapse: collapse;
-        }
-        
-        .tbHeader {
-            border: 2px solid red;
-            padding: 5px;
-            text-align: left;
-            background-color: gold;
-        }
+@@@
 
-        .tbRow {
-            background-color: lightyellow;
-            border: 1px solid black;
-            padding: 5px;
-        }
+use: articles
+title: Markdownj Core Library | Tables
+stylesheet: style_no-table.css
 
-        .tbTotal {
-            background-color: cyan;
-            color: red;
-            border: 2px solid black;
-            padding: 5px;
-       }
-    </style>
-</head>
-
+@@@
 
 [Home]
 

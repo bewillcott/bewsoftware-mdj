@@ -1,10 +1,17 @@
+@@@
+
+use: articles
+title: Markdownj Core Library | Lists
+
+@@@
+
 [Home]
 
 ---
 
 ## Lists
 
-I have added `[]` bracketed options to both ordered and unordered lists.
+I have added bracketed options `[]` to both ordered and unordered lists.
 
 As of this writing, only the `id=""` option `[#myid]` has been configured.
 
@@ -34,4 +41,3 @@ And this list:
 
 
 [Home]:index.html
-

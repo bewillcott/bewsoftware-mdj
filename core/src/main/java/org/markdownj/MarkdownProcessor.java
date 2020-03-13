@@ -147,13 +147,11 @@ public class MarkdownProcessor {
                       String replacementText;
                       String wholeMatch = m.group();
                       String linkText = m.group("linkText");
-//                      String id = m.group(3).toLowerCase();
                       String linkId = m.group("linkId");
                       String targetTag = m.group("target") != null ? TARGET : "";
 
                       // [linkId] is now case sensitive
                       if (linkId == null || "".equals(linkId)) { // for shortcut links like [this][]
-//                          id = linkText.toLowerCase();
                           linkId = linkText;
                       }
 
@@ -247,7 +245,6 @@ public class MarkdownProcessor {
                       String replacementText;
                       String wholeMatch = m.group();
                       String linkText = m.group("linkText");
-//                      String id = m.group(2).toLowerCase(); // link id should be lowercase
                       String targetTag = m.group("target") != null ? TARGET : "";
                       String id = linkText; // link id is now case sensitive
                       id = id.replaceAll("[ ]?\\n", " "); // change embedded newlines into spaces
@@ -280,7 +277,6 @@ public class MarkdownProcessor {
     }
 
     private TextEditor doAutoLinks(TextEditor markup) {
-//        markup.replaceAll("<(?<(?:https?|ftp):[^'\">\\s]+)>", "<a href=\"$1\">$1</a>");
         Pattern link = Pattern.compile("<"
                                        + "(?<url>(?:https?|ftp):[^'\">\\s]+)"
                                        + ">"
@@ -376,7 +372,6 @@ public class MarkdownProcessor {
          * Bradley Willcott (7/1/2020)
          */
         Pattern p1 = compile("(?<frontFence>^(?:[~]{3}|[`]{3}))"
-                             //                             + "(?:\\[#(?<id>[^\\s\\]]*)?\\])?"
                              + ID_REGEX
                              + "(?:[ ]*\\n"
                              + "|(?<classes>\\[[^#]?[^\\]]*\\]\\[[^#]?[^\\]]*\\])?[ ]*\\n"
@@ -387,7 +382,6 @@ public class MarkdownProcessor {
     }
 
     private TextEditor doCodeSpans(TextEditor markup) {
-//        return markup.replaceAll(compile("(?<!\\\\)(`+)(.+?)(?<!`)\\1(?!`)"), (Matcher m) -> {
         return markup.replaceAll(compile("(?<!\\\\)(`+)(.+?)(?<!`)\\1(?!`)"), (Matcher m) -> {
                              String code = m.group(2);
                              TextEditor subEditor = new TextEditor(code);
@@ -403,18 +397,28 @@ public class MarkdownProcessor {
         markup.replaceAll("^(.*)\n[-]{4,}$", "<h2>$1</h2>");
 
         // atx-style headers - e.g., "#### heading 4 ####"
-//        Pattern p = compile("^(?<marker>#{1,6})(?:\\[#(?<id>[^\\s\\]]*)?\\])?[ ]*(?<heading>.*?)[ ]*(?:\\k<marker>[ ]*(?<tail>.*)?)?$", MULTILINE);
-        Pattern p = compile("^(?<marker>#{1,6})" + ID_REGEX + "[ ]*(?<heading>.*?)[ ]*(?:\\k<marker>[ ]*(?<tail>.*)?)?$", MULTILINE);
+        // Added Anchor option to header text
+        // Bradley Willcott (11/03/2020)
+        Pattern p = compile("^(?<marker>#{1,6})" + ID_REGEX
+                            + "[ ]*(?<heading>(?<brkt1>\\[)?[^\\]]*?(?<brkt2>(\\]|\\]\\[[^\\]]*?\\])!?)?)"
+                            + "[ ]*(?:\\k<marker>[ ]*(?<tail>.*)?)?$", MULTILINE);
         markup.replaceAll(p, (Matcher m) -> {
                       String marker = m.group("marker");
                       String id = m.group("id");
                       String heading = m.group("heading");
+                      String brkt1 = m.group("brkt1");
+                      String brkt2 = m.group("brkt2");
                       String tail = m.group("tail");
 
                       if (id != null) {
                           id = addId(id);
                       } else {
                           id = "";
+                      }
+
+                      // Process header text, looking for anchor option (BW)
+                      if (brkt1 != null && brkt2 != null) {
+                          heading = doAnchors(new TextEditor(heading)).toString();
                       }
 
                       if (tail != null && !tail.isBlank()) {
@@ -446,7 +450,6 @@ public class MarkdownProcessor {
         Pattern imageLink = compile("("
                                     + "!\\[([^\\]]*)\\]"
                                     // alt text = $2
-                                    // + "[ ]?(?:\\n[ ]*)?" // No whitepsace between the brackets (GFM)
                                     + "(?:\\[([^\\]]*)\\])?"
                                     // ID = $3
                                     + ")");
@@ -458,12 +461,8 @@ public class MarkdownProcessor {
 
                     // [id] is now case sensitive
                     if (id == null || "".equals(id)) {
-//                        id = altText.toLowerCase();
                         id = altText;
                     }
-//                    } else {
-//                        id = id.toLowerCase();
-//                    }
 
                     // imageDefinition is the same as linkDefinition
                     LinkDefinition defn = linkDefinitions.get(id);
@@ -492,8 +491,6 @@ public class MarkdownProcessor {
 
     // **Strong**, *Emphasise*, __Bold__, _Italics_
     private TextEditor doStrongEmAndBoldItalics(TextEditor markup) {
-//        markup.replaceAll("(\\*\\*|__)(?=\\S)(.+?[*_]*)(?<=\\S)\\1", "<strong>$2</strong>");
-//        markup.replaceAll("(\\*|_)(?=\\S)(.+?)(?<=\\S)\\1", "<em>$2</em>");
         markup.replaceAll("(\\*\\*)(?=\\S)(.+?[*]?)(?<=\\S)\\1", "<strong>$2</strong>");
         markup.replaceAll("(\\*)(?=\\S)(.+?)(?<=\\S)\\1", "<em>$2</em>");
         markup.replaceAll("(__)(?=\\S)(.+?[_]?)(?<=\\S)\\1", "<b>$2</b>");
@@ -584,7 +581,8 @@ public class MarkdownProcessor {
         //
         // Table begins and ends with a blank line.
         // If present, the first row above the table becomes to table's "caption".
-        // Each line begins and ends with a pipe character '|'.
+        // Each line begins and ends with a pipe character '|' with additional such
+        // to separate columns.
         //
         // Each line can have an optional "[]" bracketed parameter.
         // This when empty "[]" adds a border around that row.
@@ -592,14 +590,14 @@ public class MarkdownProcessor {
         // for that row.
         //
         // Special cases:
-        // - The delimitor row sets the parameters for the '<table>' tag.
+        // - The delimiter row sets the parameters for the '<table>' tag.
         // - Data rows:
         //   - If just the first one is set, then this will be used for all
         //     data rows.
-        //   - Subseqient rows can be set to either the same class(es) as the
+        //   - Subsequent rows can be set to either the same class(es) as the
         //     first row or to different class(es).
         //   - Any follwing rows not set, will be configured using the row
-        //     seqencing of the first set of rows, in rotation.
+        //     sequencing of the first set of rows, in rotation.
         //
         // "caption" is the Title for the table
         // "header" is the first row of the table
@@ -608,32 +606,15 @@ public class MarkdownProcessor {
         // "tail" contains staggler rows just following the table
         // The table should be followed by a blank line
         //
-//        Pattern p = compile("(?<header>^\\|[^\\|]+?\\|.*)\\n"    \\[\\w+[[^\\]]*?\\]|
-//        Pattern p = compile("(?<header>^\\|(?:[^\\|]+?\\|)+?)(?:\\[[^\\]]*?\\])?[ ]*\\n"
         Pattern p = compile("(?<=^\\n+)"
-                            //                            + "(?<caption>^[ ]*(?:\\w+.*?)[ ]*\\n)?"
-                            + "(?<caption>^(?:[ ]*\\[[^\\]]*?\\][ ]*|.*?)\\n)?"
+                            + "(?<caption>^(?:[ ]*\\[\\w+[^\\]]*?\\][ ]*|[ ]*.*?\\w+.*?[ ]*)\\n)?"
                             + "(?<header>^\\|(?:.+?\\|)+?(?:\\[#[^\\]]*?\\])?(?:\\[[^\\]]*?\\])?)[ ]*\\n"
-                            //                                    + "(?<delrow>\\|(?:[ ]*([:]?[-]+?[:]?|[-]+?[:][-]+?)[ ]*\\|)+?(?:[ ]*[:]?[-]+?[:]?[ ]*)?)\\n"
                             + "(?<delrow>\\|(?:[ ]*([:-]{1}[-]+?[:-]{1}|[-]+?[:][-]+?)[ ]*\\|)+?(?:\\[#[^\\]]*?\\])?(?:\\[[^\\]]*?\\])?)[ ]*\\n"
-                            //                                    + "(?<datarows>(?:\\|(?:[^\\|\\n]*\\|)+.*\\n)*?)?"
                             + "(?<datarows>(?:\\|(?:[^\\|\\n]*\\|)+(?:\\[#[^\\]]*?\\])?(?:\\[[^\\]]*?\\])?[ ]*\\n)*?)?"
-                            //                                    + "(?<datarows>^(\\|?(?:[^\\|\\n]+\\|)+\\n))?"
-                            //                                    + "(?<tail>(?:[^\\|\\n]+?\\n)*?)?"
                             // Find end of table
                             + "(?="
                             // Blank line
                             + "^\\n"
-                            //                                    // Block quotes
-                            //                                    + "|^> "
-                            //                                    // <hr>
-                            //                                    + "|^[ ]{0,3}(?:([*][ ]*){3,}|([-][ ]*){3,}|([_][ ]*){3,})[ ]*$"
-                            //                                    // Indented Code Blocks
-                            //                                    + "|^[ ]{4,}.*"
-                            //                                    // Fenced Code Blocks
-                            //                                    + "|^(?:[~]{3}|[`]{3})(?:[ ]*\\n"
-                            //                                    + "| (?:\\[[^\\]]*\\][ ]?\\[[^\\]]*\\])?[ ]*\\n"
-                            //                                    + "| (?:" + LANG_IDENTIFIER + ".+)?\\n)?"
                             // End of data
                             + "|\\Z)"
                             + "", MULTILINE);
@@ -834,10 +815,6 @@ public class MarkdownProcessor {
         text.replaceAll(p1, protectHTML);
 
         // Now match more liberally, simply from `\n<tag>` to `</tag>\n`
-//        Pattern p2 = compile("(?:^<(" + alternationA + ")\\b[^>]*>"
-//                                     + "(?:.*\\n)*?"
-//                                     + ".*</\\1>[ ]*"
-//                                     + "(?=\\n+|\\Z))", MULTILINE | CASE_INSENSITIVE);
         Pattern p2 = compile("(?:^<(" + alternationA + ")\\b[^>]*>"
                              + "(((?!(<\\1|</\\1)).)*\\n)*?"
                              + ".*</\\1\\b[^>]*>[ ]*"
@@ -933,7 +910,6 @@ public class MarkdownProcessor {
 
                       if (!isEmptyString(leadingLine) || hasParagraphBreak(item)) {
                           item = runBlockGamut(item.outdent());
-//                          item = runBlockGamut(item);
                       } else {
                           doExtendedListOptions(item);
                           // Recurse sub-lists
@@ -1040,7 +1016,6 @@ public class MarkdownProcessor {
                             // ID = $1
                             + "[ ]*\\n?[ ]*"
                             // Space
-                            //                            + "<?(?<url>\\S+?)>?"
                             + "<?(?<url>.+?)>?"
                             // URL = $2
                             + "[ ]*\\n?[ ]*"
@@ -1051,7 +1026,6 @@ public class MarkdownProcessor {
                             MULTILINE);
 
         text.replaceAll(p, (Matcher m) -> {
-//                    String id = m.group(1).toLowerCase();
                     String id = m.group("id");
                     String url = encodeAmpsAndAngles(new TextEditor(m.group("url"))).toString();
                     String title = m.group("title");
@@ -1105,7 +1079,6 @@ public class MarkdownProcessor {
                 if (buf.length() == 0) {
                     input = null;
                 } else {
-//                    System.out.println(new MarkdownProcessor().markdown(buf.toString()));
                     String regex = "^ *-=: .*\\n";
                     String regex1 = "^" + CODE_BLOCK_BEGIN + "(\\w+?)" + CODE_BLOCK_END + ".*\\n";
                     System.out.println("regex1: \"" + regex1 + "\"");
@@ -1163,10 +1136,8 @@ public class MarkdownProcessor {
             }
 
             String rtn = "\n" + CODE_BLOCK_BEGIN + HTML_PROTECTOR.encode(out) + CODE_BLOCK_END + "\n";
-//            System.out.println("fencedCode: " + fencedCode + "\n");
-//            System.out.println("Encoded: " + rtn);
+
             return rtn;
-//            return out;
         }
 
         private String classesBlock(String classes, String text) {
@@ -1184,27 +1155,20 @@ public class MarkdownProcessor {
         }
 
         private String genericCodeBlock(String text) {
-            // dont'use %n in format string (markdown aspect every new line char as "\n")
-//            String codeBlockTemplate = "<pre>\n    <code>\n%s\n    </code>\n</pre>";
-//
-//            return String.format(codeBlockTemplate, text);
             return "<pre" + addId(m.group("id")) + ">\n    <code>\n" + text + "\n    </code>\n</pre>";
         }
 
         private String languageBlock(String clazz, String text) {
-//            String codeBlockTemplate = "<pre class=\"%s\">\n    <code>\n%s\n    </code>\n</pre>"; // http://shjs.sourceforge.net/doc/documentation.html
             String lang = clazz.replaceFirst(LANG_IDENTIFIER, "").trim();
-//            String block = text.replaceFirst(firstLine + "\n", "");
 
-//            return String.format(codeBlockTemplate, text);
             return "<pre" + addId(m.group("id")) + addClass(lang) + ">\n    <code>\n" + text + "\n    </code>\n</pre>";
         }
 
         private void unHashBlocks(TextEditor ed) {
-            Matcher m = Pattern.compile(CharacterProtector.REGEX, MULTILINE).matcher(ed.toString());
+            Matcher mLocal = Pattern.compile(CharacterProtector.REGEX, MULTILINE).matcher(ed.toString());
 
-            while (m.find()) {
-                String encoded = m.group("encoded");
+            while (mLocal.find()) {
+                String encoded = mLocal.group("encoded");
                 String decoded = HTML_PROTECTOR.decode(encoded);
 
                 if (decoded != null) {
@@ -1231,14 +1195,12 @@ public class MarkdownProcessor {
         @Override
         public String replacement(Matcher m) {
 
-//                Pattern attPattern = compile("^.*?\\|(?<attrib>\\[(?<classes>[^\\]]*?)?\\])[ ]*$", MULTILINE);
             String rtn = m.group();
 
             String caption = m.group("caption");
             String header = processGroupText(m.group("header").trim());
             String delrow = m.group("delrow").trim();
             String data = processGroupText(m.group("datarows").trim());
-//            String tail = processGroupText(m.group("tail").trim());
 
             // Process <thead>
             TableRow hRow = TableRow.parse(header);
@@ -1290,8 +1252,6 @@ public class MarkdownProcessor {
                 }
 
                 // Process column formatting
-//                    boolean colGroupRequired = false;
-//                    StringBuilder cols = new StringBuilder();
                 for (int i = 0; i < delRow.length(); i++) {
                     String delCol = delRow.getCell(i).trim();
                     align = (delCol.startsWith(":") ? 1 : 0);
@@ -1318,22 +1278,10 @@ public class MarkdownProcessor {
                             delRow.setCell(i, "text-align: justify");
                             break;
                     }
-
-//                        if (!delRow.getCell(i).isEmpty()) {
-//                            cols.append(INDENT[2]).append("<col");
-//                            cols.append(String.format(STYLE, delRow.getCell(i)));
-//                            cols.append(">\n");
-//                            colGroupRequired = true;
-//                        }
                 }
 
                 delRow.setReadOnly();
 
-//                    if (cols.length() > 0) {
-//                        sb.append(INDENT[1]).append("<colgroup>\n")
-//                                .append(cols)
-//                                .append(INDENT[1]).append("</colgroup>\n");
-//                    }
                 sb.append(INDENT[1]).append("<thead>\n")
                         .append(INDENT[2]).append("<tr");
 
@@ -1356,7 +1304,6 @@ public class MarkdownProcessor {
                         if (hRow.hasBorder()) {
                             tmp = String.format(ROW_BORDER, hRow.getBorderWidth(), hRow.getCellPadding());
                             sb.append(addStyle(tmp + delRow.getCell(i)));
-//                                sb.append(String.format(STYLE, tmp));
                         } else {
                             if (hRow.hasClasses()) {
                                 sb.append(addClass(hRow.getClasses()));
@@ -1404,9 +1351,7 @@ public class MarkdownProcessor {
                                     if (attrib.hasBorder()) {
                                         tmp = String.format(ROW_BORDER, attrib.getBorderWidth(), attrib.getCellPadding());
                                         sb.append(addStyle(tmp + delRow.getCell(j)));
-//                                            sb.append(String.format(STYLE, tmp));
                                     } else {
-//                                        sb.append(addClass(attrib.getClasses()));
                                         if (attrib.hasClasses()) {
                                             sb.append(addClass(attrib.getClasses()));
                                         }
@@ -1422,9 +1367,7 @@ public class MarkdownProcessor {
                                 if (dataRow.hasBorder()) {
                                     tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(), dataRow.getCellPadding());
                                     sb.append(addStyle(tmp + delRow.getCell(j)));
-//                                        sb.append(String.format(STYLE, tmp));
                                 } else {
-//                                    sb.append(addClass(dataRow.getClasses()));
                                     if (dataRow.hasClasses()) {
                                         sb.append(addClass(dataRow.getClasses()));
                                     }
@@ -1450,9 +1393,7 @@ public class MarkdownProcessor {
                                         if (attrib.hasBorder()) {
                                             tmp = String.format(ROW_BORDER, attrib.getBorderWidth(), attrib.getCellPadding());
                                             sb.append(addStyle(tmp + delRow.getCell(k)));
-//                                                sb.append(String.format(STYLE, tmp));
                                         } else {
-//                                            sb.append(addClass(attrib.getClasses()));
                                             if (attrib.hasClasses()) {
                                                 sb.append(addClass(attrib.getClasses()));
                                             }
@@ -1468,9 +1409,7 @@ public class MarkdownProcessor {
                                     if (dataRow.hasBorder()) {
                                         tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(), dataRow.getCellPadding());
                                         sb.append(addStyle(tmp + delRow.getCell(k)));
-//                                            sb.append(String.format(STYLE, tmp));
                                     } else {
-//                                        sb.append(addClass(dataRow.getClasses()));
                                         if (dataRow.hasClasses()) {
                                             sb.append(addClass(dataRow.getClasses()));
                                         }
@@ -1488,39 +1427,9 @@ public class MarkdownProcessor {
                         sb.append(INDENT[2]).append("</tr>\n");
                     }
 
-//                    if (!tail.trim().isEmpty()) {
-//                        dataRows = tail.split("\n");
-//
-//                        for (int i = 0; i < dataRows.length; i++) {
-//                            sb.append("<tr>\n<td>").append(dataRows[i].trim()).append("</td>\n");
-//
-//                            for (int j = 1; j < hCols.length; j++) {
-//                                sb.append("<td></td>\n");
-//                            }
-//
-//                            sb.append("</tr>\n");
-//                        }
-//
-//                    }
                     sb.append(INDENT[1]).append("</tbody>\n");
-
-//                } else if (!tail.trim().isEmpty()) {
-//
-//                    String[] dataRows = tail.split("\n");
-//                    sb.append("<tbody>\n");
-//
-//                    for (int i = 0; i < dataRows.length; i++) {
-//                        sb.append("<tr>\n<td>").append(dataRows[i].trim()).append("</td>\n");
-//
-//                        for (int j = 1; j < hCols.length; j++) {
-//                            sb.append("<td></td>\n");
-//                        }
-//
-//                        sb.append("</tr>\n");
-//                    }
-//
-//                    sb.append("</tbody>\n");
                 }
+
                 String out = sb.append("</table>\n").toString();
 
                 rtn = "\n\n" + HTML_PROTECTOR.encode(out) + "\n\n";

@@ -12,6 +12,13 @@ on ${system.date}
         <link rel="stylesheet" type="text/css" href="${page.stylesheet}">
     </head>
     <body>
+        <article>
 ${page.content}
+<footer>
+    <hr>
+${document.copyright}<br>
+Last updated: ${system.date}
+</footer>
+        </article>
     </body>
 </html>

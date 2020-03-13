@@ -1,9 +1,19 @@
+@@@
+
+use: articles
+title: Markdownj Core Library | ToDo List
+
+@@@
+
 [Home]
 
 ---
 
 ## ToDo List
 
+- [ ]! Add cell/column based "`class=`" attributes.  
+`|Col1|Col2|Col3|\[First Cell]\[Middle Cells]\[Last Cell]`
+- [ ]! Improve access to the manual.
 - [ ]! Add bracketed option to tags where useful: `[]`.
     - [x]! (20/02/2020) Added to [Fenced Code Blocks][fcb]
     - [x]! (21/02/2020) Added to [Tables]
@@ -30,4 +40,3 @@
 [Links]:Links.html
 [Lists]:lists.html
 [Tables]:Tables.html
-
