@@ -146,12 +146,12 @@ This is a great table
 
 ###[#now] Now a look at classes ### [*](#great) [&uarr;](#contents)
 
-In true CCS format, you can use classes to set the styling of your table and it's
+In true CSS format, you can use classes to set the styling of your table and it's
 rows.
 ```
 This is an even greater table
-| Left Foot | Right Foot |[tableHeader]
-| :--- | ---: |[#great]
+| Left Foot | Right Foot |[tbHeader]
+| :--- | ---: |[#great][tbSetting]
 | Up | down |[tbRow]
 | Up | Up |
 | Down | Up |
@@ -161,7 +161,7 @@ This is an even greater table
 
 This is an even greater table
 | Left Foot | Right Foot |[tbHeader]
-| :--- | ---: |[#great]
+| :--- | ---: |[#great][tbSetting]
 | Up | down |[tbRow]
 | Up | Up |
 | Down | Up |

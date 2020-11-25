@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+Generate by MarkdownJ CLI
+version: 0.1.27-SNAPSHOT
+on Sat Mar 14 23:55:22 AWST 2020
+-->
+<html lang="en-us">
+    <head>
+        <title>Markdownj Core Library | Links and Auto Links (Examples)</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="../css/style.css">
+    </head>
+    <body>
+        <article>
+<p><a href="../Links.html">Back</a> <a href="../index.html">Home</a></p>
+
+<hr>
+
+<h2>Links and Auto Links</h2>
+
+<p>First some basic links that will cause the new page to be opened in the current tab.</p>
+
+<p>This:</p>
+
+<pre>
+    <code>
+An [example][link]
+
+An [example](http://www.example.com/some_page.html "This is a title")
+
+Go to &lt;http://www.example.com/some_page.html&gt;
+
+[link]: http://www.example.com/link.html  "This is a title"
+    </code>
+</pre>
+
+<p>Becomes this:</p>
+
+<p>An <a href="http://www.example.com/link.html" title="This is a title">example</a></p>
+
+<p>An <a href="http://www.example.com/some_page.html" title="This is a title">example</a></p>
+
+<p>Go to <a href="http://www.example.com/some_page.html">http://www.example.com/some_page.html</a></p>
+
+<hr>
+
+<p>Now tha same links, but these will open in a new tab.</p>
+
+<p>This:</p>
+
+<pre>
+    <code>
+An [example][link]!
+
+An [example]!(http://www.example.com/some_page.html "This is a title")
+
+Go to &lt;http://www.example.com/some_page.html&gt;!
+
+And another [example]!
+
+[example]: http://www.example.com/example.html  "This is a title"
+[link]: http://www.example.com/link.html  "This is a title"
+    </code>
+</pre>
+
+<p>Becomes this:</p>
+
+<p>An <a href="http://www.example.com/link.html" title="This is a title" target="_blank">example</a></p>
+
+<p>An <a href="http://www.example.com/some_page.html" title="This is a title" target="_blank">example</a></p>
+
+<p>Go to <a href="http://www.example.com/some_page.html" target="_blank">http://www.example.com/some_page.html</a></p>
+
+<p>And another <a href="http://www.example.com/example.html" title="This is a title" target="_blank">example</a></p>
+
+<footer>
+    <hr>
+Copyright © 2020 Bradley Willcott<br>
+Last updated: Sat Mar 14 23:55:22 AWST 2020
+</footer>
+        </article>
+    </body>
+</html>

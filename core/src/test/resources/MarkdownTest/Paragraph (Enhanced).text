@@ -1,0 +1,8 @@
+
+### Paragraph (Enhanced)
+
+To add an `id` attribute to a paragraph, just put it [#pid] anywhere within it.  If there 
+is more than one, only the first one matters.  All will be [#pid2] removed from the final
+formatted text.
+
+Then to setup a link to it go to previous [paragraph](#pid).

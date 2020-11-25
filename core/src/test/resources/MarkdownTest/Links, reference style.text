@@ -1,11 +1,11 @@
-Foo [bar] [1].
+Foo [bar] [B].
 
-Foo [bar][1].
+Foo [bar][B].
 
 Foo [bar]
-[1].
+[B].
 
-[1]: /url/  "Title"
+[B]: /url/  "Title"
 
 With [embedded \[brackets\]][b].
 
@@ -91,4 +91,3 @@ Link id is case-sensitive:
 ![Fooby]
 
 [fooby]: /url "title"
-

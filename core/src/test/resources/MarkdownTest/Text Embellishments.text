@@ -1,0 +1,18 @@
+
+## Delete/Insert - Sub/Super-script testing
+
+`-!dead!` == "-!dead!"  
+`+!replacement\!!` == "+!replacement\!!"
+
+`--subscript--` == "--subscript--"  
+`++superscript++` == "++superscript++"  
+
+|test|table|spare|[2]
+|:--|---:|--:--|[#tab][3]
+|`<del></del>`:|-!old text!|miss-s-!t!+!p!elled[2]|[]
+|`<ins></ins>`:|+!new text!|I was +!not! greedy!|
+|Subscripted:|What's --down there--?|H--2--O|
+|Superscripted:|Hey, ++up here++!|Well I Never[1]|
+
+[1]:"This is a blank ref test"
+[2]: #tab "Very poor speller!"

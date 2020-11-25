@@ -47,30 +47,79 @@ software, even if advised of the possibility of such damage.
     <artifactId>markdownj-core</artifactId>
     <name>MarkdownJ Core Library</name>
     <description>Core functionality provided by MarkdownJ.</description>
-    <version>0.5.20-SNAPSHOT</version>
+    <version>0.6.0</version>
 
-    <!--
-        <properties>
-            <site.directory>${basedir}/../</site.directory>
-        </properties>
-    -->
-    <properties>
-        <maven.compiler.source>13</maven.compiler.source>
-        <maven.compiler.target>13</maven.compiler.target>
+    <properties>   
+        <major.minor.version>0.6</major.minor.version>
+        <java.version>14</java.version>
+        <source.encoding>UTF-8</source.encoding>
+        <javadoc.source.version>${java.version}</javadoc.source.version>
+        <jdk.version>${java.version}</jdk.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>${source.encoding}</project.reporting.outputEncoding>
+        <javadoc.reporting.outputDirectory>${project.reporting.outputDirectory}/apidocs</javadoc.reporting.outputDirectory>
     </properties>
 
+    <scm>
+        <connection>scm:svn:http://127.0.0.1/dummy</connection>
+        <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://127.0.0.1/dummy</url>
+    </scm>
+    
     <profiles>
         <profile>
-            <id>release-profile</id>
+            <id>increment-build</id>
             <build>
                 <plugins>
+                    <!-- Increment {buildNumber} and update the 'pom.xml' file -->
+                    <plugin>
+                        <groupId>com.bew.mojo</groupId>
+                        <artifactId>simple-buildnumber-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>Update</id>
+                                <goals>
+                                    <goal>create-xml</goal>
+                                </goals>
+                                <configuration>
+                                    <runOnce>false</runOnce>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- Keep current {buildNumber}, remove '-SNAPSHOT' and update the 'pom.xml' file -->
+                    <plugin>
+                        <groupId>com.bew.mojo</groupId>
+                        <artifactId>simple-buildnumber-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>Release</id>
+                                <goals>
+                                    <goal>create-xml</goal>
+                                </goals>
+                                <configuration>
+                                    <release>true</release>
+                                    <keepNumber>true</keepNumber>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.6.0</version>
                         <executions>
                             <execution>
-                                <id>Markdownj-Compile</id>
+                                <id>Markdownj-Compile(release)</id>
                                 <phase>prepare-package</phase>
                                 <goals>
                                     <goal>exec</goal>
@@ -78,7 +127,7 @@ software, even if advised of the possibility of such damage.
                                 <configuration>
                                     <executable>markdown</executable>
                                     <commandlineArgs>-v:2 -s src/docs/manual -d target/manual -wr</commandlineArgs>
-                                    <workingDirectory>${project.directory}</workingDirectory>
+                                    <workingDirectory></workingDirectory>
                                     <includeProjectDependencies>false</includeProjectDependencies>
                                     <includePluginDependencies>true</includePluginDependencies>
                                 </configuration>
@@ -91,13 +140,10 @@ software, even if advised of the possibility of such damage.
                                 </goals>
                                 <configuration>
                                     <executable>markdown</executable>
+                                    <commandlineArgs>-v:2 -j:${project.build.finalName}-manual.jar;manual</commandlineArgs>
                                     <workingDirectory>${project.build.directory}</workingDirectory>
                                     <includeProjectDependencies>false</includeProjectDependencies>
                                     <includePluginDependencies>true</includePluginDependencies>
-                                    <arguments>
-                                        <argument>-v:2</argument>
-                                        <argument>-j:${project.artifactId}-${project.version}-manual.jar;manual</argument>
-                                    </arguments> 
                                 </configuration>
                             </execution>
                             <execution>
@@ -108,17 +154,14 @@ software, even if advised of the possibility of such damage.
                                 </goals>
                                 <configuration>
                                     <executable>markdown</executable>
+                                    <commandlineArgs>-v:2 -j:${project.build.directory}/${project.build.finalName}-manual-src.jar;src/docs/manual</commandlineArgs>
                                     <workingDirectory>${project.directory}</workingDirectory>
                                     <includeProjectDependencies>false</includeProjectDependencies>
                                     <includePluginDependencies>true</includePluginDependencies>
-                                    <arguments>
-                                        <argument>-v:2</argument>
-                                        <argument>-j:${project.build.directory}/${project.artifactId}-${project.version}-manual-src.jar;src/docs/manual</argument>
-                                    </arguments> 
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>Zip Binary Jar and libs/*</id>
+                                <id>Zip Binary Jar and libs</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>exec</goal>
@@ -130,10 +173,10 @@ software, even if advised of the possibility of such damage.
                                     <includePluginDependencies>true</includePluginDependencies>
                                     <arguments>
                                         <argument>-r</argument>
-                                        <argument>${project.artifactId}-${project.version}.zip</argument>
-                                        <argument>${project.artifactId}-${project.version}.jar</argument>
-                                        <argument>${project.artifactId}-${project.version}-manual.jar</argument>
-                                        <argument>${project.artifactId}-${project.version}-manual-src.jar</argument>
+                                        <argument>${project.build.finalName}.zip</argument>
+                                        <argument>${project.build.finalName}.jar</argument>
+                                        <argument>${project.build.finalName}-manual.jar</argument>
+                                        <argument>${project.build.finalName}-manual-src.jar</argument>
                                         <argument>libs</argument>
                                     </arguments> 
                                 </configuration>
@@ -143,7 +186,6 @@ software, even if advised of the possibility of such damage.
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-install-plugin</artifactId>
-                        <version>3.0.0-M1</version>
                         <executions>
                             <execution>
                                 <id>manual</id>                                    
@@ -154,10 +196,10 @@ software, even if advised of the possibility of such damage.
                                 <configuration>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>${project.artifactId}</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${project.artifact.version}</version>
                                     <classifier>manual</classifier>
                                     <packaging>jar</packaging>
-                                    <file>${project.build.directory}/${project.artifactId}-${project.version}-manual.jar</file>
+                                    <file>${project.build.directory}/${project.build.finalName}-manual.jar</file>
                                 </configuration>
                             </execution>
                             <execution>
@@ -169,131 +211,223 @@ software, even if advised of the possibility of such damage.
                                 <configuration>
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>${project.artifactId}</artifactId>
-                                    <version>${project.version}</version>
+                                    <version>${project.artifact.version}</version>
                                     <classifier>manual-src</classifier>
                                     <packaging>jar</packaging>
-                                    <file>${project.build.directory}/${project.artifactId}-${project.version}-manual-src.jar</file>
+                                    <file>${project.build.directory}/${project.build.finalName}-manual-src.jar</file>
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>         
-        <profile>
-            <id>manual-dev</id>
-            <build>
-                <plugins>
+                    </plugin>          
                     <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.6.0</version>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>Markdownj-Compile</id>
-                                <phase>prepare-package</phase>
+                                <id>attach-sources</id>
                                 <goals>
-                                    <goal>exec</goal>
+                                    <goal>jar-no-fork</goal>
                                 </goals>
-                                <configuration>
-                                    <executable>markdown</executable>
-                                    <commandlineArgs>-v:2 -s src/docs/manual -wr</commandlineArgs>
-                                    <workingDirectory>${project.directory}</workingDirectory>
-                                    <includeProjectDependencies>false</includeProjectDependencies>
-                                    <includePluginDependencies>true</includePluginDependencies>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>            
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-compiler-plugin</artifactId>
-                        <version>3.8.1</version>
-                        <configuration>
-                            <skipMain>true</skipMain>
-                            <source>13</source>
-                            <target>13</target>
-                            <encoding>UTF-8</encoding>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <configuration>
-                            <skip>true</skip>
-                            <encoding>UTF-8</encoding>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M4</version>
-                        <configuration>
-                            <skipTests>true</skipTests>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.2.0</version>
-                        <configuration>
-                            <archive>
-                                <addMavenDescriptor>false</addMavenDescriptor>
-                                <manifest>
-                                    <addClasspath>false</addClasspath>
-                                    <classpathPrefix>libs/</classpathPrefix>
-                                    <addBuildEnvironmentEntries>false</addBuildEnvironmentEntries>
-                                </manifest>
-                            </archive>
-                            <excludes>
-                                **/*
-                            </excludes>
-                            <skipIfEmpty>true</skipIfEmpty>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-install-plugin</artifactId>
-                        <version>3.0.0-M1</version>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                    </plugin>
-
                 </plugins>
             </build>
-        </profile>  
+        </profile>    
     </profiles>
     
     <build>
-        <plugins>
+        <resources>
+            <resource>
+                <directory>
+                    src/docs
+                </directory>
+                <excludes>
+                    <exclude>
+                        **/*
+                    </exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>
+                    target/manual
+                </directory>
+                <excludes>
+                    <exclude>
+                        **/*
+                    </exclude>
+                </excludes>
+            </resource>
+        </resources>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>                  
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.6</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>                
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.8.1</version>
+                </plugin>        
+                <plugin>         
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                <plugin>                
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>3.0.0-M5</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-invoker-plugin</artifactId>
+                    <version>3.2.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>     
+                <plugin>                
+                    <artifactId>maven-jxr-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>               
+                <plugin>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>3.6.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+                <plugin>                
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>1.11.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.9.1</version>
+                </plugin>                
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.2.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M5</version>
+                </plugin>
+                <plugin>                        
+                    <groupId>com.bew.mojo</groupId>
+                    <artifactId>simple-buildnumber-maven-plugin</artifactId>
+                    <version>1.0.14</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>     
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <executions>
-                    <execution>
-                        <id>Markdownj-Compile</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>markdown</executable>
-                            <commandlineArgs>-v:2 -s src/docs/manual -d target/manual -wr</commandlineArgs>
-                            <workingDirectory>${project.directory}</workingDirectory>
-                            <includeProjectDependencies>false</includeProjectDependencies>
-                            <includePluginDependencies>true</includePluginDependencies>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <release>${maven.compiler.target}</release>
+                    <!--                    <additionalJOptions>
+                        <additionalJOption>
+                            -enable-preview
+                        </additionalJOption>
+                    </additionalJOptions>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.scm</groupId>
+                        <artifactId>maven-scm-provider-gitexe</artifactId>
+                        <version>1.11.2</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <showDeprecation>true</showDeprecation>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <release>${java.version}</release>
+                    <encoding>${source.encoding}</encoding>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                        <!--<arg>-enable-preview</arg>-->
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <configuration>
+                    <locales>en</locales>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>${source.encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M4</version>
                 <configuration>
+                    <argLine>--enable-preview</argLine>     
                     <includes>
                         <include>**/*.java</include>
                     </includes>
@@ -305,13 +439,14 @@ software, even if advised of the possibility of such damage.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>org.markdownj.cli.Main</mainClass>
                             <addBuildEnvironmentEntries>true</addBuildEnvironmentEntries>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                     </archive>
                 </configuration>
@@ -319,7 +454,6 @@ software, even if advised of the possibility of such damage.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.1</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -336,15 +470,25 @@ software, even if advised of the possibility of such damage.
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>  
+        </plugins>
+        
+        <finalName>${project.artifactId}-${project.artifact.version}</finalName>    
+    </build>
+    
+    <reporting>
+        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <showDeprecation>true</showDeprecation>
-                </configuration>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
         </plugins>
-    </build>
+    </reporting>
 </project>

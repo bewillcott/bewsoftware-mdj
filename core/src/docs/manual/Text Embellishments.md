@@ -17,9 +17,9 @@ Being able to track changes in your document can be beneficial.  So, you can now
 tag deleted text and inserted text:
 
 - Delete:
-    - `-!deleted text!`: "[-!deleted text!][1]"
+    - `-!deleted text!`: "-!deleted text![1]"
 - Insert:
-    - `+!inserted text\!!`: "[+!inserted text\!!][2]"
+    - `+!inserted text\!!`: "+!inserted text\!!"
 
 ###[#ss] Subscript / Superscript
 Subscripting and superscripting can now be included in your documents.  The syntax is
@@ -33,4 +33,3 @@ quite simple:
 
 [Home]:index.html
 [1]: "I didn't like this text"
-[2]: #di "I do like this text though"
