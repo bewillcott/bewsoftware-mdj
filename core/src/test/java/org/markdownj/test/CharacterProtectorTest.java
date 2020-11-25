@@ -1,9 +1,9 @@
-package com.bewsoftware.mdj.core;
+package org.markdownj.test;
 
 import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.bewsoftware.mdj.core.CharacterProtector;
+import org.markdownj.CharacterProtector;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005, Pete Bevin.
+ * Copyright (c) 2006, Nathan Winant, nw@exegetic.net.
  * <http://markdownj.petebevin.com>
  *
  * All rights reserved.
@@ -32,28 +32,37 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package org.markdownj.test;
 
-public class LinkDefinition {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.markdownj.MarkdownProcessor;
 
-    private final String url;
-    private final String title;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    public LinkDefinition(String url, String title) {
-        this.url = url;
-        this.title = title;
+public class EscapeSpecialCharsWithinTagAttributes {
+
+    MarkdownProcessor m;
+
+    @BeforeEach
+    public void createProcessor() {
+        m = new MarkdownProcessor();
     }
 
-    public String getUrl() {
-        return url;
+    @Test
+    public void testImages() {
+        String url = "![an *image*](/images/an_image_with_underscores.jpg \"An_image_title\")";
+        String processed = m.markdown(url);
+        String output = "<p><img src=\"/images/an_image_with_underscores.jpg\" alt=\"an *image*\" title=\"An_image_title\"></p>\n";
+        assertEquals(output, processed);
     }
 
-    public String getTitle() {
-        return title;
+    @Test
+    public void testAutoLinks() {
+        String url = "[a *link*](http://url.com/a_tale_of_two_cities?var1=a_query_&var2=string \"A_link_title\")";
+        String processed = m.markdown(url);
+        String output = "<p><a href=\"http://url.com/a_tale_of_two_cities?var1=a_query_&amp;var2=string\" title=\"A_link_title\">a <em>link</em></a></p>\n";
+        assertEquals(output, processed);
     }
 
-    @Override
-    public String toString() {
-        return url + " (" + title + ")";
-    }
 }

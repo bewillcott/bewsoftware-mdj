@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, Nathan Winant, nw@exegetic.net.
+ * Copyright (c) 2005, Pete Bevin.
  * <http://markdownj.petebevin.com>
  *
  * All rights reserved.
@@ -32,17 +32,18 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package org.markdownj.test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+import org.markdownj.MarkdownProcessor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EscapeSpecialCharsWithinTagAttributes {
+public class LineConventions {
 
-    MarkdownProcessor m;
+    private static final String EXPECTED = "<p>a\nb\nc</p>\n";
+    private MarkdownProcessor m;
 
     @BeforeEach
     public void createProcessor() {
@@ -50,19 +51,19 @@ public class EscapeSpecialCharsWithinTagAttributes {
     }
 
     @Test
-    public void testImages() {
-        String url = "![an *image*](/images/an_image_with_underscores.jpg \"An_image_title\")";
-        String processed = m.markdown(url);
-        String output = "<p><img src=\"/images/an_image_with_underscores.jpg\" alt=\"an *image*\" title=\"An_image_title\"></p>\n";
-        assertEquals(output, processed);
+    public void testUnixLineConventions() {
+        assertEquals(EXPECTED, m.markdown("a\nb\nc\n"));
     }
 
     @Test
-    public void testAutoLinks() {
-        String url = "[a *link*](http://url.com/a_tale_of_two_cities?var1=a_query_&var2=string \"A_link_title\")";
-        String processed = m.markdown(url);
-        String output = "<p><a href=\"http://url.com/a_tale_of_two_cities?var1=a_query_&amp;var2=string\" title=\"A_link_title\">a <em>link</em></a></p>\n";
-        assertEquals(output, processed);
+    public void testWindowsLineConventions() {
+        MarkdownProcessor markup = new MarkdownProcessor();
+        assertEquals(EXPECTED, markup.markdown("a\r\nb\r\nc\r\n"));
     }
 
+    @Test
+    public void testMacLineConventions() {
+        MarkdownProcessor markup = new MarkdownProcessor();
+        assertEquals(EXPECTED, markup.markdown("a\rb\rc\r"));
+    }
 }

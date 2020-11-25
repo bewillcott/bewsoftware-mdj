@@ -32,7 +32,7 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package org.markdownj.test;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -47,7 +47,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+import org.markdownj.MarkdownProcessor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

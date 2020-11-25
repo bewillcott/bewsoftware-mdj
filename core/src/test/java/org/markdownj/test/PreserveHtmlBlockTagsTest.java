@@ -1,11 +1,11 @@
-package com.bewsoftware.mdj.core;
+package org.markdownj.test;
 
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+import org.markdownj.MarkdownProcessor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

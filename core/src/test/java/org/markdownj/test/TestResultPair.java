@@ -32,39 +32,17 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package org.markdownj.test;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import com.bewsoftware.mdj.core.HTMLDecoder;
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+public class TestResultPair {
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+    public final String name;
+    public final String test;
+    public final String result;
 
-public class EmailAddresses {
-
-    MarkdownProcessor m;
-
-    @BeforeEach
-    public void createProcessor() {
-        m = new MarkdownProcessor();
-    }
-
-    @Test
-    public void testDecoder() {
-        String encoded = "&#98;&#105;&#x6C;&#x6C;&#x67;&#64;&#x6D;i&#x63;&#x72;&#x6F;&#115;&#x6F;&#x66;&#116;&#x2E;c&#111;&#109;";
-        String billg = "billg@microsoft.com";
-
-        assertEquals(billg, HTMLDecoder.decode(encoded));
-        assertEquals("", HTMLDecoder.decode(""));
-    }
-
-    @Test
-    public void testEmail() {
-        String html = m.markdown("<billg@microsoft.com>");
-        String plain = HTMLDecoder.decode(html);
-        assertEquals("<p><a href=\"mailto:billg@microsoft.com\">billg@microsoft.com</a></p>\n", plain);
-        assertFalse(plain.equals(html), "Email addresses are masked");
+    public TestResultPair(String name, String test, String result) {
+        this.name = name;
+        this.test = test;
+        this.result = result;
     }
 }

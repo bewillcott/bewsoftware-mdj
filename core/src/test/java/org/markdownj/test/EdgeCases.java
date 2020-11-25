@@ -32,17 +32,17 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package org.markdownj.test;
 
+import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+import org.markdownj.MarkdownProcessor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LineConventions {
+public class EdgeCases {
 
-    private static final String EXPECTED = "<p>a\nb\nc</p>\n";
     private MarkdownProcessor m;
 
     @BeforeEach
@@ -51,19 +51,27 @@ public class LineConventions {
     }
 
     @Test
-    public void testUnixLineConventions() {
-        assertEquals(EXPECTED, m.markdown("a\nb\nc\n"));
+    public void testEmptyString() {
+        assertEquals("\n", m.markdown(""));
     }
 
     @Test
-    public void testWindowsLineConventions() {
-        MarkdownProcessor markup = new MarkdownProcessor();
-        assertEquals(EXPECTED, markup.markdown("a\r\nb\r\nc\r\n"));
+    public void testSpaces() {
+        assertEquals("\n", m.markdown("  "));
     }
 
     @Test
-    public void testMacLineConventions() {
-        MarkdownProcessor markup = new MarkdownProcessor();
-        assertEquals(EXPECTED, markup.markdown("a\rb\rc\r"));
+    public void testNull() {
+        assertEquals("\n", m.markdown(null));
+    }
+
+    @Test
+    public void testSplitAssumption() {
+        // In Perl, split(/x/, "") returns the empty string.
+        // But in Java, it's the array { "" }.
+        Pattern x = Pattern.compile("x");
+        String[] xs = x.split("");
+        assertEquals(1, xs.length);
+        assertEquals("", xs[0]);
     }
 }

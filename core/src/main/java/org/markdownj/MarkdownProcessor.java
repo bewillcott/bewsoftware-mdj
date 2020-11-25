@@ -33,7 +33,7 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package org.markdownj;
 
 import java.io.*;
 import java.util.*;
@@ -44,9 +44,9 @@ import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.DOTALL;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
-import static com.bewsoftware.mdj.core.Attributes.addClass;
-import static com.bewsoftware.mdj.core.Attributes.addId;
-import static com.bewsoftware.mdj.core.Attributes.addStyle;
+import static org.markdownj.Attributes.addClass;
+import static org.markdownj.Attributes.addId;
+import static org.markdownj.Attributes.addStyle;
 
 /**
  * Convert Markdown text into HTML, as per

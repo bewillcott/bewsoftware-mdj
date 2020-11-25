@@ -32,46 +32,29 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package org.markdownj;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import com.bewsoftware.mdj.core.MarkdownProcessor;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+public class HTMLDecoder {
 
-public class EdgeCases {
+    public static String decode(String html) {
+        TextEditor ed = new TextEditor(html);
+        Pattern p1 = Pattern.compile("&#(\\d+);");
+        ed.replaceAll(p1, (Matcher m) -> {
+                  String charDecimal = m.group(1);
+                  char ch = (char) Integer.parseInt(charDecimal);
+                  return Character.toString(ch);
+              });
 
-    private MarkdownProcessor m;
+        Pattern p2 = Pattern.compile("&#x([0-9a-fA-F]+);");
+        ed.replaceAll(p2, (Matcher m) -> {
+                  String charHex = m.group(1);
+                  char ch = (char) Integer.parseInt(charHex, 16);
+                  return Character.toString(ch);
+              });
 
-    @BeforeEach
-    public void createProcessor() {
-        m = new MarkdownProcessor();
-    }
-
-    @Test
-    public void testEmptyString() {
-        assertEquals("\n", m.markdown(""));
-    }
-
-    @Test
-    public void testSpaces() {
-        assertEquals("\n", m.markdown("  "));
-    }
-
-    @Test
-    public void testNull() {
-        assertEquals("\n", m.markdown(null));
-    }
-
-    @Test
-    public void testSplitAssumption() {
-        // In Perl, split(/x/, "") returns the empty string.
-        // But in Java, it's the array { "" }.
-        Pattern x = Pattern.compile("x");
-        String[] xs = x.split("");
-        assertEquals(1, xs.length);
-        assertEquals("", xs[0]);
+        return ed.toString();
     }
 }
