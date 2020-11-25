@@ -32,46 +32,11 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package org.markdownj.test;
+package com.bewsoftware.mdj.core;
 
-import java.util.regex.Pattern;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.markdownj.MarkdownProcessor;
+import java.util.regex.Matcher;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+public interface Replacement {
 
-public class EdgeCases {
-
-    private MarkdownProcessor m;
-
-    @BeforeEach
-    public void createProcessor() {
-        m = new MarkdownProcessor();
-    }
-
-    @Test
-    public void testEmptyString() {
-        assertEquals("\n", m.markdown(""));
-    }
-
-    @Test
-    public void testSpaces() {
-        assertEquals("\n", m.markdown("  "));
-    }
-
-    @Test
-    public void testNull() {
-        assertEquals("\n", m.markdown(null));
-    }
-
-    @Test
-    public void testSplitAssumption() {
-        // In Perl, split(/x/, "") returns the empty string.
-        // But in Java, it's the array { "" }.
-        Pattern x = Pattern.compile("x");
-        String[] xs = x.split("");
-        assertEquals(1, xs.length);
-        assertEquals("", xs[0]);
-    }
+    String replacement(Matcher m);
 }

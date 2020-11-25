@@ -32,8 +32,9 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package org.markdownj.test;
+package com.bewsoftware.mdj.core;
 
+import com.bewsoftware.mdj.core.MarkdownProcessor;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -47,13 +48,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.markdownj.MarkdownProcessor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MarkupFileTester {
 
-    private final static String[] TEST_FILENAMES = new String[]{
+    private final static String[] TEST_FILENAMES = new String[]
+    {
         "/dingus.txt",
         "/paragraphs.txt",
         "/snippets.txt",
@@ -63,14 +64,19 @@ public class MarkupFileTester {
     public static Collection<TestResultPair[]> testResultPairs() throws IOException {
         List<TestResultPair> fullResultPairList = new ArrayList<>();
 
-        for (String filename : TEST_FILENAMES) {
+        for (String filename : TEST_FILENAMES)
+        {
             fullResultPairList.addAll(newTestResultPairList(filename));
         }
 
         ArrayList<TestResultPair[]> testResultPairs = new ArrayList<>();
 
-        fullResultPairList.forEach((p) -> {
-            testResultPairs.add(new TestResultPair[]{p});
+        fullResultPairList.forEach((p) ->
+        {
+            testResultPairs.add(new TestResultPair[]
+            {
+                p
+            });
         });
 
         return testResultPairs;
@@ -81,9 +87,11 @@ public class MarkupFileTester {
         URL fileUrl = MarkupFileTester.class.getResource(filename);
         File file;
 
-        try {
+        try
+        {
             file = new File(fileUrl.toURI());
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException e)
+        {
             file = new File(fileUrl.getFile());
         }
 
@@ -99,29 +107,35 @@ public class MarkupFileTester {
         String testNumber = null;
         String testName = null;
         StringBuilder curbuf = null;
-        while ((line = in.readLine()) != null) {
+        while ((line = in.readLine()) != null)
+        {
             lineNumber++;
             Matcher mTest = pTest.matcher(line);
             Matcher mResult = pResult.matcher(line);
 
-            if (mTest.matches()) { // # Test
+            if (mTest.matches())
+            { // # Test
                 addTestResultPair(list, test, result, testNumber, testName);
                 testNumber = mTest.group(1);
                 testName = mTest.group(2);
                 test = new StringBuilder();
                 result = new StringBuilder();
                 curbuf = test;
-            } else if (mResult.matches()) { // # Result
-                if (testNumber == null) {
+            } else if (mResult.matches())
+            { // # Result
+                if (testNumber == null)
+                {
                     throw new RuntimeException("Test file has result without a test (line " + lineNumber + ")");
                 }
                 String resultNumber = mResult.group(1);
-                if (!testNumber.equals(resultNumber)) {
+                if (!testNumber.equals(resultNumber))
+                {
                     throw new RuntimeException("Result " + resultNumber + " test " + testNumber + " (line " + lineNumber + ")");
                 }
 
                 curbuf = result;
-            } else {
+            } else
+            {
                 curbuf.append(line).append("\n");
             }
         }
@@ -131,7 +145,8 @@ public class MarkupFileTester {
     }
 
     private static void addTestResultPair(List<TestResultPair> list, StringBuilder testbuf, StringBuilder resultbuf, String testNumber, String testName) {
-        if (testbuf == null || resultbuf == null) {
+        if (testbuf == null || resultbuf == null)
+        {
             return;
         }
 

@@ -32,11 +32,39 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package org.markdownj;
+package com.bewsoftware.mdj.core;
 
-import java.util.regex.Matcher;
+import com.bewsoftware.mdj.core.MarkdownProcessor;
+import com.bewsoftware.mdj.core.HTMLDecoder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public interface Replacement {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-    String replacement(Matcher m);
+public class EmailAddresses {
+
+    MarkdownProcessor m;
+
+    @BeforeEach
+    public void createProcessor() {
+        m = new MarkdownProcessor();
+    }
+
+    @Test
+    public void testDecoder() {
+        String encoded = "&#98;&#105;&#x6C;&#x6C;&#x67;&#64;&#x6D;i&#x63;&#x72;&#x6F;&#115;&#x6F;&#x66;&#116;&#x2E;c&#111;&#109;";
+        String billg = "billg@microsoft.com";
+
+        assertEquals(billg, HTMLDecoder.decode(encoded));
+        assertEquals("", HTMLDecoder.decode(""));
+    }
+
+    @Test
+    public void testEmail() {
+        String html = m.markdown("<billg@microsoft.com>");
+        String plain = HTMLDecoder.decode(html);
+        assertEquals("<p><a href=\"mailto:billg@microsoft.com\">billg@microsoft.com</a></p>\n", plain);
+        assertFalse(plain.equals(html), "Email addresses are masked");
+    }
 }

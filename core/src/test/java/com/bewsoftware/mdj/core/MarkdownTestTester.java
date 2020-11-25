@@ -32,8 +32,9 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package org.markdownj.test;
+package com.bewsoftware.mdj.core;
 
+import com.bewsoftware.mdj.core.MarkdownProcessor;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -46,7 +47,6 @@ import java.util.Collection;
 import java.util.List;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.markdownj.MarkdownProcessor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -65,20 +65,27 @@ public class MarkdownTestTester {
         URL fileUrl = MarkdownTestTester.class.getResource(MARKDOWN_TEST_DIR);
         File dir;
 
-        try {
+        try
+        {
             dir = new File(fileUrl.toURI());
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException e)
+        {
             dir = new File(fileUrl.getFile());
         }
 
         File[] dirEntries = dir.listFiles();
 
-        for (File dirEntry : dirEntries) {
+        for (File dirEntry : dirEntries)
+        {
             String fileName = dirEntry.getName();
 
-            if (fileName.endsWith(".text")) {
+            if (fileName.endsWith(".text"))
+            {
                 String testName = fileName.substring(0, fileName.lastIndexOf('.'));
-                list.add(new String[]{MARKDOWN_TEST_DIR, testName});
+                list.add(new String[]
+                {
+                    MARKDOWN_TEST_DIR, testName
+                });
             }
         }
 
@@ -102,10 +109,12 @@ public class MarkdownTestTester {
 
         StringBuilder sb;
 
-        try ( BufferedReader in = new BufferedReader(new FileReader(file))) {
+        try ( BufferedReader in = new BufferedReader(new FileReader(file)))
+        {
             sb = new StringBuilder();
             String line;
-            while ((line = in.readLine()) != null) {
+            while ((line = in.readLine()) != null)
+            {
                 sb.append(line).append("\n");
             }
         }

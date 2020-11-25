@@ -32,7 +32,7 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package org.markdownj;
+package com.bewsoftware.mdj.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
