@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005, Pete Bevin.
+ * Copyright (c) 2006, Nathan Winant, nw@exegetic.net.
  * <http://markdownj.petebevin.com>
  *
  * All rights reserved.
@@ -32,17 +32,15 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package org.markdownj.test;
+package com.bewsoftware.mdj.core;
 
+import com.bewsoftware.mdj.core.MarkdownProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.markdownj.HTMLDecoder;
-import org.markdownj.MarkdownProcessor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class EmailAddresses {
+public class EscapeSpecialCharsWithinTagAttributes {
 
     MarkdownProcessor m;
 
@@ -52,19 +50,19 @@ public class EmailAddresses {
     }
 
     @Test
-    public void testDecoder() {
-        String encoded = "&#98;&#105;&#x6C;&#x6C;&#x67;&#64;&#x6D;i&#x63;&#x72;&#x6F;&#115;&#x6F;&#x66;&#116;&#x2E;c&#111;&#109;";
-        String billg = "billg@microsoft.com";
-
-        assertEquals(billg, HTMLDecoder.decode(encoded));
-        assertEquals("", HTMLDecoder.decode(""));
+    public void testImages() {
+        String url = "![an *image*](/images/an_image_with_underscores.jpg \"An_image_title\")";
+        String processed = m.markdown(url);
+        String output = "<p><img src=\"/images/an_image_with_underscores.jpg\" alt=\"an *image*\" title=\"An_image_title\"></p>\n";
+        assertEquals(output, processed);
     }
 
     @Test
-    public void testEmail() {
-        String html = m.markdown("<billg@microsoft.com>");
-        String plain = HTMLDecoder.decode(html);
-        assertEquals("<p><a href=\"mailto:billg@microsoft.com\">billg@microsoft.com</a></p>\n", plain);
-        assertFalse(plain.equals(html), "Email addresses are masked");
+    public void testAutoLinks() {
+        String url = "[a *link*](http://url.com/a_tale_of_two_cities?var1=a_query_&var2=string \"A_link_title\")";
+        String processed = m.markdown(url);
+        String output = "<p><a href=\"http://url.com/a_tale_of_two_cities?var1=a_query_&amp;var2=string\" title=\"A_link_title\">a <em>link</em></a></p>\n";
+        assertEquals(output, processed);
     }
+
 }

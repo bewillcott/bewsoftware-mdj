@@ -1,4 +1,4 @@
-package org.markdownj;
+package com.bewsoftware.mdj.core;
 
 public class HTMLToken {
 

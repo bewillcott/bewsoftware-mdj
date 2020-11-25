@@ -1,9 +1,9 @@
-package org.markdownj.test;
+package com.bewsoftware.mdj.core;
 
+import com.bewsoftware.mdj.core.CharacterProtector;
 import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.markdownj.CharacterProtector;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -50,7 +50,8 @@ public class CharacterProtectorTest {
     public void testGetAllEncodedTokensCanNotModified2() {
         Collection<String> tokens = characterProtector.getAllEncodedTokens();
 
-        assertThrows(UnsupportedOperationException.class, () -> {
+        assertThrows(UnsupportedOperationException.class, () ->
+             {
                  tokens.add("another_token");
                  tokens.remove("another_token");
              }, "Trying to modify an 'unmodifiableSet'");

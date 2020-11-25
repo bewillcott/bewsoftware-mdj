@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, Nathan Winant, nw@exegetic.net.
+ * Copyright (c) 2005, Pete Bevin.
  * <http://markdownj.petebevin.com>
  *
  * All rights reserved.
@@ -32,37 +32,29 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package org.markdownj.test;
+package com.bewsoftware.mdj.core;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.markdownj.MarkdownProcessor;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+public class HTMLDecoder {
 
-public class EscapeSpecialCharsWithinTagAttributes {
+    public static String decode(String html) {
+        TextEditor ed = new TextEditor(html);
+        Pattern p1 = Pattern.compile("&#(\\d+);");
+        ed.replaceAll(p1, (Matcher m) -> {
+                  String charDecimal = m.group(1);
+                  char ch = (char) Integer.parseInt(charDecimal);
+                  return Character.toString(ch);
+              });
 
-    MarkdownProcessor m;
+        Pattern p2 = Pattern.compile("&#x([0-9a-fA-F]+);");
+        ed.replaceAll(p2, (Matcher m) -> {
+                  String charHex = m.group(1);
+                  char ch = (char) Integer.parseInt(charHex, 16);
+                  return Character.toString(ch);
+              });
 
-    @BeforeEach
-    public void createProcessor() {
-        m = new MarkdownProcessor();
+        return ed.toString();
     }
-
-    @Test
-    public void testImages() {
-        String url = "![an *image*](/images/an_image_with_underscores.jpg \"An_image_title\")";
-        String processed = m.markdown(url);
-        String output = "<p><img src=\"/images/an_image_with_underscores.jpg\" alt=\"an *image*\" title=\"An_image_title\"></p>\n";
-        assertEquals(output, processed);
-    }
-
-    @Test
-    public void testAutoLinks() {
-        String url = "[a *link*](http://url.com/a_tale_of_two_cities?var1=a_query_&var2=string \"A_link_title\")";
-        String processed = m.markdown(url);
-        String output = "<p><a href=\"http://url.com/a_tale_of_two_cities?var1=a_query_&amp;var2=string\" title=\"A_link_title\">a <em>link</em></a></p>\n";
-        assertEquals(output, processed);
-    }
-
 }

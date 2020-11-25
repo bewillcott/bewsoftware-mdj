@@ -32,28 +32,17 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package org.markdownj;
+package com.bewsoftware.mdj.core;
 
-public class LinkDefinition {
+public class TestResultPair {
 
-    private final String url;
-    private final String title;
+    public final String name;
+    public final String test;
+    public final String result;
 
-    public LinkDefinition(String url, String title) {
-        this.url = url;
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public String toString() {
-        return url + " (" + title + ")";
+    public TestResultPair(String name, String test, String result) {
+        this.name = name;
+        this.test = test;
+        this.result = result;
     }
 }

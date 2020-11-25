@@ -1,7 +1,7 @@
-package org.markdownj.test;
+package com.bewsoftware.mdj.core;
 
+import com.bewsoftware.mdj.core.TextEditor;
 import org.junit.jupiter.api.Test;
-import org.markdownj.TextEditor;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
