@@ -1,7 +1,7 @@
 @@@
 
 use: articles
-title: Markdownj Core Library | Lists
+title: MDj Core Library | Lists
 
 @@@
 

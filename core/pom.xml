@@ -38,17 +38,17 @@ software, even if advised of the possibility of such damage.
     <parent>
         <groupId>com.bewsoftware</groupId>
         <artifactId>mdj</artifactId>
-        <version>0.6-SNAPSHOT</version>
+        <version>0.6.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>mdj-core</artifactId>
-    <version>0.6.0</version>
+    <version>0.6.1</version>
     <packaging>jar</packaging>
     
-    <name>BEW Software MDJ Core Library</name>
-    <description>Core functionality provided by MDJ.  
+    <name>BEW Software MDj Core Library</name>
+    <description>Core functionality provided for MDj  
         This is a library of functions that provide for the processing of markdown source files into
         static HTML files.
 
@@ -65,6 +65,7 @@ software, even if advised of the possibility of such damage.
         <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${source.encoding}</project.reporting.outputEncoding>
         <javadoc.reporting.outputDirectory>${project.reporting.outputDirectory}/apidocs</javadoc.reporting.outputDirectory>
+        <skip.unit.tests>true</skip.unit.tests>
     </properties>
 
     <scm>
@@ -75,6 +76,33 @@ software, even if advised of the possibility of such damage.
     </scm>
     
     <profiles>
+        <profile>
+            <id>compile-manual</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>Markdownj-Compile(release)</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>markdown</executable>
+                                    <commandlineArgs>-v:2 -s src/docs/manual -d target/manual -wr</commandlineArgs>
+                                    <workingDirectory></workingDirectory>
+                                    <includeProjectDependencies>false</includeProjectDependencies>
+                                    <includePluginDependencies>true</includePluginDependencies>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>increment-build</id>
             <build>
@@ -91,6 +119,29 @@ software, even if advised of the possibility of such damage.
                                 </goals>
                                 <configuration>
                                     <runOnce>false</runOnce>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>increment-release</id>
+            <build>
+                <plugins>
+                    <!-- Increment {buildNumber}, remove '-SNAPSHOT' and update the 'pom.xml' file -->
+                    <plugin>
+                        <groupId>com.bew.mojo</groupId>
+                        <artifactId>simple-buildnumber-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>Release</id>
+                                <goals>
+                                    <goal>create-xml</goal>
+                                </goals>
+                                <configuration>
+                                    <release>true</release>
                                 </configuration>
                             </execution>
                         </executions>
@@ -123,29 +174,6 @@ software, even if advised of the possibility of such damage.
             </build>
         </profile>
         <profile>
-            <id>increment-release</id>
-            <build>
-                <plugins>
-                    <!-- Increment {buildNumber}, remove '-SNAPSHOT' and update the 'pom.xml' file -->
-                    <plugin>
-                        <groupId>com.bew.mojo</groupId>
-                        <artifactId>simple-buildnumber-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>Release</id>
-                                <goals>
-                                    <goal>create-xml</goal>
-                                </goals>
-                                <configuration>
-                                    <release>true</release>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
             <id>release-profile</id>
             <build>
                 <plugins>
@@ -164,7 +192,7 @@ software, even if advised of the possibility of such damage.
                                     <commandlineArgs>-v:2 -s src/docs/manual -d target/manual -wr</commandlineArgs>
                                     <workingDirectory></workingDirectory>
                                     <includeProjectDependencies>false</includeProjectDependencies>
-                                    <includePluginDependencies>true</includePluginDependencies>
+                                    <includePluginDependencies>false</includePluginDependencies>
                                 </configuration>
                             </execution>
                             <execution>
@@ -178,7 +206,7 @@ software, even if advised of the possibility of such damage.
                                     <commandlineArgs>-v:2 -j:${project.build.finalName}-manual.jar;manual</commandlineArgs>
                                     <workingDirectory>${project.build.directory}</workingDirectory>
                                     <includeProjectDependencies>false</includeProjectDependencies>
-                                    <includePluginDependencies>true</includePluginDependencies>
+                                    <includePluginDependencies>false</includePluginDependencies>
                                 </configuration>
                             </execution>
                             <execution>
@@ -192,7 +220,7 @@ software, even if advised of the possibility of such damage.
                                     <commandlineArgs>-v:2 -j:${project.build.directory}/${project.build.finalName}-manual-src.jar;src/docs/manual</commandlineArgs>
                                     <workingDirectory>${project.directory}</workingDirectory>
                                     <includeProjectDependencies>false</includeProjectDependencies>
-                                    <includePluginDependencies>true</includePluginDependencies>
+                                    <includePluginDependencies>false</includePluginDependencies>
                                 </configuration>
                             </execution>
                             <execution>
@@ -205,7 +233,7 @@ software, even if advised of the possibility of such damage.
                                     <executable>zip</executable>
                                     <workingDirectory>${project.build.directory}</workingDirectory>
                                     <includeProjectDependencies>false</includeProjectDependencies>
-                                    <includePluginDependencies>true</includePluginDependencies>
+                                    <includePluginDependencies>false</includePluginDependencies>
                                     <arguments>
                                         <argument>-r</argument>
                                         <argument>${project.build.finalName}.zip</argument>
@@ -269,10 +297,44 @@ software, even if advised of the possibility of such damage.
                 </plugins>
             </build>
         </profile>    
+        <profile>
+            <id>test</id>
+            <properties>
+                <skip.unit.tests>false</skip.unit.tests>
+            </properties>
+        </profile>
     </profiles>
     
     <build>
-        <resources>
+        <resources>            
+<!--            <resource>
+                <directory>.</directory>
+                <filtering>true</filtering>                
+                <includes>
+                    <include>**/markdown-cli.ini</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>.</directory>
+                <filtering>false</filtering>                
+                <excludes>
+                    <exclude>**/markdown-cli.ini</exclude>
+                </excludes>
+            </resource>-->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/pom.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/pom.properties</exclude>
+                </excludes>
+            </resource>
             <resource>
                 <directory>
                     src/docs
@@ -456,7 +518,9 @@ software, even if advised of the possibility of such damage.
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>--enable-preview</argLine>     
+                    <!-- Skips unit tests if the value of skip.unit.tests property is true -->
+                    <skipTests>${skip.unit.tests}</skipTests>
+                    <argLine></argLine>     
                     <includes>
                         <include>**/*.java</include>
                     </includes>

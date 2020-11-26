@@ -1,7 +1,7 @@
 @@@
 
 use: articles
-title: Markdownj Core Library | Tables
+title: MDj Core Library | Tables
 stylesheet: style_no-table.css
 
 @@@
@@ -69,7 +69,7 @@ means use the default settings: "`border width: 1px, padding: 5px`". Alternative
 you can set one or both of them using that order [bw, p]: "`[3 7]`" or "`[3,7]`" or "`[3]`".
 
 There is also another nice helpful feature, rolling format.  Set one or more of 
-your "`<td>`" lines to include borders, then leave the rest to Markdownj.  It will 
+your "`<td>`" lines to include borders, then leave the rest to MDj.  It will 
 use those settings in a round-robin way to format the following lines.  For example,
 each of the tables below are using this way to format bracketed lines.
 

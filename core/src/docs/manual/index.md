@@ -1,11 +1,11 @@
 @@@
 
 use: articles
-title: Markdownj Core Library | TOC
+title: MDj Core Library | TOC
 
 @@@
 
-# Markdownj Core Library
+# MDj Core Library
 (v${project.version})
 
 ---

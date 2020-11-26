@@ -1,7 +1,7 @@
 @@@
 
 use: articles
-title: Markdownj Core Library | Links and Auto Links (Examples)
+title: MDj Core Library | Links and Auto Links (Examples)
 
 @@@
 

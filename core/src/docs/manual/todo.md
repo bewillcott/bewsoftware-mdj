@@ -1,7 +1,7 @@
 @@@
 
 use: articles
-title: Markdownj Core Library | ToDo List
+title: MDj Core Library | ToDo List
 
 @@@
 

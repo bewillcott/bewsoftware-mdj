@@ -1,7 +1,7 @@
 @@@
 
 use: articles
-title: Markdownj Core Library | Ampersands
+title: MDj Core Library | Ampersands
 
 @@@
 
