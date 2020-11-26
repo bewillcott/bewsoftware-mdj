@@ -1,7 +1,7 @@
 @@@
 
 use: articles
-title: Markdownj Core Library | Headings
+title: MDj Core Library | Headings
 
 @@@
 

@@ -1,7 +1,7 @@
 @@@
 
 use: articles
-title: Markdownj Core Library | Text Embellishments
+title: MDj Core Library | Text Embellishments
 stylesheet: style_1.css
 
 @@@

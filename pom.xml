@@ -45,7 +45,7 @@ software, even if advised of the possibility of such damage.
     <groupId>com.bewsoftware</groupId>
     <artifactId>mdj</artifactId>
     <packaging>pom</packaging>
-    <version>0.6-SNAPSHOT</version>
+    <version>0.6.1-SNAPSHOT</version>
 
     <name>BEW Software MDj</name>
     <!--<url>http://markdownj.org/</url>-->

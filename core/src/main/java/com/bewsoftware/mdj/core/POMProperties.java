@@ -37,6 +37,7 @@ import java.util.Properties;
  *artifactId=${project.artifactId}
  *groupId=${project.groupId}
  *version=${project.version}
+ *filename=${project.build.finalName}.jar
  *</code>
  * </pre>
  * </li><li><p>
@@ -75,11 +76,10 @@ import java.util.Properties;
  * System.out.println(pom.title):
  * </code></pre>
  *
- * @author Bradley Willcott
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- *
- *
- *
+ * @since 0.6
+ * @version 0.6.1
  */
 public final class POMProperties {
 
@@ -87,6 +87,10 @@ public final class POMProperties {
      * Provides single instance of this class.
      */
     public final static POMProperties INSTANCE = new POMProperties();
+
+    public static void main(String[] args) {
+        System.out.println(POMProperties.INSTANCE);
+    }
     /**
      * The identifier for this artifact that is unique within
      * the group given by the group ID.
@@ -97,6 +101,13 @@ public final class POMProperties {
      * Project Description
      */
     public final String description;
+    /**
+     * The filename of the binary output file.
+     * <p>
+     * This is usually a '.jar' file.
+     * </p>
+     */
+    public final String filename;
 
     /**
      * Project GroupId
@@ -115,9 +126,11 @@ public final class POMProperties {
 
     private POMProperties() {
         Properties properties = new Properties();
-        try {
+        try
+        {
             properties.load(POMProperties.class.getResourceAsStream("/pom.properties"));
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             throw new RuntimeException("FileIOError", ex);
         }
 
@@ -126,6 +139,7 @@ public final class POMProperties {
         version = properties.getProperty("version");
         artifactId = properties.getProperty("artifactId");
         groupId = properties.getProperty("groupId");
+        filename = properties.getProperty("filename");
     }
 
     @Override
@@ -133,12 +147,9 @@ public final class POMProperties {
         return new StringBuilder(POMProperties.class.getName()).append(":\n")
                 .append("  title: ").append(title).append("\n")
                 .append("  description: ").append(description).append("\n")
-                .append("  version: ").append(version).append("\n")
+                .append("  groupId: ").append(groupId).append("\n")
                 .append("  artifactId: ").append(artifactId).append("\n")
-                .append("  groupId: ").append(groupId).append("\n").toString();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(POMProperties.INSTANCE);
+                .append("  version: ").append(version).append("\n")
+                .append("  filename: ").append(filename).append("\n").toString();
     }
 }

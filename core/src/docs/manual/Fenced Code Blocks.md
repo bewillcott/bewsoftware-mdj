@@ -1,7 +1,7 @@
 @@@
 
 use: articles
-title: Markdownj Core Library | Fenced Code Blocks
+title: MDj Core Library | Fenced Code Blocks
 
 @@@
 
