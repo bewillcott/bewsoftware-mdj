@@ -34,8 +34,6 @@
  */
 package com.bewsoftware.mdj.core;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
-import com.bewsoftware.mdj.core.HTMLDecoder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

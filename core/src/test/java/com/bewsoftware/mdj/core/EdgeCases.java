@@ -34,7 +34,6 @@
  */
 package com.bewsoftware.mdj.core;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

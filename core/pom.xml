@@ -307,20 +307,6 @@ software, even if advised of the possibility of such damage.
     
     <build>
         <resources>            
-<!--            <resource>
-                <directory>.</directory>
-                <filtering>true</filtering>                
-                <includes>
-                    <include>**/markdown-cli.ini</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>.</directory>
-                <filtering>false</filtering>                
-                <excludes>
-                    <exclude>**/markdown-cli.ini</exclude>
-                </excludes>
-            </resource>-->
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
@@ -566,7 +552,7 @@ software, even if advised of the possibility of such damage.
             </plugin>  
         </plugins>
         
-        <finalName>${project.artifactId}-${project.artifact.version}</finalName>    
+        <!--<finalName>${project.artifactId}-${project.artifact.version}</finalName>-->    
     </build>
     
     <reporting>

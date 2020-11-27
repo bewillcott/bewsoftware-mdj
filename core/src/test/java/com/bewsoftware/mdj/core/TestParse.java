@@ -1,7 +1,5 @@
 package com.bewsoftware.mdj.core;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
-
 /**
  *
  * @author Bradley Willcott
