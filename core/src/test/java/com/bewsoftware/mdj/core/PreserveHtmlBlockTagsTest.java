@@ -1,6 +1,5 @@
 package com.bewsoftware.mdj.core;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;

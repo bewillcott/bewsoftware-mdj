@@ -34,7 +34,6 @@
  */
 package com.bewsoftware.mdj.core;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
