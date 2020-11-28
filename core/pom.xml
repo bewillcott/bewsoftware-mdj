@@ -44,7 +44,7 @@ software, even if advised of the possibility of such damage.
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>mdj-core</artifactId>
-    <version>0.6.1</version>
+    <version>0.6.2</version>
     <packaging>jar</packaging>
     
     <name>BEW Software MDj Core Library</name>
@@ -85,7 +85,7 @@ software, even if advised of the possibility of such damage.
                         <artifactId>exec-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>Markdownj-Compile(release)</id>
+                                <id>MDj-Compile(release)</id>
                                 <phase>prepare-package</phase>
                                 <goals>
                                     <goal>exec</goal>
@@ -182,7 +182,7 @@ software, even if advised of the possibility of such damage.
                         <artifactId>exec-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>Markdownj-Compile(release)</id>
+                                <id>MDj-Compile(release)</id>
                                 <phase>prepare-package</phase>
                                 <goals>
                                     <goal>exec</goal>
@@ -196,7 +196,7 @@ software, even if advised of the possibility of such damage.
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>Markdownj-Package(HTML)</id>
+                                <id>MDj-Package(HTML)</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>exec</goal>
@@ -210,7 +210,7 @@ software, even if advised of the possibility of such damage.
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>Markdownj-Package(SRC)</id>
+                                <id>MDj-Package(SRC)</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>exec</goal>
@@ -515,41 +515,6 @@ software, even if advised of the possibility of such damage.
                     </excludes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>libs/</classpathPrefix>
-                            <mainClass>org.markdownj.cli.Main</mainClass>
-                            <addBuildEnvironmentEntries>true</addBuildEnvironmentEntries>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <includeScope>runtime</includeScope>
-                            <excludeScope>test</excludeScope>
-                            <outputDirectory>
-                                ${project.build.directory}/libs
-                            </outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>  
         </plugins>
         
         <!--<finalName>${project.artifactId}-${project.artifact.version}</finalName>-->    
