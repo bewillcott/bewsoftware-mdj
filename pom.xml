@@ -35,17 +35,10 @@ software, even if advised of the possibility of such damage.
 
     <modelVersion>4.0.0</modelVersion>
 
-<!--    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>9</version>
-        <relativePath></relativePath>
-    </parent>-->
-
     <groupId>com.bewsoftware</groupId>
     <artifactId>mdj</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.1-SNAPSHOT</version>
+    <version>0.6.3</version>
 
     <name>BEW Software MDj</name>
     <!--<url>http://markdownj.org/</url>-->
@@ -104,31 +97,10 @@ a text-to-html conversion tool written by John Gruber.</description>
         </developer>
     </developers>
 
-    <properties><!--
-        <site.directory>${basedir}</site.directory>-->
+    <properties>
         <ant.version>1.7.1</ant.version>
     </properties>
 
-    <!--
-        <scm>
-            <connection>scm:git:git://github.com/myabc/markdownj.git</connection>
-            <developerConnection>scm:git:git@github.com:myabc/markdownj.git</developerConnection>
-            <url>http://github.com/myabc/markdownj/</url>
-            <tag>markdownj-0.4</tag>
-        </scm>
-    
-        <issueManagement>
-            <system>GitHub Issues</system>
-            <url>https://github.com/myabc/markdownj/issues</url>
-        </issueManagement>
-    
-        <distributionManagement>
-            <site>
-                <id>markdownj.org</id>
-                <url>file:///${site.directory}/gh-pages/project</url>
-            </site>
-        </distributionManagement>
-    -->
     <licenses>
         <license>
             <name>BSD license</name>
@@ -162,35 +134,6 @@ a text-to-html conversion tool written by John Gruber.</description>
             </comments>
         </license>
     </licenses>
-    <!--
-        <ciManagement>
-            <system>Travis CI</system>
-            <url>http://travis-ci.org/#!/myabc/markdownj</url>
-        </ciManagement>
-    
-        <mailingLists>
-            <mailingList>
-                <name>markdownj</name>
-                <post>markdownj@googlegroups.com</post>
-                <subscribe>markdownj-subscribe@googlegroups.com</subscribe>
-                <unsubscribe>markdownj-unsubscribe@googlegroups.com</unsubscribe>
-                <archive>http://groups.google.com/group/markdownj</archive>
-                <otherArchives>
-                    <otherArchive>http://www.mail-archive.com/markdownj@googlegroups.com/</otherArchive>
-                </otherArchives>
-            </mailingList>
-            <mailingList>
-                <name>markdown-discuss</name>
-                <post>markdown-discuss@six.pairlist.net</post>
-                <subscribe>markdown-discuss-subscribe@six.pairlist.net</subscribe>
-                <unsubscribe>markdown-discuss-unsubscribe@six.pairlist.net</unsubscribe>
-                <archive>http://six.pairlist.net/pipermail/markdown-discuss/</archive>
-                <otherArchives>
-                    <otherArchive>http://www.mail-archive.com/markdown-discuss@six.pairlist.net/</otherArchive>
-                </otherArchives>
-            </mailingList>
-        </mailingLists>
-    -->
     <build>
         <plugins>
             <plugin>
@@ -203,34 +146,6 @@ a text-to-html conversion tool written by John Gruber.</description>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.0.0-M1</version>
             </plugin>
-            <!--                 
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-scm-plugin</artifactId>
-                            <version>1.11.2</version>
-                            <dependencies>
-                                <dependency>
-                                    <groupId>org.apache.maven.scm</groupId>
-                                    <artifactId>maven-scm-provider-gitexe</artifactId>
-                                    <version>1.11.2</version>
-                                </dependency>
-                            </dependencies>
-                        </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>14</source>
-                    <target>14</target>
-                    <encoding>UTF-8</encoding>
-                    <compilerArgs>
-                        <arg>-enable-preview</arg>
-                        <arg>-Xlint:all</arg>
-                    </compilerArgs>
-                </configuration>
-            </plugin>
-            -->        
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>

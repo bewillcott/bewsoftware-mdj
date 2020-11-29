@@ -1,37 +1,16 @@
-README
-======
+# MDj Library
 
-[![Build Status](https://travis-ci.org/myabc/markdownj.png?branch=master)](https://travis-ci.org/myabc/markdownj)
+MDj is a fork of the original project: [Mardownj][mdj]!.
 
-MarkdownJ is the pure Java port of Markdown (a text-to-html conversion tool written by John Gruber.)
+Due to the extensive updating of the coding and addition of more features, I have decided
+to refactor/rename the project, and take ownership.  All previous copyrights and references
+to the work of the original developers are still in place.  However, so as to distinguish
+this work for theirs, which is still available separately, I deemed this necessary.
 
-### Quick Start
+## Status
+This is a work a progress.  As of this commit, everything works.  However, I plan to continue
+adding more features over time.  I don't know if anyone else will ever benefit from this work,
+but I do it for the fun.
 
-If you're after the core functionality provided by MarkdownJ, add `markdown-core` as a dependency:
-
-```xml
-<dependency>
-  <groupId>org.markdownj</groupId>
-  <artifactId>markdownj-core</artifactId>
-  <version>0.4</version>
-</dependency>
-```
-### Releases
-There is a new **Interim Release**: [0.5.15-SNAPSHOT][rel]
-### Related Projects
-
-* [markdownj-ant-utils][markdownj-ant-utils] – Markdown-based `FilterReader` for Ant.
-* [markdownj-dingus][markdownj-dingus] – [Web Dingus using MarkdownJ][dingus] source.
-- [Markdownj CLI][mjc]
-
-### License
-
-The project is licensed under a Revised BSD License. Refer to the accompanying
-LICENSE file.
-
-[dingus]:http://dingus.markdownj.org
-[markdownj-dingus]:https://github.com/myabc/markdownj-dingus/
-[markdownj-ant-utils]:https://github.com/myabc/markdownj-ant-utils/
-[mjc]:https://github.com/bewillcott/markdownj-cli
-[rel]:https://github.com/bewillcott/markdownj/releases
-
+## Related projects
+[MDj CLI][mc] is a command-line program that uses this library.

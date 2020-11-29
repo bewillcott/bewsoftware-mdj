@@ -1446,8 +1446,8 @@ public class MarkdownProcessor {
 
                     switch (align)
                     {
-                        case 0 ->
-                        {
+                        case 0:
+
                             if (delCol.matches("[-]+?[:][-]+?"))
                             {
                                 delRow.setCell(i, "text-align: center");
@@ -1455,16 +1455,23 @@ public class MarkdownProcessor {
                             {
                                 delRow.setCell(i, "");
                             }
-                        }
 
-                        case 1 ->
+                            break;
+
+                        case 1:
                             delRow.setCell(i, "text-align: left");
+                            break;
 
-                        case 2 ->
+                        case 2:
                             delRow.setCell(i, "text-align: right");
+                            break;
 
-                        case 3 ->
+                        case 3:
                             delRow.setCell(i, "text-align: justify");
+                            break;
+
+                        default:
+                            break;
                     }
                 }
 
