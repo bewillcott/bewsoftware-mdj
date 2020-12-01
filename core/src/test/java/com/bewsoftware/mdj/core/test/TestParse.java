@@ -1,4 +1,6 @@
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.test;
+
+import com.bewsoftware.mdj.core.MarkdownProcessor;
 
 /**
  *

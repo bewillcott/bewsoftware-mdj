@@ -1,5 +1,6 @@
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.test;
 
+import com.bewsoftware.mdj.core.CharacterProtector;
 import java.util.Collection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

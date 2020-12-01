@@ -180,17 +180,6 @@ a text-to-html conversion tool written by John Gruber.</description>
         </plugins>
     </build>
 
-    <dependencies>
-        <!-- TESTING DEPENDENCIES -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.6.0</version>
-            <scope>test</scope>
-            <optional>true</optional>
-        </dependency>
-    </dependencies>
-
     <modules>
         <module>core</module>
     </modules>

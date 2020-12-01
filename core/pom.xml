@@ -75,42 +75,25 @@ software, even if advised of the possibility of such damage.
         <url>http://127.0.0.1/dummy</url>
     </scm>
     
-<!--    <dependencies>
+    <dependencies>
+        <!-- TESTING DEPENDENCIES -->
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>mdj-cli</artifactId>
-            <version>1.0.2</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+            <optional>true</optional>
         </dependency>
-    </dependencies>-->
-
+        <dependency>
+            <groupId>com.bewsoftware</groupId>
+            <artifactId>BEWUtils</artifactId>
+            <version>1.0.4-SNAPSHOT</version>
+            <scope>test</scope>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+    
     <profiles>
-        <!--        <profile>
-            <id>compile-manual</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>MDj-Compile(release)</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>markdown</executable>
-                                    <commandlineArgs>-v:2 -s src/docs/manual -d target/manual -wr</commandlineArgs>
-                                    <workingDirectory></workingDirectory>
-                                    <includeProjectDependencies>false</includeProjectDependencies>
-                                    <includePluginDependencies>true</includePluginDependencies>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>-->
         <profile>
             <id>compile-manual</id>
             <build>

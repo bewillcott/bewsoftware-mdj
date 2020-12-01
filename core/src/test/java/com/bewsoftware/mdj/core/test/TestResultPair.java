@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006, Nathan Winant, nw@exegetic.net.
+ * Copyright (c) 2005, Pete Bevin.
  * <http://markdownj.petebevin.com>
  *
  * All rights reserved.
@@ -32,36 +32,17 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.test;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+public class TestResultPair {
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+    public final String name;
+    public final String test;
+    public final String result;
 
-public class EscapeSpecialCharsWithinTagAttributes {
-
-    MarkdownProcessor m;
-
-    @BeforeEach
-    public void createProcessor() {
-        m = new MarkdownProcessor();
+    public TestResultPair(String name, String test, String result) {
+        this.name = name;
+        this.test = test;
+        this.result = result;
     }
-
-    @Test
-    public void testImages() {
-        String url = "![an *image*](/images/an_image_with_underscores.jpg \"An_image_title\")";
-        String processed = m.markdown(url);
-        String output = "<p><img src=\"/images/an_image_with_underscores.jpg\" alt=\"an *image*\" title=\"An_image_title\"></p>\n";
-        assertEquals(output, processed);
-    }
-
-    @Test
-    public void testAutoLinks() {
-        String url = "[a *link*](http://url.com/a_tale_of_two_cities?var1=a_query_&var2=string \"A_link_title\")";
-        String processed = m.markdown(url);
-        String output = "<p><a href=\"http://url.com/a_tale_of_two_cities?var1=a_query_&amp;var2=string\" title=\"A_link_title\">a <em>link</em></a></p>\n";
-        assertEquals(output, processed);
-    }
-
 }

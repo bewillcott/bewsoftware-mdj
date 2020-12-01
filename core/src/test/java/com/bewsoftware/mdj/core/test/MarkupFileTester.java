@@ -32,8 +32,9 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.test;
 
+import com.bewsoftware.mdj.core.MarkdownProcessor;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
