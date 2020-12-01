@@ -32,8 +32,10 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.test;
 
+import com.bewsoftware.mdj.core.MarkdownProcessor;
+import com.bewsoftware.utils.string.Diff;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -47,7 +49,7 @@ import java.util.List;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /*
  * Modified to use JUnit5 instead of JUnit 4.
@@ -94,14 +96,47 @@ public class MarkdownTestTester {
     @ParameterizedTest(name = "{index}: {arguments}")
     @MethodSource("markdownTests")
     public void runTest(String dir, String test) throws IOException {
+        System.out.println("Test: " + test);
         String testText = slurp(dir + File.separator + test + ".text");
         String htmlText = slurp(dir + File.separator + test + ".html");
 
         MarkdownProcessor markup = new MarkdownProcessor();
         String markdownText = markup.markdown(testText);
-        assertEquals(htmlText.trim(), markdownText.trim(), test);
+        assertFalse(diffStrings(htmlText, markdownText), test);
     }
 
+    /**
+     * Check wether or not the String are different.
+     *
+     * @param orig The original text.
+     * @param mod  The modified text.
+     *
+     * @return {@code true} if different, {@code false} if same.
+     */
+    private boolean diffStrings(final String orig, final String mod) {
+        boolean rtn = true;
+        List<Diff.ModifiedLine> mLines = Diff.lines(orig, mod);
+
+        if (!mLines.isEmpty())
+        {
+            mLines.forEach(line -> System.out.println("----------\n" + line));
+        } else
+        {
+            rtn = false;
+        }
+
+        return rtn;
+    }
+
+    /**
+     * Read contents of file into a String.
+     *
+     * @param fileName File to read.
+     *
+     * @return String containing contents of file.
+     *
+     * @throws IOException if any.
+     */
     private String slurp(String fileName) throws IOException {
         URL fileUrl = this.getClass().getResource(fileName);
         File file = new File(URLDecoder.decode(fileUrl.getFile(), "UTF-8"));

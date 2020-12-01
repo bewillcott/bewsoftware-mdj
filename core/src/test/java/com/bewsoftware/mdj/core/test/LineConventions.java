@@ -32,17 +32,38 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.test;
 
-public class TestResultPair {
+import com.bewsoftware.mdj.core.MarkdownProcessor;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-    public final String name;
-    public final String test;
-    public final String result;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-    public TestResultPair(String name, String test, String result) {
-        this.name = name;
-        this.test = test;
-        this.result = result;
+public class LineConventions {
+
+    private static final String EXPECTED = "<p>a\nb\nc</p>\n";
+    private MarkdownProcessor m;
+
+    @BeforeEach
+    public void createProcessor() {
+        m = new MarkdownProcessor();
+    }
+
+    @Test
+    public void testUnixLineConventions() {
+        assertEquals(EXPECTED, m.markdown("a\nb\nc\n"));
+    }
+
+    @Test
+    public void testWindowsLineConventions() {
+        MarkdownProcessor markup = new MarkdownProcessor();
+        assertEquals(EXPECTED, markup.markdown("a\r\nb\r\nc\r\n"));
+    }
+
+    @Test
+    public void testMacLineConventions() {
+        MarkdownProcessor markup = new MarkdownProcessor();
+        assertEquals(EXPECTED, markup.markdown("a\rb\rc\r"));
     }
 }

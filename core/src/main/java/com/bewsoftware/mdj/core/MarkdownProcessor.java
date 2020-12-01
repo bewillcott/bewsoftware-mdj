@@ -65,7 +65,6 @@ public class MarkdownProcessor {
     private static final String ID_REGEX = "(?:\\[#(?<id>\\w+)\\])";
     private static final String ID_REGEX_OPT = "(?:\\[#(?<id>\\w+)\\])?";
     private static final String LANG_IDENTIFIER = "lang:";
-    //    private static final String ID_REGEX = "(?:\\[#(?<id>[^\\s\\]]*)?\\])?";
     private static final String TAG_ID = "\\[#\\w+\\]";
     private static final String TARGET = " target=\"" + CHAR_PROTECTOR.encode("_") + "blank\"";
 
@@ -134,6 +133,7 @@ public class MarkdownProcessor {
             System.exit(1);
         }
     }
+
     private final Map<String, LinkDefinition> linkDefinitions = new TreeMap<>();
     private int listLevel;
     private final String[] radioGroupNames = new String[100];
@@ -193,7 +193,7 @@ public class MarkdownProcessor {
 
     @Override
     public String toString() {
-        return "Markdown Processor for Java 0.4.0 (compatible with Markdown 1.0.2b2)";
+        return "Markdown Processor for Java 0.6.3 (should still be compatible with Markdown 1.0.2b2)";
     }
 
     private String deleteAll(String text, String regex) {
@@ -523,7 +523,7 @@ public class MarkdownProcessor {
         // atx-style headers - e.g., "#### heading 4 ####"
         // Added Anchor option to header text
         // Bradley Willcott (11/03/2020)
-        Pattern p = compile("^(?<marker>#{1,6})" + ID_REGEX_OPT
+        Pattern p = compile("^(?<marker>[#]{1,6})" + ID_REGEX_OPT
                             + "[ ]*(?<heading>(?<brkt1>\\[)?[^\\]]*?(?<brkt2>(\\]|\\]\\[[^\\]]*?\\])!?)?)"
                             + "[ ]*(?:\\k<marker>[ ]*(?<tail>.*)?)?$", MULTILINE);
         markup.replaceAll(p, (Matcher m) ->
