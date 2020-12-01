@@ -87,8 +87,14 @@ software, even if advised of the possibility of such damage.
         <dependency>
             <groupId>com.bewsoftware</groupId>
             <artifactId>BEWUtils</artifactId>
-            <version>1.0.4-SNAPSHOT</version>
+            <version>1.0.4</version>
             <scope>test</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.bewsoftware</groupId>
+            <artifactId>mdj-cli</artifactId>
+            <version>1.0.5</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
@@ -110,10 +116,10 @@ software, even if advised of the possibility of such damage.
                                 </goals>
                                 <configuration>
                                     <executable>java</executable>
-                                    <commandlineArgs>-classpath %classpath com.bewsoftware.mdj.cli.Main -v:2 -s src/docs/manual -d target/manual -wr</commandlineArgs>
+                                    <commandlineArgs>-classpath %classpath com.bewsoftware.mdj.cli.Main -v:2 -s src/docs/manual -d target/docs/manual -wr</commandlineArgs>
                                     <workingDirectory></workingDirectory>
-                                    <includeProjectDependencies>false</includeProjectDependencies>
-                                    <includePluginDependencies>true</includePluginDependencies>
+                                    <includeProjectDependencies>true</includeProjectDependencies>
+                                    <includePluginDependencies>false</includePluginDependencies>
                                     <executableDependency>
                                         <groupId>com.bewsoftware</groupId>
                                         <artifactId>mdj-cli</artifactId>
@@ -121,13 +127,6 @@ software, even if advised of the possibility of such damage.
                                 </configuration>
                             </execution>
                         </executions>
-                        <dependencies>
-                            <dependency>
-                                <groupId>com.bewsoftware</groupId>
-                                <artifactId>mdj-cli</artifactId>
-                                <version>1.0.2</version>
-                            </dependency>
-                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
@@ -219,7 +218,7 @@ software, even if advised of the possibility of such damage.
                                 </goals>
                                 <configuration>
                                     <executable>markdown</executable>
-                                    <commandlineArgs>-v:2 -s src/docs/manual -d target/manual -wr</commandlineArgs>
+                                    <commandlineArgs>-v:2 -s src/docs/manual -d target/docs/manual -wr</commandlineArgs>
                                     <workingDirectory></workingDirectory>
                                     <includeProjectDependencies>false</includeProjectDependencies>
                                     <includePluginDependencies>false</includePluginDependencies>
@@ -233,7 +232,7 @@ software, even if advised of the possibility of such damage.
                                 </goals>
                                 <configuration>
                                     <executable>markdown</executable>
-                                    <commandlineArgs>-v:2 -j:${project.build.finalName}-manual.jar;manual</commandlineArgs>
+                                    <commandlineArgs>-v:2 -j:${project.build.finalName}-manual.jar;docs/manual</commandlineArgs>
                                     <workingDirectory>${project.build.directory}</workingDirectory>
                                     <includeProjectDependencies>false</includeProjectDependencies>
                                     <includePluginDependencies>false</includePluginDependencies>
@@ -363,7 +362,7 @@ software, even if advised of the possibility of such damage.
             </resource>
             <resource>
                 <directory>
-                    target/manual
+                    target/docs/manual
                 </directory>
                 <excludes>
                     <exclude>
