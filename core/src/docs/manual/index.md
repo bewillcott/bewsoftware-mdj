@@ -1,6 +1,6 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | TOC
 
 @@@
@@ -43,3 +43,11 @@ title: MDj Core Library | TOC
 [te-di]:Text Embellishments.html#di
 [te-ss]:Text Embellishments.html#ss
 [todo]:todo.html
+
+
+@@@[navbar]
+
+- [@active] [Home](#)
+- [@right] [About](About.html)
+
+@@@

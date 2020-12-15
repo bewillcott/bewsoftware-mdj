@@ -38,13 +38,13 @@ software, even if advised of the possibility of such damage.
     <parent>
         <groupId>com.bewsoftware</groupId>
         <artifactId>mdj</artifactId>
-        <version>0.6.3</version>
+        <version>0.6.4</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>mdj-core</artifactId>
-    <version>0.6.3</version>
+    <version>0.6.4</version>
     <packaging>jar</packaging>
     
     <name>BEW Software MDj Core Library</name>
@@ -87,14 +87,12 @@ software, even if advised of the possibility of such damage.
         <dependency>
             <groupId>com.bewsoftware</groupId>
             <artifactId>BEWUtils</artifactId>
-            <version>1.0.4</version>
-            <scope>test</scope>
-            <optional>true</optional>
+            <version>1.0.5</version>
         </dependency>
         <dependency>
             <groupId>com.bewsoftware</groupId>
             <artifactId>mdj-cli</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.22-SNAPSHOT</version>
             <optional>true</optional>
         </dependency>
     </dependencies>
@@ -110,13 +108,13 @@ software, even if advised of the possibility of such damage.
                         <executions>
                             <execution>
                                 <id>MDj-Compile(release)</id>
-                                <phase>prepare-package</phase>
+                                <phase>process-classes</phase>
                                 <goals>
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
                                     <executable>java</executable>
-                                    <commandlineArgs>-classpath %classpath com.bewsoftware.mdj.cli.Main -v:2 -s src/docs/manual -d target/docs/manual -wr</commandlineArgs>
+                                    <commandlineArgs>-classpath %classpath com.bewsoftware.mdj.cli.Main -v 3 -s src/docs/manual -d target/docs/manual -wr</commandlineArgs>
                                     <workingDirectory></workingDirectory>
                                     <includeProjectDependencies>true</includeProjectDependencies>
                                     <includePluginDependencies>false</includePluginDependencies>
@@ -212,14 +210,13 @@ software, even if advised of the possibility of such damage.
                         <executions>
                             <execution>
                                 <id>MDj-Compile(release)</id>
-                                <phase>prepare-package</phase>
+                                <phase>process-classes</phase>
                                 <goals>
                                     <goal>exec</goal>
                                 </goals>
                                 <configuration>
                                     <executable>markdown</executable>
-                                    <commandlineArgs>-v:2 -s src/docs/manual -d target/docs/manual -wr</commandlineArgs>
-                                    <workingDirectory></workingDirectory>
+                                    <commandlineArgs>-v 2 -s src/docs/manual -d target/docs/manual -wr</commandlineArgs>
                                     <includeProjectDependencies>false</includeProjectDependencies>
                                     <includePluginDependencies>false</includePluginDependencies>
                                 </configuration>
@@ -232,8 +229,7 @@ software, even if advised of the possibility of such damage.
                                 </goals>
                                 <configuration>
                                     <executable>markdown</executable>
-                                    <commandlineArgs>-v:2 -j:${project.build.finalName}-manual.jar;docs/manual</commandlineArgs>
-                                    <workingDirectory>${project.build.directory}</workingDirectory>
+                                    <commandlineArgs>-v 2 -j ${project.build.directory}/${project.build.finalName}-manual.jar;target/docs/manual;src/docs/manual</commandlineArgs>
                                     <includeProjectDependencies>false</includeProjectDependencies>
                                     <includePluginDependencies>false</includePluginDependencies>
                                 </configuration>
@@ -246,8 +242,7 @@ software, even if advised of the possibility of such damage.
                                 </goals>
                                 <configuration>
                                     <executable>markdown</executable>
-                                    <commandlineArgs>-v:2 -j:${project.build.directory}/${project.build.finalName}-manual-src.jar;src/docs/manual</commandlineArgs>
-                                    <workingDirectory>${project.directory}</workingDirectory>
+                                    <commandlineArgs>-v 2 -j ${project.build.directory}/${project.build.finalName}-manual-src.jar;src/docs/manual;src/docs/manual</commandlineArgs>
                                     <includeProjectDependencies>false</includeProjectDependencies>
                                     <includePluginDependencies>false</includePluginDependencies>
                                 </configuration>
@@ -362,7 +357,7 @@ software, even if advised of the possibility of such damage.
             </resource>
             <resource>
                 <directory>
-                    target/docs/manual
+                    target/docs
                 </directory>
                 <excludes>
                     <exclude>

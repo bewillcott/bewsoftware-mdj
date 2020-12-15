@@ -1,14 +1,11 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Text Embellishments
 stylesheet: style_1.css
 
 @@@
 
-[Home]
-
----
 
 ## Text Embellishments
 
@@ -33,3 +30,10 @@ quite simple:
 
 [Home]:index.html
 [1]: "I didn't like this text"
+
+@@@[navbar]
+
+- [Home](index.html)
+- [@right] [About](About.html)
+
+@@@

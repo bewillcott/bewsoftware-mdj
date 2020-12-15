@@ -1,6 +1,6 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Lists - Enhanced
 
 @@@
@@ -8,9 +8,6 @@ title: MDj Core Library | Lists - Enhanced
     article {max-width: 64em;}
 </style>
 
-[Home]
-
----
 
 ## Lists - Enhanced
 ### Check Boxes
@@ -44,4 +41,10 @@ Which produces this result:
         - [x]! Yes you got it, checked and disabled.
 
 
-[Home]:index.html
+
+@@@[navbar]
+
+- [Home](index.html)
+- [@right] [About](About.html)
+
+@@@

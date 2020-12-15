@@ -1,6 +1,6 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Fenced Code Blocks (Examples)
 
 @@@

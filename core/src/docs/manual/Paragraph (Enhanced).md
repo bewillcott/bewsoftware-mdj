@@ -1,14 +1,11 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Text Embellishments
 stylesheet: style_1.css
 
 @@@
 
-[Home]
-
----
 
 
 ### Paragraph (Enhanced)
@@ -31,3 +28,10 @@ Then to setup a link to go to the previous [paragraph](#pid).
 
 
 [Home]:index.html
+
+@@@[navbar]
+
+- [Home](index.html)
+- [@right] [About](About.html)
+
+@@@

@@ -1,16 +1,14 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | ToDo List
 
 @@@
 
-[Home]
-
----
 
 ## ToDo List
 
+- [ ]! Update manual.
 - [x]! (14/03/2020) Added superscripted footnote references.  
 `[d%]` - d% must be a valid decimal number.
 - [x]! (16/03/2020) Added footnote links[1]
@@ -53,3 +51,10 @@ and keeps the brackets.
 [Links]:Links.html
 [Lists]:lists.html
 [Tables]:Tables.html
+
+@@@[navbar]
+
+- [Home](index.html)
+- [@right] [About](About.html)
+
+@@@

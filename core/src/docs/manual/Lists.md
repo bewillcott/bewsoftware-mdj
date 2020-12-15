@@ -1,13 +1,10 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Lists
 
 @@@
 
-[Home]
-
----
 
 ## Lists
 
@@ -40,4 +37,12 @@ And this list:
 + However you can read it.
 
 
+
 [Home]:index.html
+
+@@@[navbar]
+
+- [Home](index.html)
+- [@right] [About](About.html)
+
+@@@

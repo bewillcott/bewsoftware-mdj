@@ -1,13 +1,10 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Links and Auto Links
 
 @@@
 
-[Home]
-
----
 
 ## Links and Auto Links
 
@@ -45,4 +42,10 @@ favorite word processor does when you insert a _footnote_.
 [1]:Text Embellishments.html "You can find more on Superscripting here"
 [2]:#fn1
 [ex]:examples/Links and Auto Links (examples).html
-[Home]:index.html
+
+@@@[navbar]
+
+- [Home](index.html)
+- [@right] [About](About.html)
+
+@@@

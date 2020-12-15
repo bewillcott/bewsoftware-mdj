@@ -25,7 +25,7 @@ article, footer {
 
 article {
     color: black;
-    background: rgb(244, 244, 248);
+    background: #cacdcd;
     margin: 1em auto;
     padding: 1em 2em;
     max-width: 50em;
@@ -36,7 +36,7 @@ article {
 }
 
 body {
-    background-color:#ffffff;
+    background-color:#002f42;
     color:#353833;
     font-family: Arial, Helvetica, sans-serif;
     font-size:13px;
@@ -77,27 +77,27 @@ ul {
 pre {
     font-family: 'Courier New', monospace;
     font-size: 12px;
-    background-color: honeydew;
+    background-color: darkkhaki;
     display:table;
     padding: 0px 20px;
-    border: 1px solid lightgrey;
+    border: 1px solid slategray;
 }
 
 pre code {
     border: none;
     padding: 0px;
     margin: 0px;
-    background-color: honeydew;
+    background-color: darkkhaki;
 }
 
 code {
     font-family: 'Courier New', monospace;
-    background-color: background;
+    background-color: #eff0f0;
     font-size: 12px;
     padding: 0px 2px;
     margin-top:4px;
     line-height: 1.0em;
-    border: 1px solid lightgrey;
+    border: 1px solid slategray;
 }
 
 ul.checkbox {

@@ -1,13 +1,10 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Fenced Code Blocks
 
 @@@
 
-[Home]
-
----
 
 ##[#top] Fenced Code Blocks
 
@@ -109,7 +106,13 @@ Some more code
 
 Check out these [examples]. [&uarr;](#top)
 
-[Home]:index.html
 [gfms]:https://github.github.com/gfm/#fenced-code-blocks
 [info-string]:https://github.github.com/gfm/#info-string
 [examples]:examples/Fenced Code Blocks (examples).html
+
+@@@[navbar]
+
+- [Home](index.html)
+- [@right] [About](About.html)
+
+@@@

@@ -4,13 +4,19 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="${page.stylesheet}">
+        <link rel="stylesheet" type="text/css" href="${page.navstyle}">
         <link rel="icon" type="image/png" href="${document.icon}">
     </head>
     <body>
-        <article>
+        <article style="max-width: ${page.width}">
+            <header>
+                ${document.name}
+                ${page.navbar}
+            </header>
             ${page.content}
             <footer>
                 <hr>
+                ${document.copyright}<br>
                 Last updated: ${system.date}
             </footer>
         </article>

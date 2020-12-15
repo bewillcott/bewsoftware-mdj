@@ -1,13 +1,10 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library
 
 @@@
 
-[Home]
-
----
 
 # MDj Core Library
 
@@ -50,3 +47,10 @@ Check out the [ToDo List][todo] page.
 [main]:https://github.com/myabc/markdownj
 [Tables]:Tables.html
 [todo]:todo.html
+
+@@@[navbar]
+
+- [Home](index.html)
+- [@right] [About](About.html)
+
+@@@

@@ -1,14 +1,11 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Tables
-stylesheet: style_no-table.css
+stylesheet: darkstyle_no-table.css
 
 @@@
 
-[Home]
-
----
 
 [#contents]
 - Tables
@@ -150,24 +147,31 @@ In true CSS format, you can use classes to set the styling of your table and it'
 rows.
 ```
 This is an even greater table
-| Left Foot | Right Foot |[tbHeader]
-| :--- | ---: |[#great][tbSetting]
-| Up | down |[tbRow]
+| Left Foot | Right Foot |[@tbHeader]
+| :--- | ---: |[#great][@tbSetting]
+| Up | down |[@tbRow]
 | Up | Up |
 | Down | Up |
 | Down | Down |
-| Finished | Fini |[#end][tbTotal]
+| Finished | Fini |[#end][@tbTotal]
 ```
 
 This is an even greater table
-| Left Foot | Right Foot |[tbHeader]
-| :--- | ---: |[#great][tbSetting]
-| Up | down |[tbRow]
+| Left Foot | Right Foot |[@tbHeader]
+| :--- | ---: |[#great][@tbSetting]
+| Up | down |[@tbRow]
 | Up | Up |
 | Down | Up |
 | Down | Down |
-| Finished | Fini |[#end][tbTotal]
+| Finished | Fini |[#end][@tbTotal]
 
 _Check out the source of this page in your browser._
 
 [Home]:index.html
+
+@@@[navbar]
+
+- [Home](index.html)
+- [@right] [About](About.html)
+
+@@@

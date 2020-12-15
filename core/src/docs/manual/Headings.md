@@ -1,13 +1,10 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Headings
 
 @@@
 
-[Home]
-
----
 
 ## Headings
 
@@ -39,4 +36,10 @@ Produces this:
 Results in this:
 ## Sub heading ## [&uarr;](#main)
 
-[Home]:index.html
+
+@@@[navbar]
+
+- [Home](index.html)
+- [@right] [About](About.html)
+
+@@@

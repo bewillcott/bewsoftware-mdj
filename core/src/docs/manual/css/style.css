@@ -148,3 +148,9 @@ table tr td dt code {
     vertical-align:top;
     padding-top:4px;
 }
+
+ul.checkbox {
+    list-style-type: none;
+    margin-left: 2.5em;
+    padding-left: 0.0em;
+}

@@ -1,13 +1,10 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Links and Auto Links (Examples)
 
 @@@
 
-[Back] [Home]
-
----
 
 ## Links and Auto Links
 
@@ -64,5 +61,11 @@ And another [example]!
 [link]: http://www.example.com/link.html  "This is a title"
 
 
-[Back]:../Links.html
-[Home]:../index.html
+
+@@@[navbar]
+
+- [Home](../index.html)
+- [Links](../Links.html)
+- [@right] [About](../About.html)
+
+@@@

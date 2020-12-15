@@ -3,6 +3,9 @@
  * Authors: Pete Bevin, John Mutchek
  * http://www.martiansoftware.com/markdownj
  *
+ * Copyright (c) 2020 Bradley Willcott
+ * Modifications to the code.
+ *
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +38,8 @@
  */
 package com.bewsoftware.mdj.core;
 
+import com.bewsoftware.utils.struct.BooleanReturn;
+import com.bewsoftware.utils.struct.StringReturn;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -65,6 +70,7 @@ public class MarkdownProcessor {
     private static final String ID_REGEX = "(?:\\[#(?<id>\\w+)\\])";
     private static final String ID_REGEX_OPT = "(?:\\[#(?<id>\\w+)\\])?";
     private static final String LANG_IDENTIFIER = "lang:";
+    private static final String CLASS_REGEX = "(?:\\[@(?<classes>[^\\]]+)\\])?";
     private static final String TAG_ID = "\\[#\\w+\\]";
     private static final String TARGET = " target=\"" + CHAR_PROTECTOR.encode("_") + "blank\"";
 
@@ -202,13 +208,19 @@ public class MarkdownProcessor {
 
     private TextEditor doAnchors(TextEditor markup) {
         // Internal references: [link text][id]!
+        //
+        // Added class attribute to anchors.
+        // [link text][id]![@class]
+        //
+        // Bradley Willcott (15/12/2020)
         Pattern internalLink = compile(""
                                        + "\\[(?<linkText>[^\\[\\]]*?)\\]"
                                        // Link text = $1
                                        // + "[ ]?(?:\\n[ ]*)?"  // No whitespace between the brackets (GFM)
                                        + "\\[(?<linkId>[^\\]]*?)\\]"
                                        // ID = $2
-                                       + "(?<target>!)?");
+                                       + "(?<target>!)?"
+                                       + CLASS_REGEX); // BW
         markup.replaceAll(internalLink, (Matcher m) ->
                   {
                       String replacementText;
@@ -216,6 +228,8 @@ public class MarkdownProcessor {
                       String linkText = m.group("linkText");
                       String linkId = m.group("linkId");
                       String targetTag = m.group("target") != null ? TARGET : "";
+                      // BW: classString
+                      String classes = m.group("classes");
 
                       // [linkId] is now case sensitive
                       if (linkId == null || "".equals(linkId))
@@ -236,6 +250,10 @@ public class MarkdownProcessor {
                               url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
                           }
 
+                          // BW: classAtrib
+                          String classAtrib = classes != null && !classes.isBlank()
+                                              ? addClass(classes) : "";
+
                           String title = defn.getTitle();
                           String titleTag = "";
 
@@ -249,10 +267,16 @@ public class MarkdownProcessor {
 
                           if (url != null)
                           {
-                              replacementText = "<a href=\"" + url + "\"" + titleTag + targetTag + ">" + linkText + "</a>";
+                              replacementText = "<a href=\"" + url + "\""
+                                                // BW: classAtrib
+                                                + classAtrib + titleTag + targetTag + ">"
+                                                + linkText + "</a>";
                           } else
                           {
-                              replacementText = "<a" + titleTag + targetTag + ">" + linkText + "</a>";
+                              replacementText = "<a"
+                                                // BW: classAtrib
+                                                + classAtrib + titleTag + targetTag + ">"
+                                                + linkText + "</a>";
                           }
                       } else
                       {
@@ -262,12 +286,23 @@ public class MarkdownProcessor {
                       return replacementText;
                   });
 
-        // Inline-style links: [link text]!(url "optional title")
+        // Inline-style links: [link text]!( url "optional title")
+        //
+        // The space before and after the 'url' is now required.
+        // This is to allow for a url of: "javascript:void(0)".
+        // The closing braket ')' was being grabbed by the end of
+        // the regex pattern.
+        //
+        // Added class attribute to anchors.
+        // [link text]![@class]( url "optional title")
+        //
+        // Bradley Willcott (15/12/2020)
         Pattern inlineLink = compile(""
                                      // Whole match = $1
                                      + "\\[(?<linkText>[^\\[\\]]*?)\\]"
                                      // Link text = $2
                                      + "(?<target>!)?"
+                                     + CLASS_REGEX // BW
                                      + "\\("
                                      + "[ ]*"
                                      + "<?(?<url>.*?)>?"
@@ -287,12 +322,19 @@ public class MarkdownProcessor {
                       String url = m.group("url");
                       String title = m.group("title");
                       String targetTag = m.group("target") != null ? TARGET : "";
+                      // BW: classString
+                      String classes = m.group("classes");
 
                       // protect emphasis (* and _) within urls
                       url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
                       url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
                       StringBuilder result = new StringBuilder();
                       result.append("<a href=\"").append(url).append("\"");
+
+                      // BW: classAtrib
+                      String classAtrib = classes != null && !classes.isBlank()
+                                          ? addClass(classes) : "";
+                      result.append(classAtrib);
 
                       if (title != null)
                       {
@@ -319,11 +361,18 @@ public class MarkdownProcessor {
         // Last, handle reference-style shortcuts: [link text]!
         // These must come last in case you've also got [link test][lt]
         // or [link test](/foo)
+        //
+        // Added class attribute to anchors.
+        // [link text]![@class]
+        //
+        // Bradley Willcott (15/12/2020)
         Pattern referenceShortcut = compile("(?<!\\|)\\["
                                             + "(?<linkText>[^\\[\\]]+?)"
                                             // link text can't contain ']'
                                             + "\\]"
-                                            + "(?<target>!)?", DOTALL);
+                                            + "(?<target>!)?"
+                                            + CLASS_REGEX, // BW
+                                            DOTALL);
         markup.replaceAll(referenceShortcut, (Matcher m) ->
                   {
                       String replacementText;
@@ -332,6 +381,8 @@ public class MarkdownProcessor {
                       String targetTag = m.group("target") != null ? TARGET : "";
                       String id = linkText; // link id is now case sensitive
                       id = id.replaceAll("[ ]?\\n", " "); // change embedded newlines into spaces
+                      // BW: classString
+                      String classes = m.group("classes");
 
                       LinkDefinition defn = linkDefinitions.get(id);
 
@@ -345,6 +396,10 @@ public class MarkdownProcessor {
                               url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
                               url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
                           }
+
+                          // BW: classAtrib
+                          String classAtrib = classes != null && !classes.isBlank()
+                                              ? addClass(classes) : "";
 
                           String title = defn.getTitle();
                           String titleTag = "";
@@ -368,10 +423,16 @@ public class MarkdownProcessor {
 
                           if (url != null)
                           {
-                              replacementText = "<a href=\"" + url + "\"" + titleTag + targetTag + ">" + linkText + "</a>";
+                              replacementText = "<a href=\"" + url + "\""
+                                                // BW: classAtrib
+                                                + classAtrib + titleTag + targetTag + ">"
+                                                + linkText + "</a>";
                           } else
                           {
-                              replacementText = "<a" + titleTag + targetTag + ">" + linkText + "</a>";
+                              replacementText = "<a"
+                                                // BW: classAtrib
+                                                + classAtrib + titleTag + targetTag + ">"
+                                                + linkText + "</a>";
                           }
                       } else
                       {
@@ -385,17 +446,29 @@ public class MarkdownProcessor {
     }
 
     private TextEditor doAutoLinks(TextEditor markup) {
+        // Added class attribute to anchors.
+        // <url>![@class]
+        //
+        // Bradley Willcott (15/12/2020)
         Pattern link = Pattern.compile("<"
                                        + "(?<url>(?:https?|ftp):[^'\">\\s]+)"
                                        + ">"
-                                       + "(?<target>!)?");
+                                       + "(?<target>!)?"
+                                       + CLASS_REGEX); // BW
 
         markup.replaceAll(link, (Matcher m) ->
                   {
                       String url = m.group("url");
                       String targetTag = m.group("target") != null ? TARGET : "";
+                      // BW: classString
+                      String classes = m.group("classes");
+                      // BW: classAtrib
+                      String classAtrib = classes != null && !classes.isBlank()
+                                          ? addClass(classes) : "";
 
-                      return "<a href=\"" + url + "\"" + targetTag + ">" + url + "</a>";
+                      return "<a href=\"" + url + "\""
+                             // BW: classAtrib
+                             + classAtrib + targetTag + ">" + url + "</a>";
                   });
 
         Pattern email = compile("<([-.\\w]+\\@[-a-z0-9]+(?:\\.[-a-z0-9]+)*\\.[a-z]+)>");
@@ -481,30 +554,62 @@ public class MarkdownProcessor {
         return text;
     }
 
-    private TextEditor doExtendedListOptions(TextEditor item) {
-        processCheckBoxes(item);
-        return null;
+    /**
+     * Process additional types of lists.
+     * <p>
+     * Lists with line items containing any or all of the following:<br>
+     * <ul>
+     * <li>Checkbox.</li>
+     * <li>Class attribute.</li>
+     * </ul>
+     * Bradley Willcott
+     *
+     * @param item        The text to process.
+     * @param classString returns the value of the 'class' text, if any.
+     *
+     * @return if any were found.
+     *
+     * @since 10/01/2020, last updated: 14/12/2020.
+     */
+    private boolean doExtendedListOptions(TextEditor item, StringReturn classString) {
+
+        boolean rtn = processCheckBoxes(item, classString);
+
+        if (!rtn)
+        {
+            processListItemsWithAClass(item, classString);
+        }
+
+        return rtn;
     }
 
+    /**
+     * Fenced Code Blocks:<br>
+     * Using either ``` triple back-ticks, or ~~~ triple
+     * tildes for beginning and end of code block.
+     * <p>
+     * Can add classes to both the
+     * &lt;pre&gt; and &lt;code&gt; tags:
+     * <pre><code>
+     * ```[@pre tag classes][@code tag classes]
+     *
+     * Example:
+     *
+     * ~~~[@prettyprint][@language-java]
+     *
+     * Result:
+     *
+     * &lt;pre class="prettyprint"&gt;&lt;code class="language-java"&gt;
+     *</code></pre>
+     * Bradley Willcott
+     *
+     * @param markup The text to process.
+     *
+     * @return the parameter {@code markup} for chaining.
+     *
+     * @since 07/01/2020
+     */
     private TextEditor doFencedCodeBlocks(TextEditor markup) {
-        /*
-         * Fenced Code Blocks: Using either ``` triple back-ticks, or ~~~ triple
-         * tildes for beginning and end of code block.
-         *
-         * Can add classes to both the <pre> and <code> tags:
-         *
-         * ```[pre tag classes][code tag classes]
-         *
-         * Example:
-         *
-         * ~~~[prettyprint][language-java]
-         *
-         * Result:
-         *
-         * <pre class="prettyprint"><code class="language-java">
-         *
-         * Bradley Willcott (7/1/2020)
-         */
         Pattern p1 = compile("(?<frontFence>^(?:[~]{3}|[`]{3}))"
                              + ID_REGEX_OPT
                              + "(?:[ ]*\\n"
@@ -653,39 +758,82 @@ public class MarkdownProcessor {
         {
             Replacement replacer = (Matcher m) ->
             {
-                String list = m.group("list");
+                //
+                // Changed 'list' from String to StringReturn class for use
+                // with: processListItems(list).
+                //
+                // Bradley Willcott (13/12/2020)
+                //
+                StringReturn list = new StringReturn(m.group("list"));
+                String classes = m.group("classes");
                 String listType = (m.group("listType").matches("[*+-]") ? "ul" : "ol");
-//
-// Turn double returns into triple returns, so that we can make a
-// paragraph for the last item in a list, if necessary:
-                list = replaceAll(list, "\\n{2,}", "\n\n\n");
-                String result = processListItems(list);
+                //
+                // Turn double returns into triple returns, so that we can make a
+                // paragraph for the last item in a list, if necessary:
+                list.val = replaceAll(list.val, "\\n{2,}", "\n\n\n");
 
-// Trim any trailing whitespace, to put the closing `</ol>` or `</ul>`
-// up on the preceding line, to get it past the current stupid
-// HTML block parser. This is a hack to work around the terrible
-// hack that is the HTML block parser.
-                result = result.replaceAll("\\s+$", "");
-                String html = "<" + listType + ">\n" + result + "</" + listType + ">\n";
+                // Check boxes are processed in here...
+                boolean checkboxes = processListItems(list);
+                String classAttrib = "";
 
-                return html;
+                if (checkboxes)
+                {
+                    classAttrib = "checkbox";
+                }
+
+                if (classes != null)
+                {
+                    classAttrib = !classAttrib.isBlank() ? classAttrib + " " + classes : classes;
+                }
+
+                // Trim any trailing whitespace, to put the closing `</ol>` or `</ul>`
+                // up on the preceding line, to get it past the current stupid
+                // HTML block parser. This is a hack to work around the terrible
+                // hack that is the HTML block parser.
+                list.val = list.val.replaceAll("\\s+$", "");
+
+                //
+                // Added 'class=' attribute for when list contains checkboxes.
+                //
+                // Bradley Willcott (13/12/2020)
+                //
+                return "<" + listType + addClass(classAttrib) + ">\n" + list + "</" + listType + ">\n";
             };
 
-            Pattern matchStartOfLine = compile("^" + wholeList, MULTILINE);
+            Pattern matchStartOfLine = compile("^(?:" + CLASS_REGEX + "[ ]*\\n)?" + wholeList, MULTILINE);
             text.replaceAll(matchStartOfLine, replacer);
         } else
         {
             Replacement replacer = (Matcher m) ->
             {
+                //
+                // Changed 'list' from String to StringReturn class for use
+                // with: processListItems(list).
+                //
+                // Bradley Willcott (13/12/2020)
+                //
+                StringReturn list = new StringReturn(m.group("list"));
                 String id = m.group("id");
-                String list = m.group("list");
+                String classes = m.group("classes");
                 String listType = (m.group("listType").matches("[*+-]") ? "ul" : "ol");
 
                 // Turn double returns into triple returns, so that we can make a
                 // paragraph for the last item in a list, if necessary:
-                list = replaceAll(list, "\n{2,}", "\n\n\n");
+                list.val = replaceAll(list.val, "\n{2,}", "\n\n\n");
 
-                String result = processListItems(list);
+                // Check boxes are processed in here...
+                boolean checkboxes = processListItems(list);
+                String classAttrib = "";
+
+                if (checkboxes)
+                {
+                    classAttrib = "checkbox";
+                }
+
+                if (classes != null)
+                {
+                    classAttrib = !classAttrib.isBlank() ? classAttrib + " " + classes : classes;
+                }
 
                 if (id == null)
                 {
@@ -695,12 +843,15 @@ public class MarkdownProcessor {
                     id = addId(id);
                 }
 
-                String html = "<" + listType + id + ">\n" + result + "</" + listType + ">\n";
-
-                return html;
+                //
+                // Added 'class=' attribute for when list contains checkboxes.
+                //
+                // Bradley Willcott (13/12/2020)
+                //
+                return "<" + listType + id + addClass(classAttrib) + ">\n" + list + "</" + listType + ">\n";
             };
 
-            Pattern matchStartOfLine = compile("(?:(?<=\\n\\n)|\\A\\n?)(?:" + ID_REGEX_OPT + "[ ]*\\n)?" + wholeList, MULTILINE);
+            Pattern matchStartOfLine = compile("(?:(?<=^\\n)|\\A\\n?)(?:" + ID_REGEX_OPT + CLASS_REGEX + "[ ]*\\n)?" + wholeList, MULTILINE);
             text.replaceAll(matchStartOfLine, replacer);
         }
 
@@ -1043,15 +1194,33 @@ public class MarkdownProcessor {
         return leadingLine == null || leadingLine.isEmpty();
     }
 
-    private void processCheckBoxes(TextEditor item) {
-        String regex = "^\\[(?<checked>[ xX])\\](?<disabled>[!])?(?<text>[ ]+[^ ]+.*)\\n";
-        Pattern p = compile(regex);
+    /**
+     * Process check boxes.
+     * <p>
+     * Each check box can have a class attribute:
+     * <pre><code>
+     * - [ ][myClass] This is my line.
+     * </code></pre>
+     * will produce html like this:
+     * <pre><code>
+     * &lt;li class="myClass"&gt;&lt;input type="checkbox"&gt;This is my line.&lt;/li&gt;
+     * </code></pre>
+     *
+     * @param item        to be processed.
+     * @param classString returns the value of the 'class' text, if any.
+     *
+     * @return {@code true} if check box found, {@code false} otherwise.
+     */
+    private boolean processCheckBoxes(TextEditor item, StringReturn classString) {
+        final String regex = "^\\[(?<checked>[ xX])\\](?<disabled>[!])?" + CLASS_REGEX + "[ ]+(?<text>[^ ]+.*)\\n";
+        final Pattern p = compile(regex);
 
         Replacement processCheckBox = (Matcher m) ->
         {
             StringBuilder sb = new StringBuilder("<input type=\"checkbox\"");
             String checked = m.group("checked");
             String disabled = m.group("disabled");
+            classString.val = m.group("classes");
             String text = m.group("text");
 
             if (!checked.isBlank())
@@ -1070,6 +1239,7 @@ public class MarkdownProcessor {
         };
 
         item.replaceAll(p, processCheckBox);
+        return item.wasFound();
     }
 
     private String processGroupText(String text) {
@@ -1083,7 +1253,53 @@ public class MarkdownProcessor {
         }
     }
 
-    private String processListItems(String list) {
+    /**
+     * Process list items with a class attribute.
+     * <p>
+     * Each line item can have its own class attribute:
+     * <pre><code>
+     * - [myClass] This is my line.
+     * - [yourClass] This is your line.
+     * </code></pre>
+     * will produce html like this:
+     * <pre><code>
+     * &lt;li class="myClass"&gt;This is my line.&lt;/li&gt;
+     * &lt;li class="yourClass"&gt;This is your line.&lt;/li&gt;
+     * </code></pre>
+     *
+     * @param item        to be processed.
+     * @param classString returns the value of the 'class' text, if any.
+     *
+     * @since 14/12/2020.
+     */
+    private void processListItemsWithAClass(TextEditor item, StringReturn classString) {
+        final String regex = "^" + CLASS_REGEX + "[ ]+(?<text>[^ ]+.*)\\n";
+        final Pattern p = compile(regex);
+
+        Replacement processClass = (Matcher m) ->
+        {
+            StringBuilder sb = new StringBuilder();
+            classString.val = m.group("classes");
+            String text = m.group("text");
+
+            sb.append(text).append("\n");
+
+            return sb.toString();
+        };
+
+        item.replaceAll(p, processClass);
+    }
+
+    /**
+     * Process list items.
+     * <p>
+     * Includes 'Check Boxes' and items with a 'class' attribute.
+     *
+     * @param list Text to be processed and then returns the modified text.
+     *
+     * @return {@code true} if any check boxes found, {@code false} otherwise.
+     */
+    private boolean processListItems(final StringReturn list) {
         // The listLevel variable keeps track of when we're inside a list.
         // Each time we enter a list, we increment it; when we leave a list,
         // we decrement. If it's zero, we're not in a list anymore.
@@ -1105,37 +1321,41 @@ public class MarkdownProcessor {
         // change the syntax rules such that sub-lists must start with a
         // starting cardinal number; e.g. "1." or "a.".
         listLevel++;
+        final BooleanReturn rtn = new BooleanReturn();
 
         // Trim trailing blank lines:
-        list = replaceAll(list, "\\n{2,}\\z", "\n");
+        list.val = replaceAll(list.val, "\\n{2,}\\z", "\n");
 
         Pattern p = compile("(\\n)?"
                             + "^([ ]*)([-+*]|\\d+[.])[ ]+"
                             + "((?s:.+?)(\\n{1,2}))"
                             + "(?=\\n*(\\z|\\2([-+*]|\\d+[.])[ ]+))",
                             MULTILINE);
-        list = replaceAll(list, p, (Matcher m) ->
-                  {
-                      String text = m.group(4);
-                      TextEditor item = new TextEditor(text);
-                      String leadingLine = m.group(1);
-
-                      if (!isEmptyString(leadingLine) || hasParagraphBreak(item))
+        list.val = replaceAll(list.val, p, (Matcher m) ->
                       {
-                          item = runBlockGamut(item.outdent());
-                      } else
-                      {
-                          doExtendedListOptions(item);
-                          // Recurse sub-lists
-                          item = doLists(item.outdent());
-                          item = runSpanGamut(item);
-                      }
+                          String text = m.group(4);
+                          TextEditor item = new TextEditor(text);
+                          String leadingLine = m.group(1);
+                          StringReturn classRtn = new StringReturn();
 
-                      return "<li>" + item.trim().toString() + "</li>\n";
-                  });
+                          if (!isEmptyString(leadingLine) || hasParagraphBreak(item))
+                          {
+                              item = runBlockGamut(item.outdent());
+                          } else
+                          {
+                              rtn.val |= doExtendedListOptions(item, classRtn);
+                              // Recurse sub-lists
+                              item = doLists(item.outdent());
+                              item = runSpanGamut(item);
+                          }
+
+                          return "<li"
+                                 + (classRtn.val != null && !classRtn.val.isBlank() ? addClass(classRtn.val) : "")
+                                 + ">" + item.trim().toString() + "</li>\n";
+                      });
 
         listLevel--;
-        return list;
+        return rtn.val;
     }
 
     private String replaceAll(String text, String regex, String replacement) {
