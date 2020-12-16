@@ -6,7 +6,7 @@ title: MDj Core Library | Fenced Code Blocks
 @@@
 
 
-##[#top] Fenced Code Blocks
+## Fenced Code Blocks
 
 The idea was taken from the [GitHub Flavored Markdown Spec][gfms]!.  
 However, I have made this spec somewhat tighter than the GFMS.
@@ -104,15 +104,50 @@ Some more code
 </pre>
 
 
-Check out these [examples]. [&uarr;](#top)
+Check out these examples: [![Go to](etc/32px-Go-next.png)][ex][@icon] [&uarr;](#top)
 
 [gfms]:https://github.github.com/gfm/#fenced-code-blocks
 [info-string]:https://github.github.com/gfm/#info-string
-[examples]:examples/Fenced Code Blocks (examples).html
+[ex]:examples/Fenced Code Blocks (examples).html "More examples..."
+
 
 @@@[navbar]
+- [Home]
+- [@dropdown subactive] [Code Blocks][@dropbtn](#)
+[@dropdown-content]
+    - [@active] [Fenced Code Blocks](#)
+- [@dropdown] [Lists][@dropbtn]
+[@dropdown-content]
+    - [Lists (Enhanced)]
+- [@dropdown] [Text][@dropbtn](#)
+[@dropdown-content]
+    - [Ampersands]
+    - [Headings (Enhanced)]
+    - [Paragraph (Enhanced)]
+    - [Text Embellishments]
+- [@dropdown] [More...][@dropbtn](#)
+[@dropdown-content]
+    - [Links (Enhanced)]
+    - [Navigation Bar]
+    - [Tables]
+- [@right dropdown] [About][@dropbtn]
+[@dropdown-content]
+    - [ToDo List]
+    - [License]
 
-- [Home](index.html)
-- [@right] [About](About.html)
 
+[About]:About.html
+[Ampersands]:Ampersands.html
+[Fenced Code Blocks]:Fenced Code Blocks.html
+[Headings (Enhanced)]:Headings (Enhanced).html
+[Home]:index.html
+[License]:LICENSE.html
+[Links (Enhanced)]:Links (Enhanced).html
+[Lists]:Lists.html
+[Lists (Enhanced)]:Lists (Enhanced).html
+[Navigation Bar]:NavBar.html
+[Paragraph (Enhanced)]:Paragraph (Enhanced).html
+[Tables]:Tables.html
+[Text Embellishments]:Text Embellishments.html
+[ToDo List]:ToDo.html
 @@@

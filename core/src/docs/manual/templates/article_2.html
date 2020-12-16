@@ -1,8 +1,9 @@
-<html lang="en-us">
+<html lang="en-us" id="top">
     <head>
         <title>${page.title}</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <base href="${page.base}">
         <link rel="stylesheet" type="text/css" href="${page.stylesheet}">
         <link rel="stylesheet" type="text/css" href="${page.navstyle}">
         <link rel="icon" type="image/png" href="${document.icon}">
@@ -10,11 +11,11 @@
     <body>
         <article>
             <header>
-                ${document.name}
+                <p>${document.title}</p>
                 ${page.navbar}
             </header>
             ${page.content}
-            <footer>
+            <footer id="bottom">
                 <hr>
                 ${document.copyright}<br>
                 Last updated: ${system.date}

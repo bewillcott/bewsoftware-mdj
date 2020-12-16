@@ -16,17 +16,17 @@ title: MDj Core Library | ToDo List
 `|Col1|Col2|Col3|\[First Cell]\[Middle Cells]\[Last Cell]`
 - [ ]! Improve access to the manual.
 - [ ]! Add bracketed option to tags where useful: `[]`.
-    - [x]! (20/02/2020) Added to [Fenced Code Blocks][fcb]
+    - [x]! (20/02/2020) Added to [Fenced Code Blocks]
     - [x]! (21/02/2020) Added to [Tables]
-    - [x]! (21/02/2020) Added to [Headings]
+    - [x]! (21/02/2020) Added to [Headings (Enhanced)]
     - [x]! (21/02/2020) Added to [Lists]
 - [ ]! Add `id=""` as option for all tags with bracketed option `[#_id_]`.
-    - [x]! (20/02/2020) Added to [Fenced Code Blocks][fcb]
+    - [x]! (20/02/2020) Added to [Fenced Code Blocks]
     - [x]! (21/02/2020) Added to [Tables]
-    - [x]! (21/02/2020) Added to [Headings]
+    - [x]! (21/02/2020) Added to [Headings (Enhanced)]
     - [x]! (21/02/2020) Added to [Lists]
     - [x]! (16/03/2020) Added to paragraphs: `[#idtext]`
-- [x]! (21/02/2020) Added separate link option to [Headings].
+- [x]! (21/02/2020) Added separate link option to [Headings (Enhanced)].
 - [ ]! Add `<del>` and `<ins>`: 
     - [x]! (14/03/2020) `-!old words!` == `<del>old words</del>`.
     - [x]! (14/03/2020) `+!new words!` == `<ins>new words</ins>`.
@@ -45,16 +45,49 @@ title: MDj Core Library | ToDo List
 and keeps the brackets.
 
 [1]:#1
-[fcb]:Fenced Code Blocks.html
-[Headings]:Headings.html
-[Home]:index.html
-[Links]:Links.html
-[Lists]:lists.html
+[Fenced Code Blocks]:Fenced Code Blocks.html
+[Headings (Enhanced)]:Headings (Enhanced).html
+[Links (Enhanced)]:Links (Enhanced).html
+[Lists]:Lists (Enhanced).html
 [Tables]:Tables.html
 
 @@@[navbar]
+- [Home]
+- [@dropdown] [Code Blocks][@dropbtn](#)
+[@dropdown-content]
+    - [Fenced Code Blocks]
+- [@dropdown] [Lists][@dropbtn]
+[@dropdown-content]
+    - [Lists (Enhanced)]
+- [@dropdown] [Text][@dropbtn](#)
+[@dropdown-content]
+    - [Ampersands]
+    - [Headings (Enhanced)]
+    - [Paragraph (Enhanced)]
+    - [Text Embellishments]
+- [@dropdown] [More...][@dropbtn](#)
+[@dropdown-content]
+    - [Links (Enhanced)]
+    - [Navigation Bar]
+    - [Tables]
+- [@right dropdown subactive] [About][@dropbtn]
+[@dropdown-content]
+    - [@active] [ToDo List](#)
+    - [License]
 
-- [Home](index.html)
-- [@right] [About](About.html)
 
+[About]:About.html
+[Ampersands]:Ampersands.html
+[Fenced Code Blocks]:Fenced Code Blocks.html
+[Headings (Enhanced)]:Headings (Enhanced).html
+[Home]:index.html
+[License]:LICENSE.html
+[Links (Enhanced)]:Links (Enhanced).html
+[Lists]:Lists.html
+[Lists (Enhanced)]:Lists (Enhanced).html
+[Navigation Bar]:NavBar.html
+[Paragraph (Enhanced)]:Paragraph (Enhanced).html
+[Tables]:Tables.html
+[Text Embellishments]:Text Embellishments.html
+[ToDo List]:ToDo.html
 @@@
