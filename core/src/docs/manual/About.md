@@ -1,50 +1,34 @@
 @@@
-
-use: articles2
-title: MDj Core Library | Text Embellishments
-
+use : articles2
+title: ${program.title} | About
 @@@
 
+##[#top] About
+TODO: Fill this in...
 
-### Paragraph (Enhanced)
-
-To add an "`id`" attribute to a paragraph, just put it[#pid] anywhere within the
-paragraph.  If there is more than one, only the first one matters.  All will be
-[#pid2] removed from the final formatted text.
-
-Then to setup a link to go to the previous [paragraph](#pid).
-
-The following is the raw text that produced the above:
-~~~
-To add an "`id`" attribute to a paragraph, just put it[#pid] anywhere within the
-paragraph.  If there is more than one, only the first one matters.  All will be
-[#pid2] removed from the final formatted text.
-
-Then to setup a link to go to the previous [paragraph](#pid).
-~~~
 
 
 
 @@@[navbar]
-- [Home]
+-  [Home]
 - [@dropdown] [Code Blocks][@dropbtn](#)
 [@dropdown-content]
     - [Fenced Code Blocks]
 - [@dropdown] [Lists][@dropbtn]
 [@dropdown-content]
     - [Lists (Enhanced)]
-- [@dropdown subactive] [Text][@dropbtn](#)
+- [@dropdown] [Text][@dropbtn](#)
 [@dropdown-content]
     - [Ampersands]
     - [Headings (Enhanced)]
-    - [@active] [Paragraph (Enhanced)](#)
+    - [Paragraph (Enhanced)]
     - [Text Embellishments]
 - [@dropdown] [More...][@dropbtn](#)
 [@dropdown-content]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown] [About][@dropbtn]
+- [@right dropdown active] [About][@dropbtn](#)
 [@dropdown-content]
     - [ToDo List]
     - [License]

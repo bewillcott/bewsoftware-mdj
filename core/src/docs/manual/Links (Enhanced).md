@@ -1,15 +1,12 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Links and Auto Links
 
 @@@
 
-[Home]
 
----
-
-## Links and Auto Links
+## Links and Auto Links (Enhanced)
 
 ### What's New
 
@@ -21,7 +18,7 @@ title: MDj Core Library | Links and Auto Links
     it easy to go back and forth between them, or just getting back to where
     you left off.
 
-Check out these examples: [&rarr;][ex]
+Check out these examples: [![Go to](etc/32px-Go-next.png)][ex][@icon]
 
 ### Footnote Links
 
@@ -44,5 +41,46 @@ favorite word processor does when you insert a _footnote_.
 
 [1]:Text Embellishments.html "You can find more on Superscripting here"
 [2]:#fn1
-[ex]:examples/Links and Auto Links (examples).html
+[ex]:examples/Links and Auto Links (examples).html "Examples... "
+
+
+@@@[navbar]
+- [Home]
+- [@dropdown] [Code Blocks][@dropbtn](#)
+[@dropdown-content]
+    - [Fenced Code Blocks]
+- [@dropdown] [Lists][@dropbtn]
+[@dropdown-content]
+    - [Lists (Enhanced)]
+- [@dropdown] [Text][@dropbtn](#)
+[@dropdown-content]
+    - [Ampersands]
+    - [Headings (Enhanced)]
+    - [Paragraph (Enhanced)]
+    - [Text Embellishments]
+- [@dropdown subactive] [More...][@dropbtn](#)
+[@dropdown-content]
+    - [@active] [Links (Enhanced)](#)
+    - [Navigation Bar]
+    - [Tables]
+- [@right dropdown] [About][@dropbtn]
+[@dropdown-content]
+    - [ToDo List]
+    - [License]
+
+
+[About]:About.html
+[Ampersands]:Ampersands.html
+[Fenced Code Blocks]:Fenced Code Blocks.html
+[Headings (Enhanced)]:Headings (Enhanced).html
 [Home]:index.html
+[License]:LICENSE.html
+[Links (Enhanced)]:Links (Enhanced).html
+[Lists]:Lists.html
+[Lists (Enhanced)]:Lists (Enhanced).html
+[Navigation Bar]:NavBar.html
+[Paragraph (Enhanced)]:Paragraph (Enhanced).html
+[Tables]:Tables.html
+[Text Embellishments]:Text Embellishments.html
+[ToDo List]:ToDo.html
+@@@

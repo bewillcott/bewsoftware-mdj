@@ -1,28 +1,30 @@
 @@@
 
 use: articles2
-title: MDj Core Library | Text Embellishments
+title: MDj Core Library | TOC
 
 @@@
 
+## NavBar
+The navigation bar.
 
-### Paragraph (Enhanced)
+```
+\@@@[navbar]
+- [Home]
+- [@active] [Navigation Bar](#)
+- [@dropdown] [Lists][@dropbtn]
+[@dropdown-content]
+    - [Link 1](#)
+    - [Link 2](#)
+    - [Link 3](#)
+- [@right] [About]
 
-To add an "`id`" attribute to a paragraph, just put it[#pid] anywhere within the
-paragraph.  If there is more than one, only the first one matters.  All will be
-[#pid2] removed from the final formatted text.
-
-Then to setup a link to go to the previous [paragraph](#pid).
-
-The following is the raw text that produced the above:
-~~~
-To add an "`id`" attribute to a paragraph, just put it[#pid] anywhere within the
-paragraph.  If there is more than one, only the first one matters.  All will be
-[#pid2] removed from the final formatted text.
-
-Then to setup a link to go to the previous [paragraph](#pid).
-~~~
-
+\[Home]:index.html
+\[Lists]:Lists.html
+\[Navigation Bar]:NavBar.html
+\[About]:About.html
+@@@
+```
 
 
 @@@[navbar]
@@ -33,16 +35,16 @@ Then to setup a link to go to the previous [paragraph](#pid).
 - [@dropdown] [Lists][@dropbtn]
 [@dropdown-content]
     - [Lists (Enhanced)]
-- [@dropdown subactive] [Text][@dropbtn](#)
+- [@dropdown] [Text][@dropbtn](#)
 [@dropdown-content]
     - [Ampersands]
     - [Headings (Enhanced)]
-    - [@active] [Paragraph (Enhanced)](#)
+    - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown] [More...][@dropbtn](#)
+- [@dropdown subactive] [More...][@dropbtn](#)
 [@dropdown-content]
     - [Links (Enhanced)]
-    - [Navigation Bar]
+    - [@active] [Navigation Bar](#)
     - [Tables]
 - [@right dropdown] [About][@dropbtn]
 [@dropdown-content]

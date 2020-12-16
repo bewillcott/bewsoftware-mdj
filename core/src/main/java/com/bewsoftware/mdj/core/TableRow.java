@@ -1,7 +1,35 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2020, Bradley Willcott.
+ * <http://www.bewsoftware.com>
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ *  - Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ *
+ *  - Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ *  - Neither the name "Markdown" nor the names of its contributors may
+ *    be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * This software is provided by the copyright holders and contributors "as
+ * is" and any express or implied warranties, including, but not limited
+ * to, the implied warranties of merchantability and fitness for a
+ * particular purpose are disclaimed. In no event shall the copyright owner
+ * or contributors be liable for any direct, indirect, incidental, special,
+ * exemplary, or consequential damages (including, but not limited to,
+ * procurement of substitute goods or services; loss of use, data, or
+ * profits; or business interruption) however caused and on any theory of
+ * liability, whether in contract, strict liability, or tort (including
+ * negligence or otherwise) arising in any way out of the use of this
+ * software, even if advised of the possibility of such damage.
  */
 package com.bewsoftware.mdj.core;
 
@@ -34,69 +62,87 @@ class TableRow {
         tr.length = tr.cells.length;
         String attrib = tr.cells[tr.length - 1];
 
-        if (attrib.startsWith("[") && attrib.endsWith("]")) {
-            if (attrib.length() == 2) {
+        if (attrib.startsWith("[") && attrib.endsWith("]"))
+        {
+            if (attrib.length() == 2)
+            {
                 tr.status.setBorder();
-            } else {
+            } else
+            {
                 tr.classes = attrib;
                 tr.status.setClasses();
             }
         }
 
-        if (tr.status.hasAttribute()) {
+        if (tr.status.hasAttribute())
+        {
             tr.length -= 1;
 
-            if (tr.status.hasClasses()) {
-                if (tr.classes.substring(1, attrib.length() - 1).trim().matches("^\\d+$")) {
+            if (tr.status.hasClasses())
+            {
+                if (tr.classes.substring(1, attrib.length() - 1).trim().matches("^\\d+$"))
+                {
                     tr.borderWidth = parseInt(tr.classes.substring(1, attrib.length() - 1).trim());
                     tr.status.setBorder();
-                } else {
+                } else
+                {
                     Matcher m = Pattern.compile("^(?:\\[#(?<id>\\w+)\\])?$").matcher(tr.classes);
 
-                    if (m.find()) {
+                    if (m.find())
+                    {
                         tr.id = m.group("id");
                         tr.status.setId();
                         tr.status.unsetClasses();
 
-                    } else {
+                    } else
+                    {
                         Matcher m2 = Pattern.compile("^(?:\\[#(?<id>\\w*)?\\])?"
                                                      + "\\[(?<border>(?<borderWidth>\\d+)"
                                                      + "(?:(?:[, ][ ]*)(?<cellPadding>\\d+))?)?\\]$")
                                 .matcher(tr.classes);
 
-                        if (m2.find()) {
+                        if (m2.find())
+                        {
                             tr.id = m2.group("id");
 
-                            if (tr.id != null && !tr.id.isBlank()) {
+                            if (tr.id != null && !tr.id.isBlank())
+                            {
                                 tr.status.setId();
                             }
 
                             String border = m2.group("border");
 
-                            if (border == null) {
+                            if (border == null)
+                            {
                                 tr.status.setBorder();
-                            } else {
+                            } else
+                            {
                                 tr.borderWidth = parseInt(m2.group("borderWidth"));
                                 String cellPadding = m2.group("cellPadding");
 
-                                if (cellPadding != null) {
+                                if (cellPadding != null)
+                                {
                                     tr.cellPadding = parseInt(cellPadding);
                                 }
 
                                 tr.status.setBorder();
                             }
-                        } else {
-                            Matcher m3 = Pattern.compile("^(?:\\[#(?<id>\\w*)?\\])?\\[(?<classes>[^\\]]+)\\]$").matcher(tr.classes);
+                        } else
+                        {
+                            Matcher m3 = Pattern.compile("^(?:\\[#(?<id>\\w*)?\\])?\\[@(?<classes>[^\\]]+)\\]$").matcher(tr.classes);
 
-                            if (m3.find()) {
+                            if (m3.find())
+                            {
                                 tr.id = m3.group("id");
 
-                                if (tr.id != null && !tr.id.isBlank()) {
+                                if (tr.id != null && !tr.id.isBlank())
+                                {
                                     tr.status.setId();
                                 }
 
                                 tr.classes = m3.group("classes");
-                            } else {
+                            } else
+                            {
                                 tr.status.unsetClasses();
                             }
                         }
@@ -138,9 +184,11 @@ class TableRow {
      * @return Contents of the indexed cell.
      */
     public String getCell(int index) {
-        if (index >= 0 && index < length) {
+        if (index >= 0 && index < length)
+        {
             return cells[index];
-        } else {
+        } else
+        {
             throw new IndexOutOfBoundsException(index);
         }
     }
@@ -168,10 +216,10 @@ class TableRow {
     /**
      * Returns the text of the id parsed from the row text.
      * <p>
-     * You might want to test {@link #has} before calling this method.
+     * You might want to test {@link #hasId()} before calling this method.
      * </p>
      *
-     * @return Either the classes text, or {@code null} if not set.
+     * @return Either the id text, or {@code null} if not set.
      */
     public String getId() {
         return hasId() ? id : null;
@@ -237,11 +285,14 @@ class TableRow {
     public boolean setCell(int index, String text) {
         boolean rtn = false;
 
-        if (!readOnly) {
-            if (index >= 0 && index < length) {
+        if (!readOnly)
+        {
+            if (index >= 0 && index < length)
+            {
                 cells[index] = text;
                 rtn = true;
-            } else {
+            } else
+            {
                 throw new IndexOutOfBoundsException(index);
             }
         }
@@ -264,7 +315,8 @@ class TableRow {
      * attribute is set to '0' (zero).
      */
     void clearAttributes() {
-        if (!readOnly) {
+        if (!readOnly)
+        {
             status.clear();
 
         }
@@ -298,7 +350,8 @@ class TableRow {
         }
 
         public void unsetBorder() {
-            if (hasBorder()) {
+            if (hasBorder())
+            {
                 status ^= BORDER;
             }
         }
@@ -313,7 +366,8 @@ class TableRow {
         }
 
         public void unsetClasses() {
-            if (hasClasses()) {
+            if (hasClasses())
+            {
                 status ^= CLASSES;
             }
         }
@@ -327,7 +381,8 @@ class TableRow {
         }
 
         public void unsetId() {
-            if (hasId()) {
+            if (hasId())
+            {
                 status ^= ID;
             }
         }

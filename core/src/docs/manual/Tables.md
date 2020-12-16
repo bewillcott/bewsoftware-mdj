@@ -1,14 +1,11 @@
 @@@
 
-use: articles
+use: articles2
 title: MDj Core Library | Tables
-stylesheet: style_no-table.css
+stylesheet: darkstyle_no-table.css
 
 @@@
 
-[Home]
-
----
 
 [#contents]
 - Tables
@@ -53,7 +50,7 @@ This would be the table's caption.
 | Left | Center |Right|Justified|[]
 | Row 2 | More text || |[]
 
-###[#tableEnh] Enhanced ### [&uarr;](#contents)
+###[#tableEnh] Enhanced ### [&uarr;](#top)
 
 Now you can add a caption. But wait, there's more.  It can have  the same type
 of borders as your "`<table>`".
@@ -119,7 +116,7 @@ ___Bulk Purchases___
 | Milk    | 5   | 10.00  |  50.00 |
 | Totals  | 25  |        | 235.00 |[2,6]
 
-###[#next] What's next you might ask? ###[*](#gt)  [&uarr;](#contents)
+###[#next] What's next you might ask? ###[*](#gt)  [&uarr;](#top)
 
 Well how about adding an _id_ to the table, or even a row?  By adding the _id_
 to the delimiter row, it gets added to the "`<table>`" tag.
@@ -144,30 +141,70 @@ This is a great table
 | Finished | Fini |[2]
 
 
-###[#now] Now a look at classes ### [*](#great) [&uarr;](#contents)
+###[#now] Now a look at classes ### [*](#great) [&uarr;](#top)
 
 In true CSS format, you can use classes to set the styling of your table and it's
 rows.
 ```
 This is an even greater table
-| Left Foot | Right Foot |[tbHeader]
-| :--- | ---: |[#great][tbSetting]
-| Up | down |[tbRow]
+| Left Foot | Right Foot |[@tbHeader]
+| :--- | ---: |[#great][@tbSetting]
+| Up | down |[@tbRow]
 | Up | Up |
 | Down | Up |
 | Down | Down |
-| Finished | Fini |[#end][tbTotal]
+| Finished | Fini |[#end][@tbTotal]
 ```
 
 This is an even greater table
-| Left Foot | Right Foot |[tbHeader]
-| :--- | ---: |[#great][tbSetting]
-| Up | down |[tbRow]
+| Left Foot | Right Foot |[@tbHeader]
+| :--- | ---: |[#great][@tbSetting]
+| Up | down |[@tbRow]
 | Up | Up |
 | Down | Up |
 | Down | Down |
-| Finished | Fini |[#end][tbTotal]
+| Finished | Fini |[#end][@tbTotal]
 
 _Check out the source of this page in your browser._
 
+
+@@@[navbar]
+- [Home]
+- [@dropdown] [Code Blocks][@dropbtn](#)
+[@dropdown-content]
+    - [Fenced Code Blocks]
+- [@dropdown] [Lists][@dropbtn]
+[@dropdown-content]
+    - [Lists (Enhanced)]
+- [@dropdown] [Text][@dropbtn](#)
+[@dropdown-content]
+    - [Ampersands]
+    - [Headings (Enhanced)]
+    - [Paragraph (Enhanced)]
+    - [Text Embellishments]
+- [@dropdown subactive] [More...][@dropbtn](#)
+[@dropdown-content]
+    - [Links (Enhanced)]
+    - [Navigation Bar]
+    - [@active] [Tables](#)
+- [@right dropdown] [About][@dropbtn]
+[@dropdown-content]
+    - [ToDo List]
+    - [License]
+
+
+[About]:About.html
+[Ampersands]:Ampersands.html
+[Fenced Code Blocks]:Fenced Code Blocks.html
+[Headings (Enhanced)]:Headings (Enhanced).html
 [Home]:index.html
+[License]:LICENSE.html
+[Links (Enhanced)]:Links (Enhanced).html
+[Lists]:Lists.html
+[Lists (Enhanced)]:Lists (Enhanced).html
+[Navigation Bar]:NavBar.html
+[Paragraph (Enhanced)]:Paragraph (Enhanced).html
+[Tables]:Tables.html
+[Text Embellishments]:Text Embellishments.html
+[ToDo List]:ToDo.html
+@@@

@@ -39,5 +39,6 @@
  * @version 0.6.2
  */
 module MdjCore {
+    requires BEWUtils;
     exports com.bewsoftware.mdj.core;
 }

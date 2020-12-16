@@ -1,28 +1,40 @@
 @@@
 
 use: articles2
-title: MDj Core Library | Text Embellishments
+title: MDj Core Library | Headings (Enhanced)
 
 @@@
 
 
-### Paragraph (Enhanced)
+## Headings (Enhanced)
 
-To add an "`id`" attribute to a paragraph, just put it[#pid] anywhere within the
-paragraph.  If there is more than one, only the first one matters.  All will be
-[#pid2] removed from the final formatted text.
+Headings now have the following additional options:
 
-Then to setup a link to go to the previous [paragraph](#pid).
+- You can set an "`id=""`" for each as needed.
+- You can add a link to the end of the heading text.
 
-The following is the raw text that produced the above:
+**Note:** This is not available with the dashed "`----`" and equals "`====`"
+versions of headings.
+
 ~~~
-To add an "`id`" attribute to a paragraph, just put it[#pid] anywhere within the
-paragraph.  If there is more than one, only the first one matters.  All will be
-[#pid2] removed from the final formatted text.
-
-Then to setup a link to go to the previous [paragraph](#pid).
+#[#main] The main heading
 ~~~
+Produces this:
+~~~
+<h1 id="main">The main heading</h1>
+~~~
+Results in this:
+#[#main] The main heading
 
+~~~
+## Sub heading ## [&uarr;](#main)
+~~~
+Produces this:
+~~~
+<h2>Sub heading <a href="#main">&uarr;</a></h2>
+~~~
+Results in this:
+## Sub heading ## [&uarr;](#main)
 
 
 @@@[navbar]
@@ -36,8 +48,8 @@ Then to setup a link to go to the previous [paragraph](#pid).
 - [@dropdown subactive] [Text][@dropbtn](#)
 [@dropdown-content]
     - [Ampersands]
-    - [Headings (Enhanced)]
-    - [@active] [Paragraph (Enhanced)](#)
+    - [@active] [Headings (Enhanced)](#)
+    - [Paragraph (Enhanced)]
     - [Text Embellishments]
 - [@dropdown] [More...][@dropbtn](#)
 [@dropdown-content]

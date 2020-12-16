@@ -125,21 +125,20 @@ In true ccs format, you can use classes to set the styling of your table and it'
 rows.
 ```
 This is an even greater table
-| Left Foot | Right Foot |[tableHeader]
+| Left Foot | Right Foot |[@tableHeader]
 | :--- | ---: |[#great]
-| Up | down |[tbRow]
+| Up | down |[@tbRow]
 | Up | Up |
 | Down | Up |
 | Down | Down |
-| Finished | Fini |[#end][tbTotal]
+| Finished | Fini |[#end][@tbTotal]
 ```
 
 This is an even greater table
-| Left Foot | Right Foot |[tableHeader]
+| Left Foot | Right Foot |[@tableHeader]
 | :--- | ---: |[#great]
-| Up | down |[tbRow]
+| Up | down |[@tbRow]
 | Up | Up |
 | Down | Up |
 | Down | Down |
-| Finished | Fini |[#end][tbTotal]
-
+| Finished | Fini |[#end][@tbTotal]
