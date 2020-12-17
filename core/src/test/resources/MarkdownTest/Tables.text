@@ -23,7 +23,7 @@ Example 200:
 | abc | def |
 | --- | --- |
 | bar | baz |
-~~~[prettyprint][language-java]
+~~~[@prettyprint][@language-java]
 public String toPrint(){
     return "Hello World!";
 }

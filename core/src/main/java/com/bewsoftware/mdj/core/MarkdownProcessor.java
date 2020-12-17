@@ -64,13 +64,13 @@ import static com.bewsoftware.mdj.core.Attributes.addStyle;
 public class MarkdownProcessor {
 
     private static final CharacterProtector CHAR_PROTECTOR = new CharacterProtector();
+    private static final String CLASS_REGEX = "(?:\\[@(?<classes>\\p{Alpha}[^\\]]+)\\])?";
     private static final String CODE_BLOCK_BEGIN = "-=: ";
     private static final String CODE_BLOCK_END = " :=-";
     private static final CharacterProtector HTML_PROTECTOR = new CharacterProtector();
     private static final String ID_REGEX = "(?:\\[#(?<id>\\w+)\\])";
     private static final String ID_REGEX_OPT = "(?:\\[#(?<id>\\w+)\\])?";
     private static final String LANG_IDENTIFIER = "lang:";
-    private static final String CLASS_REGEX = "(?:\\[@(?<classes>[^\\]]+)\\])?";
     private static final String TAG_ID = "\\[#\\w+\\]";
     private static final String TARGET = " target=\"" + CHAR_PROTECTOR.encode("_") + "blank\"";
 
@@ -142,7 +142,7 @@ public class MarkdownProcessor {
 
     private final Map<String, LinkDefinition> linkDefinitions = new TreeMap<>();
     private int listLevel;
-    private final String[] radioGroupNames = new String[100];
+//    private final String[] radioGroupNames = new String[100];
     private final Random rnd = new Random();
     private final int tabWidth = 4;
 
@@ -613,7 +613,7 @@ public class MarkdownProcessor {
         Pattern p1 = compile("(?<frontFence>^(?:[~]{3}|[`]{3}))"
                              + ID_REGEX_OPT
                              + "(?:[ ]*\\n"
-                             + "|(?<classes>\\[[^#]?[^\\]]*\\]\\[[^#]?[^\\]]*\\])?[ ]*\\n"
+                             + "|(?<classes>\\[(?:@\\p{Alpha}[^\\]]*)?\\]\\[(?:@\\p{Alpha}[^\\]]*)?\\])?[ ]*\\n"
                              + "|(?<class>" + LANG_IDENTIFIER + ".+)?\\n)?"
                              + "(?<body>(?:.*?\\n+)+?)"
                              + "(?:\\k<frontFence>)[ ]*\\n", MULTILINE);
@@ -1034,7 +1034,7 @@ public class MarkdownProcessor {
         Collection<HTMLToken> tokens = text.tokenizeHTML();
         TextEditor newText = new TextEditor("");
 
-        tokens.stream().map((token) ->
+        tokens.stream().map(token ->
         {
             String value = token.getText();
 
@@ -1047,10 +1047,7 @@ public class MarkdownProcessor {
             }
 
             return value;
-        }).forEachOrdered((value) ->
-        {
-            newText.append(value);
-        });
+        }).forEachOrdered(value -> newText.append(value));
 
         return newText;
     }
@@ -1154,7 +1151,6 @@ public class MarkdownProcessor {
             text.replaceAll(p2, protectHTML);
         } while (text.wasFound());
 
-//        text.replaceAll(p2, protectHTML);
         // Special case for <hr>
         Pattern p3 = compile("(?:"
                              + "(?<=\\n\\n)"
@@ -1254,43 +1250,6 @@ public class MarkdownProcessor {
     }
 
     /**
-     * Process list items with a class attribute.
-     * <p>
-     * Each line item can have its own class attribute:
-     * <pre><code>
-     * - [myClass] This is my line.
-     * - [yourClass] This is your line.
-     * </code></pre>
-     * will produce html like this:
-     * <pre><code>
-     * &lt;li class="myClass"&gt;This is my line.&lt;/li&gt;
-     * &lt;li class="yourClass"&gt;This is your line.&lt;/li&gt;
-     * </code></pre>
-     *
-     * @param item        to be processed.
-     * @param classString returns the value of the 'class' text, if any.
-     *
-     * @since 14/12/2020.
-     */
-    private void processListItemsWithAClass(TextEditor item, StringReturn classString) {
-        final String regex = "^" + CLASS_REGEX + "[ ]+(?<text>[^ ]+.*)\\n";
-        final Pattern p = compile(regex);
-
-        Replacement processClass = (Matcher m) ->
-        {
-            StringBuilder sb = new StringBuilder();
-            classString.val = m.group("classes");
-            String text = m.group("text");
-
-            sb.append(text).append("\n");
-
-            return sb.toString();
-        };
-
-        item.replaceAll(p, processClass);
-    }
-
-    /**
      * Process list items.
      * <p>
      * Includes 'Check Boxes' and items with a 'class' attribute.
@@ -1356,6 +1315,43 @@ public class MarkdownProcessor {
 
         listLevel--;
         return rtn.val;
+    }
+
+    /**
+     * Process list items with a class attribute.
+     * <p>
+     * Each line item can have its own class attribute:
+     * <pre><code>
+     * - [myClass] This is my line.
+     * - [yourClass] This is your line.
+     * </code></pre>
+     * will produce html like this:
+     * <pre><code>
+     * &lt;li class="myClass"&gt;This is my line.&lt;/li&gt;
+     * &lt;li class="yourClass"&gt;This is your line.&lt;/li&gt;
+     * </code></pre>
+     *
+     * @param item        to be processed.
+     * @param classString returns the value of the 'class' text, if any.
+     *
+     * @since 14/12/2020.
+     */
+    private void processListItemsWithAClass(TextEditor item, StringReturn classString) {
+        final String regex = "^" + CLASS_REGEX + "[ ]+(?<text>[^ ]+.*)\\n";
+        final Pattern p = compile(regex);
+
+        Replacement processClass = (Matcher m) ->
+        {
+            StringBuilder sb = new StringBuilder();
+            classString.val = m.group("classes");
+            String text = m.group("text");
+
+            sb.append(text).append("\n");
+
+            return sb.toString();
+        };
+
+        item.replaceAll(p, processClass);
     }
 
     private String replaceAll(String text, String regex, String replacement) {
@@ -1466,7 +1462,7 @@ public class MarkdownProcessor {
     }
 
     private void unEscapeSpecialChars(TextEditor ed) {
-        CHAR_PROTECTOR.getAllEncodedTokens().forEach((hash) ->
+        CHAR_PROTECTOR.getAllEncodedTokens().forEach(hash ->
         {
             String plaintext = CHAR_PROTECTOR.decode(hash);
             ed.replaceAllLiteral(hash, plaintext);
@@ -1529,13 +1525,11 @@ public class MarkdownProcessor {
                 out = genericCodeBlock(text);
             }
 
-            String rtn = "\n" + CODE_BLOCK_BEGIN + HTML_PROTECTOR.encode(out) + CODE_BLOCK_END + "\n";
-
-            return rtn;
+            return "\n" + CODE_BLOCK_BEGIN + HTML_PROTECTOR.encode(out) + CODE_BLOCK_END + "\n";
         }
 
         private String classesBlock(String classes, String text) {
-            Pattern p = compile("\\[(?<preClasses>[^\\]]*)?\\][ ]?\\[(?<codeClasses>[^\\]]*)?\\]");
+            Pattern p = compile("\\[(?:@(?<preClasses>\\p{Alpha}[^\\]]*)?)?\\]\\[(?:@(?<codeClasses>\\p{Alpha}[^\\]]*)?)?\\]");
             Matcher m2 = p.matcher(classes);
 
             if (m2.find())
