@@ -1,8 +1,8 @@
 @@@
 
-use: articles3
+use: articles2
 title: MDj Core Library | Lists - Enhanced
-width: 64em;
+
 @@@
 
 

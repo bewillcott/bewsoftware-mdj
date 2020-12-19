@@ -25,7 +25,7 @@
  */
 
 /**
- * MdjCore module provides the core functionality of the MDj library.
+ * This module provides the core functionality of the MDj library.
  *
  * This is a library of functions that provide for the processing of markdown
  * source files into static HTML files.
@@ -38,7 +38,7 @@
  * @since 0.6.2
  * @version 0.6.2
  */
-module MdjCore {
-    requires BEWUtils;
+module bewsoftware.mdj.core {
+    requires bewsoftware.utils;
     exports com.bewsoftware.mdj.core;
 }
