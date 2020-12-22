@@ -17,6 +17,8 @@ title: MDj Core Library | ToDo List
     `\&nbsp;\&nbsp;\&nbsp;\&nbsp;: another definition`
     - [ ]! Abbreviations: `*[text]: Full text`
     - [ ]! Foornote: `[^n]: Footnote text`
+- [ ]! Add class attribute where useful: `[@<classname>]`.
+    -[x]! [Links (Enhanced)]
 - [x]! (14/03/2020) Added superscripted footnote references.  
 `[d%]` - d% must be a valid decimal number.
 - [x]! (16/03/2020) Added footnote links[1]

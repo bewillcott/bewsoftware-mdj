@@ -17,6 +17,7 @@ title: MDj Core Library | Links and Auto Links
     window.  This leaves your original page still open where you left it, making
     it easy to go back and forth between them, or just getting back to where
     you left off.
+- Links can now have a class attribute with one or more classes: `[@<classname>]`
 
 Check out these examples: [![Go to](etc/32px-Go-next.png)][ex][@icon]
 

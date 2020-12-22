@@ -182,6 +182,12 @@ ul.checkbox {
     padding-left: 0.0em;
 }
 
-a.ExLink {
-    
+a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover {
+    background: url(etc/external.png) right center no-repeat;
+    padding-right: 18px;
+}
+
+a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWindow:hover {
+    background: url(etc/newwindow.png) right center no-repeat;
+    padding-right: 18px;
 }

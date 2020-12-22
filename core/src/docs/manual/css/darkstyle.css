@@ -28,7 +28,7 @@ article {
     background: #cacdcd;
     margin: 1em auto;
     padding: 1em 1.5em;
-    max-width: 64em;
+    max-width: 50em;
     font-family: PT Serif, Georgia;
     line-height: 155%;
     text-align: left;
@@ -155,4 +155,14 @@ ul.checkbox {
     list-style-type: none;
     margin-left: 2.5em;
     padding-left: 0.0em;
+}
+
+a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover {
+    background: url(etc/external.png) right center no-repeat;
+    padding-right: 18px;
+}
+
+a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWindow:hover {
+    background: url(etc/newwindow.png) right center no-repeat;
+    padding-right: 18px;
 }

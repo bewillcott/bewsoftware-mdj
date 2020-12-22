@@ -60,6 +60,38 @@ And another [example]!
 [example]: http://www.example.com/example.html  "This is a title"
 [link]: http://www.example.com/link.html  "This is a title"
 
+---
+
+Now with a class attribute:
+
+This:
+~~~
+An [example][link]![@externalLink]
+
+An [example]![@externalLink](http://www.example.com/some_page.html "This is a title")
+
+Go to <http://www.example.com/some_page.html>![@externalLink]
+
+And another [example]![@externalLink]
+
+\\[example]: http://www.example.com/example.html  "This is a title"
+\\[link]: http://www.example.com/link.html  "This is a title"
+~~~
+
+Becomes this:
+
+An [example][link]![@externalLink]
+
+An [example]![@externalLink](http://www.example.com/some_page.html "This is a title")
+
+Go to <http://www.example.com/some_page.html>![@externalLink]
+
+And another [example]![@externalLink]
+
+[example]: http://www.example.com/example.html  "This is a title"
+[link]: http://www.example.com/link.html  "This is a title"
+
+Note the little graphic at the end of each link.
 
 
 @@@[navbar]
