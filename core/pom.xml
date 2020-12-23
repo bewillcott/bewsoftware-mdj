@@ -44,7 +44,7 @@ software, even if advised of the possibility of such damage.
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>bewsoftware-mdj-core</artifactId>
-    <version>0.6.6</version>
+    <version>0.6.7-SNAPSHOT</version>
     <packaging>jar</packaging>
     
     <name>BEWSoftware MDj Core Library</name>
