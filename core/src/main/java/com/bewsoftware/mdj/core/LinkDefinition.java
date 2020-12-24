@@ -2,6 +2,8 @@
  * Copyright (c) 2005, Pete Bevin.
  * <http://markdownj.petebevin.com>
  *
+ * Copyright (c) 2020, Bradley Willcott.
+ *
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,26 +36,54 @@
  */
 package com.bewsoftware.mdj.core;
 
+/**
+ * Used to store the link definitions.
+ * <p>
+ * <b>Changes:</b>
+ * <ul>
+ * <li>Added classes field</li>
+ * <li>Internal fields are now {@code public}</li>
+ * <li>Removed getters</li>
+ * <li>Updated {@link #toString()}</li>
+ * <li>Added Javadoc comments</li>
+ * </ul>
+ * Bradley Willcott (24/12/2020)
+ *
+ * @since before v0.5
+ * @version 0.6.7
+ */
 public class LinkDefinition {
 
-    private final String url;
-    private final String title;
+    /**
+     * The link's classes: {@code class="<classes>"}.
+     */
+    public final String classes;
 
-    public LinkDefinition(String url, String title) {
+    /**
+     * The link's title: {@code title="<title>"}.
+     */
+    public final String title;
+
+    /**
+     * The link's url: {@code href="<url>"}.
+     */
+    public final String url;
+
+    /**
+     * Instantiate the class.
+     *
+     * @param classes The link's classes.
+     * @param url     The link's url.
+     * @param title   The link's title.
+     */
+    public LinkDefinition(String classes, String url, String title) {
+        this.classes = classes;
         this.url = url;
         this.title = title;
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
     @Override
     public String toString() {
-        return url + " (" + title + ")";
+        return "[@" + classes + "]" + url + " (" + title + ")";
     }
 }

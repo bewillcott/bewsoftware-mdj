@@ -241,7 +241,8 @@ public class MarkdownProcessor {
 
                       if (defn != null)
                       {
-                          String url = defn.getUrl();
+                          // BW:
+                          String url = defn.url;
 
                           if (url != null)
                           {
@@ -251,10 +252,10 @@ public class MarkdownProcessor {
                           }
 
                           // BW: classAtrib
-                          String classAtrib = classes != null && !classes.isBlank()
-                                              ? addClass(classes) : "";
+                          String classAtrib = addClass(defn.classes, classes);
 
-                          String title = defn.getTitle();
+                          // BW:
+                          String title = defn.title;
                           String titleTag = "";
 
                           if (title != null && !title.equals(""))
@@ -388,7 +389,8 @@ public class MarkdownProcessor {
 
                       if (defn != null)
                       {
-                          String url = defn.getUrl();
+                          // BW:
+                          String url = defn.url;
 
                           if (url != null)
                           {
@@ -398,10 +400,10 @@ public class MarkdownProcessor {
                           }
 
                           // BW: classAtrib
-                          String classAtrib = classes != null && !classes.isBlank()
-                                              ? addClass(classes) : "";
+                          String classAtrib = addClass(defn.classes, classes);
 
-                          String title = defn.getTitle();
+                          // BW:
+                          String title = defn.title;
                           String titleTag = "";
 
                           if (title != null && !title.equals(""))
@@ -526,7 +528,7 @@ public class MarkdownProcessor {
          *
          * Any tabbed or space type block will still be processed by 'p2'.
          *
-         * Bradley Willcott (8/1/2020)
+         * Bradley Willcott (08/01/2020)
          */
         Pattern p2 = compile("(?:(?<id>)?(?<classes>)?(?<=\\n\\n)|\\A)"
                              + "(?:^(?:> )*?[ ]{4})?(?<class>" + LANG_IDENTIFIER + ".+)?(?:\\n)?"
@@ -559,15 +561,26 @@ public class MarkdownProcessor {
      * <p>
      * Lists with line items containing any or all of the following:<br>
      * <ul>
-     * <li>Checkbox.</li>
-     * <li>Class attribute.</li>
+     * <li>Checkbox.<br>
+     * - [ ] This is a checkbox item.<br>
+     * - [ ][@classname] This is a checkbox item with a class attribute.<br>
+     * see: {@link #processCheckBoxes(com.bewsoftware.mdj.core.TextEditor,
+     * com.bewsoftware.utils.struct.StringReturn)
+     * processCheckBoxes()}
+     * </li>
+     * <li>Class attribute.<br>
+     * - [@classname] This is a list item with a class attribute.<br>
+     * see: {@link #processListItemsWithAClass(com.bewsoftware.mdj.core.TextEditor,
+     * com.bewsoftware.utils.struct.StringReturn)
+     * processListItemsWithAClass()}
+     * </li>
      * </ul>
      * Bradley Willcott
      *
      * @param item        The text to process.
      * @param classString returns the value of the 'class' text, if any.
      *
-     * @return if any were found.
+     * @return {@code true} if any Checkboxes were found, {@code false} otherwise.
      *
      * @since 10/01/2020, last updated: 14/12/2020.
      */
@@ -585,13 +598,41 @@ public class MarkdownProcessor {
 
     /**
      * Fenced Code Blocks:<br>
-     * Using either ``` triple back-ticks, or ~~~ triple
-     * tildes for beginning and end of code block.
-     * <p>
-     * Can add classes to both the
-     * &lt;pre&gt; and &lt;code&gt; tags:
+     * Use either triple back-ticks: {@code ```}, or triple tildes: {@code ~~~}
+     * for the beginning and end of the code block.
+     * <dl>
+     * <dt><b>NOTE:</b></dt>
+     * <dd>You MUST use the same characters for the end of the block, as you used
+     * for the beginning of the block.</dd>
+     * </dl>
+     * <hr>
      * <pre><code>
-     * ```[@pre tag classes][@code tag classes]
+     * Example:
+     *
+     * ~~~
+     *    &#64;Override
+     *    public static String toString(){
+     *        return "This is the text";
+     *    }
+     * ~~~
+     *
+     * &lt;pre&gt;
+     *     &lt;code&gt;
+     *     &#64;Override
+     *     public static String toString(){
+     *         return "This is the text";
+     *     }
+     *     &lt;/code&gt;
+     * &lt;/pre&gt;
+     * </code></pre>
+     * <hr>
+     * <dl>
+     * <dt><b>New: classes</b></dt>
+     * <dd>Can now add classes to both the &lt;pre&gt; and &lt;code&gt; tags:</dd>
+     * </dl>
+     * <hr>
+     * <pre><code>
+     * ```[@&lt;pre tag classes&gt;][@&lt;code tag classes&gt;]
      *
      * Example:
      *
@@ -601,6 +642,37 @@ public class MarkdownProcessor {
      *
      * &lt;pre class="prettyprint"&gt;&lt;code class="language-java"&gt;
      *</code></pre>
+     * <hr>
+     * <p>
+     * Though both class tags are optional, you must have at least the empty
+     * <i>pre</i> tag class brackets, if you want to supply the <i>code</i>
+     * tag class:
+     * <hr>
+     * <pre><code>
+     * ```[][@&lt;code tag classes&gt;]
+     *
+     * Example:
+     *
+     * ~~~[][@language-java]
+     *
+     * Result:
+     *
+     * &lt;pre&gt;&lt;code class="language-java"&gt;
+     *
+     * ------------------------------------------
+     *
+     * ```[@&lt;pre tag classes&gt;]
+     *
+     * Example:
+     *
+     * ~~~[@prettyprint]
+     *
+     * Result:
+     *
+     * &lt;pre class="prettyprint"&gt;&lt;code&gt;
+     *</code></pre>
+     * <hr>
+     * <p>
      * Bradley Willcott
      *
      * @param markup The text to process.
@@ -613,7 +685,7 @@ public class MarkdownProcessor {
         Pattern p1 = compile("(?<frontFence>^(?:[~]{3}|[`]{3}))"
                              + ID_REGEX_OPT
                              + "(?:[ ]*\\n"
-                             + "|(?<classes>\\[(?:@\\p{Alpha}[^\\]]*)?\\]\\[(?:@\\p{Alpha}[^\\]]*)?\\])?[ ]*\\n"
+                             + "|(?<classes>\\[(?:@\\p{Alpha}[^\\]]*)?\\](?:\\[(?:@\\p{Alpha}[^\\]]*)?\\])?)?[ ]*\\n"
                              + "|(?<class>" + LANG_IDENTIFIER + ".+)?\\n)?"
                              + "(?<body>(?:.*?\\n+)+?)"
                              + "(?:\\k<frontFence>)[ ]*\\n", MULTILINE);
@@ -676,14 +748,41 @@ public class MarkdownProcessor {
         text.replaceAll(regex, "<hr>");
     }
 
+    /**
+     * Process all image references.
+     * <p>
+     * <b>Syntax:</b>
+     * <ul>
+     * <li>Inline image:
+     * <ul>
+     * <li>{@code ![<alt>](<src>) "<title>"}</li>
+     * <li>{@code ![<alt>](<src>)}</li>
+     * </ul></li>
+     * <li>Reference-style image:
+     * <ul>
+     * <li>{@code ![<alt>][<id>]}</li>
+     * </ul></li>
+     * </ul>
+     * Comments added by: Bradley Willcott (24/12/2020)
+     *
+     * @param text to process.
+     */
     private void doImages(TextEditor text) {
         // Inline image syntax
-        text.replaceAll("!\\[[^@]([^\\]]*)\\]\\(([^\"]*) \"([^\"]*)\"\\)", "<img src=\"$2\" alt=\"$1\" title=\"$3\">");
-        text.replaceAll("!\\[[^@]([^\\]]*)\\]\\(([^\\)]*)\\)", "<img src=\"$2\" alt=\"$1\">");
+        //
+        // Added "(?!@)" to prevent picking up [link]![@class](...)
+        //
+        // Bradley Willcott (23/12/2020)
+        text.replaceAll("!\\[(?!@)([^\\]]*)\\]\\(([^\"]*) \"([^\"]*)\"\\)", "<img src=\"$2\" alt=\"$1\" title=\"$3\">");
+        text.replaceAll("!\\[(?!@)([^\\]]*)\\]\\(([^\\)]*)\\)", "<img src=\"$2\" alt=\"$1\">");
 
         // Reference-style image syntax
+        //
+        // Added "(?!@)" to prevent picking up [link]![@class](...)
+        //
+        // Bradley Willcott (23/12/2020)
         Pattern imageLink = compile("("
-                                    + "!\\[([^\\]]*)\\]"
+                                    + "!\\[(?!@)([^\\]]*)\\]"
                                     // alt text = $2
                                     + "(?:\\[([^\\]]*)\\])?"
                                     // ID = $3
@@ -706,7 +805,8 @@ public class MarkdownProcessor {
 
                     if (defn != null)
                     {
-                        String url = defn.getUrl();
+                        // BW:
+                        String url = defn.url;
 
                         if (url != null)
                         {
@@ -714,7 +814,8 @@ public class MarkdownProcessor {
                             url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
                         }
 
-                        String title = defn.getTitle();
+                        // BW:
+                        String title = defn.title;
                         StringBuilder titleTag = new StringBuilder(" alt=\"").append(altText).append("\"");
 
                         if (title != null && !title.equals(""))
@@ -734,6 +835,27 @@ public class MarkdownProcessor {
                 });
     }
 
+    /**
+     * Lists are created as follows:
+     * <hr><pre><code>
+     *
+     *[#&lt;id&gt;][@&lt;classname&gt;]
+     *- Item one
+     *- Item two
+     *[@&lt;classname&gt;]
+     *    - Sub-item A
+     *    - Sub-item B
+     *- Item three
+     *    - Sub-item A
+     * </code></pre><hr>
+     * Both the `[#&lt;id&gt;]` and `[@&lt;classname&gt;]` attributes are optional,
+     * but if both are supplied they <i>must</i> be in the order shown above.
+     *
+     *
+     * @param text
+     *
+     * @return
+     */
     private TextEditor doLists(TextEditor text) {
         int lessThanTab = tabWidth - 1;
 
@@ -1191,15 +1313,43 @@ public class MarkdownProcessor {
     }
 
     /**
-     * Process check boxes.
+     * Process list items with checkboxes.
      * <p>
-     * Each check box can have a class attribute:
+     * <b>The basic checkbox:</b><br>
+     * The syntax has a number of settings:
      * <pre><code>
-     * - [ ][myClass] This is my line.
+     *- [ ] An unchecked mutable checkbox.
+     *- [ ]! An unchecked immutable checkbox.
+     *- [x] A checked mutable checkbox.
+     *- [X]! A checked immutable checkbox.
      * </code></pre>
      * will produce html like this:
      * <pre><code>
-     * &lt;li class="myClass"&gt;&lt;input type="checkbox"&gt;This is my line.&lt;/li&gt;
+     * &lt;ul class="checkbox"&gt;
+     * &lt;li&gt;&lt;input type="checkbox"&gt;An unchecked mutable checkbox.&lt;/li&gt;
+     * &lt;li&gt;&lt;input type="checkbox" disabled&gt;An unchecked immutable checkbox.&lt;/li&gt;
+     * &lt;li&gt;&lt;input type="checkbox" checked&gt;A checked mutable checkbox.&lt;/li&gt;
+     * &lt;li&gt;&lt;input type="checkbox" checked disabled&gt;A checked immutable checkbox.&lt;/li&gt;
+     * &lt;/ul&gt;
+     * </code></pre>
+     * Both 'x' and 'X' are useable.
+     * <p>
+     * <b>The class attribute:</b><br>
+     * Each check box can have a class attribute:
+     * <pre><code>
+     *- [ ][@myClass] An unchecked mutable checkbox with the class attribute: myClass.
+     *- [ ]![@myClass2] An unchecked immutable checkbox with the class attribute: myClass2.
+     *- [x][@yourClass] A checked mutable checkbox with the class attribute: yourClass.
+     *- [X]![@bestClass] A checked immutable checkbox with the class attribute: bestClass.
+     * </code></pre>
+     * will produce html like this:
+     * <pre><code>
+     * &lt;ul class="checkbox"&gt;
+     * &lt;li class="myClass"&gt;&lt;input type="checkbox"&gt;An unchecked mutable checkbox with the class attribute: &lt;code&gt;myClass&lt;/code&gt;.&lt;/li&gt;
+     * &lt;li class="myClass2"&gt;&lt;input type="checkbox" disabled&gt;An unchecked immutable checkbox with the class attribute: &lt;code&gt;myClass2&lt;/code&gt;.&lt;/li&gt;
+     * &lt;li class="yourClass"&gt;&lt;input type="checkbox" checked&gt;A checked mutable checkbox with the class attribute: &lt;code&gt;yourClass&lt;/code&gt;.&lt;/li&gt;
+     * &lt;li class="bestClass"&gt;&lt;input type="checkbox" checked disabled&gt;A checked immutable checkbox with the class attribute: &lt;code&gt;bestClass&lt;/code&gt;.&lt;/li&gt;
+     * &lt;/ul&gt;
      * </code></pre>
      *
      * @param item        to be processed.
@@ -1410,9 +1560,16 @@ public class MarkdownProcessor {
     }
 
     // [id] is now case sensitive
+    // Added class attribute:
+    // [<id>]:{@<classname>]<url> "title"
+    //
+    // Bradley Willcott (24/12/2020)
+    //
     private void stripLinkDefinitions(TextEditor text) {
         Pattern p = compile("^[ ]{0,3}\\[(?<id>.+)\\]:"
                             // ID = $1
+                            // BW:
+                            + CLASS_REGEX
                             + "[ ]*\\n?[ ]*"
                             // Space
                             + "<?(?<url>[^'\"]+?)?>?"
@@ -1427,8 +1584,15 @@ public class MarkdownProcessor {
         text.replaceAll(p, (Matcher m) ->
                 {
                     String id = m.group("id");
+                    String classes = m.group("classes");
                     String url = m.group("url");
                     String title = m.group("title");
+
+                    // BW:
+                    if (classes == null)
+                    {
+                        classes = "";
+                    }
 
                     if (url != null)
                     {
@@ -1441,7 +1605,8 @@ public class MarkdownProcessor {
                     }
 
                     title = replaceAll(title, "\"", "&quot;");
-                    linkDefinitions.put(id, new LinkDefinition(url, title));
+                    // BW:
+                    linkDefinitions.put(id, new LinkDefinition(classes, url, title));
                     return "";
                 });
     }

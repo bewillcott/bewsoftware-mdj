@@ -50,7 +50,7 @@ This would be the table's caption.
 | Left | Center |Right|Justified|[]
 | Row 2 | More text || |[]
 
-###[#tableEnh] Enhanced ### [&uarr;](#top)
+###[#tableEnh] Enhanced ### [][@upArrow](#top)
 
 Now you can add a caption. But wait, there's more.  It can have  the same type
 of borders as your "`<table>`".
@@ -116,7 +116,7 @@ ___Bulk Purchases___
 | Milk    | 5   | 10.00  |  50.00 |
 | Totals  | 25  |        | 235.00 |[2,6]
 
-###[#next] What's next you might ask? ###[*](#gt)  [&uarr;](#top)
+###[#next] What's next you might ask? ###[*](#gt "This is a great table")  [][@upArrow](#top)
 
 Well how about adding an _id_ to the table, or even a row?  By adding the _id_
 to the delimiter row, it gets added to the "`<table>`" tag.
@@ -141,7 +141,7 @@ This is a great table
 | Finished | Fini |[2]
 
 
-###[#now] Now a look at classes ### [*](#great) [&uarr;](#top)
+###[#now] Now a look at classes ### [*](#great "This is an even greater table") [][@upArrow](#top)
 
 In true CSS format, you can use classes to set the styling of your table and it's
 rows.

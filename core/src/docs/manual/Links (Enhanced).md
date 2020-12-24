@@ -19,7 +19,7 @@ title: MDj Core Library | Links and Auto Links
     you left off.
 - Links can now have a class attribute with one or more classes: `[@<classname>]`
 
-Check out these examples: [![Go to](etc/32px-Go-next.png)][ex][@icon]
+Check out these examples: [][ex][@next]
 
 ### Footnote Links
 

@@ -8,6 +8,8 @@ title: MDj Core Library | Links and Auto Links (Examples)
 
 ## Links and Auto Links
 
+### Basic Links
+
 First some basic links that will cause the new page to be opened in the current tab.
 
 This:
@@ -30,6 +32,8 @@ An [example](http://www.example.com/some_page.html "This is a title")
 Go to <http://www.example.com/some_page.html>
 
 ---
+
+### Open in new Tab
 
 Now tha same links, but these will open in a new tab.
 
@@ -61,6 +65,8 @@ And another [example]!
 [link]: http://www.example.com/link.html  "This is a title"
 
 ---
+
+### Links with _class_
 
 Now with a class attribute:
 
