@@ -9,6 +9,9 @@ to refactor/rename the project, and take ownership.  All previous copyrights and
 to the work of the original developers are still in place.  However, so as to distinguish
 this work for theirs, which is still available separately, I deemed this necessary.
 
+## Core Manual
+The current manual can viewed [here].
+
 ## Status
 This is a work a progress.  As of this commit, everything works.  However, I plan to continue
 adding more features over time.  I don't know if anyone else will ever benefit from this work,
@@ -18,5 +21,6 @@ but I do it for the fun.
 [BEWSoftware MDj CLI][mc] is a command-line program that uses this library.
 
 
+[here]:http://www.bewsoftware.com/bewsoftware-mdj
 [Markdownj]:https://github.com/myabc/markdownj
 [mc]:https://github.com/bewillcott/bewsoftware-mdj-cli
