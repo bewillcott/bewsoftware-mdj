@@ -31,24 +31,24 @@ quite simple:
 
 @@@[navbar]
 - [Home]
-- [@dropdown] [Code Blocks][@dropbtn](#)
+- [@dropdown] [Code Blocks](#)
 [@dropdown-content]
     - [Fenced Code Blocks]
-- [@dropdown] [Lists][@dropbtn]
+- [@dropdown] [Lists]
 [@dropdown-content]
     - [Lists (Enhanced)]
-- [@dropdown subactive] [Text][@dropbtn](#)
+- [@dropdown subactive] [Text](#)
 [@dropdown-content]
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [@active] [Text Embellishments](#)
-- [@dropdown] [More...][@dropbtn](#)
+- [@dropdown] [More...](#)
 [@dropdown-content]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown] [About][@dropbtn]
+- [@right dropdown] [About]
 [@dropdown-content]
     - [ToDo List]
     - [License]

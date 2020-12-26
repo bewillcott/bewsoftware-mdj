@@ -184,6 +184,13 @@ public class MarkdownProcessor {
         text.detabify();
         text.deleteAll("^[ ]+$");
 
+        //
+        // Convert line extensions to single spaces.
+        //
+        // Bradley Willcott (26/12/2020)
+        //
+        text.replaceAll(" \\\\\\n", " ");
+
         // Turn block-level HTML blocks into hash entries
         hashHTMLBlocks(text);
         // Strip link definitions, store in hashes.
@@ -1142,7 +1149,7 @@ public class MarkdownProcessor {
     /**
      * escape special characters
      * <p>
-     * Within tags -- meaning between < and > -- encode [\ ` * _] so they don't
+     * Within tags -- meaning between &lt; and &gt; -- encode [\ ` * _] so they don't
      * conflict with their use in Markdown for code, italics and strong. We're
      * replacing each such character with its corresponding random string value;
      * this is likely overkill, but it should prevent us from colliding with the

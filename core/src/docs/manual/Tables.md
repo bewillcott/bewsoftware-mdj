@@ -18,7 +18,11 @@ stylesheet: darkstyle_no-table.css
 A Table begins and ends with a blank line.
 If present, the line of text above the table becomes the table's "caption".
 Each row in the table begins and ends with a pipe character "`|`", with additional
-"`|`" characters added to separate each column within each row.
+"`|`" characters added to separate each column (cell) within each row.
+
+The text of each cell can be continued onto the following line(s) by using the 
+continuation character `\`.  This character *must* be immediately preceded by a
+space character, and followed by the newline character: `This is some text \`.
 
 Each row can have optional "`[]`" bracketed parameters. When an empty "`[]`" is added,
 that row is given a border around it using default settings. If the brackets contain text, that text is 
@@ -170,24 +174,24 @@ _Check out the source of this page in your browser._
 
 @@@[navbar]
 - [Home]
-- [@dropdown] [Code Blocks][@dropbtn](#)
+- [@dropdown] [Code Blocks](#)
 [@dropdown-content]
     - [Fenced Code Blocks]
-- [@dropdown] [Lists][@dropbtn]
+- [@dropdown] [Lists]
 [@dropdown-content]
     - [Lists (Enhanced)]
-- [@dropdown] [Text][@dropbtn](#)
+- [@dropdown] [Text](#)
 [@dropdown-content]
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown subactive] [More...][@dropbtn](#)
+- [@dropdown subactive] [More...](#)
 [@dropdown-content]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [@active] [Tables](#)
-- [@right dropdown] [About][@dropbtn]
+- [@right dropdown] [About]
 [@dropdown-content]
     - [ToDo List]
     - [License]
