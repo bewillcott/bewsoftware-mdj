@@ -1,6 +1,6 @@
 # BEWSoftware MDj Library
 
-BEWSoftware MDj is a fork of the original project: [Mardownj][mdj]!.
+BEWSoftware MDj is a fork of the original project: [Mardownj].
 MarkdownJ is the pure Java port of Markdown, 
 a text-to-html conversion tool written by John Gruber.
 
@@ -15,4 +15,8 @@ adding more features over time.  I don't know if anyone else will ever benefit f
 but I do it for the fun.
 
 ## Related projects
-[MDj CLI][mc] is a command-line program that uses this library.
+[BEWSoftware MDj CLI][mc] is a command-line program that uses this library.
+
+
+[Markdownj]:https://github.com/myabc/markdownj
+[mc]:https://github.com/bewillcott/bewsoftware-mdj-cli
