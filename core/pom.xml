@@ -612,7 +612,7 @@ software, even if advised of the possibility of such damage.
                 <directory>
                     target/docs/manual
                 </directory>
-<!--                <excludes>
+                <!--                <excludes>
                     <exclude>
                         **/*
                     </exclude>
@@ -773,6 +773,25 @@ software, even if advised of the possibility of such damage.
                 <configuration>
                     <encoding>${source.encoding}</encoding>
                 </configuration>
+                <executions>
+                    <execution>                        
+                        <id>Copy-Manual-to-basedir</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <outputDirectory>../docs</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        target/docs/manual
+                                    </directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

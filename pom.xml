@@ -135,6 +135,14 @@ a text-to-html conversion tool written by John Gruber.</description>
         </license>
     </licenses>
     <build>
+        <resources>
+            <resource>
+                <directory>docs</directory>
+                <excludes>
+                    <exclude>**/*</exclude>
+                </excludes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
