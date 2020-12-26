@@ -156,11 +156,52 @@ ul.checkbox {
 }
 
 a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover {
-    background: url(etc/external.png) right center no-repeat;
+    background: url(../etc/external.png) right center no-repeat;
     padding-right: 18px;
 }
 
+a.next:link, a.next:visited {
+    background: url(../etc/32px-Go-next-link.png) right center no-repeat;
+    padding-right: 32px;
+    font-size: 32px;
+}
+
+a.next:hover {
+    background: url(../etc/32px-Go-next-hover.png) right center no-repeat;
+    padding-right: 32px;
+    font-size: 32px;
+}
+
+a.next:active {
+    background: url(../etc/32px-Go-next-active.png) right center no-repeat;
+    padding-right: 32px;
+    font-size: 32px;
+}
+
+a.previous:link, a.previous:visited {
+    background: url(../etc/32px-Go-previous-link.png) right center no-repeat;
+    padding-right: 32px;
+    font-size: 32px;
+}
+
+a.previous:hover {
+    background: url(../etc/32px-Go-previous-hover.png) right center no-repeat;
+    padding-right: 32px;
+    font-size: 32px;
+}
+
+a.previous:active {
+    background: url(../etc/32px-Go-previous-active.png) right center no-repeat;
+    padding-right: 32px;
+    font-size: 32px;
+}
+
+a.upArrow, a.upArrow:link, a.upArrow:visited, a.upArrow:active, a.upArrow:hover {
+    background: url(../etc/16px-arrow-up.png) right center no-repeat;
+    padding: 18px 18px 18px 9px;
+}
+
 a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWindow:hover {
-    background: url(etc/newwindow.png) right center no-repeat;
+    background: url(../etc/newwindow.png) right center no-repeat;
     padding-right: 18px;
 }

@@ -104,7 +104,7 @@ Some more code
 </pre>
 
 
-Check out these examples: [![Go to](etc/32px-Go-next.png)][ex][@icon] [&uarr;](#top)
+Check out these examples: [][ex][@next] [][@upArrow](#top)
 
 [gfms]:https://github.github.com/gfm/#fenced-code-blocks
 [info-string]:https://github.github.com/gfm/#info-string
@@ -113,24 +113,24 @@ Check out these examples: [![Go to](etc/32px-Go-next.png)][ex][@icon] [&uarr;](#
 
 @@@[navbar]
 - [Home]
-- [@dropdown subactive] [Code Blocks][@dropbtn](#)
+- [@dropdown subactive] [Code Blocks](#)
 [@dropdown-content]
     - [@active] [Fenced Code Blocks](#)
-- [@dropdown] [Lists][@dropbtn]
+- [@dropdown] [Lists]
 [@dropdown-content]
     - [Lists (Enhanced)]
-- [@dropdown] [Text][@dropbtn](#)
+- [@dropdown] [Text](#)
 [@dropdown-content]
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown] [More...][@dropbtn](#)
+- [@dropdown] [More...](#)
 [@dropdown-content]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown] [About][@dropbtn]
+- [@right dropdown] [About]
 [@dropdown-content]
     - [ToDo List]
     - [License]

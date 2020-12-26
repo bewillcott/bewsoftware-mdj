@@ -27,7 +27,7 @@ div.navbar ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    overflow: auto;
+    overflow: hidden;
     background-color: #f1f1f1;
 }
 
@@ -39,16 +39,9 @@ div.navbar li a {
     display: inline-block;
     color: black;
     text-align: center;
-    padding: 10px 10px;
+    padding: 6px 10px;
     text-decoration: none;
-}
-
-div.navbar li a.icon, a.icon {
-    margin: 0;
-    padding-top: 2px;
-    padding-bottom: 0;
-    padding-left: 4px;
-    padding-right: 6px;
+    vertical-align: middle;
 }
 
 div.navbar * li:not(.active) a:hover {
@@ -86,16 +79,11 @@ div.navbar ul.dropdown-content li {
 
 div.navbar ul.dropdown-content a {
     color: black;
-    padding: 10px 10px;
+    padding: 6px 10px;
     text-decoration: none;
     display: block;
     text-align: left;
 }
-
-/*div.navbar ul.dropdown-content li:not(.active) a:hover {
-    color: black;
-    background-color: darkseagreen;
-}*/
 
 div.navbar li.dropdown:hover ul.dropdown-content {
     display: block;
@@ -107,15 +95,11 @@ div.navbar li.dropdown:hover ul.dropdown-content {
 }
 
 header {
-    background-color: #33b5e5;
-    display: block;
-    margin: 0;
     padding: 2px;
 }
 
 header p {
     font-size:20px;
-    text-align: center;
     margin: 0;
     padding: 5px;
     font-weight: bold;

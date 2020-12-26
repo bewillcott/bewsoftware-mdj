@@ -142,3 +142,14 @@ This is an even greater table
 | Down | Up |
 | Down | Down |
 | Finished | Fini |[#end][@tbTotal]
+
+### Line extensions within columns
+
+This is to show the use of Line Extensions
+|Label|Description|
+|---|---|
+|Top Level|This is for the top of the form.<br> \
+Though this might also be a fake.|
+|Bottom Level|This one goes on the bottom of the \
+form which has to be green in colour.|
+|Middle Level|This is the main content of the form.|

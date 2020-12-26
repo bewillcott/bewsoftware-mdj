@@ -12,7 +12,7 @@ The navigation bar.
 \@@@[navbar]
 - [Home]
 - [@active] [Navigation Bar](#)
-- [@dropdown] [Lists][@dropbtn]
+- [@dropdown] [Lists]
 [@dropdown-content]
     - [Link 1](#)
     - [Link 2](#)
@@ -29,24 +29,24 @@ The navigation bar.
 
 @@@[navbar]
 - [Home]
-- [@dropdown] [Code Blocks][@dropbtn](#)
+- [@dropdown] [Code Blocks](#)
 [@dropdown-content]
     - [Fenced Code Blocks]
-- [@dropdown] [Lists][@dropbtn]
+- [@dropdown] [Lists]
 [@dropdown-content]
     - [Lists (Enhanced)]
-- [@dropdown] [Text][@dropbtn](#)
+- [@dropdown] [Text](#)
 [@dropdown-content]
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown subactive] [More...][@dropbtn](#)
+- [@dropdown subactive] [More...](#)
 [@dropdown-content]
     - [Links (Enhanced)]
     - [@active] [Navigation Bar](#)
     - [Tables]
-- [@right dropdown] [About][@dropbtn]
+- [@right dropdown] [About]
 [@dropdown-content]
     - [ToDo List]
     - [License]

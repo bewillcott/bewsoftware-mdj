@@ -19,7 +19,7 @@ title: MDj Core Library | Links and Auto Links
     you left off.
 - Links can now have a class attribute with one or more classes: `[@<classname>]`
 
-Check out these examples: [![Go to](etc/32px-Go-next.png)][ex][@icon]
+Check out these examples: [][ex][@next]
 
 ### Footnote Links
 
@@ -47,24 +47,24 @@ favorite word processor does when you insert a _footnote_.
 
 @@@[navbar]
 - [Home]
-- [@dropdown] [Code Blocks][@dropbtn](#)
+- [@dropdown] [Code Blocks](#)
 [@dropdown-content]
     - [Fenced Code Blocks]
-- [@dropdown] [Lists][@dropbtn]
+- [@dropdown] [Lists]
 [@dropdown-content]
     - [Lists (Enhanced)]
-- [@dropdown] [Text][@dropbtn](#)
+- [@dropdown] [Text](#)
 [@dropdown-content]
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown subactive] [More...][@dropbtn](#)
+- [@dropdown subactive] [More...](#)
 [@dropdown-content]
     - [@active] [Links (Enhanced)](#)
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown] [About][@dropbtn]
+- [@right dropdown] [About]
 [@dropdown-content]
     - [ToDo List]
     - [License]

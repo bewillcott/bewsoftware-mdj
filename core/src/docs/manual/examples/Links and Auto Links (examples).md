@@ -8,6 +8,8 @@ title: MDj Core Library | Links and Auto Links (Examples)
 
 ## Links and Auto Links
 
+### Basic Links
+
 First some basic links that will cause the new page to be opened in the current tab.
 
 This:
@@ -30,6 +32,8 @@ An [example](http://www.example.com/some_page.html "This is a title")
 Go to <http://www.example.com/some_page.html>
 
 ---
+
+### Open in new Tab
 
 Now tha same links, but these will open in a new tab.
 
@@ -61,6 +65,8 @@ And another [example]!
 [link]: http://www.example.com/link.html  "This is a title"
 
 ---
+
+### Links with _class_
 
 Now with a class attribute:
 
@@ -94,27 +100,28 @@ And another [example]![@externalLink]
 Note the little graphic at the end of each link.
 
 
+
 @@@[navbar]
-- [![Back]][Links (Enhanced)][@icon]
+- [][Links (Enhanced)][@previous]
 - [Home]
-- [@dropdown] [Code Blocks][@dropbtn](#)
+- [@dropdown] [Code Blocks](#)
 [@dropdown-content]
     - [Fenced Code Blocks]
-- [@dropdown] [Lists][@dropbtn]
+- [@dropdown] [Lists]
 [@dropdown-content]
     - [Lists (Enhanced)]
-- [@dropdown] [Text][@dropbtn](#)
+- [@dropdown] [Text](#)
 [@dropdown-content]
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown] [More...][@dropbtn](#)
+- [@dropdown] [More...](#)
 [@dropdown-content]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown] [About][@dropbtn]
+- [@right dropdown] [About]
 [@dropdown-content]
     - [ToDo List]
     - [License]

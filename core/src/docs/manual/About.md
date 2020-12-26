@@ -11,24 +11,24 @@ TODO: Fill this in...
 
 @@@[navbar]
 -  [Home]
-- [@dropdown] [Code Blocks][@dropbtn](#)
+- [@dropdown] [Code Blocks](#)
 [@dropdown-content]
     - [Fenced Code Blocks]
-- [@dropdown] [Lists][@dropbtn]
+- [@dropdown] [Lists]
 [@dropdown-content]
     - [Lists (Enhanced)]
-- [@dropdown] [Text][@dropbtn](#)
+- [@dropdown] [Text](#)
 [@dropdown-content]
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown] [More...][@dropbtn](#)
+- [@dropdown] [More...](#)
 [@dropdown-content]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown active] [About][@dropbtn](#)
+- [@right dropdown active] [About](#)
 [@dropdown-content]
     - [ToDo List]
     - [License]

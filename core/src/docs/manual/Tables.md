@@ -18,7 +18,11 @@ stylesheet: darkstyle_no-table.css
 A Table begins and ends with a blank line.
 If present, the line of text above the table becomes the table's "caption".
 Each row in the table begins and ends with a pipe character "`|`", with additional
-"`|`" characters added to separate each column within each row.
+"`|`" characters added to separate each column (cell) within each row.
+
+The text of each cell can be continued onto the following line(s) by using the 
+continuation character `\`.  This character *must* be immediately preceded by a
+space character, and followed by the newline character: `This is some text \`.
 
 Each row can have optional "`[]`" bracketed parameters. When an empty "`[]`" is added,
 that row is given a border around it using default settings. If the brackets contain text, that text is 
@@ -50,7 +54,7 @@ This would be the table's caption.
 | Left | Center |Right|Justified|[]
 | Row 2 | More text || |[]
 
-###[#tableEnh] Enhanced ### [&uarr;](#top)
+###[#tableEnh] Enhanced ### [][@upArrow](#top)
 
 Now you can add a caption. But wait, there's more.  It can have  the same type
 of borders as your "`<table>`".
@@ -116,7 +120,7 @@ ___Bulk Purchases___
 | Milk    | 5   | 10.00  |  50.00 |
 | Totals  | 25  |        | 235.00 |[2,6]
 
-###[#next] What's next you might ask? ###[*](#gt)  [&uarr;](#top)
+###[#next] What's next you might ask? ###[*](#gt "This is a great table")  [][@upArrow](#top)
 
 Well how about adding an _id_ to the table, or even a row?  By adding the _id_
 to the delimiter row, it gets added to the "`<table>`" tag.
@@ -141,7 +145,7 @@ This is a great table
 | Finished | Fini |[2]
 
 
-###[#now] Now a look at classes ### [*](#great) [&uarr;](#top)
+###[#now] Now a look at classes ### [*](#great "This is an even greater table") [][@upArrow](#top)
 
 In true CSS format, you can use classes to set the styling of your table and it's
 rows.
@@ -170,24 +174,24 @@ _Check out the source of this page in your browser._
 
 @@@[navbar]
 - [Home]
-- [@dropdown] [Code Blocks][@dropbtn](#)
+- [@dropdown] [Code Blocks](#)
 [@dropdown-content]
     - [Fenced Code Blocks]
-- [@dropdown] [Lists][@dropbtn]
+- [@dropdown] [Lists]
 [@dropdown-content]
     - [Lists (Enhanced)]
-- [@dropdown] [Text][@dropbtn](#)
+- [@dropdown] [Text](#)
 [@dropdown-content]
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown subactive] [More...][@dropbtn](#)
+- [@dropdown subactive] [More...](#)
 [@dropdown-content]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [@active] [Tables](#)
-- [@right dropdown] [About][@dropbtn]
+- [@right dropdown] [About]
 [@dropdown-content]
     - [ToDo List]
     - [License]

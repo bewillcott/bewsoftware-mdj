@@ -39,7 +39,7 @@ package com.bewsoftware.mdj.core;
  * @author Bradley Willcott
  *
  * @since 0.6.3
- * @version 0.6.3
+ * @version 0.6.7
  */
 public final class Attributes {
 
@@ -50,19 +50,36 @@ public final class Attributes {
     }
 
     /**
-     * Wraps the text into a "class=" string.
+     * Wraps the texts into a "class=" string.
      *
-     * @param text to be wrapped.
+     * @param texts A series of classes to include.
      *
      * @return new attribute text.
      */
-    public static String addClass(String text) {
-        if (text == null || text.isBlank())
+    public static String addClass(String... texts) {
+        if (texts == null || texts.length == 0)
         {
             return "";
         } else
         {
-            return " class=\"" + text + "\"";
+            StringBuilder classes = new StringBuilder();
+
+            for (String text : texts)
+            {
+                if (text != null && !text.isBlank())
+                {
+                    classes.append(text).append(" ");
+                }
+            }
+
+            String StrClasses = classes.toString().trim();
+
+            if (StrClasses.isEmpty())
+            {
+                return "";
+            }
+
+            return " class=\"" + StrClasses + "\"";
         }
     }
 

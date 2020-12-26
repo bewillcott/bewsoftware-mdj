@@ -44,7 +44,7 @@ software, even if advised of the possibility of such damage.
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>bewsoftware-mdj-core</artifactId>
-    <version>0.6.6</version>
+    <version>0.6.7</version>
     <packaging>jar</packaging>
     
     <name>BEWSoftware MDj Core Library</name>
@@ -131,7 +131,7 @@ software, even if advised of the possibility of such damage.
                                 <configuration>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
-                                    <verbosity>1</verbosity>
+                                    <verbosity></verbosity>
                                 </configuration>
                             </execution>
                         </executions>
@@ -157,7 +157,7 @@ software, even if advised of the possibility of such damage.
                                 <configuration>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
-                                    <verbosity>1</verbosity>
+                                    <verbosity></verbosity>
                                 </configuration>
                             </execution>
                         </executions>
@@ -236,6 +236,38 @@ software, even if advised of the possibility of such damage.
                             <execution>
                                 <id>MDj-Publish-Manual</id>
                                 <goals>
+                                    <goal>mdj</goal>                                    
+                                    <goal>publish</goal>
+                                </goals>
+                                <configuration>                                    
+                                    <source>src/docs/manual</source>
+                                    <destination>target/docs/manual</destination>
+                                    <serverContexts>
+                                        <serverContext>
+                                            <context>/</context>
+                                            <htmlSource>target/docs/manual</htmlSource>
+                                        </serverContext>
+                                    </serverContexts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        
+        <profile>
+            <id>clean-publish-manual</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.bewsoftware.mojo</groupId>
+                        <artifactId>bewsoftware-mdj-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>MDj-Publish-Manual</id>
+                                <goals>
+                                    <goal>clean</goal>
                                     <goal>mdj</goal>                                    
                                     <goal>publish</goal>
                                 </goals>
@@ -593,7 +625,7 @@ software, even if advised of the possibility of such damage.
                 <plugin>
                     <groupId>com.bewsoftware.mojo</groupId>
                     <artifactId>bewsoftware-mdj-plugin</artifactId>
-                    <version>1.0.30</version>
+                    <version>1.0.33</version>
                 </plugin>                
                 <plugin>                        
                     <groupId>com.bew.mojo</groupId>
