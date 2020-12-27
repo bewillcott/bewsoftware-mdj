@@ -1,7 +1,7 @@
 @@@
 
 use: articles2
-title: MDj Core Library | LICENSE
+title: ${document.name} | LICENSE
 
 @@@
 

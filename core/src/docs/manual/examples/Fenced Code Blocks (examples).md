@@ -1,7 +1,7 @@
 @@@
 
 use: articles2
-title: MDj Core Library | Fenced Code Blocks (Examples)
+title: ${document.name} | Fenced Code Blocks (Examples)
 
 @@@
 

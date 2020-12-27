@@ -1,7 +1,7 @@
 @@@
 
 use: articles2
-title: MDj Core Library | ToDo List
+title: ${document.name} | ToDo List
 
 @@@
 

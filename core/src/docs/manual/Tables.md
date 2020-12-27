@@ -1,7 +1,7 @@
 @@@
 
 use: articles2
-title: MDj Core Library | Tables
+title: ${document.name} | Tables
 stylesheet: darkstyle_no-table.css
 
 @@@

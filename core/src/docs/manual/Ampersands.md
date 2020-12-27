@@ -1,7 +1,7 @@
 @@@
 
 use: articles2
-title: MDj Core Library | Ampersands
+title: ${document.name} | Ampersands
 
 @@@
 

@@ -48,8 +48,7 @@ software, even if advised of the possibility of such damage.
     <packaging>jar</packaging>
     
     <name>BEWSoftware MDj Core Library</name>
-    <description>Core functionality provided for MDj  
-        This is a library of functions that provide for the processing of markdown source files into
+    <description>This is a library of functions that provide for the processing of markdown source files into
         static HTML files.
 
         This code is based primarily of that in the "org.markdownj" project, of which this is a fork.</description>

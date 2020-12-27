@@ -1,7 +1,7 @@
 @@@
 
 use: articles2
-title: MDj Core Library | Lists - Enhanced
+title: ${document.name} | Lists - Enhanced
 
 @@@
 

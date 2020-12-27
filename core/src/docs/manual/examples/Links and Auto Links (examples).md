@@ -1,7 +1,7 @@
 @@@
 
 use: articles2
-title: MDj Core Library | Links and Auto Links (Examples)
+title: ${document.name} | Links and Auto Links (Examples)
 
 @@@
 

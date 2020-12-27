@@ -1,12 +1,12 @@
 @@@
 
 use: articles2
-title: MDj Core Library | TOC
+title: ${document.name}
 
 @@@
 
 
-# MDj Core Library
+# ${document.name}
 
 The code-base for this library is a fork off the [main]! code-base on GitHub.  As that 
 project appears to have gone to sleep, I have decided to take up the reigns and continue

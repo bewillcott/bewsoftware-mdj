@@ -1,11 +1,10 @@
 @@@
 use : articles2
-title: ${program.title} | About
+title: ${document.name} | About
 @@@
 
-##[#top] About
+##[#top] About : v${document.version}
 TODO: Fill this in...
-
 
 
 

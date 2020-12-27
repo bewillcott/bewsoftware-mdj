@@ -1,7 +1,7 @@
 @@@
 
 use: articles2
-title: MDj Core Library | Headings (Enhanced)
+title: ${document.name} | Headings (Enhanced)
 
 @@@
 

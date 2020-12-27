@@ -1,7 +1,7 @@
 @@@
 
 use: articles2
-title: MDj Core Library | Text Embellishments
+title: ${document.name} | Text Embellishments
 
 @@@
 
