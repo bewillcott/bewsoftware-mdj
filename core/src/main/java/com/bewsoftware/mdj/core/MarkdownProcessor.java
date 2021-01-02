@@ -213,247 +213,6 @@ public class MarkdownProcessor {
         return replaceAll(text, regex, "");
     }
 
-    private static TextEditor doAnchors(final TextEditor markup) {
-        // Internal references: [link text][id]!
-        //
-        // Added class attribute to anchors.
-        // [link text][id]![@class]
-        //
-        // Bradley Willcott (15/12/2020)
-        Pattern internalLink = compile(""
-                                       + "\\[(?<linkText>[^\\[\\]]*?)\\]"
-                                       // Link text = $1
-                                       // + "[ ]?(?:\\n[ ]*)?"  // No whitespace between the brackets (GFM)
-                                       + "\\[(?<linkId>[^\\]]*?)\\]"
-                                       // ID = $2
-                                       + "(?<target>!)?"
-                                       + CLASS_REGEX); // BW
-        markup.replaceAll(internalLink, (Matcher m) ->
-                  {
-                      String replacementText;
-                      String wholeMatch = m.group();
-                      String linkText = m.group("linkText");
-                      String linkId = m.group("linkId");
-                      String targetTag = m.group("target") != null ? TARGET : "";
-                      // BW: classString
-                      String classes = m.group("classes");
-
-                      // [linkId] is now case sensitive
-                      if (linkId == null || "".equals(linkId))
-                      { // for shortcut links like [this][]
-                          linkId = linkText;
-                      }
-
-                      LinkDefinition defn = linkDefinitions.get(linkId);
-
-                      if (defn != null)
-                      {
-                          // BW:
-                          String url = defn.url;
-
-                          if (url != null)
-                          {
-                              // protect emphasis (* and _) within urls
-                              url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-                              url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-                          }
-
-                          // BW: classAtrib
-                          String classAtrib = addClass(defn.classes, classes);
-
-                          // BW:
-                          String title = defn.title;
-                          String titleTag = "";
-
-                          if (title != null && !title.equals(""))
-                          {
-                              // protect emphasis (* and _) within urls
-                              title = title.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-                              title = title.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-                              titleTag = " title=\"" + title + "\"";
-                          }
-
-                          if (url != null)
-                          {
-                              replacementText = "<a href=\"" + url + "\""
-                                                // BW: classAtrib
-                                                + classAtrib + titleTag + targetTag + ">"
-                                                + linkText + "</a>";
-                          } else
-                          {
-                              replacementText = "<a"
-                                                // BW: classAtrib
-                                                + classAtrib + titleTag + targetTag + ">"
-                                                + linkText + "</a>";
-                          }
-                      } else
-                      {
-                          replacementText = wholeMatch;
-                      }
-
-                      return replacementText;
-                  });
-
-        // Inline-style links: [link text]!( url "optional title")
-        //
-        // The space before and after the 'url' is now required.
-        // This is to allow for a url of: "javascript:void(0)".
-        // The closing braket ')' was being grabbed by the end of
-        // the regex pattern.
-        //
-        // Added class attribute to anchors.
-        // [link text]![@class]( url "optional title")
-        //
-        // Bradley Willcott (15/12/2020)
-        Pattern inlineLink = compile(""
-                                     // Whole match = $1
-                                     + "\\[(?<linkText>[^\\[\\]]*?)\\]"
-                                     // Link text = $2
-                                     + "(?<target>!)?"
-                                     + CLASS_REGEX // BW
-                                     + "\\("
-                                     + "[ ]*"
-                                     + "<?(?<url>.*?)>?"
-                                     // href = $4
-                                     + "[ ]*"
-                                     + "("
-                                     + "(?<quote>['\"])"
-                                     // Quote character = $6
-                                     + "(?<title>.*?)"
-                                     // Title = $7
-                                     + "\\k<quote>"
-                                     + ")?"
-                                     + "\\)", DOTALL);
-        markup.replaceAll(inlineLink, (Matcher m) ->
-                  {
-                      String linkText = m.group("linkText");
-                      String url = m.group("url");
-                      String title = m.group("title");
-                      String targetTag = m.group("target") != null ? TARGET : "";
-                      // BW: classString
-                      String classes = m.group("classes");
-
-                      // protect emphasis (* and _) within urls
-                      url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-                      url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-                      StringBuilder result = new StringBuilder();
-                      result.append("<a href=\"").append(url).append("\"");
-
-                      // BW: classAtrib
-                      String classAtrib = classes != null && !classes.isBlank()
-                                          ? addClass(classes) : "";
-                      result.append(classAtrib);
-
-                      if (title != null)
-                      {
-                          // protect emphasis (* and _) within urls
-                          title = title.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-                          title = title.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-                          title = replaceAll(title, "\"", "&quot;");
-                          result.append(" title=\"");
-                          result.append(title);
-                          result.append("\"");
-                      }
-
-                      if (!targetTag.isEmpty())
-                      {
-                          result.append(TARGET);
-                      }
-
-                      result.append(">").append(linkText);
-                      result.append("</a>");
-
-                      return result.toString();
-                  });
-
-        // Last, handle reference-style shortcuts: [link text]!
-        // These must come last in case you've also got [link test][lt]
-        // or [link test](/foo)
-        //
-        // Added class attribute to anchors.
-        // [link text]![@class]
-        //
-        // Bradley Willcott (15/12/2020)
-        Pattern referenceShortcut = compile("(?<!\\|)\\["
-                                            + "(?<linkText>[^\\[\\]]+?)"
-                                            // link text can't contain ']'
-                                            + "\\]"
-                                            + "(?<target>!)?"
-                                            + CLASS_REGEX, // BW
-                                            DOTALL);
-        markup.replaceAll(referenceShortcut, (Matcher m) ->
-                  {
-                      String replacementText;
-                      String wholeMatch = m.group();
-                      String linkText = m.group("linkText");
-                      String targetTag = m.group("target") != null ? TARGET : "";
-                      String id = linkText; // link id is now case sensitive
-                      id = id.replaceAll("[ ]?\\n", " "); // change embedded newlines into spaces
-                      // BW: classString
-                      String classes = m.group("classes");
-
-                      LinkDefinition defn = linkDefinitions.get(id);
-
-                      if (defn != null)
-                      {
-                          // BW:
-                          String url = defn.url;
-
-                          if (url != null)
-                          {
-                              // protect emphasis (* and _) within urls
-                              url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-                              url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-                          }
-
-                          // BW: classAtrib
-                          String classAtrib = addClass(defn.classes, classes);
-
-                          // BW:
-                          String title = defn.title;
-                          String titleTag = "";
-
-                          if (title != null && !title.equals(""))
-                          {
-                              // protect emphasis (* and _) within urls
-                              title = title.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-                              title = title.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-                              titleTag = " title=\"" + title + "\"";
-                          }
-
-                          // Added superscripted footnote reference
-                          // (14/03/2020) Bradley Willcott
-                          Matcher footnote = compile("\\A(\\d+)\\z").matcher(linkText);
-
-                          if (footnote.find())
-                          {
-                              linkText = doSubSup(new TextEditor("++" + CHAR_PROTECTOR.encode("[") + (url != null ? linkText : "*") + "]++")).toString();
-                          }
-
-                          if (url != null)
-                          {
-                              replacementText = "<a href=\"" + url + "\""
-                                                // BW: classAtrib
-                                                + classAtrib + titleTag + targetTag + ">"
-                                                + linkText + "</a>";
-                          } else
-                          {
-                              replacementText = "<a"
-                                                // BW: classAtrib
-                                                + classAtrib + titleTag + targetTag + ">"
-                                                + linkText + "</a>";
-                          }
-                      } else
-                      {
-                          replacementText = wholeMatch;
-                      }
-
-                      return replacementText;
-                  });
-
-        return markup;
-    }
-
     private static TextEditor doAutoLinks(final TextEditor markup) {
         // Added class attribute to anchors.
         // <url>![@class]
@@ -737,12 +496,12 @@ public class MarkdownProcessor {
                       // Process header text, looking for anchor option (BW)
                       if (brkt1 != null && brkt2 != null)
                       {
-                          heading = doAnchors(new TextEditor(heading)).toString();
+                          heading = doAnchors(new TextEditor(heading), false).toString();
                       }
 
                       if (tail != null && !tail.isBlank())
                       {
-                          tail = " " + doAnchors(new TextEditor(tail)).toString();
+                          tail = " " + doAnchors(new TextEditor(tail), false).toString();
                       } else
                       {
                           tail = "";
@@ -1593,7 +1352,7 @@ public class MarkdownProcessor {
         doSubSup(text);
         doDelIns(text);
         doImages(text);
-        doAnchors(text);
+        doAnchors(text, false);
         doAutoLinks(text);
 
         // Fix for BUG #1357582
@@ -1606,8 +1365,7 @@ public class MarkdownProcessor {
         doStrongEmAndBoldItalics(text);
 
         // Manual line breaks
-        text.replaceAll(" {2,}\n", " <br>\n");
-        return text;
+        return text.replaceAll(" {2,}\n", " <br>\n");
     }
 
     // [id] is now case sensitive
@@ -1683,6 +1441,262 @@ public class MarkdownProcessor {
             String plaintext = CHAR_PROTECTOR.decode(hash);
             ed.replaceAllLiteral(hash, plaintext);
         });
+    }
+
+    static TextEditor doAnchors(final TextEditor markup, final boolean doLimited) {
+        if (!doLimited)
+        {
+
+            // Internal references: [link text][id]!
+            //
+            // Added class attribute to anchors.
+            // [link text][id]![@class]
+            //
+            // Bradley Willcott (15/12/2020)
+            Pattern internalLink = compile(""
+                                           + "\\[(?<linkText>[^\\[\\]]*?)\\]"
+                                           // Link text = $1
+                                           // + "[ ]?(?:\\n[ ]*)?"  // No whitespace between the brackets (GFM)
+                                           + "\\[(?<linkId>[^\\]]*?)\\]"
+                                           // ID = $2
+                                           + "(?<target>!)?"
+                                           + CLASS_REGEX); // BW
+            markup.replaceAll(internalLink, (Matcher m) ->
+                      {
+                          String replacementText;
+                          String wholeMatch = m.group();
+                          String linkText = m.group("linkText");
+                          String linkId = m.group("linkId");
+                          String targetTag = m.group("target") != null ? TARGET : "";
+                          // BW: classString
+                          String classes = m.group("classes");
+
+                          // [linkId] is now case sensitive
+                          if (linkId == null || "".equals(linkId))
+                          { // for shortcut links like [this][]
+                              linkId = linkText;
+                          }
+
+                          LinkDefinition defn = linkDefinitions.get(linkId);
+
+                          if (defn != null)
+                          {
+                              // BW:
+                              String url = defn.url;
+
+                              if (url != null)
+                              {
+                                  // protect emphasis (* and _) within urls
+                                  url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+                                  url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+                              }
+
+                              // BW: classAtrib
+                              String classAtrib = addClass(defn.classes, classes);
+
+                              // BW:
+                              String title = defn.title;
+                              String titleTag = "";
+
+                              if (title != null && !title.equals(""))
+                              {
+                                  // protect emphasis (* and _) within urls
+                                  title = title.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+                                  title = title.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+                                  titleTag = " title=\"" + title + "\"";
+                              }
+
+                              if (url != null)
+                              {
+                                  replacementText = "<a href=\"" + url + "\""
+                                                    // BW: classAtrib
+                                                    + classAtrib + titleTag + targetTag + ">"
+                                                    + linkText + "</a>";
+                              } else
+                              {
+                                  replacementText = "<a"
+                                                    // BW: classAtrib
+                                                    + classAtrib + titleTag + targetTag + ">"
+                                                    + linkText + "</a>";
+                              }
+                          } else
+                          {
+                              replacementText = wholeMatch;
+                          }
+
+                          return replacementText;
+                      });
+
+            // Inline-style links: [link text]!( url "optional title")
+            //
+            // The space before and after the 'url' is now required.
+            // This is to allow for a url of: "javascript:void(0)".
+            // The closing braket ')' was being grabbed by the end of
+            // the regex pattern.
+            //
+            // Added class attribute to anchors.
+            // [link text]![@class]( url "optional title")
+            //
+            // Bradley Willcott (15/12/2020)
+            Pattern inlineLink = compile(""
+                                         // Whole match = $1
+                                         + "\\[(?<linkText>[^\\[\\]]*?)\\]"
+                                         // Link text = $2
+                                         + "(?<target>!)?"
+                                         + CLASS_REGEX // BW
+                                         + "\\("
+                                         + "[ ]*"
+                                         + "<?(?<url>.*?)>?"
+                                         // href = $4
+                                         + "[ ]*"
+                                         + "("
+                                         + "(?<quote>['\"])"
+                                         // Quote character = $6
+                                         + "(?<title>.*?)"
+                                         // Title = $7
+                                         + "\\k<quote>"
+                                         + ")?"
+                                         + "\\)", DOTALL);
+            markup.replaceAll(inlineLink, (Matcher m) ->
+                      {
+                          String linkText = m.group("linkText");
+                          String url = m.group("url");
+                          String title = m.group("title");
+                          String targetTag = m.group("target") != null ? TARGET : "";
+                          // BW: classString
+                          String classes = m.group("classes");
+
+                          // protect emphasis (* and _) within urls
+                          url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+                          url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+                          StringBuilder result = new StringBuilder();
+                          result.append("<a href=\"").append(url).append("\"");
+
+                          // BW: classAtrib
+                          String classAtrib = classes != null && !classes.isBlank()
+                                              ? addClass(classes) : "";
+                          result.append(classAtrib);
+
+                          if (title != null)
+                          {
+                              // protect emphasis (* and _) within urls
+                              title = title.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+                              title = title.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+                              title = replaceAll(title, "\"", "&quot;");
+                              result.append(" title=\"");
+                              result.append(title);
+                              result.append("\"");
+                          }
+
+                          if (!targetTag.isEmpty())
+                          {
+                              result.append(TARGET);
+                          }
+
+                          result.append(">").append(linkText);
+                          result.append("</a>");
+
+                          return result.toString();
+                      });
+        }
+
+        // Last, handle reference-style shortcuts: [link text]!
+        // These must come last in case you've also got [link test][lt]
+        // or [link test](/foo)
+        //
+        // Added class attribute to anchors.
+        // [link text]![@class]
+        //
+        // Bradley Willcott (15/12/2020)
+        //
+        // Added negative forward look for:
+        // - '[#'  - id attribute,
+        // - '[\d' - Table border width.
+        //
+        // Added acceptable character sequence:
+        // - '[^'  - Footnote link.
+        // Bradley Willcott (03/01/2021)
+        //
+        Pattern referenceShortcut = compile("(?!\\[#|\\[\\d)" // BW:
+                                            + "\\["
+                                            + "\\^?" // BW:
+                                            + "(?<linkText>[^\\[\\]]+?)"
+                                            // link text can't contain ']'
+                                            + "\\]"
+                                            + "(?<target>!)?"
+                                            + CLASS_REGEX, // BW
+                                            DOTALL);
+        markup.replaceAll(referenceShortcut, (Matcher m) ->
+                  {
+                      String replacementText;
+                      String wholeMatch = m.group();
+                      String linkText = m.group("linkText");
+                      String targetTag = m.group("target") != null ? TARGET : "";
+                      String id = linkText; // link id is now case sensitive
+                      id = id.replaceAll("[ ]?\\n", " "); // change embedded newlines into spaces
+                      // BW: classString
+                      String classes = m.group("classes");
+
+                      LinkDefinition defn = linkDefinitions.get(id);
+
+                      if (defn != null)
+                      {
+                          // BW:
+                          String url = defn.url;
+
+                          if (url != null)
+                          {
+                              // protect emphasis (* and _) within urls
+                              url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+                              url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+                          }
+
+                          // BW: classAtrib
+                          String classAtrib = addClass(defn.classes, classes);
+
+                          // BW:
+                          String title = defn.title;
+                          String titleTag = "";
+
+                          if (title != null && !title.equals(""))
+                          {
+                              // protect emphasis (* and _) within urls
+                              title = title.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+                              title = title.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+                              titleTag = " title=\"" + title + "\"";
+                          }
+
+                          // Added superscripted footnote reference
+                          // (14/03/2020) Bradley Willcott
+                          Matcher footnote = compile("\\A(\\d+)\\z").matcher(linkText);
+
+                          if (footnote.find())
+                          {
+                              linkText = doSubSup(new TextEditor("++" + CHAR_PROTECTOR.encode("[") + (url != null ? linkText : "*") + "]++")).toString();
+                          }
+
+                          if (url != null)
+                          {
+                              replacementText = "<a href=\"" + url + "\""
+                                                // BW: classAtrib
+                                                + classAtrib + titleTag + targetTag + ">"
+                                                + linkText + "</a>";
+                          } else
+                          {
+                              replacementText = "<a"
+                                                // BW: classAtrib
+                                                + classAtrib + titleTag + targetTag + ">"
+                                                + linkText + "</a>";
+                          }
+                      } else
+                      {
+                          replacementText = wholeMatch;
+                      }
+
+                      return replacementText;
+                  });
+
+        return markup;
     }
 
     static TextEditor encodeCode(TextEditor ed) {

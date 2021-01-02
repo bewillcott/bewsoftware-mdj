@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.doAnchors;
 
 /**
  * Holds all the information parsed from, and about, a table row.
@@ -151,6 +152,13 @@ class TableRow {
             }
         }
 
+//        // Process the cells contents.
+//        for (int i = 0; i < tr.cells.length; i++)
+//        {
+//            System.out.println("=>TableRow.cell[" + i + "]:\n" + tr.cells[i]);
+//            tr.cells[i] = doAnchors(new TextEditor(tr.cells[i]), true).toString();
+//            System.out.println("<=TableRow.cell[" + i + "]:\n" + tr.cells[i]);
+//        }
         return tr;
     }
 
