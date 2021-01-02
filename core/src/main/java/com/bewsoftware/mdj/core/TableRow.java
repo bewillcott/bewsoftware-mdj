@@ -164,7 +164,7 @@ class TableRow {
     private boolean readOnly = false;
     private final Status status = new Status();
 
-    // Restrict instaniation to the static method: parse()
+    // Restrict instantiation to the static method: parse()
     private TableRow(String text) {
         this.text = text;
     }
@@ -282,6 +282,14 @@ class TableRow {
         return length;
     }
 
+    /**
+     * Sets the contents of the cell at index.
+     *
+     * @param index The cell[index].
+     * @param text  The text to store.
+     *
+     * @return {@code true} if stored, {@code false} otherwise.
+     */
     public boolean setCell(int index, String text) {
         boolean rtn = false;
 
@@ -322,6 +330,9 @@ class TableRow {
         }
     }
 
+    /**
+     * Holds the current status information for: Border, Classes, and Id.
+     */
     private class Status {
 
         private static final int BORDER = 1;

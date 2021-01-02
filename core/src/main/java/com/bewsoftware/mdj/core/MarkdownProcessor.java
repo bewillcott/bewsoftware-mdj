@@ -39,6 +39,7 @@
 package com.bewsoftware.mdj.core;
 
 import com.bewsoftware.utils.struct.BooleanReturn;
+import com.bewsoftware.utils.struct.IntegerReturn;
 import com.bewsoftware.utils.struct.StringReturn;
 import java.io.*;
 import java.util.*;
@@ -51,7 +52,6 @@ import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 import static com.bewsoftware.mdj.core.Attributes.addClass;
 import static com.bewsoftware.mdj.core.Attributes.addId;
-import static com.bewsoftware.mdj.core.Attributes.addStyle;
 
 /**
  * Convert Markdown text into HTML, as per
@@ -60,20 +60,38 @@ import static com.bewsoftware.mdj.core.Attributes.addStyle;
  *     MarkdownProcessor markdown = new MarkdownProcessor();
  *     String html = markdown.markdown("*italic*   **bold**\n_italic_   __bold__");
  * </code></pre>
+ * <p>
+ * <b>Changes:</b>
+ * <ul>
+ * <li>Set all methods to be {@code static}.</li>
+ * <li>Set all method parameters to be {@code final}.</li>
+ * <li>Converted all instance variables to be class variables.</li>
+ * <li>MarkdownProcessor class is now a {@code static} class.</li>
+ * </ul>
+ * Bradley Willcott (02/01/2021)
  */
 public class MarkdownProcessor {
 
     private static final CharacterProtector CHAR_PROTECTOR = new CharacterProtector();
     private static final String CLASS_REGEX = "(?:\\[@(?<classes>\\p{Alpha}[^\\]]+)\\])?";
-    private static final String CODE_BLOCK_BEGIN = "-=: ";
-    private static final String CODE_BLOCK_END = " :=-";
-    private static final CharacterProtector HTML_PROTECTOR = new CharacterProtector();
     private static final String ID_REGEX = "(?:\\[#(?<id>\\w+)\\])";
     private static final String ID_REGEX_OPT = "(?:\\[#(?<id>\\w+)\\])?";
-    private static final String LANG_IDENTIFIER = "lang:";
+    private static final int TAB_WIDTH = 4;
     private static final String TAG_ID = "\\[#\\w+\\]";
     private static final String TARGET = " target=\"" + CHAR_PROTECTOR.encode("_") + "blank\"";
+    private static final Map<String, LinkDefinition> linkDefinitions = new TreeMap<>();
+    private static final IntegerReturn listLevel = new IntegerReturn(0);
 
+    static final String CODE_BLOCK_BEGIN = "-=: ";
+    static final String CODE_BLOCK_END = " :=-";
+    static final CharacterProtector HTML_PROTECTOR = new CharacterProtector();
+    static final String LANG_IDENTIFIER = "lang:";
+
+    /**
+     * For testing purposes ONLY>
+     *
+     * @param args not used.
+     */
     public static void main(String[] args) {
 
         final String CtlX = Character.toString(24);
@@ -140,19 +158,6 @@ public class MarkdownProcessor {
         }
     }
 
-    private final Map<String, LinkDefinition> linkDefinitions = new TreeMap<>();
-    private int listLevel;
-//    private final String[] radioGroupNames = new String[100];
-    private final Random rnd = new Random();
-    private final int tabWidth = 4;
-
-    /**
-     * Creates a new Markdown processor.
-     */
-    public MarkdownProcessor() {
-        listLevel = 0;
-    }
-
     /**
      * Perform the conversion from Markdown to HTML.
      *
@@ -160,7 +165,7 @@ public class MarkdownProcessor {
      *
      * @return HTML block corresponding to txt passed in.
      */
-    public String markdown(String txt) {
+    public static String markdown(String txt) {
         if (txt == null)
         {
             txt = "";
@@ -204,16 +209,11 @@ public class MarkdownProcessor {
         return text.toString();
     }
 
-    @Override
-    public String toString() {
-        return "Markdown Processor for Java 0.6.3 (should still be compatible with Markdown 1.0.2b2)";
-    }
-
-    private String deleteAll(String text, String regex) {
+    private static String deleteAll(final String text, final String regex) {
         return replaceAll(text, regex, "");
     }
 
-    private TextEditor doAnchors(TextEditor markup) {
+    private static TextEditor doAnchors(final TextEditor markup) {
         // Internal references: [link text][id]!
         //
         // Added class attribute to anchors.
@@ -454,7 +454,7 @@ public class MarkdownProcessor {
         return markup;
     }
 
-    private TextEditor doAutoLinks(TextEditor markup) {
+    private static TextEditor doAutoLinks(final TextEditor markup) {
         // Added class attribute to anchors.
         // <url>![@class]
         //
@@ -494,7 +494,7 @@ public class MarkdownProcessor {
         return markup;
     }
 
-    private TextEditor doBlockQuotes(TextEditor markup) {
+    private static TextEditor doBlockQuotes(final TextEditor markup) {
         Pattern p = compile("("
                             + "("
                             + "^[ \t]*>[ \t]?"
@@ -526,7 +526,7 @@ public class MarkdownProcessor {
                          });
     }
 
-    private TextEditor doCodeBlocks(TextEditor markup) {
+    private static TextEditor doCodeBlocks(final TextEditor markup) {
         /*
          * If there are any Fenced Code Blocks, they will have been protected
          * from 'p2' by HTML_PROTECTOR.encode(..). This prevents 'p2' from
@@ -545,7 +545,7 @@ public class MarkdownProcessor {
         return markup.replaceAll(p2, new CodeBlockReplacement(false));
     }
 
-    private TextEditor doCodeSpans(TextEditor markup) {
+    private static TextEditor doCodeSpans(final TextEditor markup) {
         return markup.replaceAll(compile("(?<!\\\\)(`+)(.+?)(?<!`)\\1(?!`)"), (Matcher m) ->
                          {
                              String code = m.group(2);
@@ -556,7 +556,7 @@ public class MarkdownProcessor {
                          });
     }
 
-    private TextEditor doDelIns(TextEditor text) {
+    private static TextEditor doDelIns(final TextEditor text) {
         text.replaceAll("(-!)(?=\\S)(.+?)(?<=\\S)!", "<del>$2</del>");
         text.replaceAll("(\\+!)(?=\\S)(.+?)(?<=\\S)!", "<ins>$2</ins>");
 
@@ -591,7 +591,7 @@ public class MarkdownProcessor {
      *
      * @since 10/01/2020, last updated: 14/12/2020.
      */
-    private boolean doExtendedListOptions(TextEditor item, StringReturn classString) {
+    private static boolean doExtendedListOptions(final TextEditor item, final StringReturn classString) {
 
         boolean rtn = processCheckBoxes(item, classString);
 
@@ -688,7 +688,7 @@ public class MarkdownProcessor {
      *
      * @since 07/01/2020
      */
-    private TextEditor doFencedCodeBlocks(TextEditor markup) {
+    private static TextEditor doFencedCodeBlocks(final TextEditor markup) {
         Pattern p1 = compile("(?<frontFence>^(?:[~]{3}|[`]{3}))"
                              + ID_REGEX_OPT
                              + "(?:[ ]*\\n"
@@ -699,7 +699,14 @@ public class MarkdownProcessor {
         return markup.replaceAll(p1, new CodeBlockReplacement(true));
     }
 
-    private TextEditor doHeaders(TextEditor markup) {
+    /**
+     * Build headers: &lt;h1&gt; - &lt;h6&gt;.
+     *
+     * @param markup to process.
+     *
+     * @return TextEditor for chaining.
+     */
+    private static TextEditor doHeaders(final TextEditor markup) {
         // setext-style headers
         markup.replaceAll("^(.*)\n[=]{4,}$", "<h1>$1</h1>");
         markup.replaceAll("^(.*)\n[-]{4,}$", "<h2>$1</h2>");
@@ -749,10 +756,19 @@ public class MarkdownProcessor {
         return markup;
     }
 
-    private void doHorizontalRules(TextEditor text) {
+    /**
+     * Build horizontal rules.
+     *
+     * @param text to process.
+     *
+     * @return TextEditor for chaining.
+     */
+    private static TextEditor doHorizontalRules(final TextEditor text) {
         String regex = "^[ ]{0,3}(?:([*][ ]*){3,}|([-][ ]*){3,}|([_][ ]*){3,})[ ]*$";
 
         text.replaceAll(regex, "<hr>");
+
+        return text;
     }
 
     /**
@@ -773,8 +789,10 @@ public class MarkdownProcessor {
      * Comments added by: Bradley Willcott (24/12/2020)
      *
      * @param text to process.
+     *
+     * @return TextEditor for chaining.
      */
-    private void doImages(TextEditor text) {
+    private static TextEditor doImages(final TextEditor text) {
         // Inline image syntax
         //
         // Added "(?!@)" to prevent picking up [link]![@class](...)
@@ -840,6 +858,8 @@ public class MarkdownProcessor {
 
                     return replacementText;
                 });
+
+        return text;
     }
 
     /**
@@ -859,12 +879,12 @@ public class MarkdownProcessor {
      * but if both are supplied they <i>must</i> be in the order shown above.
      *
      *
-     * @param text
+     * @param text to process.
      *
-     * @return
+     * @return TextEditor for chaining.
      */
-    private TextEditor doLists(TextEditor text) {
-        int lessThanTab = tabWidth - 1;
+    private static TextEditor doLists(final TextEditor text) {
+        int lessThanTab = TAB_WIDTH - 1;
 
         String wholeList
                = "(?<list>(?:[ ]{0," + lessThanTab + "}"
@@ -883,7 +903,7 @@ public class MarkdownProcessor {
                  + "(?![ ]*(?:[-+*]|\\d+[.])[ ]+)"
                  + "))";
 
-        if (listLevel > 0)
+        if (listLevel.val > 0)
         {
             Replacement replacer = (Matcher m) ->
             {
@@ -987,8 +1007,14 @@ public class MarkdownProcessor {
         return text;
     }
 
-    // **Strong**, *Emphasise*, __Bold__, _Italics_
-    private TextEditor doStrongEmAndBoldItalics(TextEditor markup) {
+    /**
+     * Build **Strong**, *Emphasise*, __Bold__, _Italics_
+     *
+     * @param markup to process.
+     *
+     * @return TextEditor for chaining.
+     */
+    private static TextEditor doStrongEmAndBoldItalics(final TextEditor markup) {
         markup.replaceAll("(\\*\\*)(?=\\S)(.+?[*]?)(?<=\\S)\\1", "<strong>$2</strong>");
         markup.replaceAll("(\\*)(?=\\S)(.+?)(?<=\\S)\\1", "<em>$2</em>");
         markup.replaceAll("(__)(?=\\S)(.+?[_]?)(?<=\\S)\\1", "<b>$2</b>");
@@ -997,14 +1023,28 @@ public class MarkdownProcessor {
         return markup;
     }
 
-    private TextEditor doSubSup(TextEditor text) {
+    /**
+     * Build subscripts and superscripts.
+     *
+     * @param text to process.
+     *
+     * @return TextEditor for chaining.
+     */
+    private static TextEditor doSubSup(final TextEditor text) {
         text.replaceAll("(?<![-:])(--)(?![-:])(?=\\S)(.+?)(?<=\\S)\\1", "<sub>$2</sub>");
         text.replaceAll("(\\+\\+)(?=\\S)(.+?)(?<=\\S)\\1", "<sup>$2</sup>");
 
         return text;
     }
 
-    private TextEditor doTables(TextEditor text) {
+    /**
+     * Build tables.
+     *
+     * @param text to process.
+     *
+     * @return TextEditor for chaining.
+     */
+    private static TextEditor doTables(final TextEditor text) {
         //
         // This would be the table's caption.
         // | Col1 Header | Col2 Header |Col3 Header|Col 4|[]
@@ -1055,14 +1095,21 @@ public class MarkdownProcessor {
         Replacement makeTable = new TableReplacement();
 
         // Escaped pipes need to be handled
-        text = text.replaceAll("\\x5C\\x7C", CHAR_PROTECTOR.encode("|"));
+        text.replaceAll("\\x5C\\x7C", CHAR_PROTECTOR.encode("|"));
 
         text.replaceAll(p, makeTable);
 
         return text;
     }
 
-    private TextEditor encodeAmpsAndAngles(TextEditor markup) {
+    /**
+     * Encode Amps and Angles.
+     *
+     * @param markup text to process.
+     *
+     * @return TextEditor for chaining.
+     */
+    private static TextEditor encodeAmpsAndAngles(final TextEditor markup) {
         // Ampersand-encoding based entirely on Nat Irons's Amputator MT plugin:
         // http://bumppo.net/projects/amputator/
         // Added CHAR_PROTECTOR to overcome replacement of the '&' in '&amp;'
@@ -1074,7 +1121,14 @@ public class MarkdownProcessor {
         return markup;
     }
 
-    private TextEditor encodeBackslashEscapes(TextEditor text) {
+    /**
+     * Encode backslash escapes.
+     *
+     * @param text to process.
+     *
+     * @return TextEditor for chaining;
+     */
+    private static TextEditor encodeBackslashEscapes(final TextEditor text) {
         char[] normalChars = "`_>!".toCharArray();
         char[] escapedChars = "*{}[]()#+-.".toCharArray();
 
@@ -1088,34 +1142,13 @@ public class MarkdownProcessor {
         return text;
     }
 
-    private TextEditor encodeCode(TextEditor ed) {
-        ed.replaceAll("\\\\&", CHAR_PROTECTOR.encode("&"));
-        ed.replaceAll("--", CHAR_PROTECTOR.encode("--"));
-        ed.replaceAll("\\+\\+", CHAR_PROTECTOR.encode("++"));
-        ed.replaceAll("\\-!", CHAR_PROTECTOR.encode("-!"));
-        ed.replaceAll("\\+!", CHAR_PROTECTOR.encode("+!"));
-        ed.replaceAll("&", "&amp;");
-        ed.replaceAll("<", "&lt;");
-        ed.replaceAll(">", "&gt;");
-        ed.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-        ed.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-        ed.replaceAll("\\{", CHAR_PROTECTOR.encode("{"));
-        ed.replaceAll("\\}", CHAR_PROTECTOR.encode("}"));
-        ed.replaceAll("\\x5C\\x5C\\x5B", CHAR_PROTECTOR.encode("["));
-        ed.replaceAll("\\[", CHAR_PROTECTOR.encode("["));
-        ed.replaceAll("\\]", CHAR_PROTECTOR.encode("]"));
-        ed.replaceAll("\\x5C\\x7C", CHAR_PROTECTOR.encode("|"));
-        ed.replaceAll("\\\\", CHAR_PROTECTOR.encode("\\"));
-        return ed;
-    }
-
-    private String encodeEmail(String s) {
+    private static String encodeEmail(final String s) {
         StringBuilder sb = new StringBuilder();
         char[] email = s.toCharArray();
 
         for (char ch : email)
         {
-            double r = rnd.nextDouble();
+            double r = new Random().nextDouble();
 
             if (r < 0.45)
             {      // Decimal
@@ -1136,7 +1169,8 @@ public class MarkdownProcessor {
         return sb.toString();
     }
 
-    private TextEditor encodeEscapes(TextEditor text, char[] chars, String slashes) {
+    private static TextEditor encodeEscapes(final TextEditor text,
+                                            final char[] chars, final String slashes) {
         for (char ch : chars)
         {
             String regex = slashes + ch;
@@ -1155,11 +1189,11 @@ public class MarkdownProcessor {
      * this is likely overkill, but it should prevent us from colliding with the
      * escape values by accident.
      *
-     * @param text
+     * @param text to process.
      *
-     * @return
+     * @return new TextEditor with changes.
      */
-    private TextEditor escapeSpecialCharsWithinTagAttributes(TextEditor text) {
+    private static TextEditor escapeSpecialCharsWithinTagAttributes(TextEditor text) {
         Collection<HTMLToken> tokens = text.tokenizeHTML();
         TextEditor newText = new TextEditor("");
 
@@ -1181,7 +1215,14 @@ public class MarkdownProcessor {
         return newText;
     }
 
-    private TextEditor formParagraphs(TextEditor markup) {
+    /**
+     * Form paragraphs.
+     *
+     * @param markup to process.
+     *
+     * @return new TextEditor with modified text.
+     */
+    private static TextEditor formParagraphs(TextEditor markup) {
         markup.deleteAll("\\A\\n+");
         markup.deleteAll("\\n+\\z");
         markup.replaceAll("(?:\\A|\\n)" + CODE_BLOCK_BEGIN + "(\\w+?)" + CODE_BLOCK_END + "(?:\\n|\\Z)", "\n\n$1\n\n");
@@ -1218,11 +1259,11 @@ public class MarkdownProcessor {
         return new TextEditor(String.join("\n\n", paragraphs));
     }
 
-    private boolean hasParagraphBreak(TextEditor item) {
+    private static boolean hasParagraphBreak(final TextEditor item) {
         return item.toString().contains("\n\n");
     }
 
-    private void hashHTMLBlocks(TextEditor text) {
+    private static void hashHTMLBlocks(final TextEditor text) {
         // Hashify HTML blocks:
         // We only want to do this for block-level HTML tags, such as headers,
         // lists, and tables. That's because we still want to wrap <p>s around
@@ -1244,7 +1285,7 @@ public class MarkdownProcessor {
         String alternationA = String.join("|", tagsA);
         String alternationB = alternationA + "|" + String.join("|", tagsB);
 
-        int less_than_tab = tabWidth - 1;
+        int lessThanTab = TAB_WIDTH - 1;
 
         // First, look for nested blocks, e.g.:
         //   <div>
@@ -1287,7 +1328,7 @@ public class MarkdownProcessor {
                              + "\\A\\n?"
                              + ")"
                              + "("
-                             + "[ ]{0," + less_than_tab + "}"
+                             + "[ ]{0," + lessThanTab + "}"
                              + "<(hr)"
                              + "\\b"
                              + "([^<>])*?"
@@ -1303,7 +1344,7 @@ public class MarkdownProcessor {
                              + "\\A\\n?"
                              + ")"
                              + "("
-                             + "[ ]{0," + less_than_tab + "}"
+                             + "[ ]{0," + lessThanTab + "}"
                              + "(?s:"
                              + "<!"
                              + "(--.*?--\\s*)+"
@@ -1315,7 +1356,7 @@ public class MarkdownProcessor {
         text.replaceAll(p4, protectHTML);
     }
 
-    private boolean isEmptyString(String leadingLine) {
+    private static boolean isEmptyString(final String leadingLine) {
         return leadingLine == null || leadingLine.isEmpty();
     }
 
@@ -1364,7 +1405,7 @@ public class MarkdownProcessor {
      *
      * @return {@code true} if check box found, {@code false} otherwise.
      */
-    private boolean processCheckBoxes(TextEditor item, StringReturn classString) {
+    private static boolean processCheckBoxes(final TextEditor item, final StringReturn classString) {
         final String regex = "^\\[(?<checked>[ xX])\\](?<disabled>[!])?" + CLASS_REGEX + "[ ]+(?<text>[^ ]+.*)\\n";
         final Pattern p = compile(regex);
 
@@ -1395,17 +1436,6 @@ public class MarkdownProcessor {
         return item.wasFound();
     }
 
-    private String processGroupText(String text) {
-        if (text != null && !text.isBlank())
-        {
-            // Escaped pipes need to be handled
-            return runSpanGamut(new TextEditor(text)).toString(); //.replaceAll("\\x5C\\x7C", "&#124;");
-        } else
-        {
-            return "";
-        }
-    }
-
     /**
      * Process list items.
      * <p>
@@ -1415,7 +1445,7 @@ public class MarkdownProcessor {
      *
      * @return {@code true} if any check boxes found, {@code false} otherwise.
      */
-    private boolean processListItems(final StringReturn list) {
+    private static boolean processListItems(final StringReturn list) {
         // The listLevel variable keeps track of when we're inside a list.
         // Each time we enter a list, we increment it; when we leave a list,
         // we decrement. If it's zero, we're not in a list anymore.
@@ -1436,7 +1466,7 @@ public class MarkdownProcessor {
         // without resorting to mind-reading. Perhaps the solution is to
         // change the syntax rules such that sub-lists must start with a
         // starting cardinal number; e.g. "1." or "a.".
-        listLevel++;
+        listLevel.val++;
         final BooleanReturn rtn = new BooleanReturn();
 
         // Trim trailing blank lines:
@@ -1470,7 +1500,7 @@ public class MarkdownProcessor {
                                  + ">" + item.trim().toString() + "</li>\n";
                       });
 
-        listLevel--;
+        listLevel.val--;
         return rtn.val;
     }
 
@@ -1493,7 +1523,7 @@ public class MarkdownProcessor {
      *
      * @since 14/12/2020.
      */
-    private void processListItemsWithAClass(TextEditor item, StringReturn classString) {
+    private static void processListItemsWithAClass(final TextEditor item, final StringReturn classString) {
         final String regex = "^" + CLASS_REGEX + "[ ]+(?<text>[^ ]+.*)\\n";
         final Pattern p = compile(regex);
 
@@ -1511,19 +1541,26 @@ public class MarkdownProcessor {
         item.replaceAll(p, processClass);
     }
 
-    private String replaceAll(String text, String regex, String replacement) {
+    private static String replaceAll(final String text, final String regex, final String replacement) {
         return new TextEditor(text)
                 .replaceAll(regex, replacement)
                 .toString();
     }
 
-    private String replaceAll(String text, Pattern pattern, Replacement replacement) {
+    private static String replaceAll(final String text, final Pattern pattern, final Replacement replacement) {
         return new TextEditor(text)
                 .replaceAll(pattern, replacement)
                 .toString();
     }
 
-    private TextEditor runBlockGamut(TextEditor text) {
+    /**
+     * Run all block level processing.
+     *
+     * @param text to process.
+     *
+     * @return new TextEditor with modified text.
+     */
+    private static TextEditor runBlockGamut(final TextEditor text) {
         doFencedCodeBlocks(text);
         doHeaders(text);
         doTables(text);
@@ -1541,10 +1578,17 @@ public class MarkdownProcessor {
         return formParagraphs(text);
     }
 
-    private TextEditor runSpanGamut(TextEditor text) {
+    /**
+     * Run &lt;span&gt; level processing.
+     *
+     * @param text to process.
+     *
+     * @return new TextEditor with modified text.
+     */
+    private static TextEditor runSpanGamut(TextEditor text) {
         text = escapeSpecialCharsWithinTagAttributes(text);
-        text = doCodeSpans(text);
-        text = encodeBackslashEscapes(text);
+        doCodeSpans(text);
+        encodeBackslashEscapes(text);
 
         doSubSup(text);
         doDelIns(text);
@@ -1572,7 +1616,7 @@ public class MarkdownProcessor {
     //
     // Bradley Willcott (24/12/2020)
     //
-    private void stripLinkDefinitions(TextEditor text) {
+    private static void stripLinkDefinitions(TextEditor text) {
         Pattern p = compile("^[ ]{0,3}\\[(?<id>.+)\\]:"
                             // ID = $1
                             // BW:
@@ -1618,7 +1662,7 @@ public class MarkdownProcessor {
                 });
     }
 
-    private Tag tagID(String text) {
+    private static Tag tagID(String text) {
         Pattern p = compile("(?<!\\\\)" + ID_REGEX);
         final ArrayList<String> ids = new ArrayList<>();
 
@@ -1633,12 +1677,59 @@ public class MarkdownProcessor {
                 ids.size() > 0 ? ids.get(0) : null);
     }
 
-    private void unEscapeSpecialChars(TextEditor ed) {
+    private static void unEscapeSpecialChars(TextEditor ed) {
         CHAR_PROTECTOR.getAllEncodedTokens().forEach(hash ->
         {
             String plaintext = CHAR_PROTECTOR.decode(hash);
             ed.replaceAllLiteral(hash, plaintext);
         });
+    }
+
+    static TextEditor encodeCode(TextEditor ed) {
+        ed.replaceAll("\\\\&", CHAR_PROTECTOR.encode("&"));
+        ed.replaceAll("--", CHAR_PROTECTOR.encode("--"));
+        ed.replaceAll("\\+\\+", CHAR_PROTECTOR.encode("++"));
+        ed.replaceAll("\\-!", CHAR_PROTECTOR.encode("-!"));
+        ed.replaceAll("\\+!", CHAR_PROTECTOR.encode("+!"));
+        ed.replaceAll("&", "&amp;");
+        ed.replaceAll("<", "&lt;");
+        ed.replaceAll(">", "&gt;");
+        ed.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+        ed.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+        ed.replaceAll("\\{", CHAR_PROTECTOR.encode("{"));
+        ed.replaceAll("\\}", CHAR_PROTECTOR.encode("}"));
+        ed.replaceAll("\\x5C\\x5C\\x5B", CHAR_PROTECTOR.encode("["));
+        ed.replaceAll("\\[", CHAR_PROTECTOR.encode("["));
+        ed.replaceAll("\\]", CHAR_PROTECTOR.encode("]"));
+        ed.replaceAll("\\x5C\\x7C", CHAR_PROTECTOR.encode("|"));
+        ed.replaceAll("\\\\", CHAR_PROTECTOR.encode("\\"));
+        return ed;
+    }
+
+    static String processGroupText(String text) {
+        if (text != null && !text.isBlank())
+        {
+            // Escaped pipes need to be handled
+            return runSpanGamut(new TextEditor(text)).toString();
+        } else
+        {
+            return "";
+        }
+    }
+
+    /**
+     * <del>Creates a new Markdown processor.</del>
+     *
+     * @deprecated No longer required to be instantiated, as everything is now
+     * <i>static</i>.
+     */
+    @Deprecated
+    public MarkdownProcessor() {
+    }
+
+    @Override
+    public String toString() {
+        return "Markdown Processor for Java 0.6.3 (should still be compatible with Markdown 1.0.2b2)";
     }
 
     /**
@@ -1657,405 +1748,6 @@ public class MarkdownProcessor {
         public Tag(String text, String id) {
             this.text = text;
             this.id = id;
-        }
-    }
-
-    private class CodeBlockReplacement implements Replacement {
-
-        private final boolean fencedCode;
-        private Matcher m;
-
-        public CodeBlockReplacement(boolean fencedCode) {
-            this.fencedCode = fencedCode;
-        }
-
-        @Override
-        public String replacement(Matcher m) {
-            this.m = m;
-            TextEditor ed = new TextEditor(m.group("body"));
-
-            if (!fencedCode)
-            {
-                ed.outdent();
-            }
-
-            unHashBlocks(ed);
-            encodeCode(ed);
-            ed.detabify().deleteAll("\\A\\n+").deleteAll("\\s+\\z");
-
-            String text = ed.toString();
-            String out = "";
-
-            if (m.group("class") != null)
-            {
-                out = languageBlock(m.group("class"), text);
-            } else if (m.group("classes") != null)
-            {
-                out = classesBlock(m.group("classes"), text);
-            } else
-            {
-                out = genericCodeBlock(text);
-            }
-
-            return "\n" + CODE_BLOCK_BEGIN + HTML_PROTECTOR.encode(out) + CODE_BLOCK_END + "\n";
-        }
-
-        private String classesBlock(String classes, String text) {
-            Pattern p = compile("\\[(?:@(?<preClasses>\\p{Alpha}[^\\]]*)?)?\\]\\[(?:@(?<codeClasses>\\p{Alpha}[^\\]]*)?)?\\]");
-            Matcher m2 = p.matcher(classes);
-
-            if (m2.find())
-            {
-                String pre = "<pre" + addId(m.group("id")) + addClass(m2.group("preClasses")) + ">\n";
-                String code = "    <code" + addClass(m2.group("codeClasses")) + ">\n";
-
-                return pre + code + text + "\n    </code>\n</pre>";
-            } else
-            {
-                return genericCodeBlock(text);
-            }
-        }
-
-        private String genericCodeBlock(String text) {
-            return "<pre" + addId(m.group("id")) + ">\n    <code>\n" + text + "\n    </code>\n</pre>";
-        }
-
-        private String languageBlock(String clazz, String text) {
-            String lang = clazz.replaceFirst(LANG_IDENTIFIER, "").trim();
-
-            return "<pre" + addId(m.group("id")) + addClass(lang) + ">\n    <code>\n" + text + "\n    </code>\n</pre>";
-        }
-
-        private void unHashBlocks(TextEditor ed) {
-            Matcher mLocal = Pattern.compile(CharacterProtector.REGEX, MULTILINE).matcher(ed.toString());
-
-            while (mLocal.find())
-            {
-                String encoded = mLocal.group("encoded");
-                String decoded = HTML_PROTECTOR.decode(encoded);
-
-                if (decoded != null)
-                {
-                    ed.replaceAllLiteral(encoded, decoded);
-                }
-            }
-        }
-    }
-
-    private class TableReplacement implements Replacement {
-
-        private final String CAPTION_BORDER = "border-left: %1$dpx solid black;border-top: %1$dpx solid black;border-right: %1$dpx solid black;padding: %2$dpx";
-        private final String[] INDENT =
-        {
-            "", "  ", "    ", "      "
-        };
-        private final String ROW_BORDER = "border: %1$dpx solid black;padding: %2$dpx;";
-        private final String TABLE_BORDER = "border: %1$dpx solid black;border-collapse: collapse;padding: %2$dpx";
-
-        public TableReplacement() {
-        }
-
-        @Override
-        public String replacement(Matcher m) {
-
-            String rtn = m.group();
-
-            String caption = m.group("caption");
-            String header = processGroupText(m.group("header")).trim();
-            String delrow = m.group("delrow").trim();
-            String data = processGroupText(m.group("datarows")).trim();
-
-            // Process <thead>
-            TableRow hRow = TableRow.parse(header);
-            hRow.setReadOnly();
-            TableRow delRow = TableRow.parse(delrow);
-
-            int align = 0;
-            String tmp = "";
-
-            if (hRow.length() == delRow.length())
-            {
-                StringBuilder sb = new StringBuilder();
-
-                sb.append("<table");
-
-                if (delRow.hasAttrib())
-                {
-                    if (delRow.hasId())
-                    {
-                        sb.append(addId(delRow.getId()));
-                    }
-
-                    if (delRow.hasBorder())
-                    {
-                        tmp = String.format(TABLE_BORDER, delRow.getBorderWidth(), delRow.getCellPadding());
-                        sb.append(addStyle(tmp));
-                    } else
-                    {
-                        sb.append(addClass(delRow.getClasses()));
-                    }
-                }
-
-                sb.append(">\n");
-
-                if (caption != null && !caption.isEmpty())
-                {
-                    boolean captionBorders = false;
-                    sb.append(INDENT[1]).append("<caption");
-                    caption = processGroupText(caption.trim());
-
-                    if (caption.startsWith("[") && caption.endsWith("]"))
-                    {
-                        captionBorders = true;
-                        caption = caption.substring(1, caption.length() - 1).trim();
-                    }
-
-                    if (captionBorders && delRow.hasAttrib())
-                    {
-                        if (delRow.hasBorder())
-                        {
-                            tmp = String.format(CAPTION_BORDER, delRow.getBorderWidth(), delRow.getCellPadding());
-                            sb.append(addStyle(tmp));
-                        }
-                    }
-
-                    sb.append(">\n").append(caption).append("\n")
-                            .append(INDENT[1]).append("</caption>\n");
-                }
-
-                // Process column formatting
-                for (int i = 0; i < delRow.length(); i++)
-                {
-                    String delCol = delRow.getCell(i).trim();
-                    align = (delCol.startsWith(":") ? 1 : 0);
-                    align = align + (delCol.endsWith(":") ? 2 : 0);
-
-                    switch (align)
-                    {
-                        case 0:
-
-                            if (delCol.matches("[-]+?[:][-]+?"))
-                            {
-                                delRow.setCell(i, "text-align: center");
-                            } else
-                            {
-                                delRow.setCell(i, "");
-                            }
-
-                            break;
-
-                        case 1:
-                            delRow.setCell(i, "text-align: left");
-                            break;
-
-                        case 2:
-                            delRow.setCell(i, "text-align: right");
-                            break;
-
-                        case 3:
-                            delRow.setCell(i, "text-align: justify");
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-
-                delRow.setReadOnly();
-
-                sb.append(INDENT[1]).append("<thead>\n")
-                        .append(INDENT[2]).append("<tr");
-
-                if (hRow.hasId())
-                {
-                    sb.append(addId(hRow.getId()));
-                }
-
-                sb.append(">\n");
-
-                // Process <th> attributes
-                for (int i = 0; i < delRow.length(); i++)
-                {
-
-                    sb.append(INDENT[3]).append("<th");
-
-                    if (!hRow.hasAttrib())
-                    {
-                        if (!delRow.getCell(i).isEmpty())
-                        {
-                            sb.append(addStyle(delRow.getCell(i)));
-                        }
-                    } else
-                    {
-                        if (hRow.hasBorder())
-                        {
-                            tmp = String.format(ROW_BORDER, hRow.getBorderWidth(), hRow.getCellPadding());
-                            sb.append(addStyle(tmp + delRow.getCell(i)));
-                        } else
-                        {
-                            if (hRow.hasClasses())
-                            {
-                                sb.append(addClass(hRow.getClasses()));
-                            }
-
-                            if (!delRow.getCell(i).isEmpty())
-                            {
-                                sb.append(addStyle(delRow.getCell(i)));
-                            }
-                        }
-                    }
-
-                    sb.append(">\n").append(hRow.getCell(i).trim()).append("\n")
-                            .append(INDENT[3]).append("</th>\n");
-                }
-
-                sb.append(INDENT[2]).append("</tr>\n")
-                        .append(INDENT[1]).append("</thead>\n");
-
-                if (!data.trim().isEmpty())
-                {
-                    String[] dataRows = data.split("\n");
-                    TableRowList rowList = new TableRowList(dataRows.length);
-
-                    sb.append(INDENT[1]).append("<tbody>\n");
-
-                    for (int i = 0; i < dataRows.length; i++)
-                    {
-                        TableRow dataRow = TableRow.parse(dataRows[i]);
-                        rowList.add(dataRow);
-
-                        sb.append(INDENT[2]).append("<tr");
-
-                        if (dataRow.hasId())
-                        {
-                            sb.append(addId(dataRow.getId()));
-                        }
-
-                        sb.append(">\n");
-
-                        for (int j = 0; j < dataRow.length() && j < delRow.length(); j++)
-                        {
-                            // Process <td> attributes
-                            sb.append(INDENT[3]).append("<td");
-
-                            if (!dataRow.hasAttrib())
-                            {
-                                if (rowList.hasNext())
-                                {
-                                    TableRow attrib = rowList.getNext();
-
-                                    if (attrib.hasBorder())
-                                    {
-                                        tmp = String.format(ROW_BORDER, attrib.getBorderWidth(), attrib.getCellPadding());
-                                        sb.append(addStyle(tmp + delRow.getCell(j)));
-                                    } else
-                                    {
-                                        if (attrib.hasClasses())
-                                        {
-                                            sb.append(addClass(attrib.getClasses()));
-                                        }
-
-                                        if (!delRow.getCell(j).isEmpty())
-                                        {
-                                            sb.append(addStyle(delRow.getCell(j)));
-                                        }
-                                    }
-                                } else if (!delRow.getCell(j).isEmpty())
-                                {
-                                    sb.append(addStyle(delRow.getCell(j)));
-                                }
-                            } else
-                            {
-                                if (dataRow.hasBorder())
-                                {
-                                    tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(), dataRow.getCellPadding());
-                                    sb.append(addStyle(tmp + delRow.getCell(j)));
-                                } else
-                                {
-                                    if (dataRow.hasClasses())
-                                    {
-                                        sb.append(addClass(dataRow.getClasses()));
-                                    }
-
-                                    if (!delRow.getCell(j).isEmpty())
-                                    {
-                                        sb.append(addStyle(delRow.getCell(j)));
-                                    }
-                                }
-                            }
-
-                            sb.append(">\n").append(dataRow.getCell(j).trim()).append("\n")
-                                    .append(INDENT[3]).append("</td>\n");
-                        }
-
-                        if (dataRow.length() < hRow.length())
-                        {
-                            sb.append(INDENT[3]).append("<td");
-
-                            for (int k = dataRow.length(); k < hRow.length(); k++)
-                            {
-                                if (!dataRow.hasAttrib())
-                                {
-                                    if (rowList.hasNext())
-                                    {
-                                        TableRow attrib = rowList.getNext();
-
-                                        if (attrib.hasBorder())
-                                        {
-                                            tmp = String.format(ROW_BORDER, attrib.getBorderWidth(), attrib.getCellPadding());
-                                            sb.append(addStyle(tmp + delRow.getCell(k)));
-                                        } else
-                                        {
-                                            if (attrib.hasClasses())
-                                            {
-                                                sb.append(addClass(attrib.getClasses()));
-                                            }
-
-                                            if (!delRow.getCell(k).isEmpty())
-                                            {
-                                                sb.append(addStyle(delRow.getCell(k)));
-                                            }
-                                        }
-                                    } else if (!delRow.getCell(k).isEmpty())
-                                    {
-                                        sb.append(addStyle(delRow.getCell(k)));
-                                    }
-                                } else
-                                {
-                                    if (dataRow.hasBorder())
-                                    {
-                                        tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(), dataRow.getCellPadding());
-                                        sb.append(addStyle(tmp + delRow.getCell(k)));
-                                    } else
-                                    {
-                                        if (dataRow.hasClasses())
-                                        {
-                                            sb.append(addClass(dataRow.getClasses()));
-                                        }
-
-                                        if (!delRow.getCell(k).isEmpty())
-                                        {
-                                            sb.append(addStyle(delRow.getCell(k)));
-                                        }
-                                    }
-                                }
-
-                                sb.append(">\n&nbsp;\n").append(INDENT[3]).append("</td>\n");
-                            }
-                        }
-
-                        sb.append(INDENT[2]).append("</tr>\n");
-                    }
-
-                    sb.append(INDENT[1]).append("</tbody>\n");
-                }
-
-                String out = sb.append("</table>\n").toString();
-
-                rtn = "\n\n" + HTML_PROTECTOR.encode(out) + "\n\n";
-            }
-
-            return rtn;
         }
     }
 

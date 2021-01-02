@@ -36,20 +36,12 @@ package com.bewsoftware.mdj.core.test;
 
 import com.bewsoftware.mdj.core.HTMLDecoder;
 import com.bewsoftware.mdj.core.MarkdownProcessor;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class EmailAddresses {
-
-    MarkdownProcessor m;
-
-    @BeforeEach
-    public void createProcessor() {
-        m = new MarkdownProcessor();
-    }
 
     @Test
     public void testDecoder() {
@@ -62,7 +54,7 @@ public class EmailAddresses {
 
     @Test
     public void testEmail() {
-        String html = m.markdown("<billg@microsoft.com>");
+        String html = MarkdownProcessor.markdown("<billg@microsoft.com>");
         String plain = HTMLDecoder.decode(html);
         assertEquals("<p><a href=\"mailto:billg@microsoft.com\">billg@microsoft.com</a></p>\n", plain);
         assertFalse(plain.equals(html), "Email addresses are masked");

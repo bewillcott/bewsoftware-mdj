@@ -42,7 +42,7 @@ package com.bewsoftware.mdj.core;
 class TableRowList {
 
     private static final int DEFAULT_SIZE = 10;
-    private TableRow[] list;
+    private final TableRow[] list;
     private int length = 0;
     private int lastIdx = -1;
 

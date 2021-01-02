@@ -3,20 +3,12 @@ package com.bewsoftware.mdj.core.test;
 import com.bewsoftware.mdj.core.MarkdownProcessor;
 import java.util.Arrays;
 import java.util.Collection;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PreserveHtmlBlockTagsTest {
-
-    private MarkdownProcessor m;
-
-    @BeforeEach
-    public void setup() {
-        m = new MarkdownProcessor();
-    }
 
     public static Collection<String[]> testHtml() {
         return Arrays.asList(new String[][]
@@ -57,7 +49,7 @@ public class PreserveHtmlBlockTagsTest {
     @ParameterizedTest(name = "{index}: {1}")
     @MethodSource("testHtml")
     public void testRoundtripPreservesTags(String value) {
-        assertEquals(value, m.markdown(value).trim());
+        assertEquals(value, MarkdownProcessor.markdown(value).trim());
     }
 
 }

@@ -100,8 +100,7 @@ public class MarkdownTestTester {
         String testText = slurp(dir + File.separator + test + ".text");
         String htmlText = slurp(dir + File.separator + test + ".html");
 
-        MarkdownProcessor markup = new MarkdownProcessor();
-        String markdownText = markup.markdown(testText);
+        String markdownText = MarkdownProcessor.markdown(testText);
         assertFalse(diffStrings(htmlText, markdownText), test);
     }
 

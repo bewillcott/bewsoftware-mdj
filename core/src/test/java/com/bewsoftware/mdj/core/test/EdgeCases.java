@@ -36,33 +36,25 @@ package com.bewsoftware.mdj.core.test;
 
 import com.bewsoftware.mdj.core.MarkdownProcessor;
 import java.util.regex.Pattern;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EdgeCases {
 
-    private MarkdownProcessor m;
-
-    @BeforeEach
-    public void createProcessor() {
-        m = new MarkdownProcessor();
-    }
-
     @Test
     public void testEmptyString() {
-        assertEquals("\n", m.markdown(""));
-    }
-
-    @Test
-    public void testSpaces() {
-        assertEquals("\n", m.markdown("  "));
+        assertEquals("\n", MarkdownProcessor.markdown(""));
     }
 
     @Test
     public void testNull() {
-        assertEquals("\n", m.markdown(null));
+        assertEquals("\n", MarkdownProcessor.markdown(null));
+    }
+
+    @Test
+    public void testSpaces() {
+        assertEquals("\n", MarkdownProcessor.markdown("  "));
     }
 
     @Test
