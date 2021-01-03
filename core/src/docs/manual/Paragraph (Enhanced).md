@@ -1,12 +1,14 @@
 @@@
 
 use: articles2
-title: ${document.name} | Text Embellishments
+title: ${document.name} | Paragraph (Enhanced)
 
 @@@
 
 
-### Paragraph (Enhanced)
+## Paragraph (Enhanced)
+
+### id
 
 To add an "`id`" attribute to a paragraph, just put it[#pid] anywhere within the
 paragraph.  If there is more than one, only the first one matters.  All will be
@@ -21,6 +23,22 @@ paragraph.  If there is more than one, only the first one matters.  All will be
 [#pid2] removed from the final formatted text.
 
 Then to setup a link to go to the previous [paragraph](#pid).
+~~~
+
+### class
+
+[@centre]
+To add one or more css classes to a paragraph,  
+just add it/them to the line before  
+the beginning of the paragraph.
+
+
+The following is the raw text that produced the above:
+~~~
+[@centre]
+To add one or more css classes to a paragraph,  
+just add it/them to the line before  
+the beginning of the paragraph.
 ~~~
 
 

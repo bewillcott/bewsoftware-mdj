@@ -201,3 +201,7 @@ a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWin
     background: url(../etc/newwindow.png) right center no-repeat;
     padding-right: 18px;
 }
+
+p.centre{
+    text-align: center;
+}

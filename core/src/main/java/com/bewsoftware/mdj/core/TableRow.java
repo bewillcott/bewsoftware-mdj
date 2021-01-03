@@ -37,7 +37,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.doAnchors;
 
 /**
  * Holds all the information parsed from, and about, a table row.

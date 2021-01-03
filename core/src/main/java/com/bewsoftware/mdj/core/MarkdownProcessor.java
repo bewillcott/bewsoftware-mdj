@@ -1008,10 +1008,12 @@ public class MarkdownProcessor {
             {
                 paragraph = runSpanGamut(new TextEditor(paragraph)).toString();
 
-                Tag tag = tagID(paragraph);
-                paragraphs[i] = tag.id != null
-                                ? "<p id=\"" + tag.id + "\">" + tag.text + "</p>"
-                                : "<p>" + paragraph + "</p>";
+                //
+                // Changed Tag to include "class" attribute.
+                //
+                // Bradley Willcott (03/01/2021)
+                Tag tag = tag(paragraph);
+                paragraphs[i] = "<p" + tag.id + tag.classes + ">" + tag.text + "</p>";
             }
         }
 
@@ -1420,19 +1422,41 @@ public class MarkdownProcessor {
                 });
     }
 
-    private static Tag tagID(String text) {
-        Pattern p = compile("(?<!\\\\)" + ID_REGEX);
+    /**
+     * Return a Tag containing any Id and/or classes.
+     * <p>
+     * <b>Changes:</b>
+     * <ul>
+     * <li>Added {@code classes}.</li>
+     * </ul>
+     * Bradley Willcott (03/01/2021)
+     *
+     * @param text to process.
+     *
+     * @return new Tag with data.
+     */
+    private static Tag tag(String text) {
+        Pattern pId = compile("(?<!\\\\)" + ID_REGEX);
+        Pattern pClasses = compile("^(?<!\\\\)" + CLASS_REGEX);
         final ArrayList<String> ids = new ArrayList<>();
+        final ArrayList<String> classes = new ArrayList<>();
+        TextEditor ted = new TextEditor(text);
 
         return new Tag(
-                new TextEditor(text)
-                        .replaceAll(p, m ->
-                            {
-                                ids.add(m.group("id"));
+                ted.replaceAll(pId, m ->
+                       {
+                           ids.add(m.group("id"));
 
-                                return "";
-                            }).toString(),
-                ids.size() > 0 ? ids.get(0) : null);
+                           return "";
+                       }).replaceAll(pClasses, m ->
+                             {
+                                 classes.add(m.group("classes"));
+
+                                 return "";
+                             })
+                        .toString(),
+                classes.isEmpty() ? null : classes.get(0),
+                ids.isEmpty() ? null : ids.get(0));
     }
 
     private static void unEscapeSpecialChars(TextEditor ed) {
@@ -1747,21 +1771,23 @@ public class MarkdownProcessor {
     }
 
     /**
-     * Used by {@link #tagID(java.lang.String) tagID()}.
+     * Used by {@link #tag(java.lang.String) tag()}.
      *
      * @author Bradley Willcott
      *
      * @since 0.6
-     * @version 0.6
+     * @version 0.6.8
      */
     public static class Tag {
 
         public final String text;
+        public final String classes;
         public final String id;
 
-        public Tag(String text, String id) {
+        public Tag(String text, String classes, String id) {
             this.text = text;
-            this.id = id;
+            this.classes = addClass(classes);
+            this.id = addId(id);
         }
     }
 
