@@ -16,11 +16,15 @@ title: ${document.name} | ToDo List
     `\&nbsp;\&nbsp;\&nbsp;\&nbsp;: definition`  
     `\&nbsp;\&nbsp;\&nbsp;\&nbsp;: another definition`
     - [ ]! Abbreviations: `*[text]: Full text`
-    - [ ]! Foornote: `[^n]: Footnote text`
+    - [x]! Footnote: `[^n]: Footnote text`
+        - [ ]! More work to do: automate generation of page location code.
 - [ ]! Add class attribute where useful: `[@<classname>]`.
-    -[x]! [Links (Enhanced)]
+    - [x]! [Links (Enhanced)]
+    - [x]! [Paragraph (Enhanced)]
+    - [x]! Lists - see [Navigation Bar]
 - [x]! (14/03/2020) Added superscripted footnote references.  
-`[d%]` - d% must be a valid decimal number.
+-!`[d%]`!+![^d%]! - d% must be a valid decimal number.  
++!See _footnote_ entry above.!
 - [x]! (16/03/2020) Added footnote links[1]
 - [ ]! Add cell/column based "`class=`" attributes.  
 `|Col1|Col2|Col3|\[First Cell]\[Middle Cells]\[Last Cell]`

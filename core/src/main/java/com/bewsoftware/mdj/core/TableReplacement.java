@@ -55,15 +55,15 @@ import static com.bewsoftware.mdj.core.MarkdownProcessor.processGroupText;
  */
 class TableReplacement implements Replacement {
 
-    private final String CAPTION_BORDER = "border-left: %1$dpx solid black;border-top: %1$dpx solid black;border-right: %1$dpx solid black;padding: %2$dpx";
-    private final String[] INDENT =
+    private static final String CAPTION_BORDER = "border-left: %1$dpx solid black;border-top: %1$dpx solid black;border-right: %1$dpx solid black;padding: %2$dpx";
+    private static final String[] INDENT =
     {
         "", "  ", "    ", "      "
     };
-    private final String ROW_BORDER = "border: %1$dpx solid black;padding: %2$dpx;";
-    private final String TABLE_BORDER = "border: %1$dpx solid black;border-collapse: collapse;padding: %2$dpx";
+    private static final String ROW_BORDER = "border: %1$dpx solid black;padding: %2$dpx;";
+    private static final String TABLE_BORDER = "border: %1$dpx solid black;border-collapse: collapse;padding: %2$dpx";
 
-    public TableReplacement() {
+    TableReplacement() {
     }
 
     @Override
@@ -75,6 +75,7 @@ class TableReplacement implements Replacement {
         String header = processGroupText(m.group("header")).trim();
         String delrow = m.group("delrow").trim();
         String data = processGroupText(m.group("datarows")).trim();
+//        String data = m.group("datarows");
 
         // Process <thead>
         TableRow hRow = TableRow.parse(header);
@@ -230,9 +231,9 @@ class TableReplacement implements Replacement {
 
                 sb.append(INDENT[1]).append("<tbody>\n");
 
-                for (String dataRow1 : dataRows)
+                for (String dataRowString : dataRows)
                 {
-                    TableRow dataRow = TableRow.parse(dataRow1);
+                    TableRow dataRow = TableRow.parse(dataRowString);
                     rowList.add(dataRow);
                     sb.append(INDENT[2]).append("<tr");
 

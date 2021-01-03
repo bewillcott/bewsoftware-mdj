@@ -151,6 +151,13 @@ class TableRow {
             }
         }
 
+//        // Process the cells contents.
+//        for (int i = 0; i < tr.cells.length; i++)
+//        {
+//            System.out.println("=>TableRow.cell[" + i + "]:\n" + tr.cells[i]);
+//            tr.cells[i] = doAnchors(new TextEditor(tr.cells[i]), true).toString();
+//            System.out.println("<=TableRow.cell[" + i + "]:\n" + tr.cells[i]);
+//        }
         return tr;
     }
 

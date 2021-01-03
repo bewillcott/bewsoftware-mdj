@@ -44,7 +44,7 @@ software, even if advised of the possibility of such damage.
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>bewsoftware-mdj-core</artifactId>
-    <version>0.6.8-SNAPSHOT</version>
+    <version>0.6.8</version>
     <packaging>jar</packaging>
     
     <name>BEWSoftware MDj Core Library</name>
@@ -92,7 +92,7 @@ software, even if advised of the possibility of such damage.
     
     <profiles>
         <profile>
-            <id>clean-manual</id>
+            <id>manual-clean</id>
             <build>
                 <plugins>
                     <plugin>
@@ -115,7 +115,7 @@ software, even if advised of the possibility of such damage.
         </profile>    
 
         <profile>
-            <id>compile-manual</id>
+            <id>manual-compile</id>
             <build>
                 <plugins>
                     <plugin>
@@ -140,7 +140,7 @@ software, even if advised of the possibility of such damage.
         </profile>    
 
         <profile>
-            <id>clean-compile-manual</id>
+            <id>manual-clean-compile</id>
             <build>
                 <plugins>
                     <plugin>
@@ -166,7 +166,7 @@ software, even if advised of the possibility of such damage.
         </profile>    
 
         <profile>
-            <id>display-mdj-manual</id>
+            <id>manual-display-mdj</id>
             <build>
                 <plugins>
                     <plugin>
@@ -200,6 +200,7 @@ software, even if advised of the possibility of such damage.
                                     <goal>publish</goal>
                                 </goals>
                                 <configuration>                                    
+                                    <disallowBrowserFileCaching>true</disallowBrowserFileCaching>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
                                     <serverContexts>
@@ -225,7 +226,7 @@ software, even if advised of the possibility of such damage.
         </profile>
         
         <profile>
-            <id>publish-manual</id>
+            <id>manual-publish</id>
             <build>
                 <plugins>
                     <plugin>
@@ -239,6 +240,7 @@ software, even if advised of the possibility of such damage.
                                     <goal>publish</goal>
                                 </goals>
                                 <configuration>                                    
+                                    <disallowBrowserFileCaching>true</disallowBrowserFileCaching>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
                                     <serverContexts>
@@ -256,7 +258,7 @@ software, even if advised of the possibility of such damage.
         </profile>
         
         <profile>
-            <id>clean-publish-manual</id>
+            <id>manual-clean-publish</id>
             <build>
                 <plugins>
                     <plugin>
@@ -271,6 +273,7 @@ software, even if advised of the possibility of such damage.
                                     <goal>publish</goal>
                                 </goals>
                                 <configuration>                                    
+                                    <disallowBrowserFileCaching>true</disallowBrowserFileCaching>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
                                     <serverContexts>
@@ -301,6 +304,7 @@ software, even if advised of the possibility of such damage.
                                     <goal>publish</goal>
                                 </goals>
                                 <configuration>
+                                    <disallowBrowserFileCaching>true</disallowBrowserFileCaching>
                                     <serverContexts>
                                         <serverContext>
                                             <context>/api</context>
@@ -316,7 +320,7 @@ software, even if advised of the possibility of such damage.
         </profile>
         
         <profile>
-            <id>package-manual</id>
+            <id>manual-package</id>
             <build>
                 <plugins>
                     <plugin>
@@ -624,7 +628,7 @@ software, even if advised of the possibility of such damage.
                 <plugin>
                     <groupId>com.bewsoftware.mojo</groupId>
                     <artifactId>bewsoftware-mdj-plugin</artifactId>
-                    <version>1.0.33</version>
+                    <version>1.0.34</version>
                 </plugin>                
                 <plugin>                        
                     <groupId>com.bew.mojo</groupId>

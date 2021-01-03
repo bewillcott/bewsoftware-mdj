@@ -61,7 +61,7 @@ public class TextEditor {
      * Create a new TextEditor based on the contents of a String or
      * StringBuffer.
      *
-     * @param text
+     * @param text to be processed.
      */
     public TextEditor(final CharSequence text) {
         this.text = new StringBuilder(text);
@@ -70,7 +70,7 @@ public class TextEditor {
     /**
      * Add a string to the end of the buffer.
      *
-     * @param s
+     * @param s text to be processed.
      */
     public void append(final CharSequence s) {
         text.append(s);
@@ -128,7 +128,7 @@ public class TextEditor {
     /**
      * Introduce a number of spaces at the start of each line.
      *
-     * @param spaces
+     * @param spaces The number of spaces to use.
      *
      * @return this object for chaining purposes.
      */
@@ -155,7 +155,7 @@ public class TextEditor {
     /**
      * Remove a number of spaces at the start of each line.
      *
-     * @param spaces
+     * @param spaces The number of spaces to use.
      *
      * @return this object for chaining purposes.
      */
@@ -175,7 +175,7 @@ public class TextEditor {
     /**
      * Add a string to the start of the first line of the buffer.
      *
-     * @param s
+     * @param s text to be processed.
      */
     public void prepend(final CharSequence s) {
         text.insert(0, s);
@@ -212,8 +212,8 @@ public class TextEditor {
      * The replacement string can contain $1, $2 etc. referring to matched
      * groups in the regular expression.
      *
-     * @param regex
-     * @param replacement
+     * @param regex       The pattern to use.
+     * @param replacement The replacement text.
      *
      * @return this object for chaining purposes.
      */
@@ -245,8 +245,8 @@ public class TextEditor {
      * replace() method is called on each match, and it provides a replacement,
      * which is placed literally (i.e., without interpreting $1, $2 etc.)
      *
-     * @param pattern
-     * @param replacement
+     * @param pattern     The pattern to use.
+     * @param replacement The replacement to use.
      *
      * @return this object for chaining purposes.
      */
@@ -275,8 +275,8 @@ public class TextEditor {
      * Same as replaceAll(String, String), but does not interpret $1, $2 etc. in
      * the replacement string.
      *
-     * @param regex
-     * @param replacement
+     * @param regex       The pattern to use.
+     * @param replacement The replacement text.
      *
      * @return this object for chaining purposes.
      */
@@ -372,5 +372,4 @@ public class TextEditor {
             return "(?:<[a-z/!$](?:[^<>]|" + nestedTagsRegex(depth - 1) + ")*>)";
         }
     }
-
 }
