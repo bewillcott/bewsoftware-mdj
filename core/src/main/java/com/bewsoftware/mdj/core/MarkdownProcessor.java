@@ -88,7 +88,7 @@ public class MarkdownProcessor {
     static final String LANG_IDENTIFIER = "lang:";
 
     /**
-     * For testing purposes ONLY>
+     * For testing purposes ONLY.
      *
      * @param args not used.
      */
