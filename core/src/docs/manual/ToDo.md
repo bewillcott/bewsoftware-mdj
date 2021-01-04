@@ -52,6 +52,7 @@ title: ${document.name} | ToDo List
 - [x]! (10/02/2020) Add option to set `target="_blank"` for links (Autolinks too?).
         See: [Links]
     -   `[link]!` or `[label][link]!`
+- [ ]! Add Imogis.
 
 ---
 
