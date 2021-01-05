@@ -517,15 +517,52 @@ public class MarkdownProcessor {
 
     /**
      * Build horizontal rules.
+     * <p>
+     * <b>Changes:</b>
+     * <ul>
+     * <li>Three different classes of &lt;hr&gt;
+     * <ul>
+     * <li>"---" : &lt;hr&gt;</li>
+     * <li>"***" : &lt;hr class="bold"&gt;</li>
+     * <li>"===" : &lt;hr class="thick"&gt;</li>
+     * </ul>
+     * </li>
+     * <li>Changed `_` to `=`</li>
+     * </ul>
+     * Bradley Willcott (04/12/2021)
      *
      * @param text to process.
      *
      * @return TextEditor for chaining.
      */
     private static TextEditor doHorizontalRules(final TextEditor text) {
-        String regex = "^[ ]{0,3}(?:([*][ ]*){3,}|([-][ ]*){3,}|([_][ ]*){3,})[ ]*$";
+        Pattern p = compile("^[ ]{0,3}(?<type>([*][ ]*){3,}|([-][ ]*){3,}|([=][ ]*){3,})[ ]*$", MULTILINE);
 
-        text.replaceAll(regex, "<hr>");
+        text.replaceAll(p, (Matcher m) ->
+                {
+                    String type = m.group("type");
+                    String classes = "";
+
+                    switch (type.charAt(0))
+                    {
+                        case '-':
+                            break;
+
+                        case '*':
+                            classes = addClass("bold");
+                            break;
+
+                        case '=':
+                            classes = addClass("thick");
+                            break;
+
+                        default:
+                            break;
+
+                    }
+
+                    return "<hr" + classes + ">";
+                });
 
         return text;
     }

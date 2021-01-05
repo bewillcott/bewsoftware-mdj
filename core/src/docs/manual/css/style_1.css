@@ -87,6 +87,14 @@ h6 {
     font-size:13px;
 }
 
+hr.bold { 
+  border-width: 3px;
+}
+
+hr.thick { 
+  border-width: 2px;
+}
+
 del:hover {
     color: red;
     cursor: default;
@@ -104,6 +112,11 @@ ul {
 table {
     border: 4px solid black;
     border-collapse: collapse;
+}
+
+table.center {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 caption {
