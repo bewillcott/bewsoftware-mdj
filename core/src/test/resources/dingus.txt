@@ -163,7 +163,7 @@ code block.
 # Result 13
 <hr>
 
-<hr>
+<hr class="bold">
 
 <hr>
 

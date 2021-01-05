@@ -56,7 +56,7 @@ This would be the table's caption.
 
 ###[#tableEnh] Enhanced ### [][@upArrow](#top)
 
-Now you can add a caption. But wait, there's more.  It can have  the same type
+Now you can add a caption. But wait, there's more.  It can have the same type
 of borders as your "`<table>`".
 
 The single line on top of the table becomes the caption. However, there must
