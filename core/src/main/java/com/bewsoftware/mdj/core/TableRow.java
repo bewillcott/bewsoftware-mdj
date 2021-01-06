@@ -36,6 +36,8 @@ package com.bewsoftware.mdj.core;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.bewsoftware.mdj.core.MarkdownProcessor.CLASS_REGEX;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.ID_REGEX_OPT;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -86,7 +88,8 @@ class TableRow {
                     tr.status.setBorder();
                 } else
                 {
-                    Matcher m = Pattern.compile("^(?:\\[#(?<id>\\w+)\\])?$").matcher(tr.classes);
+
+                    Matcher m = Pattern.compile("^" + ID_REGEX_OPT + "$").matcher(tr.classes);
 
                     if (m.find())
                     {
@@ -96,7 +99,7 @@ class TableRow {
 
                     } else
                     {
-                        Matcher m2 = Pattern.compile("^(?:\\[#(?<id>\\w*)?\\])?"
+                        Matcher m2 = Pattern.compile("^" + ID_REGEX_OPT
                                                      + "\\[(?<border>(?<borderWidth>\\d+)"
                                                      + "(?:(?:[, ][ ]*)(?<cellPadding>\\d+))?)?\\]$")
                                 .matcher(tr.classes);
@@ -129,7 +132,7 @@ class TableRow {
                             }
                         } else
                         {
-                            Matcher m3 = Pattern.compile("^(?:\\[#(?<id>\\w*)?\\])?\\[@(?<classes>[^\\]]+)\\]$").matcher(tr.classes);
+                            Matcher m3 = Pattern.compile("^" + ID_REGEX_OPT + CLASS_REGEX + "$").matcher(tr.classes);
 
                             if (m3.find())
                             {
@@ -161,7 +164,11 @@ class TableRow {
         return tr;
     }
 
+    /**
+     * The raw unprocessed row text.
+     */
     public final String text;
+
     private int borderWidth = -1;
     private int cellPadding = -1;
     private String[] cells;

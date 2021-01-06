@@ -72,7 +72,7 @@ class TableRowList {
      * <p>
      * A {@code TableRow} instance that has its borderWidth set to '0'(zero),
      * will cause this list to be reset to empty. This provides a means of
-     * turning off the automatic reuse of previous rows' attribute settings,
+     * turning off the automatic re-use of previous rows attribute settings,
      * for rows that don't have any set.
      * </p>
      *
@@ -114,7 +114,7 @@ class TableRowList {
 
     /**
      *
-     * @return True if there is atleast one TableRow in list.
+     * @return {@code true} if there is at least one TableRow in list.
      */
     public boolean hasNext() {
         return length > 0;

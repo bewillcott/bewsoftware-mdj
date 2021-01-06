@@ -38,11 +38,14 @@
 package com.bewsoftware.mdj.core;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.bewsoftware.mdj.core.Attributes.addClass;
 import static com.bewsoftware.mdj.core.Attributes.addId;
 import static com.bewsoftware.mdj.core.Attributes.addStyle;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.CLASS_REGEX;
 import static com.bewsoftware.mdj.core.MarkdownProcessor.HTML_PROTECTOR;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.ID_REGEX_OPT;
 import static com.bewsoftware.mdj.core.MarkdownProcessor.processGroupText;
 
 /**
@@ -75,9 +78,12 @@ class TableReplacement implements Replacement {
         String header = processGroupText(m.group("header")).trim();
         String delrow = m.group("delrow").trim();
         String data = processGroupText(m.group("datarows")).trim();
-//        String data = m.group("datarows");
 
-        // Process <thead>
+        //
+        // Build <table>
+        //
+        // Parse the 'header': hRow
+        //
         TableRow hRow = TableRow.parse(header);
         hRow.setReadOnly();
         TableRow delRow = TableRow.parse(delrow);
@@ -110,7 +116,10 @@ class TableReplacement implements Replacement {
 
             sb.append(">\n");
 
-            if (caption != null && !caption.isEmpty())
+            //
+            // Add <caption>, if any.
+            //
+            if (caption != null && !caption.isBlank())
             {
                 boolean captionBorders = false;
                 sb.append(INDENT[1]).append("<caption");
@@ -120,6 +129,16 @@ class TableReplacement implements Replacement {
                 {
                     captionBorders = true;
                     caption = caption.substring(1, caption.length() - 1).trim();
+                } else
+                {
+                    Matcher m1 = Pattern.compile("^(?<caption>.*?)" + CLASS_REGEX + "[ ]*$").matcher(caption);
+
+                    if (m.find())
+                    {
+                        String classes = m1.group("classes");
+                        sb.append(addClass(classes));
+                        caption = caption.trim();
+                    }
                 }
 
                 if (captionBorders && delRow.hasAttrib())
@@ -135,7 +154,9 @@ class TableReplacement implements Replacement {
                         .append(INDENT[1]).append("</caption>\n");
             }
 
+            //
             // Process column formatting
+            //
             for (int i = 0; i < delRow.length(); i++)
             {
                 String delCol = delRow.getCell(i).trim();
@@ -185,7 +206,9 @@ class TableReplacement implements Replacement {
 
             sb.append(">\n");
 
+            //
             // Process <th> attributes
+            //
             for (int i = 0; i < delRow.length(); i++)
             {
 
@@ -243,6 +266,12 @@ class TableReplacement implements Replacement {
                     }
 
                     sb.append(">\n");
+                    TableRow attrib = null;
+
+                    if (rowList.hasNext())
+                    {
+                        attrib = rowList.getNext();
+                    }
 
                     for (int j = 0; j < dataRow.length() && j < delRow.length(); j++)
                     {
@@ -251,9 +280,8 @@ class TableReplacement implements Replacement {
 
                         if (!dataRow.hasAttrib())
                         {
-                            if (rowList.hasNext())
+                            if (attrib != null)
                             {
-                                TableRow attrib = rowList.getNext();
 
                                 if (attrib.hasBorder())
                                 {
@@ -307,10 +335,8 @@ class TableReplacement implements Replacement {
                         {
                             if (!dataRow.hasAttrib())
                             {
-                                if (rowList.hasNext())
+                                if (attrib != null)
                                 {
-                                    TableRow attrib = rowList.getNext();
-
                                     if (attrib.hasBorder())
                                     {
                                         tmp = String.format(ROW_BORDER, attrib.getBorderWidth(), attrib.getCellPadding());

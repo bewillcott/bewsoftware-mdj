@@ -143,6 +143,13 @@ td {
     padding: 5px;
 }
 
+td.alt {
+    background-color: wheat;
+}
+
+td.reset {
+}
+
 td.total {
     background-color: lightpink;
     font-weight: bold;
