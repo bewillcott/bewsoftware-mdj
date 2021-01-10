@@ -62,6 +62,10 @@ class TableRow {
         String data = text.substring(1).trim();
         tr.cells = data.split("\\|");
         tr.length = tr.cells.length;
+
+        //
+        // Last 'cell' may be the bracketed attributes
+        //
         String attrib = tr.cells[tr.length - 1];
 
         if (attrib.startsWith("[") && attrib.endsWith("]"))
@@ -76,19 +80,30 @@ class TableRow {
             }
         }
 
+        //
+        // If 'row' has attributes
+        //
         if (tr.status.hasAttribute())
         {
             tr.length -= 1;
 
+            //
+            // If 'row' has claases
+            //
             if (tr.status.hasClasses())
             {
+                //
+                // If is number, then it is border settings
+                //
                 if (tr.classes.substring(1, attrib.length() - 1).trim().matches("^\\d+$"))
                 {
                     tr.borderWidth = parseInt(tr.classes.substring(1, attrib.length() - 1).trim());
                     tr.status.setBorder();
                 } else
                 {
-
+                    //
+                    // Check for 'id' attribute
+                    //
                     Matcher m = Pattern.compile("^" + ID_REGEX_OPT + "$").matcher(tr.classes);
 
                     if (m.find())
@@ -99,6 +114,9 @@ class TableRow {
 
                     } else
                     {
+                        //
+                        // Check for 'id' with border settings
+                        //
                         Matcher m2 = Pattern.compile("^" + ID_REGEX_OPT
                                                      + "\\[(?<border>(?<borderWidth>\\d+)"
                                                      + "(?:(?:[, ][ ]*)(?<cellPadding>\\d+))?)?\\]$")
@@ -132,6 +150,9 @@ class TableRow {
                             }
                         } else
                         {
+                            //
+                            // Check for 'id' and 'class' attributes.
+                            //
                             Matcher m3 = Pattern.compile("^" + ID_REGEX_OPT + CLASS_REGEX + "$").matcher(tr.classes);
 
                             if (m3.find())
@@ -154,13 +175,6 @@ class TableRow {
             }
         }
 
-//        // Process the cells contents.
-//        for (int i = 0; i < tr.cells.length; i++)
-//        {
-//            System.out.println("=>TableRow.cell[" + i + "]:\n" + tr.cells[i]);
-//            tr.cells[i] = doAnchors(new TextEditor(tr.cells[i]), true).toString();
-//            System.out.println("<=TableRow.cell[" + i + "]:\n" + tr.cells[i]);
-//        }
         return tr;
     }
 

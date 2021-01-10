@@ -1,27 +1,39 @@
 <head>
     <style>
         table {
-            border: 3px solid black;
+            border: 4px solid black;
             border-collapse: collapse;
+            font-size: 12px;
         }
-        
-        .tbHeader {
-            border: 2px solid red;
+
+        .tbCaption {
+            border-left: 4px solid black;
+            border-top: 4px solid black;
+            border-right: 4px solid black;
             padding: 5px;
-            text-align: left;
+            background-color: goldenrod;
+            font-weight: bold;
+        }
+
+        .tbHeader {
+            border-left: 2px solid red;
+            border-right: 2px solid red;
+            border-bottom: 3px solid red;
+            padding: 5px;
+            text-align: center;
             background-color: gold;
         }
 
         .tbRow {
-            background-color: lightyellow;
+            background-color: lightgoldenrodyellow;
             border: 1px solid black;
             padding: 5px;
         }
 
         .tbTotal {
-            background-color: goldenrod;
-            color: deeppink;
-            border: 2px solid black;
+            background-color: pink;
+            font-weight: bold;
+            border: 2px solid red;
             padding: 5px;
        }
     </style>
@@ -124,7 +136,7 @@ This is a great table
 In true ccs format, you can use classes to set the styling of your table and it's
 rows.
 ```
-This is an even greater table
+This is an even greater table [@tbCaption]
 | Left Foot | Right Foot |[@tbHeader]
 | :--- | ---: |[#great]
 | Up | down |[@tbRow]
@@ -134,7 +146,7 @@ This is an even greater table
 | Finished | Fini |[#end][@tbTotal]
 ```
 
-This is an even greater table
+This is an even greater table [@tbCaption]
 | Left Foot | Right Foot |[@tbHeader]
 | :--- | ---: |[#great]
 | Up | down |[@tbRow]

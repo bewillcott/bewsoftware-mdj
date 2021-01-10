@@ -81,7 +81,7 @@ public class MarkdownProcessor {
     private static final Map<String, LinkDefinition> linkDefinitions = new TreeMap<>();
     private static final IntegerReturn listLevel = new IntegerReturn(0);
 
-    static final String CLASS_REGEX = "\\[@(?<classes>(\\p{Alpha}[^\\]]*?)(\\b\\p{Alpha}[^\\]]*?)*?)\\]";
+    static final String CLASS_REGEX = "\\[@(?<classes>(\\p{Alpha}[^\\]]*?)?(\\b\\p{Alpha}[^\\]]*?)*?)\\]";
     static final String CLASS_REGEX_OPT = "(?:\\[@(?<classes>(\\p{Alpha}[^\\]]*?)(\\b\\p{Alpha}[^\\]]*?)*?)\\])?";
     static final String CODE_BLOCK_BEGIN = "-=: ";
     static final String CODE_BLOCK_END = " :=-";
@@ -865,13 +865,16 @@ public class MarkdownProcessor {
      * <li>Any following rows not set, will be configured using the row
      * sequencing of the first set of rows, in rotation.</li>
      * </ul></li></ul>
-     * The following can now have a class attribute:
+     * The following can now have a class attribute: [@class name(s)]
      * <ul>
      * <li>table - via the delimiter row.</li>
      * <li>caption</li>
      * <li>header</li>
      * <li>data rows</li>
      * </ul>
+     * If there is an 'id', then the 'class' attribute follows immediately after it.
+     * Also, you can't have both a border setting and class attribute. It would not
+     * be sensible as the class should have <i>all</i> the settings.
      *
      * @param text to process.
      *
@@ -888,9 +891,8 @@ public class MarkdownProcessor {
          * The table should be followed by a blank line
          */
         Pattern p = compile("(?<=^\\n+)"
-                            + "(?<caption>^(?:[ ]*\\[\\w+[^\\]]*?\\][ ]*|[ ]*.*?\\w+.*?(?:[ ]+" + TAG_CLASS + ")?[ ]*)\\n)?"
+                            + "(?<caption>^(?:[ ]*\\[\\w+[^\\]]*?\\][ ]*|[ ]*.*?\\w+.*?[ ]*)\\n)?"
                             + "(?<header>^\\|(?:.+?\\|)+?(?:\\[[^\\]]*?\\])?)[ ]*\\n"
-                            //                            + "(?<header>^\\|(?:.+?\\|)+?(?:" + TAG_CLASS + ")?)[ ]*\\n"
                             + "(?<delrow>\\|(?:[ ]*([:-]{1}[-]+?[:-]{1}|[-]+?[:][-]+?)[ ]*\\|)+?(?:" + TAG_ID + ")?(?:\\[[^\\]]*?\\])?)[ ]*\\n"
                             + "(?<datarows>(?:\\|(?:[^\\|\\n]*\\|)+(?:" + TAG_ID + ")?(?:\\[[^\\]]*?\\])?[ ]*\\n)*?)?"
                             // Find end of table
