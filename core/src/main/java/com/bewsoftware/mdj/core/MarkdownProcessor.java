@@ -73,18 +73,20 @@ import static com.bewsoftware.mdj.core.Attributes.addId;
 public class MarkdownProcessor {
 
     private static final CharacterProtector CHAR_PROTECTOR = new CharacterProtector();
-    private static final String CLASS_REGEX = "(?:\\[@(?<classes>\\p{Alpha}[^\\]]+)\\])?";
-    private static final String ID_REGEX = "(?:\\[#(?<id>\\w+)\\])";
-    private static final String ID_REGEX_OPT = "(?:\\[#(?<id>\\w+)\\])?";
+    private static final String ID_REGEX = "\\[#(?<id>\\w+)\\]";
     private static final int TAB_WIDTH = 4;
+    private static final String TAG_CLASS = "\\[@(\\p{Alpha}[^\\]]*?)(\\b\\p{Alpha}[^\\]]*?)*?\\]";
     private static final String TAG_ID = "\\[#\\w+\\]";
     private static final String TARGET = " target=\"" + CHAR_PROTECTOR.encode("_") + "blank\"";
     private static final Map<String, LinkDefinition> linkDefinitions = new TreeMap<>();
     private static final IntegerReturn listLevel = new IntegerReturn(0);
 
+    static final String CLASS_REGEX = "\\[@(?<classes>(\\p{Alpha}[^\\]]*?)?(\\b\\p{Alpha}[^\\]]*?)*?)\\]";
+    static final String CLASS_REGEX_OPT = "(?:\\[@(?<classes>(\\p{Alpha}[^\\]]*?)(\\b\\p{Alpha}[^\\]]*?)*?)\\])?";
     static final String CODE_BLOCK_BEGIN = "-=: ";
     static final String CODE_BLOCK_END = " :=-";
     static final CharacterProtector HTML_PROTECTOR = new CharacterProtector();
+    static final String ID_REGEX_OPT = "(?:\\[#(?<id>\\w+)\\])?";
     static final String LANG_IDENTIFIER = "lang:";
 
     /**
@@ -222,7 +224,7 @@ public class MarkdownProcessor {
                                        + "(?<url>(?:https?|ftp):[^'\">\\s]+)"
                                        + ">"
                                        + "(?<target>!)?"
-                                       + CLASS_REGEX); // BW
+                                       + CLASS_REGEX_OPT); // BW
 
         markup.replaceAll(link, (Matcher m) ->
                   {
@@ -745,7 +747,7 @@ public class MarkdownProcessor {
                 return "<" + listType + addClass(classAttrib) + ">\n" + list + "</" + listType + ">\n";
             };
 
-            Pattern matchStartOfLine = compile("^(?:" + CLASS_REGEX + "[ ]*\\n)?" + wholeList, MULTILINE);
+            Pattern matchStartOfLine = compile("^(?:" + CLASS_REGEX_OPT + "[ ]*\\n)?" + wholeList, MULTILINE);
             text.replaceAll(matchStartOfLine, replacer);
         } else
         {
@@ -796,7 +798,7 @@ public class MarkdownProcessor {
                 return "<" + listType + id + addClass(classAttrib) + ">\n" + list + "</" + listType + ">\n";
             };
 
-            Pattern matchStartOfLine = compile("(?:(?<=^\\n)|\\A\\n?)(?:" + ID_REGEX_OPT + CLASS_REGEX + "[ ]*\\n)?" + wholeList, MULTILINE);
+            Pattern matchStartOfLine = compile("(?:(?<=^\\n)|\\A\\n?)(?:" + ID_REGEX_OPT + CLASS_REGEX_OPT + "[ ]*\\n)?" + wholeList, MULTILINE);
             text.replaceAll(matchStartOfLine, replacer);
         }
 
@@ -835,51 +837,64 @@ public class MarkdownProcessor {
 
     /**
      * Build tables.
+     * <p>
+     * The syntax for tables looks like this:
+     * <pre><code>
+     * This would be the table's caption.
+     * | Col1 Header | Col2 Header |Col3 Header|Col 4|[].
+     * | :---- | -:- | ---:| :---: |[#Id][].
+     * | Left | Center |Right|Justified|[].
+     * | Row 2 | More text || |[].
+     * </code></pre>
+     * Table begins and ends with a blank line.
+     * If present, the first row above the table becomes to table's "caption".
+     * Each line begins and ends with a pipe character '|' with additional such
+     * to separate columns.
+     * <p>
+     * Each line can have an optional "[]" bracketed parameter.
+     * This when empty "[]" adds a border around that row.<br>
+     * If the parameter contains text, it is processed as follows:
+     * <ul>
+     * <li>The delimiter row sets the parameters for the '&lt;table&gt;' tag.</li>
+     * <li>Data rows:
+     * <ul>
+     * <li>If just the first one is set, then this will be used for all
+     * data rows.</li>
+     * <li>Subsequent rows can be set to either the same class(es) as the
+     * first row or to different class(es).</li>
+     * <li>Any following rows not set, will be configured using the row
+     * sequencing of the first set of rows, in rotation.</li>
+     * </ul></li></ul>
+     * The following can now have a class attribute: [@class name(s)]
+     * <ul>
+     * <li>table - via the delimiter row.</li>
+     * <li>caption</li>
+     * <li>header</li>
+     * <li>data rows</li>
+     * </ul>
+     * If there is an 'id', then the 'class' attribute follows immediately after it.
+     * Also, you can't have both a border setting and class attribute. It would not
+     * be sensible as the class should have <i>all</i> the settings.
      *
      * @param text to process.
      *
      * @return TextEditor for chaining.
      */
     private static TextEditor doTables(final TextEditor text) {
-        //
-        // This would be the table's caption.
-        // | Col1 Header | Col2 Header |Col3 Header|Col 4|[]
-        // | :---- | -:- | ---:|  :---: |[#Id][]
-        // | Left | Center |Right|Justified|[]
-        // | Row 2 | More text || |[]
-        //
-        // Table begins and ends with a blank line.
-        // If present, the first row above the table becomes to table's "caption".
-        // Each line begins and ends with a pipe character '|' with additional such
-        // to separate columns.
-        //
-        // Each line can have an optional "[]" bracketed parameter.
-        // This when empty "[]" adds a border around that row.
-        // If contains text, the text is inserted into a 'class=' attribute
-        // for that row.
-        //
-        // Special cases:
-        // - The delimiter row sets the parameters for the '<table>' tag.
-        // - Data rows:
-        //   - If just the first one is set, then this will be used for all
-        //     data rows.
-        //   - Subsequent rows can be set to either the same class(es) as the
-        //     first row or to different class(es).
-        //   - Any follwing rows not set, will be configured using the row
-        //     sequencing of the first set of rows, in rotation.
-        //
-        // "caption" is the Title for the table
-        // "header" is the first row of the table
-        // "delrow" is the delimitor row
-        // "datarows" contains the body of the table
-        // "tail" contains staggler rows just following the table
-        // The table should be followed by a blank line
-        //
+        /*
+         * "caption" is the Title for the table
+         * "header" is the first row of the table
+         * "delrow" is the delimiter row
+         * "datarows" contains the body of the table
+         * "tail" contains straggler rows just following the table
+         *
+         * The table should be followed by a blank line
+         */
         Pattern p = compile("(?<=^\\n+)"
                             + "(?<caption>^(?:[ ]*\\[\\w+[^\\]]*?\\][ ]*|[ ]*.*?\\w+.*?[ ]*)\\n)?"
-                            + "(?<header>^\\|(?:.+?\\|)+?(?:\\[#[^\\]]*?\\])?(?:\\[[^\\]]*?\\])?)[ ]*\\n"
+                            + "(?<header>^\\|(?:.+?\\|)+?(?:\\[[^\\]]*?\\])?)[ ]*\\n"
                             + "(?<delrow>\\|(?:[ ]*([:-]{1}[-]+?[:-]{1}|[-]+?[:][-]+?)[ ]*\\|)+?(?:" + TAG_ID + ")?(?:\\[[^\\]]*?\\])?)[ ]*\\n"
-                            + "(?<datarows>(?:\\|(?:[^\\|\\n]*\\|)+(?:\\[#[^\\]]*?\\])?(?:\\[[^\\]]*?\\])?[ ]*\\n)*?)?"
+                            + "(?<datarows>(?:\\|(?:[^\\|\\n]*\\|)+(?:" + TAG_ID + ")?(?:\\[[^\\]]*?\\])?[ ]*\\n)*?)?"
                             // Find end of table
                             + "(?="
                             // Blank line
@@ -1204,7 +1219,7 @@ public class MarkdownProcessor {
      * @return {@code true} if check box found, {@code false} otherwise.
      */
     private static boolean processCheckBoxes(final TextEditor item, final StringReturn classString) {
-        final String regex = "^\\[(?<checked>[ xX])\\](?<disabled>[!])?" + CLASS_REGEX + "[ ]+(?<text>[^ ]+.*)\\n";
+        final String regex = "^\\[(?<checked>[ xX])\\](?<disabled>[!])?" + CLASS_REGEX_OPT + "[ ]+(?<text>[^ ]+.*)\\n";
         final Pattern p = compile(regex);
 
         Replacement processCheckBox = (Matcher m) ->
@@ -1322,7 +1337,7 @@ public class MarkdownProcessor {
      * @since 14/12/2020.
      */
     private static void processListItemsWithAClass(final TextEditor item, final StringReturn classString) {
-        final String regex = "^" + CLASS_REGEX + "[ ]+(?<text>[^ ]+.*)\\n";
+        final String regex = "^" + CLASS_REGEX_OPT + "[ ]+(?<text>[^ ]+.*)\\n";
         final Pattern p = compile(regex);
 
         Replacement processClass = (Matcher m) ->
@@ -1417,7 +1432,7 @@ public class MarkdownProcessor {
         Pattern p = compile("^[ ]{0,3}\\[(?<id>.+)\\]:"
                             // ID = $1
                             // BW:
-                            + CLASS_REGEX
+                            + CLASS_REGEX_OPT
                             + "[ ]*\\n?[ ]*"
                             // Space
                             + "<?(?<url>[^'\"]+?)?>?"
@@ -1474,7 +1489,7 @@ public class MarkdownProcessor {
      */
     private static Tag tag(String text) {
         Pattern pId = compile("(?<!\\\\)" + ID_REGEX);
-        Pattern pClasses = compile("^(?<!\\\\)" + CLASS_REGEX);
+        Pattern pClasses = compile("^(?<!\\\\)" + CLASS_REGEX_OPT);
         final ArrayList<String> ids = new ArrayList<>();
         final ArrayList<String> classes = new ArrayList<>();
         TextEditor ted = new TextEditor(text);
@@ -1521,7 +1536,7 @@ public class MarkdownProcessor {
                                            + "\\[(?<linkId>[^\\]]*?)\\]"
                                            // ID = $2
                                            + "(?<target>!)?"
-                                           + CLASS_REGEX); // BW
+                                           + CLASS_REGEX_OPT); // BW
             markup.replaceAll(internalLink, (Matcher m) ->
                       {
                           String replacementText;
@@ -1604,7 +1619,7 @@ public class MarkdownProcessor {
                                          + "\\[(?<linkText>[^\\[\\]]*?)\\]"
                                          // Link text = $2
                                          + "(?<target>!)?"
-                                         + CLASS_REGEX // BW
+                                         + CLASS_REGEX_OPT// BW
                                          + "\\("
                                          + "[ ]*"
                                          + "<?(?<url>.*?)>?"
@@ -1685,7 +1700,7 @@ public class MarkdownProcessor {
                                             // link text can't contain ']'
                                             + "\\]"
                                             + "(?<target>!)?"
-                                            + CLASS_REGEX, // BW
+                                            + CLASS_REGEX_OPT, // BW
                                             DOTALL);
         markup.replaceAll(referenceShortcut, (Matcher m) ->
                   {

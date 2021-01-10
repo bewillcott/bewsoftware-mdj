@@ -38,12 +38,15 @@
 package com.bewsoftware.mdj.core;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.bewsoftware.mdj.core.Attributes.addClass;
 import static com.bewsoftware.mdj.core.Attributes.addId;
 import static com.bewsoftware.mdj.core.Attributes.addStyle;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.CLASS_REGEX;
 import static com.bewsoftware.mdj.core.MarkdownProcessor.HTML_PROTECTOR;
 import static com.bewsoftware.mdj.core.MarkdownProcessor.processGroupText;
+import static java.util.regex.Pattern.compile;
 
 /**
  * TableReplacement class moved out from {@link MarkdownProcessor} class.
@@ -75,9 +78,12 @@ class TableReplacement implements Replacement {
         String header = processGroupText(m.group("header")).trim();
         String delrow = m.group("delrow").trim();
         String data = processGroupText(m.group("datarows")).trim();
-//        String data = m.group("datarows");
 
-        // Process <thead>
+        //
+        // Build <table>.
+        //
+        // Parse the 'header': hRow.
+        //
         TableRow hRow = TableRow.parse(header);
         hRow.setReadOnly();
         TableRow delRow = TableRow.parse(delrow);
@@ -110,7 +116,10 @@ class TableReplacement implements Replacement {
 
             sb.append(">\n");
 
-            if (caption != null && !caption.isEmpty())
+            //
+            // Add <caption>, if any.
+            //
+            if (caption != null && !caption.isBlank())
             {
                 boolean captionBorders = false;
                 sb.append(INDENT[1]).append("<caption");
@@ -120,8 +129,23 @@ class TableReplacement implements Replacement {
                 {
                     captionBorders = true;
                     caption = caption.substring(1, caption.length() - 1).trim();
+                } else
+                {
+                    //
+                    // Process caption looking for classes.
+                    //
+                    TableCaption tc = new TableCaption(caption);
+
+                    if (tc.hasClasses())
+                    {
+                        caption = tc.caption;
+                        sb.append(addClass(tc.classes));
+                    }
                 }
 
+                //
+                // Caption borders and attributes.
+                //
                 if (captionBorders && delRow.hasAttrib())
                 {
                     if (delRow.hasBorder())
@@ -135,7 +159,11 @@ class TableReplacement implements Replacement {
                         .append(INDENT[1]).append("</caption>\n");
             }
 
-            // Process column formatting
+            //
+            // Process column formatting.
+            //
+            // Text alignment.
+            //
             for (int i = 0; i < delRow.length(); i++)
             {
                 String delCol = delRow.getCell(i).trim();
@@ -175,6 +203,9 @@ class TableReplacement implements Replacement {
 
             delRow.setReadOnly();
 
+            //
+            // Process <head>.
+            //
             sb.append(INDENT[1]).append("<thead>\n")
                     .append(INDENT[2]).append("<tr");
 
@@ -185,7 +216,9 @@ class TableReplacement implements Replacement {
 
             sb.append(">\n");
 
+            //
             // Process <th> attributes
+            //
             for (int i = 0; i < delRow.length(); i++)
             {
 
@@ -224,13 +257,23 @@ class TableReplacement implements Replacement {
             sb.append(INDENT[2]).append("</tr>\n")
                     .append(INDENT[1]).append("</thead>\n");
 
+            //
+            // Process data rows.
+            //
             if (!data.trim().isEmpty())
             {
                 String[] dataRows = data.split("\n");
+
+                //
+                // Stores rotating list of row attributes.
+                //
                 TableRowList rowList = new TableRowList(dataRows.length);
 
                 sb.append(INDENT[1]).append("<tbody>\n");
 
+                //
+                // Process individual data rows.
+                //
                 for (String dataRowString : dataRows)
                 {
                     TableRow dataRow = TableRow.parse(dataRowString);
@@ -243,17 +286,28 @@ class TableReplacement implements Replacement {
                     }
 
                     sb.append(">\n");
+                    TableRow attrib = null;
 
+                    if (rowList.hasNext())
+                    {
+                        attrib = rowList.getNext();
+                    }
+
+                    //
+                    // Process row -> columns.
+                    //
                     for (int j = 0; j < dataRow.length() && j < delRow.length(); j++)
                     {
                         // Process <td> attributes
                         sb.append(INDENT[3]).append("<td");
 
+                        //
+                        // If 'row' has attributes.
+                        //
                         if (!dataRow.hasAttrib())
                         {
-                            if (rowList.hasNext())
+                            if (attrib != null)
                             {
-                                TableRow attrib = rowList.getNext();
 
                                 if (attrib.hasBorder())
                                 {
@@ -277,17 +331,26 @@ class TableReplacement implements Replacement {
                             }
                         } else
                         {
+                            //
+                            // If 'row' has border settings.
+                            //
                             if (dataRow.hasBorder())
                             {
                                 tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(), dataRow.getCellPadding());
                                 sb.append(addStyle(tmp + delRow.getCell(j)));
                             } else
                             {
+                                //
+                                // If 'row' has class attributes.
+                                //
                                 if (dataRow.hasClasses())
                                 {
                                     sb.append(addClass(dataRow.getClasses()));
                                 }
 
+                                //
+                                // If delimiter row has column settings.
+                                //
                                 if (!delRow.getCell(j).isEmpty())
                                 {
                                     sb.append(addStyle(delRow.getCell(j)));
@@ -299,18 +362,25 @@ class TableReplacement implements Replacement {
                                 .append(INDENT[3]).append("</td>\n");
                     }
 
+                    //
+                    // If 'row' has fewer column than the delimiter row.
+                    //
                     if (dataRow.length() < hRow.length())
                     {
                         sb.append(INDENT[3]).append("<td");
 
+                        //
+                        // Add missing columns.
+                        //
                         for (int k = dataRow.length(); k < hRow.length(); k++)
                         {
+                            //
+                            // If 'row' has attributes.
+                            //
                             if (!dataRow.hasAttrib())
                             {
-                                if (rowList.hasNext())
+                                if (attrib != null)
                                 {
-                                    TableRow attrib = rowList.getNext();
-
                                     if (attrib.hasBorder())
                                     {
                                         tmp = String.format(ROW_BORDER, attrib.getBorderWidth(), attrib.getCellPadding());
@@ -333,17 +403,26 @@ class TableReplacement implements Replacement {
                                 }
                             } else
                             {
+                                //
+                                // If 'row' has border settings.
+                                //
                                 if (dataRow.hasBorder())
                                 {
                                     tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(), dataRow.getCellPadding());
                                     sb.append(addStyle(tmp + delRow.getCell(k)));
                                 } else
                                 {
+                                    //
+                                    // If 'row' has class attributes.
+                                    //
                                     if (dataRow.hasClasses())
                                     {
                                         sb.append(addClass(dataRow.getClasses()));
                                     }
 
+                                    //
+                                    // If delimiter row has column settings.
+                                    //
                                     if (!delRow.getCell(k).isEmpty())
                                     {
                                         sb.append(addStyle(delRow.getCell(k)));
@@ -363,9 +442,76 @@ class TableReplacement implements Replacement {
 
             String out = sb.append("</table>\n").toString();
 
+            //
+            // Encode table html to protect it from further processing.
+            //
             rtn = "\n\n" + HTML_PROTECTOR.encode(out) + "\n\n";
         }
 
         return rtn;
+    }
+
+    /**
+     * Class contains the processed version of the 'caption'.
+     */
+    private static class TableCaption {
+
+        /**
+         * Class instance of pattern.
+         */
+        private static final Pattern PATTERN = compile("(?<caption>.*?)[ ]*" + CLASS_REGEX);
+
+        /**
+         * The processed caption text.
+         */
+        public final String caption;
+
+        /**
+         * The classes in raw form.
+         */
+        public final String classes;
+        /**
+         * The raw caption text.
+         */
+        public final String text;
+
+        /**
+         * Instantiate class with caption text.
+         *
+         * @param text The caption.
+         */
+        private TableCaption(String text) {
+            this.text = text;
+
+            Matcher m = PATTERN.matcher(text);
+
+            if (m.find())
+            {
+                this.caption = m.group("caption").trim();
+                this.classes = m.group("classes").trim();
+            } else
+            {
+                this.caption = text.trim();
+                this.classes = null;
+            }
+        }
+
+        /**
+         * Classes exist.
+         *
+         * @return {@code true} if exist, {@code false} otherwise.
+         */
+        public boolean hasClasses() {
+            return classes != null;
+        }
+
+        @Override
+        public String toString() {
+            return "TableCaption{\n"
+                   + "    text = " + text + ",\n"
+                   + "    classes = " + classes + "\n"
+                   + "}";
+        }
+
     }
 }

@@ -40,5 +40,6 @@
  */
 module bewsoftware.mdj.core {
     requires bewsoftware.utils;
+    requires bewsoftware.common;
     exports com.bewsoftware.mdj.core;
 }

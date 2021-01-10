@@ -150,7 +150,7 @@ This is a great table
 In true CSS format, you can use classes to set the styling of your table and it's
 rows.
 ```
-This is an even greater table
+This is an even greater table [@tbCaption]
 | Left Foot | Right Foot |[@tbHeader]
 | :--- | ---: |[#great][@tbSetting]
 | Up | down |[@tbRow]
@@ -160,7 +160,7 @@ This is an even greater table
 | Finished | Fini |[#end][@tbTotal]
 ```
 
-This is an even greater table
+This is an even greater table [@tbCaption]
 | Left Foot | Right Foot |[@tbHeader]
 | :--- | ---: |[#great][@tbSetting]
 | Up | down |[@tbRow]
@@ -170,6 +170,7 @@ This is an even greater table
 | Finished | Fini |[#end][@tbTotal]
 
 _Check out the source of this page in your browser._
+
 
 
 @@@[navbar]

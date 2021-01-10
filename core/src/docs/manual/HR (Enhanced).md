@@ -11,8 +11,8 @@ title: ${document.name} | HR - Enhanced
 The `<hr>` tag now comes in three styles.
 
 - `---` : <hr>
-- `***` : <hr class="bold">
 - `===` : <hr class="thick">
+- `***` : <hr class="bold">
 
 The supplied stylesheets have the following settings:
 

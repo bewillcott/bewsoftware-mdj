@@ -88,6 +88,12 @@ software, even if advised of the possibility of such damage.
             <artifactId>bewsoftware-utils</artifactId>
             <version>1.0.5</version>
         </dependency>
+        <dependency>
+            <groupId>com.bewsoftware</groupId>
+            <artifactId>bewsoftware-common</artifactId>
+            <version>1.0.3</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
     
     <profiles>
@@ -491,7 +497,7 @@ software, even if advised of the possibility of such damage.
                         <executions>
                             <execution>
                                 <id>Zip Binary Jar and libs</id>
-                                <phase>package</phase>
+                                <phase>verify</phase>
                                 <goals>
                                     <goal>exec</goal>
                                 </goals>
