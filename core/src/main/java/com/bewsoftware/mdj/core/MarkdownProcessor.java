@@ -67,6 +67,7 @@ import static com.bewsoftware.mdj.core.Attributes.addId;
  * <li>Set all method parameters to be {@code final}.</li>
  * <li>Converted all instance variables to be class variables.</li>
  * <li>MarkdownProcessor class is now a {@code static} class.</li>
+ * <li>All dates associated with my name are formatted: (dd/MM/yyyy)</li>
  * </ul>
  * Bradley Willcott (02/01/2021)
  */
@@ -255,22 +256,72 @@ public class MarkdownProcessor {
         return markup;
     }
 
+    /**
+     * Build Block Quotes.
+     * <p>
+     * <b>Changes:</b>
+     * <ul>
+     * <li>Add in-text citation reference/link:
+     * <pre><code>
+     *[(&lt;in-text citation&gt;)](&lt;#link&gt;)
+     *> Quote block
+     *> of text being quoted.
+     * </code></pre>
+     * </li>
+     * <li>The '#' is required: [(Smith, 2021)](#cite01)<br>
+     * Therefore you must use it in the corresponding reference at the bottom of the
+     * page, in your references section:<br>
+     * <pre><code>
+     * **References:**
+     *
+     * [#cite01]
+     * Smith, J. (2021). _A Rose in Time_.  Retrieved from
+     * https://www.example.com/making-sense-of-a-rose-in-time
+     * </code></pre>
+     * You will note that this will produce a paragraph with an attribute:
+     * {@code id="cite01"}.
+     * </li>
+     * </ul>
+     * Bradley Willcott (10/01/2021)
+     *
+     * @param markup
+     *
+     * @return
+     */
     private static TextEditor doBlockQuotes(final TextEditor markup) {
-        Pattern p = compile("("
-                            + "("
-                            + "^[ \t]*>[ \t]?"
-                            // > at the start of a line
-                            + ".+\\n"
-                            // rest of the first line
-                            + "(.+\\n)*"
-                            // subsequent consecutive lines
-                            + "\\n*"
-                            // blanks
-                            + ")+"
-                            + ")", MULTILINE);
+        Pattern p = compile(
+                // Citation link: [(Cade, 2015)](#cite01)
+                "(?<citetext>\\[\\([A-Z][^\\)]*?\\)\\]\\(#[^\\)]+\\)[ ]*\\n)?"
+                + "(?<blockquote>("
+                + "^[ \t]*>[ \t]?"
+                // > at the start of a line
+                + ".+\\n"
+                // rest of the first line
+                + "(.+\\n)*"
+                // subsequent consecutive lines
+                + "\\n*"
+                // blanks
+                + ")+"
+                + ")", MULTILINE);
         return markup.replaceAll(p, (Matcher m) ->
                          {
-                             TextEditor blockQuote = new TextEditor(m.group(1));
+                             //
+                             // BW: Process citation link: [(<citeText)](<#link>)
+                             //
+                             String rtn = "";
+                             String citeText = m.group("citetext");
+
+                             if (citeText != null && !citeText.isBlank())
+                             {
+                                 TextEditor te = new TextEditor(citeText)
+                                         .replaceAllLiteral("\\)\\]\\(#", ")][@cite](#");
+                                 citeText = "  " + doAnchors(te).toString();
+                             } else
+                             {
+                                 citeText = "";
+                             }
+
+                             TextEditor blockQuote = new TextEditor(m.group("blockquote"));
                              blockQuote.deleteAll("^[ \t]*>[ \t]?");
                              blockQuote.deleteAll("^[ \t]+$");
                              blockQuote = runBlockGamut(blockQuote);
@@ -283,7 +334,14 @@ public class MarkdownProcessor {
                                                             return deleteAll(pre, "^  ");
                                                         });
 
-                             return "<blockquote>\n" + blockQuote + "\n</blockquote>\n\n";
+                             if (citeText.isEmpty())
+                             {
+                                 rtn = "<blockquote>\n" + blockQuote + "\n</blockquote>\n\n";
+                             } else
+                             {
+                                 rtn = "<div class=\"blockquote\">\n" + blockQuote + "\n" + citeText + "</div>\n\n";
+                             }
+                             return rtn;
                          });
     }
 
@@ -498,12 +556,12 @@ public class MarkdownProcessor {
                       // Process header text, looking for anchor option (BW)
                       if (brkt1 != null && brkt2 != null)
                       {
-                          heading = doAnchors(new TextEditor(heading), false).toString();
+                          heading = doAnchors(new TextEditor(heading)).toString();
                       }
 
                       if (tail != null && !tail.isBlank())
                       {
-                          tail = " " + doAnchors(new TextEditor(tail), false).toString();
+                          tail = " " + doAnchors(new TextEditor(tail)).toString();
                       } else
                       {
                           tail = "";
@@ -875,6 +933,8 @@ public class MarkdownProcessor {
      * If there is an 'id', then the 'class' attribute follows immediately after it.
      * Also, you can't have both a border setting and class attribute. It would not
      * be sensible as the class should have <i>all</i> the settings.
+     * <p>
+     * Bradley Willcott (12/03/2020)
      *
      * @param text to process.
      *
@@ -925,7 +985,7 @@ public class MarkdownProcessor {
         // http://bumppo.net/projects/amputator/
         // Added CHAR_PROTECTOR to overcome replacement of the '&' in '&amp;'
         // by 'encodeCode()'
-        // Brad Willcott (26/2/2020)
+        // Brad Willcott (26/02/2020)
         markup.replaceAll("&(?!#?[xX]?(?:[0-9a-fA-F]+|\\w+);)", "&amp;");
         markup.replaceAll("<(?![a-zA-Z/?\\$!])", "&lt;");
 
@@ -1212,6 +1272,7 @@ public class MarkdownProcessor {
      * &lt;li class="bestClass"&gt;&lt;input type="checkbox" checked disabled&gt;A checked immutable checkbox with the class attribute: &lt;code&gt;bestClass&lt;/code&gt;.&lt;/li&gt;
      * &lt;/ul&gt;
      * </code></pre>
+     * Bradley Willcott (20/04/2020)
      *
      * @param item        to be processed.
      * @param classString returns the value of the 'class' text, if any.
@@ -1252,7 +1313,11 @@ public class MarkdownProcessor {
     /**
      * Process list items.
      * <p>
-     * Includes 'Check Boxes' and items with a 'class' attribute.
+     * <b>Changes:</b>
+     * <ul>
+     * <li>Includes 'Check Boxes' and items with a 'class' attribute.</li>
+     * </ul>
+     * Bradley Willcott (20/04/2020)
      *
      * @param list Text to be processed and then returns the modified text.
      *
@@ -1330,6 +1395,8 @@ public class MarkdownProcessor {
      * &lt;li class="myClass"&gt;This is my line.&lt;/li&gt;
      * &lt;li class="yourClass"&gt;This is your line.&lt;/li&gt;
      * </code></pre>
+     * <p>
+     * Bradley Willcott (20/04/2020)
      *
      * @param item        to be processed.
      * @param classString returns the value of the 'class' text, if any.
@@ -1368,6 +1435,12 @@ public class MarkdownProcessor {
 
     /**
      * Run all block level processing.
+     * <p>
+     * <b>Changes:</b>
+     * <ul>
+     * <li>Added doFencedCodeBlocks()</li>
+     * </ul>
+     * Bradley Willcott (07/01/2020)
      *
      * @param text to process.
      *
@@ -1406,7 +1479,7 @@ public class MarkdownProcessor {
         doSubSup(text);
         doDelIns(text);
         doImages(text);
-        doAnchors(text, false);
+        doAnchors(text);
         doAutoLinks(text);
 
         // Fix for BUG #1357582
@@ -1422,12 +1495,14 @@ public class MarkdownProcessor {
         return text.replaceAll(" {2,}\n", " <br>\n");
     }
 
-    // [id] is now case sensitive
-    // Added class attribute:
-    // [<id>]:{@<classname>]<url> "title"
-    //
-    // Bradley Willcott (24/12/2020)
-    //
+    /**
+     * <b>Changes:</b>
+     * <ul>
+     * <li>[id] is now case sensitive</li>
+     * <li>Added class attribute:<br>[&lt;id&gt;]:[@&lt;classname&gt;]&lt;url&gt; "title"</li>
+     * </ul>
+     * Bradley Willcott (24/12/2020)
+     */
     private static void stripLinkDefinitions(TextEditor text) {
         Pattern p = compile("^[ ]{0,3}\\[(?<id>.+)\\]:"
                             // ID = $1
@@ -1519,162 +1594,161 @@ public class MarkdownProcessor {
         });
     }
 
-    static TextEditor doAnchors(final TextEditor markup, final boolean doLimited) {
-        if (!doLimited)
-        {
+    static TextEditor doAnchors(final TextEditor markup) {
 
-            // Internal references: [link text][id]!
-            //
-            // Added class attribute to anchors.
-            // [link text][id]![@class]
-            //
-            // Bradley Willcott (15/12/2020)
-            Pattern internalLink = compile(""
-                                           + "\\[(?<linkText>[^\\[\\]]*?)\\]"
-                                           // Link text = $1
-                                           // + "[ ]?(?:\\n[ ]*)?"  // No whitespace between the brackets (GFM)
-                                           + "\\[(?<linkId>[^\\]]*?)\\]"
-                                           // ID = $2
-                                           + "(?<target>!)?"
-                                           + CLASS_REGEX_OPT); // BW
-            markup.replaceAll(internalLink, (Matcher m) ->
+        // Internal references: [link text][id]!
+        //
+        // Added class attribute to anchors.
+        // [link text][id]![@class]
+        //
+        // Bradley Willcott (15/12/2020)
+        //
+        Pattern internalLink = compile(""
+                                       + "\\[(?<linkText>[^\\[\\]]*?)\\]"
+                                       // Link text = $1
+                                       // + "[ ]?(?:\\n[ ]*)?"  // No whitespace between the brackets (GFM)
+                                       + "\\[(?<linkId>[^\\]]*?)\\]"
+                                       // ID = $2
+                                       + "(?<target>!)?"
+                                       + CLASS_REGEX_OPT); // BW
+        markup.replaceAll(internalLink, (Matcher m) ->
+                  {
+                      String replacementText;
+                      String wholeMatch = m.group();
+                      String linkText = m.group("linkText");
+                      String linkId = m.group("linkId");
+                      String targetTag = m.group("target") != null ? TARGET : "";
+                      // BW: classString
+                      String classes = m.group("classes");
+
+                      // [linkId] is now case sensitive
+                      if (linkId == null || "".equals(linkId))
+                      { // for shortcut links like [this][]
+                          linkId = linkText;
+                      }
+
+                      LinkDefinition defn = linkDefinitions.get(linkId);
+
+                      if (defn != null)
                       {
-                          String replacementText;
-                          String wholeMatch = m.group();
-                          String linkText = m.group("linkText");
-                          String linkId = m.group("linkId");
-                          String targetTag = m.group("target") != null ? TARGET : "";
-                          // BW: classString
-                          String classes = m.group("classes");
+                          // BW:
+                          String url = defn.url;
 
-                          // [linkId] is now case sensitive
-                          if (linkId == null || "".equals(linkId))
-                          { // for shortcut links like [this][]
-                              linkId = linkText;
-                          }
-
-                          LinkDefinition defn = linkDefinitions.get(linkId);
-
-                          if (defn != null)
+                          if (url != null)
                           {
-                              // BW:
-                              String url = defn.url;
-
-                              if (url != null)
-                              {
-                                  // protect emphasis (* and _) within urls
-                                  url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-                                  url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-                              }
-
-                              // BW: classAtrib
-                              String classAtrib = addClass(defn.classes, classes);
-
-                              // BW:
-                              String title = defn.title;
-                              String titleTag = "";
-
-                              if (title != null && !title.equals(""))
-                              {
-                                  // protect emphasis (* and _) within urls
-                                  title = title.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-                                  title = title.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-                                  titleTag = " title=\"" + title + "\"";
-                              }
-
-                              if (url != null)
-                              {
-                                  replacementText = "<a href=\"" + url + "\""
-                                                    // BW: classAtrib
-                                                    + classAtrib + titleTag + targetTag + ">"
-                                                    + linkText + "</a>";
-                              } else
-                              {
-                                  replacementText = "<a"
-                                                    // BW: classAtrib
-                                                    + classAtrib + titleTag + targetTag + ">"
-                                                    + linkText + "</a>";
-                              }
-                          } else
-                          {
-                              replacementText = wholeMatch;
+                              // protect emphasis (* and _) within urls
+                              url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+                              url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
                           }
-
-                          return replacementText;
-                      });
-
-            // Inline-style links: [link text]!( url "optional title")
-            //
-            // The space before and after the 'url' is now required.
-            // This is to allow for a url of: "javascript:void(0)".
-            // The closing braket ')' was being grabbed by the end of
-            // the regex pattern.
-            //
-            // Added class attribute to anchors.
-            // [link text]![@class]( url "optional title")
-            //
-            // Bradley Willcott (15/12/2020)
-            Pattern inlineLink = compile(""
-                                         // Whole match = $1
-                                         + "\\[(?<linkText>[^\\[\\]]*?)\\]"
-                                         // Link text = $2
-                                         + "(?<target>!)?"
-                                         + CLASS_REGEX_OPT// BW
-                                         + "\\("
-                                         + "[ ]*"
-                                         + "<?(?<url>.*?)>?"
-                                         // href = $4
-                                         + "[ ]*"
-                                         + "("
-                                         + "(?<quote>['\"])"
-                                         // Quote character = $6
-                                         + "(?<title>.*?)"
-                                         // Title = $7
-                                         + "\\k<quote>"
-                                         + ")?"
-                                         + "\\)", DOTALL);
-            markup.replaceAll(inlineLink, (Matcher m) ->
-                      {
-                          String linkText = m.group("linkText");
-                          String url = m.group("url");
-                          String title = m.group("title");
-                          String targetTag = m.group("target") != null ? TARGET : "";
-                          // BW: classString
-                          String classes = m.group("classes");
-
-                          // protect emphasis (* and _) within urls
-                          url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-                          url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-                          StringBuilder result = new StringBuilder();
-                          result.append("<a href=\"").append(url).append("\"");
 
                           // BW: classAtrib
-                          String classAtrib = classes != null && !classes.isBlank()
-                                              ? addClass(classes) : "";
-                          result.append(classAtrib);
+                          String classAtrib = addClass(defn.classes, classes);
 
-                          if (title != null)
+                          // BW:
+                          String title = defn.title;
+                          String titleTag = "";
+
+                          if (title != null && !title.equals(""))
                           {
                               // protect emphasis (* and _) within urls
                               title = title.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
                               title = title.replaceAll("_", CHAR_PROTECTOR.encode("_"));
-                              title = replaceAll(title, "\"", "&quot;");
-                              result.append(" title=\"");
-                              result.append(title);
-                              result.append("\"");
+                              titleTag = " title=\"" + title + "\"";
                           }
 
-                          if (!targetTag.isEmpty())
+                          if (url != null)
                           {
-                              result.append(TARGET);
+                              replacementText = "<a href=\"" + url + "\""
+                                                // BW: classAtrib
+                                                + classAtrib + titleTag + targetTag + ">"
+                                                + linkText + "</a>";
+                          } else
+                          {
+                              replacementText = "<a"
+                                                // BW: classAtrib
+                                                + classAtrib + titleTag + targetTag + ">"
+                                                + linkText + "</a>";
                           }
+                      } else
+                      {
+                          replacementText = wholeMatch;
+                      }
 
-                          result.append(">").append(linkText);
-                          result.append("</a>");
+                      return replacementText;
+                  });
 
-                          return result.toString();
-                      });
-        }
+        // Inline-style links: [link text]!( url "optional title")
+        //
+        // The space before and after the 'url' is now required.
+        // This is to allow for a url of: "javascript:void(0)".
+        // The closing braket ')' was being grabbed by the end of
+        // the regex pattern.
+        //
+        // Added class attribute to anchors.
+        // [link text]![@class]( url "optional title")
+        //
+        // Bradley Willcott (15/12/2020)
+        //
+        Pattern inlineLink = compile(""
+                                     // Whole match = $1
+                                     + "\\[(?<linkText>[^\\[\\]]*?)\\]"
+                                     // Link text = $2
+                                     + "(?<target>!)?"
+                                     + CLASS_REGEX_OPT// BW
+                                     + "\\("
+                                     + "[ ]*"
+                                     + "<?(?<url>.*?)>?"
+                                     // href = $4
+                                     + "[ ]*"
+                                     + "("
+                                     + "(?<quote>['\"])"
+                                     // Quote character = $6
+                                     + "(?<title>.*?)"
+                                     // Title = $7
+                                     + "\\k<quote>"
+                                     + ")?"
+                                     + "\\)", DOTALL);
+        markup.replaceAll(inlineLink, (Matcher m) ->
+                  {
+                      String linkText = m.group("linkText");
+                      String url = m.group("url");
+                      String title = m.group("title");
+                      String targetTag = m.group("target") != null ? TARGET : "";
+                      // BW: classString
+                      String classes = m.group("classes");
+
+                      // protect emphasis (* and _) within urls
+                      url = url.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+                      url = url.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+                      StringBuilder result = new StringBuilder();
+                      result.append("<a href=\"").append(url).append("\"");
+
+                      // BW: classAtrib
+                      String classAtrib = classes != null && !classes.isBlank()
+                                          ? addClass(classes) : "";
+                      result.append(classAtrib);
+
+                      if (title != null)
+                      {
+                          // protect emphasis (* and _) within urls
+                          title = title.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+                          title = title.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+                          title = replaceAll(title, "\"", "&quot;");
+                          result.append(" title=\"");
+                          result.append(title);
+                          result.append("\"");
+                      }
+
+                      if (!targetTag.isEmpty())
+                      {
+                          result.append(TARGET);
+                      }
+
+                      result.append(">").append(linkText);
+                      result.append("</a>");
+
+                      return result.toString();
+                  });
 
         // Last, handle reference-style shortcuts: [link text]!
         // These must come last in case you've also got [link test][lt]
@@ -1819,7 +1893,7 @@ public class MarkdownProcessor {
 
     @Override
     public String toString() {
-        return "Markdown Processor for Java 0.6.3 (should still be compatible with Markdown 1.0.2b2)";
+        return "Markdown Processor for Java (v0.6.8)";
     }
 
     /**
@@ -1841,9 +1915,5 @@ public class MarkdownProcessor {
             this.classes = addClass(classes);
             this.id = addId(id);
         }
-    }
-
-    protected enum Fenced {
-        YES, NO, UNFENCED
     }
 }

@@ -18,6 +18,7 @@ title: ${document.name} | ToDo List
     - [ ]! Abbreviations: `*[text]: Full text`
     - [x]! Footnote: `[^n]: Footnote text`
         - [ ]! More work to do: automate generation of page location code.
+- [x]! (11/01/2021) Added citation in-text reference to **blockquote**: `[(<cite text>)](<#ref>)`
 - [ ]! Add class attribute where useful: `[@<classname>]`.
     - [x]! [Links (Enhanced)]
     - [x]! [Paragraph (Enhanced)]
