@@ -9,3 +9,10 @@
 >     sub status {
 >         return "working";
 >     }
+
+[(Smith, 2021)](#cite01)
+> This is some text that has been
+> quoted from another source.
+>
+> Though it is short, it should prove
+> that citations work.

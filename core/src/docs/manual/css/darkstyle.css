@@ -35,6 +35,30 @@ article {
     font-size: 98%;
 }
 
+div.blockquote {
+    font-style: italic;
+    border-left: thick solid;
+    padding-top: 3px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    margin: 1em;
+}
+
+div.blockquote a.cite {
+    font-style: normal;
+    color: inherit;
+    padding: 4px;
+    box-shadow: 2px 3px;
+}
+
+div.blockquote a.cite:hover {
+    box-shadow: 1px 2px dodgerblue;
+}
+
+div.blockquote a.cite:active {
+    box-shadow: 1px 2px lime;
+}
+
 body {
     background-color:#002f42;
     color:#353833;
@@ -81,11 +105,11 @@ h6 {
 }
 
 hr.bold { 
-  border-width: 3px;
+    border-width: 3px;
 }
 
 hr.thick { 
-  border-width: 2px;
+    border-width: 2px;
 }
 
 ul {
@@ -177,6 +201,10 @@ ul.checkbox {
     padding-left: 0.0em;
 }
 
+a {
+    text-decoration: none;
+}
+
 a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover {
     background: url(../etc/external.png) right center no-repeat;
     padding-right: 18px;
@@ -212,12 +240,25 @@ a.previous:active {
     padding: 16px;
 }
 
-a.upArrow, a.upArrow:link, a.upArrow:visited, a.upArrow:active, a.upArrow:hover {
+a.upArrow {
     background: url(../etc/16px-arrow-up.png) right center no-repeat;
-    padding: 18px;
+    background-size: auto 16px;
+    padding: 10px;
 }
 
-a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWindow:hover {
-    background: url(../etc/newwindow.png) right center no-repeat;
+a.upArrow:hover {
+    background-size: auto 19px;
+}
+
+a.upArrow:active {
+    background-size: auto 16px;
+}
+
+a.newTab, a.newTab:link, a.newTab:visited, a.newTab:active, a.newTab:hover {
+    background: url(../etc/newtab.png) right center no-repeat;
     padding-right: 18px;
+}
+
+p.centre{
+    text-align: center;
 }
