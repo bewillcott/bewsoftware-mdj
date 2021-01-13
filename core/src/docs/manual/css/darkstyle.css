@@ -202,30 +202,79 @@ ul.checkbox {
 }
 
 a {
+    color: blue;
     text-decoration: none;
 }
 
-a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover {
-    background: url(../etc/external.png) right center no-repeat;
-    padding-right: 18px;
+a:hover {
+    color: dodgerblue;
 }
 
-a.next:link, a.next:visited {
-    background: url(../etc/32px-Go-next-link.png) right center no-repeat;
-    padding: 16px;    
+a:active {
+    color: limegreen;
+}
+
+a.externalLink {
+    background: url(../etc/external.png) right center no-repeat;
+    background-size: auto 9px;
+    padding: 10px;
+    margin-right: 1px;
+}
+
+a.externalLink:hover {
+    background-size: auto 12px;
+    padding-top: 11px;
+    padding-right: 11px;
+    margin-right: 0;
+}
+
+a.externalLink:active {
+    background-size: auto 9px;
+    padding: 10px;
+    margin-right: 1px;
+}
+
+a.newTab {
+    background: url(../etc/newtab.png) right center no-repeat;
+    background-size: auto 9px;
+    padding: 10px;
+    margin-right: 1px;
+}
+
+a.newTab:hover {
+    background-size: auto 12px;
+    padding-top: 11px;
+    padding-right: 11px;
+    margin-right: 0;
+}
+
+a.newTab:active {
+    background-size: auto 9px;
+    padding: 10px;
+    margin-right: 1px;
+}
+
+a.next {
+    background: url(../etc/16px-arrow-right.png) right center no-repeat;
+    background-size: auto 16px;
+    padding: 12px;    
+    margin-right: 1px;
 }
 
 a.next:hover {
-    background: url(../etc/32px-Go-next-hover.png) right center no-repeat;
-    padding: 16px;
+    background-size: auto 19px;
+    padding-top: 13px;
+    padding-right: 13px;
+    margin-right: 0;
 }
 
 a.next:active {
-    background: url(../etc/32px-Go-next-active.png) right center no-repeat;
-    padding: 16px;
+    background-size: auto 16px;
+    padding: 12px;
+    margin-right: 1px;
 }
 
-a.previous:link, a.previous:visited {
+a.previous {
     background: url(../etc/32px-Go-previous-link.png) right center no-repeat;
     padding: 16px;
 }
@@ -242,21 +291,22 @@ a.previous:active {
 
 a.upArrow {
     background: url(../etc/16px-arrow-up.png) right center no-repeat;
-    background-size: auto 16px;
+    background-size: auto 14px;
     padding: 10px;
+    margin-right: 1px;
 }
 
 a.upArrow:hover {
-    background-size: auto 19px;
+    background-size: auto 17px;
+    padding-top: 11px;
+    padding-right: 11px;
+    margin-right: 0;
 }
 
 a.upArrow:active {
-    background-size: auto 16px;
-}
-
-a.newTab, a.newTab:link, a.newTab:visited, a.newTab:active, a.newTab:hover {
-    background: url(../etc/newtab.png) right center no-repeat;
-    padding-right: 18px;
+    background-size: auto 14px;
+    padding: 10px;
+    margin-right: 1px;
 }
 
 p.centre{

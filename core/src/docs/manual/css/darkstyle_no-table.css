@@ -35,6 +35,30 @@ article {
     font-size: 98%;
 }
 
+div.blockquote {
+    font-style: italic;
+    border-left: thick solid;
+    padding-top: 3px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    margin: 1em;
+}
+
+div.blockquote a.cite {
+    font-style: normal;
+    color: inherit;
+    padding: 4px;
+    box-shadow: 2px 3px;
+}
+
+div.blockquote a.cite:hover {
+    box-shadow: 1px 2px dodgerblue;
+}
+
+div.blockquote a.cite:active {
+    box-shadow: 1px 2px lime;
+}
+
 body {
     background-color:#002f42;
     color:#353833;
@@ -173,53 +197,114 @@ ul.checkbox {
     padding-left: 0.0em;
 }
 
-a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover {
-    background: url(../etc/external.png) right center no-repeat;
-    padding-right: 18px;
+a {
+    color: blue;
+    text-decoration: none;
 }
 
-a.next:link, a.next:visited {
-    background: url(../etc/32px-Go-next-link.png) right center no-repeat;
-    padding-right: 32px;
-    font-size: 32px;
+a:hover {
+    color: dodgerblue;
+}
+
+a:active {
+    color: limegreen;
+}
+
+a.externalLink {
+    background: url(../etc/external.png) right center no-repeat;
+    background-size: auto 9px;
+    padding: 10px;
+    margin-right: 1px;
+}
+
+a.externalLink:hover {
+    background-size: auto 12px;
+    padding-top: 11px;
+    padding-right: 11px;
+    margin-right: 0;
+}
+
+a.externalLink:active {
+    background-size: auto 9px;
+    padding: 10px;
+    margin-right: 1px;
+}
+
+a.newTab {
+    background: url(../etc/newtab.png) right center no-repeat;
+    background-size: auto 9px;
+    padding: 10px;
+    margin-right: 1px;
+}
+
+a.newTab:hover {
+    background-size: auto 12px;
+    padding-top: 11px;
+    padding-right: 11px;
+    margin-right: 0;
+}
+
+a.newTab:active {
+    background-size: auto 9px;
+    padding: 10px;
+    margin-right: 1px;
+}
+
+a.next {
+    background: url(../etc/16px-arrow-right.png) right center no-repeat;
+    background-size: auto 16px;
+    padding: 12px;    
+    margin-right: 1px;
 }
 
 a.next:hover {
-    background: url(../etc/32px-Go-next-hover.png) right center no-repeat;
-    padding-right: 32px;
-    font-size: 32px;
+    background-size: auto 19px;
+    padding-top: 13px;
+    padding-right: 13px;
+    margin-right: 0;
 }
 
 a.next:active {
-    background: url(../etc/32px-Go-next-active.png) right center no-repeat;
-    padding-right: 32px;
-    font-size: 32px;
+    background-size: auto 16px;
+    padding: 12px;
+    margin-right: 1px;
 }
 
-a.previous:link, a.previous:visited {
+a.previous {
     background: url(../etc/32px-Go-previous-link.png) right center no-repeat;
-    padding-right: 32px;
-    font-size: 32px;
+    padding: 16px;
 }
 
 a.previous:hover {
     background: url(../etc/32px-Go-previous-hover.png) right center no-repeat;
-    padding-right: 32px;
-    font-size: 32px;
+    padding: 16px;
 }
 
 a.previous:active {
     background: url(../etc/32px-Go-previous-active.png) right center no-repeat;
-    padding-right: 32px;
-    font-size: 32px;
+    padding: 16px;
 }
 
-a.upArrow, a.upArrow:link, a.upArrow:visited, a.upArrow:active, a.upArrow:hover {
+a.upArrow {
     background: url(../etc/16px-arrow-up.png) right center no-repeat;
-    padding: 18px 18px 18px 9px;
+    background-size: auto 14px;
+    padding: 10px;
+    margin-right: 1px;
 }
 
-a.newWindow, a.newWindow:link, a.newWindow:visited, a.newWindow:active, a.newWindow:hover {
-    background: url(../etc/newwindow.png) right center no-repeat;
-    padding-right: 18px;
+a.upArrow:hover {
+    background-size: auto 17px;
+    padding-top: 11px;
+    padding-right: 11px;
+    margin-right: 0;
+}
+
+a.upArrow:active {
+    background-size: auto 14px;
+    padding: 10px;
+    margin-right: 1px;
+}
+
+p.centre{
+    text-align: center;
 }

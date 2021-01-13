@@ -104,7 +104,7 @@ Some more code
 </pre>
 
 
-Check out these examples: [][ex][@next] [][@upArrow](#top)
+Check out these examples: [][@upArrow](#top "Goto Top") [][ex][@next]
 
 [gfms]:https://github.github.com/gfm/#fenced-code-blocks
 [info-string]:https://github.github.com/gfm/#info-string

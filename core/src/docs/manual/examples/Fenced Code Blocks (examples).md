@@ -76,7 +76,7 @@ public class Fred {
     }
 }
 ```
-Now we will continue with the narrative. [&uarr;](#top)
+Now we will continue with the narrative. [][@upArrow](#top)
 
 This should be converted to a code block (using: ``` - 3 back-ticks):
 ~~~
@@ -115,7 +115,7 @@ public class Fred {
     }
 }
 ```
-Now we will continue with the narrative. [&uarr;](#top)
+Now we will continue with the narrative. [][@upArrow](#top)
 
 This should be converted to a code block (using: ~~~ - 3 tildes):
 ```
@@ -156,7 +156,7 @@ public class Fred {
 }
 ~~~
 
-Now we will continue with the narrative. [&uarr;](#top)
+Now we will continue with the narrative. [][@upArrow](#top)
 
 This should be converted to a code block (using: ~~~ - 3 tildes):
 ```
@@ -195,7 +195,7 @@ public class Fred {
     }
 }
 ~~~
-Now we will continue with the narrative. [&uarr;](#top)
+Now we will continue with the narrative. [][@upArrow](#top)
 
 
 @@@[navbar]
