@@ -40,25 +40,21 @@ And this list:
 
 @@@[navbar]
 - [Home]
-- [@dropdown] [Code Blocks](#)
-[@dropdown-content]
+- [Code Blocks](#)
     - [Fenced Code Blocks]
-- [@dropdown active] [Lists](#)
-[@dropdown-content]
+- [@active] [Lists](#)
     - [Lists (Enhanced)]
-- [@dropdown] [Text](#)
-[@dropdown-content]
+- [Text](#)
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown] [More...](#)
-[@dropdown-content]
+- [More...](#)
+    - [HR (Enhanced)]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown] [About]
-[@dropdown-content]
+- [@right] [About]
     - [ToDo List]
     - [License]
 
@@ -68,6 +64,7 @@ And this list:
 [Fenced Code Blocks]:Fenced Code Blocks.html
 [Headings (Enhanced)]:Headings (Enhanced).html
 [Home]:index.html
+[HR (Enhanced)]:HR (Enhanced).html
 [License]:LICENSE.html
 [Links (Enhanced)]:Links (Enhanced).html
 [Lists]:Lists.html

@@ -9,28 +9,25 @@ TODO: Fill this in...
 
 
 @@@[navbar]
--  [Home]
-- [@dropdown] [Code Blocks](#)
-[@dropdown-content]
+- [Home]
+- [Code Blocks](#)
     - [Fenced Code Blocks]
-- [@dropdown] [Lists]
-[@dropdown-content]
+- [Lists]
     - [Lists (Enhanced)]
-- [@dropdown] [Text](#)
-[@dropdown-content]
+- [Text](#)
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown] [More...](#)
-[@dropdown-content]
+- [More...](#)
+    - [HR (Enhanced)]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown active] [About](#)
-[@dropdown-content]
+- [@right active] [About](#)
     - [ToDo List]
     - [License]
+
 
 
 [About]:About.html
@@ -38,6 +35,7 @@ TODO: Fill this in...
 [Fenced Code Blocks]:Fenced Code Blocks.html
 [Headings (Enhanced)]:Headings (Enhanced).html
 [Home]:index.html
+[HR (Enhanced)]:HR (Enhanced).html
 [License]:LICENSE.html
 [Links (Enhanced)]:Links (Enhanced).html
 [Lists]:Lists.html

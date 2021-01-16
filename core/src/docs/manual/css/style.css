@@ -274,17 +274,21 @@ a.next:active {
 
 a.previous {
     background: url(../etc/32px-Go-previous-link.png) right center no-repeat;
-    padding: 16px;
+    background-size: auto 25px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 a.previous:hover {
-    background: url(../etc/32px-Go-previous-hover.png) right center no-repeat;
-    padding: 16px;
+    background-size: auto 28px;
+    margin-left: 6px;
+    margin-right: 4px;
 }
 
 a.previous:active {
-    background: url(../etc/32px-Go-previous-active.png) right center no-repeat;
-    padding: 16px;
+    background-size: auto 25px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 a.upArrow {

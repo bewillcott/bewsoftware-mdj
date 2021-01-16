@@ -54,25 +54,21 @@ Check out the ToDo List page.
 
 @@@[navbar]
 - [@active] [Home](#)
-- [@dropdown] [Code Blocks](#)
-[@dropdown-content]
+- [Code Blocks](#)
     - [Fenced Code Blocks]
-- [@dropdown] [Lists]
-[@dropdown-content]
+- [Lists]
     - [Lists (Enhanced)]
-- [@dropdown] [Text](#)
-[@dropdown-content]
+- [Text](#)
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown] [More...](#)
-[@dropdown-content]
+- [More...](#)
+    - [HR (Enhanced)]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown] [About]
-[@dropdown-content]
+- [@right] [About]
     - [ToDo List]
     - [License]
 
@@ -82,6 +78,7 @@ Check out the ToDo List page.
 [Fenced Code Blocks]:Fenced Code Blocks.html
 [Headings (Enhanced)]:Headings (Enhanced).html
 [Home]:index.html
+[HR (Enhanced)]:HR (Enhanced).html
 [License]:LICENSE.html
 [Links (Enhanced)]:Links (Enhanced).html
 [Lists]:Lists.html
