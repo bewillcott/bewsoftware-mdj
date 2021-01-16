@@ -37,7 +37,7 @@ Results in this:
 ## Sub heading ## [&uarr;](#main)
 
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
 - [Code Blocks](#)
     - [Fenced Code Blocks]

@@ -37,7 +37,7 @@ title: ${document.name} | LICENSE
     software, even if advised of the possibility of such damage.
 
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
 - [Code Blocks](#)
     - [Fenced Code Blocks]

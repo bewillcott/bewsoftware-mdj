@@ -29,7 +29,7 @@ quite simple:
 
 [1]: "I didn't like this text"
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
 - [Code Blocks](#)
     - [Fenced Code Blocks]

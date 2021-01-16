@@ -49,7 +49,7 @@ the number.
 [ex]:examples/Links and Auto Links (examples).html "Examples... "
 
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
 - [Code Blocks](#)
     - [Fenced Code Blocks]

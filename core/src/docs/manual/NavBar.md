@@ -25,7 +25,7 @@ As you can imagine, the NavBar is only _one_ way of utilizing this feature.  Hav
 
 
 ```
-\@@@[navbar]
+\@@@[#navbar]
 - [Home]
 - [@active] [Navigation Bar](#)
 - [Lists]
@@ -42,7 +42,7 @@ As you can imagine, the NavBar is only _one_ way of utilizing this feature.  Hav
 ```
 
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
 - [Code Blocks](#)
     - [Fenced Code Blocks]

@@ -67,7 +67,7 @@ and keeps the brackets.
 [Lists]:Lists (Enhanced).html
 [Tables]:Tables.html
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
 - [Code Blocks](#)
     - [Fenced Code Blocks]

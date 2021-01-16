@@ -198,7 +198,7 @@ public class Fred {
 Now we will continue with the narrative. [][@upArrow](#top)
 
 
-@@@[navbar]
+@@@[#navbar]
 - [][Fenced Code Blocks][@previous]
 - [Home]
 - [Code Blocks](#)

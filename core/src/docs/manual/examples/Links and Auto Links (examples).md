@@ -101,7 +101,7 @@ Note the little graphic at the end of each link.
 
 
 
-@@@[navbar]
+@@@[#navbar]
 - [][Links (Enhanced)][@previous]
 - [Home]
 - [Code Blocks](#)

@@ -111,7 +111,7 @@ Check out these examples: [][@upArrow](#top "Goto Top") [][ex][@next]
 [ex]:examples/Fenced Code Blocks (examples).html "More examples..."
 
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
 - [@subactive] [Code Blocks](#)
     - [@active] [Fenced Code Blocks](#)

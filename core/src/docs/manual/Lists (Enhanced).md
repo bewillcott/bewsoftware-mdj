@@ -40,7 +40,7 @@ Which produces this result:
 
 
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
 - [Code Blocks](#)
     - [Fenced Code Blocks]

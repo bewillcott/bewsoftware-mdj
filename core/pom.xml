@@ -634,7 +634,7 @@ software, even if advised of the possibility of such damage.
                 <plugin>
                     <groupId>com.bewsoftware.mojo</groupId>
                     <artifactId>bewsoftware-mdj-plugin</artifactId>
-                    <version>1.0.36</version>
+                    <version>1.0.37</version>
                 </plugin>                
                 <plugin>                        
                     <groupId>com.bew.mojo</groupId>
