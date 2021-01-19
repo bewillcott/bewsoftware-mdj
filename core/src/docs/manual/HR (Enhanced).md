@@ -28,30 +28,26 @@ hr.thick {
 
 
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
-- [@dropdown] [Code Blocks](#)
-[@dropdown-content]
+- [Code Blocks](#)
     - [Fenced Code Blocks]
-- [@dropdown] [Lists]
-[@dropdown-content]
+- [Lists]
     - [Lists (Enhanced)]
-- [@dropdown] [Text](#)
-[@dropdown-content]
+- [Text](#)
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown] [More...](#)
-[@dropdown-content]
+- [@subactive] [More...](#)
     - [@active] [HR (Enhanced)](#)
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown] [About]
-[@dropdown-content]
+- [@right] [About]
     - [ToDo List]
     - [License]
+
 
 
 [About]:About.html

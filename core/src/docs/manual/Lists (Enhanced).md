@@ -40,29 +40,26 @@ Which produces this result:
 
 
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
-- [@dropdown] [Code Blocks](#)
-[@dropdown-content]
+- [Code Blocks](#)
     - [Fenced Code Blocks]
-- [@dropdown subactive] [Lists]
-[@dropdown-content]
+- [@subactive] [Lists]
     - [@active] [Lists (Enhanced)](#)
-- [@dropdown] [Text](#)
-[@dropdown-content]
+- [Text](#)
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown] [More...](#)
-[@dropdown-content]
+- [More...](#)
+    - [HR (Enhanced)]
     - [Links (Enhanced)]
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown] [About]
-[@dropdown-content]
+- [@right] [About]
     - [ToDo List]
     - [License]
+
 
 
 [About]:About.html
@@ -70,6 +67,7 @@ Which produces this result:
 [Fenced Code Blocks]:Fenced Code Blocks.html
 [Headings (Enhanced)]:Headings (Enhanced).html
 [Home]:index.html
+[HR (Enhanced)]:HR (Enhanced).html
 [License]:LICENSE.html
 [Links (Enhanced)]:Links (Enhanced).html
 [Lists]:Lists.html

@@ -25,11 +25,10 @@ As you can imagine, the NavBar is only _one_ way of utilizing this feature.  Hav
 
 
 ```
-\@@@[navbar]
+\@@@[#navbar]
 - [Home]
 - [@active] [Navigation Bar](#)
-- [@dropdown] [Lists]
-[@dropdown-content]
+- [Lists]
     - [Link 1](#)
     - [Link 2](#)
     - [Link 3](#)
@@ -43,27 +42,23 @@ As you can imagine, the NavBar is only _one_ way of utilizing this feature.  Hav
 ```
 
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
-- [@dropdown] [Code Blocks](#)
-[@dropdown-content]
+- [Code Blocks](#)
     - [Fenced Code Blocks]
-- [@dropdown] [Lists]
-[@dropdown-content]
+- [Lists]
     - [Lists (Enhanced)]
-- [@dropdown] [Text](#)
-[@dropdown-content]
+-  [Text](#)
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown subactive] [More...](#)
-[@dropdown-content]
+- [@subactive] [More...](#)
+    - [HR (Enhanced)]
     - [Links (Enhanced)]
     - [@active] [Navigation Bar](#)
     - [Tables]
-- [@right dropdown] [About]
-[@dropdown-content]
+- [@right] [About]
     - [ToDo List]
     - [License]
 
@@ -73,6 +68,7 @@ As you can imagine, the NavBar is only _one_ way of utilizing this feature.  Hav
 [Fenced Code Blocks]:Fenced Code Blocks.html
 [Headings (Enhanced)]:Headings (Enhanced).html
 [Home]:index.html
+[HR (Enhanced)]:HR (Enhanced).html
 [License]:LICENSE.html
 [Links (Enhanced)]:Links (Enhanced).html
 [Lists]:Lists.html

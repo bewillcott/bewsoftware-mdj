@@ -49,29 +49,26 @@ the number.
 [ex]:examples/Links and Auto Links (examples).html "Examples... "
 
 
-@@@[navbar]
+@@@[#navbar]
 - [Home]
-- [@dropdown] [Code Blocks](#)
-[@dropdown-content]
+- [Code Blocks](#)
     - [Fenced Code Blocks]
-- [@dropdown] [Lists]
-[@dropdown-content]
+- [Lists]
     - [Lists (Enhanced)]
-- [@dropdown] [Text](#)
-[@dropdown-content]
+- [Text](#)
     - [Ampersands]
     - [Headings (Enhanced)]
     - [Paragraph (Enhanced)]
     - [Text Embellishments]
-- [@dropdown subactive] [More...](#)
-[@dropdown-content]
+- [@subactive] [More...](#)
+    - [HR (Enhanced)]
     - [@active] [Links (Enhanced)](#)
     - [Navigation Bar]
     - [Tables]
-- [@right dropdown] [About]
-[@dropdown-content]
+- [@right] [About]
     - [ToDo List]
     - [License]
+
 
 
 [About]:About.html
@@ -79,6 +76,7 @@ the number.
 [Fenced Code Blocks]:Fenced Code Blocks.html
 [Headings (Enhanced)]:Headings (Enhanced).html
 [Home]:index.html
+[HR (Enhanced)]:HR (Enhanced).html
 [License]:LICENSE.html
 [Links (Enhanced)]:Links (Enhanced).html
 [Lists]:Lists.html

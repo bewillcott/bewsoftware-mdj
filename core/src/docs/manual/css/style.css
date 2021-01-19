@@ -106,6 +106,39 @@ ul {
     list-style-type:disc;
 }
 
+ul.checkbox {
+    list-style-type: none;
+    margin-left: 2.5em;
+    padding-left: 0.0em;
+}
+
+ul.terms  {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+ul.terms > li {
+    list-style-type: none;
+    list-style-position: inside;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+ul.terms > li > ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+ul.terms > li > ul > li {
+    list-style-type: none;
+    list-style-position: inside;
+    font-weight: normal;
+}
+
+ul.terms ul ul li {
+    list-style: disc;
+}
+
 table {
     border: 4px solid black;
     border-collapse: collapse;
@@ -193,12 +226,6 @@ table tr td dt code {
     padding-top:4px;
 }
 
-ul.checkbox {
-    list-style-type: none;
-    margin-left: 2.5em;
-    padding-left: 0.0em;
-}
-
 a {
     color: blue;
     text-decoration: none;
@@ -274,17 +301,21 @@ a.next:active {
 
 a.previous {
     background: url(../etc/32px-Go-previous-link.png) right center no-repeat;
-    padding: 16px;
+    background-size: auto 25px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 a.previous:hover {
-    background: url(../etc/32px-Go-previous-hover.png) right center no-repeat;
-    padding: 16px;
+    background-size: auto 28px;
+    margin-left: 6px;
+    margin-right: 4px;
 }
 
 a.previous:active {
-    background: url(../etc/32px-Go-previous-active.png) right center no-repeat;
-    padding: 16px;
+    background-size: auto 25px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 a.upArrow {
