@@ -44,7 +44,7 @@ software, even if advised of the possibility of such damage.
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>bewsoftware-mdj-core</artifactId>
-    <version>0.6.9</version>
+    <version>0.6.10</version>
     <packaging>jar</packaging>
     
     <name>BEWSoftware MDj Core Library</name>
@@ -462,7 +462,7 @@ software, even if advised of the possibility of such damage.
                                 <configuration>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
-                                    <verbosity>1</verbosity>
+                                    <verbosity></verbosity>
                                 </configuration>
                             </execution>
                             <execution>
@@ -474,7 +474,7 @@ software, even if advised of the possibility of such damage.
                                     <jarFilename>${project.build.finalName}-manual.jar</jarFilename>
                                     <jarSrcDir>target/docs/manual</jarSrcDir>
                                     <docRootDir>src/docs/manual</docRootDir>
-                                    <verbosity>1</verbosity>
+                                    <verbosity></verbosity>
                                 </configuration>
                             </execution>
                             <execution>
@@ -486,7 +486,7 @@ software, even if advised of the possibility of such damage.
                                     <jarFilename>${project.build.finalName}-manual-src.jar</jarFilename>
                                     <jarSrcDir>src/docs/manual</jarSrcDir>
                                     <docRootDir>src/docs/manual</docRootDir>
-                                    <verbosity>1</verbosity>
+                                    <verbosity></verbosity>
                                 </configuration>
                             </execution>
                         </executions>
@@ -634,7 +634,7 @@ software, even if advised of the possibility of such damage.
                 <plugin>
                     <groupId>com.bewsoftware.mojo</groupId>
                     <artifactId>bewsoftware-mdj-plugin</artifactId>
-                    <version>1.0.37</version>
+                    <version>1.0.38</version>
                 </plugin>                
                 <plugin>                        
                     <groupId>com.bew.mojo</groupId>
