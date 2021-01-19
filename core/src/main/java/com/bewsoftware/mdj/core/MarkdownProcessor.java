@@ -1767,27 +1767,36 @@ public class MarkdownProcessor {
         // - '[^'  - Footnote link.
         // Bradley Willcott (03/01/2021)
         //
+        // Added optional 'id'
+        // Bradley Willcott (19/01/2021)
+        //
         Pattern referenceShortcut = compile("(?!\\[#|\\[\\d)" // BW:
                                             + "\\["
-                                            + "\\^?" // BW:
+                                            + "(?<fn>\\^)?" // BW:
                                             + "(?<linkText>[^\\[\\]]+?)"
                                             // link text can't contain ']'
                                             + "\\]"
                                             + "(?<target>!)?"
+                                            + ID_REGEX_OPT // BW
                                             + CLASS_REGEX_OPT, // BW
                                             DOTALL);
         markup.replaceAll(referenceShortcut, (Matcher m) ->
                   {
                       String replacementText;
                       String wholeMatch = m.group();
+                      // BW: fn
+                      String fn = m.group("fn");
                       String linkText = m.group("linkText");
                       String targetTag = m.group("target") != null ? TARGET : "";
-                      String id = linkText; // link id is now case sensitive
-                      id = id.replaceAll("[ ]?\\n", " "); // change embedded newlines into spaces
-                      // BW: classString
+                      // BW: id
+                      String id = m.group("id");
+                      // BW: 'linkId' was 'id'
+                      String linkId = linkText; // link id is now case sensitive
+                      linkId = linkId.replaceAll("[ ]?\\n", " "); // change embedded newlines into spaces
+                      // BW: classes
                       String classes = m.group("classes");
 
-                      LinkDefinition defn = linkDefinitions.get(id);
+                      LinkDefinition defn = linkDefinitions.get(linkId);
 
                       if (defn != null)
                       {
@@ -1816,26 +1825,37 @@ public class MarkdownProcessor {
                               titleTag = " title=\"" + title + "\"";
                           }
 
-                          // Added superscripted footnote reference
-                          // (14/03/2020) Bradley Willcott
-                          Matcher footnote = compile("\\A(\\d+)\\z").matcher(linkText);
+                          // BW:
+                          String idAttrib = "";
 
-                          if (footnote.find())
+                          if (fn != null)
                           {
-                              linkText = doSubSup(new TextEditor("++" + CHAR_PROTECTOR.encode("[") + (url != null ? linkText : "*") + "]++")).toString();
+                              // Added superscripted footnote reference
+                              // (14/03/2020) Bradley Willcott
+                              Matcher footnote = compile("\\A(\\d+)\\z").matcher(linkText);
+
+                              if (footnote.find())
+                              {
+                                  linkText = doSubSup(new TextEditor("++" + CHAR_PROTECTOR.encode("[") + (url != null ? linkText : "*") + "]++")).toString();
+                              }
+
+                              if (id != null)
+                              {
+                                  idAttrib = addId(id);
+                              }
                           }
 
                           if (url != null)
                           {
                               replacementText = "<a href=\"" + url + "\""
-                                                // BW: classAtrib
-                                                + classAtrib + titleTag + targetTag + ">"
+                                                // BW: idAttrib, classAtrib
+                                                + idAttrib + classAtrib + titleTag + targetTag + ">"
                                                 + linkText + "</a>";
                           } else
                           {
                               replacementText = "<a"
-                                                // BW: classAtrib
-                                                + classAtrib + titleTag + targetTag + ">"
+                                                // BW: idAttrib, classAtrib
+                                                + idAttrib + classAtrib + titleTag + targetTag + ">"
                                                 + linkText + "</a>";
                           }
                       } else

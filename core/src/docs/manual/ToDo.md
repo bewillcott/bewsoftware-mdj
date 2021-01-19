@@ -17,6 +17,8 @@ title: ${document.name} | ToDo List
     `\&nbsp;\&nbsp;\&nbsp;\&nbsp;: another definition`
     - [ ]! Abbreviations: `*[text]: Full text`
     - [x]! Footnote: `[^n]: Footnote text`
+        - [x]! Can now add an 'id' attribute to the link: `[^1][#fn1]`  
+               results with: `<a id="fn1" ...><sup>[1]</sup></a>`
         - [ ]! More work to do: automate generation of page location code.
 - [x]! (11/01/2021) Added citation in-text reference to **blockquote**: `[(<cite text>)](<#ref>)`
 - [ ]! Add class attribute where useful: `[@<classname>]`.

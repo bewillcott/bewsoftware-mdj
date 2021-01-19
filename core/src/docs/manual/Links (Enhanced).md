@@ -25,7 +25,7 @@ Check out these examples: [][ex][@next]
 
 A footnote link is a special handle reference link.  It uses just the one bracket option 
 "`[^d%]`" with a caret `^` and a decimal label/id.  The main difference is that the label/id will keep its 
-brackets, and it will be superscripted[^1].  Although you could create your own version
+brackets, and it will be superscripted[^1][#fn1].  Although you could create your own version
 on a need-by-need basis: `++\\[[1]\\]++`, this will make it much easier[^2].
 
 The reference can be any type you need.  For instance, the one used in the source for this
@@ -40,9 +40,18 @@ favorite word processor does when you insert a _footnote_.
 The caret `^` is used only in the link, not in the reference.  The reference id is just
 the number.
 
+As of v1.0.38 you can now add an 'id' attribute to the footnote link: `[^1][#fn1]`  
+This will give something like: `<a href="..." id="fn1" ...>`.  The ellipses are in-place
+of other text that would be included as appropriate.
+
+Then you could set up your footnote as: `1. [^](#fn1) Some text.`  
+Just remember, the 'id' must be unique across the entire page.  So if you refer to the same
+footnote multiple times, you can only use the id once.
+
 ---
 
-2.[#fn2] This a just a footnote in history.
+1. [^](#fn1) Some text.  
+2. This a just a footnote in history.
 
 [1]:Text Embellishments.html "You can find more on Superscripting here"
 [2]:#fn2
