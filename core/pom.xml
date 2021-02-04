@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 Copyright (c) 2008, Alex Coles.
 
@@ -30,8 +30,7 @@ profits; or business interruption) however caused and on any theory of
 liability, whether in contract, strict liability, or tort (including
 negligence or otherwise) arising in any way out of the use of this
 software, even if advised of the possibility of such damage.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+--><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -44,7 +43,7 @@ software, even if advised of the possibility of such damage.
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>bewsoftware-mdj-core</artifactId>
-    <version>0.6.10</version>
+    <version>0.6.11-SNAPSHOT</version>
     <packaging>jar</packaging>
     
     <name>BEWSoftware MDj Core Library</name>
@@ -136,7 +135,7 @@ software, even if advised of the possibility of such damage.
                                 <configuration>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
-                                    <verbosity></verbosity>
+                                    <verbosity/>
                                 </configuration>
                             </execution>
                         </executions>
@@ -162,7 +161,7 @@ software, even if advised of the possibility of such damage.
                                 <configuration>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
-                                    <verbosity></verbosity>
+                                    <verbosity/>
                                 </configuration>
                             </execution>
                         </executions>
@@ -352,7 +351,7 @@ software, even if advised of the possibility of such damage.
                                     <jarSrcDir>target/docs/manual</jarSrcDir>
                                     <jarFilename>${project.build.finalName}-manual.jar</jarFilename>
                                     <docRootDir>src/docs/manual</docRootDir>
-                                    <verbosity></verbosity>
+                                    <verbosity/>
                                 </configuration>
                             </execution>
                             <execution>
@@ -364,7 +363,7 @@ software, even if advised of the possibility of such damage.
                                     <jarSrcDir>src/docs/manual</jarSrcDir>
                                     <jarFilename>${project.build.finalName}-manual-src.jar</jarFilename>
                                     <docRootDir>src/docs/manual</docRootDir>
-                                    <verbosity></verbosity>
+                                    <verbosity/>
                                 </configuration>
                             </execution>
                         </executions>
@@ -394,7 +393,34 @@ software, even if advised of the possibility of such damage.
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>                    
+                    </plugin>            
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <configuration>
+                            <encoding>${source.encoding}</encoding>
+                        </configuration>
+                        <executions>
+                            <execution>                        
+                                <id>Copy-Manual-to-basedir</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>prepare-package</phase>
+                                <configuration>
+                                    <outputDirectory>../docs</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>
+                                                target/docs/manual
+                                            </directory>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    
                     <plugin>
                         <groupId>com.bewsoftware.mojo</groupId>
                         <artifactId>bewsoftware-mdj-plugin</artifactId>
@@ -407,7 +433,7 @@ software, even if advised of the possibility of such damage.
                                 <configuration>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
-                                    <verbosity></verbosity>
+                                    <verbosity/>
                                 </configuration>
                             </execution>
                             <execution>
@@ -419,7 +445,7 @@ software, even if advised of the possibility of such damage.
                                     <jarFilename>${finalBaseName}-manual.jar</jarFilename>
                                     <jarSrcDir>target/docs/manual</jarSrcDir>
                                     <docRootDir>src/docs/manual</docRootDir>
-                                    <verbosity></verbosity>
+                                    <verbosity/>
                                 </configuration>
                             </execution>
                             <execution>
@@ -431,7 +457,7 @@ software, even if advised of the possibility of such damage.
                                     <jarFilename>${finalBaseName}-manual-src.jar</jarFilename>
                                     <jarSrcDir>src/docs/manual</jarSrcDir>
                                     <docRootDir>src/docs/manual</docRootDir>
-                                    <verbosity></verbosity>
+                                    <verbosity/>
                                 </configuration>
                             </execution>
                         </executions>
@@ -738,32 +764,6 @@ software, even if advised of the possibility of such damage.
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <configuration>
-                    <encoding>${source.encoding}</encoding>
-                </configuration>
-                <executions>
-                    <execution>                        
-                        <id>Copy-Manual-to-basedir</id>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <outputDirectory>../docs</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>
-                                        target/docs/manual
-                                    </directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
             <plugin>
@@ -776,7 +776,7 @@ software, even if advised of the possibility of such damage.
                 <configuration>
                     <!-- Skips unit tests if the value of skip.unit.tests property is true -->
                     <skipTests>${skip.unit.tests}</skipTests>
-                    <argLine></argLine>     
+                    <argLine/>     
                     <includes>
                         <include>**/*.java</include>
                     </includes>

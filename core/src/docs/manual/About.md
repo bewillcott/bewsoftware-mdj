@@ -3,7 +3,7 @@ use : articles2
 title: ${document.name} | About
 @@@
 
-##[#top] About : v${document.version}
+##[#top] About : v${project.version}
 TODO: Fill this in...
 
 
