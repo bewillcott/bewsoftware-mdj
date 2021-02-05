@@ -1586,7 +1586,7 @@ public class MarkdownProcessor {
                 ids.isEmpty() ? null : ids.get(0));
     }
 
-    private static void unEscapeSpecialChars(TextEditor ed) {
+    private static void unEscapeSpecialChars(final TextEditor ed) {
         CHAR_PROTECTOR.getAllEncodedTokens().forEach(hash ->
         {
             String plaintext = CHAR_PROTECTOR.decode(hash);
@@ -1594,7 +1594,7 @@ public class MarkdownProcessor {
         });
     }
 
-    static TextEditor doAnchors(final TextEditor markup) {
+    private static TextEditor doAnchors(final TextEditor markup) {
 
         // Internal references: [link text][id]!
         //
@@ -1869,7 +1869,7 @@ public class MarkdownProcessor {
         return markup;
     }
 
-    static TextEditor encodeCode(TextEditor ed) {
+    static TextEditor encodeCode(final TextEditor ed) {
         ed.replaceAll("\\\\&", CHAR_PROTECTOR.encode("&"));
         ed.replaceAll("--", CHAR_PROTECTOR.encode("--"));
         ed.replaceAll("\\+\\+", CHAR_PROTECTOR.encode("++"));
@@ -1890,7 +1890,7 @@ public class MarkdownProcessor {
         return ed;
     }
 
-    static String processGroupText(String text) {
+    static String processGroupText(final String text) {
         if (text != null && !text.isBlank())
         {
             // Escaped pipes need to be handled
@@ -1924,13 +1924,13 @@ public class MarkdownProcessor {
      * @since 0.6
      * @version 0.6.8
      */
-    public static class Tag {
+    private static class Tag {
 
         public final String text;
         public final String classes;
         public final String id;
 
-        public Tag(String text, String classes, String id) {
+        private Tag(final String text, final String classes, final String id) {
             this.text = text;
             this.classes = addClass(classes);
             this.id = addId(id);

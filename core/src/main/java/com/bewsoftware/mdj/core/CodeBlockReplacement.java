@@ -63,7 +63,7 @@ class CodeBlockReplacement implements Replacement {
     private final boolean fencedCode;
     private Matcher m;
 
-    public CodeBlockReplacement(boolean fencedCode) {
+    CodeBlockReplacement(boolean fencedCode) {
         this.fencedCode = fencedCode;
     }
 

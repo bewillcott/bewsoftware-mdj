@@ -103,7 +103,7 @@ public final class POMProperties {
     /**
      * Provides single instance of this class.
      */
-    public final static POMProperties INSTANCE = new POMProperties();
+    public static final POMProperties INSTANCE = new POMProperties();
 
     public static void main(String[] args) {
         System.out.println(POMProperties.INSTANCE);

@@ -42,19 +42,32 @@ public class HTMLDecoder {
     public static String decode(String html) {
         TextEditor ed = new TextEditor(html);
         Pattern p1 = Pattern.compile("&#(\\d+);");
-        ed.replaceAll(p1, (Matcher m) -> {
+        ed.replaceAll(p1, (Matcher m) ->
+              {
                   String charDecimal = m.group(1);
                   char ch = (char) Integer.parseInt(charDecimal);
                   return Character.toString(ch);
               });
 
         Pattern p2 = Pattern.compile("&#x([0-9a-fA-F]+);");
-        ed.replaceAll(p2, (Matcher m) -> {
+        ed.replaceAll(p2, (Matcher m) ->
+              {
                   String charHex = m.group(1);
                   char ch = (char) Integer.parseInt(charHex, 16);
                   return Character.toString(ch);
               });
 
         return ed.toString();
+    }
+
+    /**
+     * Not meant to be instantiated
+     * <p>
+     * Added this private constructor.
+     * <p>
+     * Bradley Willcott<br>
+     * (04/02/2021)
+     */
+    private HTMLDecoder() {
     }
 }

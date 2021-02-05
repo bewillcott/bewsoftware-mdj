@@ -590,13 +590,33 @@ software, even if advised of the possibility of such damage.
             </resource>
             <resource>
                 <directory>
-                    target/docs/manual
+                    src/uml
                 </directory>
-                <!--                <excludes>
+                <excludes>
                     <exclude>
                         **/*
                     </exclude>
-                </excludes>-->
+                </excludes>
+            </resource>
+            <resource>
+                <directory>
+                    target/docs/manual
+                </directory>
+                <excludes>
+                    <exclude>
+                        **/*
+                    </exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>
+                    ../docs
+                </directory>
+                <excludes>
+                    <exclude>
+                        **/*
+                    </exclude>
+                </excludes>
             </resource>
         </resources>
 
@@ -605,7 +625,7 @@ software, even if advised of the possibility of such damage.
                 <plugin>
                     <groupId>com.bewsoftware.mojo</groupId>
                     <artifactId>bewsoftware-mdj-plugin</artifactId>
-                    <version>1.1.0</version>
+                    <version>1.1.2</version>
                 </plugin>                
                 <plugin>
                     <groupId>com.bewsoftware.mojo</groupId>

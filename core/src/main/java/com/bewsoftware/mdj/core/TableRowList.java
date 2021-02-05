@@ -43,7 +43,9 @@ import com.bewsoftware.common.InvalidParameterValueException;
  */
 class TableRowList {
 
+    @Deprecated
     private static final int DEFAULT_SIZE = 10;
+
     private int lastIdx = -1;
     private int length = 0;
     private final TableRow[] list;
