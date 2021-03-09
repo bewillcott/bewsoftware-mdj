@@ -3,14 +3,14 @@
   <help_text>fontsize=12
 fontfamily=Monospaced #SansSerif
 </help_text>
-  <zoom_level>5</zoom_level>
+  <zoom_level>3</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>315</y>
-      <w>155</w>
-      <h>30</h>
+      <x>345</x>
+      <y>342</y>
+      <w>93</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>valign=center
 halign=center
@@ -26,10 +26,10 @@ group=3</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1070</x>
-      <y>360</y>
-      <w>160</w>
-      <h>25</h>
+      <x>447</x>
+      <y>369</y>
+      <w>96</w>
+      <h>15</h>
     </coordinates>
     <panel_attributes>valign=center
 halign=center
@@ -43,9 +43,9 @@ group=3</panel_attributes>
     <id>UMLPackage</id>
     <coordinates>
       <x>0</x>
-      <y>590</y>
-      <w>1470</w>
-      <h>845</h>
+      <y>480</y>
+      <w>882</w>
+      <h>507</h>
     </coordinates>
     <panel_attributes>com.bewsoftware.mdj.core
 --
@@ -55,10 +55,10 @@ bg=orange</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1300</x>
-      <y>610</y>
-      <w>135</w>
-      <h>65</h>
+      <x>780</x>
+      <y>492</y>
+      <w>81</w>
+      <h>39</h>
     </coordinates>
     <panel_attributes>bg=cyan
 layer=1
@@ -77,10 +77,10 @@ _+addStyle(text:String) : String_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>200</x>
-      <y>620</y>
-      <w>200</w>
-      <h>105</h>
+      <x>120</x>
+      <y>498</y>
+      <w>120</w>
+      <h>63</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -105,10 +105,10 @@ _+REGEX : String {final}_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1180</x>
-      <y>810</y>
-      <w>125</w>
-      <h>35</h>
+      <x>708</x>
+      <y>612</y>
+      <w>75</w>
+      <h>21</h>
     </coordinates>
     <panel_attributes>bg=gray
 layer=1
@@ -123,10 +123,10 @@ Replacement
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1250</x>
-      <y>875</y>
-      <w>195</w>
-      <h>75</h>
+      <x>750</x>
+      <y>651</y>
+      <w>117</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -147,21 +147,23 @@ CodeBlockReplacement(fencedCode:boolean)
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1240</x>
-      <y>840</y>
-      <w>120</w>
-      <h>45</h>
+      <x>744</x>
+      <y>630</y>
+      <w>72</w>
+      <h>27</h>
     </coordinates>
-    <panel_attributes>lt=&lt;.</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;.
+layer=1
+</panel_attributes>
     <additional_attributes>10.0;10.0;220.0;70.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1160</x>
-      <y>605</y>
-      <w>115</w>
-      <h>45</h>
+      <x>696</x>
+      <y>489</y>
+      <w>69</w>
+      <h>27</h>
     </coordinates>
     <panel_attributes>bg=cyan
 layer=1
@@ -178,10 +180,10 @@ _+decode(html:String) : String_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>995</x>
-      <y>610</y>
-      <w>140</w>
-      <h>75</h>
+      <x>597</x>
+      <y>492</y>
+      <w>84</w>
+      <h>45</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -202,10 +204,10 @@ _+text(text:String) : HTMLToken_
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1140</x>
-      <y>690</y>
-      <w>100</w>
-      <h>85</h>
+      <x>684</x>
+      <y>540</y>
+      <w>60</w>
+      <h>51</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -226,10 +228,10 @@ LinkDefinition
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>995</x>
-      <y>700</y>
-      <w>130</w>
-      <h>95</h>
+      <x>597</x>
+      <y>546</y>
+      <w>78</w>
+      <h>57</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -253,10 +255,10 @@ _+main(args[]:String) : void
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1035</x>
-      <y>875</y>
-      <w>195</w>
-      <h>175</h>
+      <x>621</x>
+      <y>651</y>
+      <w>117</w>
+      <h>105</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -294,21 +296,23 @@ innerclass}
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>1125</x>
-      <y>840</y>
-      <w>130</w>
-      <h>45</h>
+      <x>675</x>
+      <y>630</y>
+      <w>78</w>
+      <h>27</h>
     </coordinates>
-    <panel_attributes>lt=&lt;.</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;.
+layer=1
+</panel_attributes>
     <additional_attributes>240.0;10.0;10.0;70.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>780</x>
-      <y>620</y>
-      <w>195</w>
-      <h>390</h>
+      <x>468</x>
+      <y>498</y>
+      <w>117</w>
+      <h>234</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -378,10 +382,10 @@ innerclass}
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1270</x>
-      <y>980</y>
-      <w>100</w>
-      <h>90</h>
+      <x>762</x>
+      <y>714</y>
+      <w>60</w>
+      <h>54</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -405,10 +409,10 @@ TableRowList
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>990</x>
-      <y>1075</y>
-      <w>300</w>
-      <h>180</h>
+      <x>594</x>
+      <y>771</y>
+      <w>180</w>
+      <h>108</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -444,10 +448,10 @@ TextEditor
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>500</x>
-      <y>620</y>
-      <w>255</w>
-      <h>790</h>
+      <x>300</x>
+      <y>498</y>
+      <w>153</w>
+      <h>474</h>
     </coordinates>
     <panel_attributes>bg=cyan
 layer=1
@@ -566,10 +570,10 @@ innerclass}
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>495</x>
-      <y>450</y>
-      <w>230</w>
-      <h>45</h>
+      <x>297</x>
+      <y>396</y>
+      <w>138</w>
+      <h>27</h>
     </coordinates>
     <panel_attributes>com.bewsoftware.utils.struct
 --
@@ -580,10 +584,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>510</x>
-      <y>470</y>
-      <w>60</w>
-      <h>15</h>
+      <x>306</x>
+      <y>408</y>
+      <w>36</w>
+      <h>9</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -594,10 +598,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>580</x>
-      <y>470</y>
-      <w>60</w>
-      <h>15</h>
+      <x>348</x>
+      <y>408</y>
+      <w>36</w>
+      <h>9</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -608,10 +612,10 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>650</x>
-      <y>470</y>
-      <w>60</w>
-      <h>15</h>
+      <x>390</x>
+      <y>408</y>
+      <w>36</w>
+      <h>9</h>
     </coordinates>
     <panel_attributes>bg=green
 layer=1
@@ -622,66 +626,76 @@ group=2</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>535</x>
-      <y>480</y>
-      <w>30</w>
-      <h>150</h>
+      <x>321</x>
+      <y>414</y>
+      <w>18</w>
+      <h>90</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
 m1=1
-m2=0..*</panel_attributes>
+m2=0..*
+layer=1
+</panel_attributes>
     <additional_attributes>10.0;280.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>605</x>
-      <y>480</y>
-      <w>30</w>
-      <h>150</h>
+      <x>363</x>
+      <y>414</y>
+      <w>18</w>
+      <h>90</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
 m1=1
-m2=0..*</panel_attributes>
+m2=0..*
+layer=1
+</panel_attributes>
     <additional_attributes>10.0;280.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>675</x>
-      <y>480</y>
-      <w>30</w>
-      <h>150</h>
+      <x>405</x>
+      <y>414</y>
+      <w>18</w>
+      <h>90</h>
     </coordinates>
-    <panel_attributes>lt=-&gt;
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
 m1=1
-m2=0..*</panel_attributes>
+m2=0..*
+layer=1
+</panel_attributes>
     <additional_attributes>10.0;280.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>395</x>
-      <y>625</y>
-      <w>115</w>
-      <h>20</h>
+      <x>237</x>
+      <y>501</y>
+      <w>69</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
 _-CHAR_PROTECTOR_
-{final}</panel_attributes>
+{final}
+layer=1
+</panel_attributes>
     <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>395</x>
-      <y>645</y>
-      <w>115</w>
-      <h>20</h>
+      <x>237</x>
+      <y>513</y>
+      <w>69</w>
+      <h>18</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
 _HTML_PROTECTOR_
-{final}</panel_attributes>
+{final}
+layer=1
+</panel_attributes>
     <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>

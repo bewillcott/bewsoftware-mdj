@@ -70,8 +70,49 @@ h6 {
     font-size:13px;
 }
 
+hr.bold { 
+  border-width: 3px;
+}
+
+hr.thick { 
+  border-width: 2px;
+}
+
 ul {
     list-style-type:disc;
+}
+
+ul.checkbox {
+    list-style-type: none;
+    margin-left: 2.5em;
+    padding-left: 0.0em;
+}
+
+ul.terms  {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+ul.terms > li {
+    list-style-type: none;
+    list-style-position: inside;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+ul.terms > li > ul {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+ul.terms > li > ul > li {
+    list-style-type: none;
+    list-style-position: inside;
+    font-weight: normal;
+}
+
+ul.terms ul ul li {
+    list-style: disc;
 }
 
 pre {
@@ -98,12 +139,6 @@ code {
     margin-top:4px;
     line-height: 1.0em;
     border: 1px solid lightgrey;
-}
-
-ul.checkbox {
-    list-style-type: none;
-    margin-left: 2.5em;
-    padding-left: 0.0em;
 }
 
 a.externalLink, a.externalLink:link, a.externalLink:visited, a.externalLink:active, a.externalLink:hover {

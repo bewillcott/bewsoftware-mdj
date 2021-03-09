@@ -37,7 +37,7 @@ software, even if advised of the possibility of such damage.
     <parent>
         <groupId>com.bewsoftware</groupId>
         <artifactId>bewsoftware-mdj</artifactId>
-        <version>0.6.7</version>
+        <version>0.6.9</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -630,7 +630,7 @@ software, even if advised of the possibility of such damage.
                 <plugin>
                     <groupId>com.bewsoftware.mojo</groupId>
                     <artifactId>bewsoftware-version-plugin</artifactId>
-                    <version>1.0.0</version>
+                    <version>1.0.2</version>
                 </plugin>                
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -746,10 +746,10 @@ software, even if advised of the possibility of such damage.
                     <release>${maven.compiler.target}</release>
                 </configuration>
             </plugin>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-plugin</artifactId>
