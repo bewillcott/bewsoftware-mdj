@@ -37,13 +37,13 @@ software, even if advised of the possibility of such damage.
     <parent>
         <groupId>com.bewsoftware</groupId>
         <artifactId>bewsoftware-mdj</artifactId>
-        <version>0.6.7</version>
+        <version>0.6.9</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>bewsoftware-mdj-core</artifactId>
-    <version>0.6.11-SNAPSHOT</version>
+    <version>0.6.12</version>
     <packaging>jar</packaging>
     
     <name>BEWSoftware MDj Core Library</name>
@@ -85,7 +85,7 @@ software, even if advised of the possibility of such damage.
         <dependency>
             <groupId>com.bewsoftware</groupId>
             <artifactId>bewsoftware-utils</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.8</version>
         </dependency>
         <dependency>
             <groupId>com.bewsoftware</groupId>
@@ -590,13 +590,33 @@ software, even if advised of the possibility of such damage.
             </resource>
             <resource>
                 <directory>
-                    target/docs/manual
+                    src/uml
                 </directory>
-                <!--                <excludes>
+                <excludes>
                     <exclude>
                         **/*
                     </exclude>
-                </excludes>-->
+                </excludes>
+            </resource>
+            <resource>
+                <directory>
+                    target/docs/manual
+                </directory>
+                <excludes>
+                    <exclude>
+                        **/*
+                    </exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>
+                    ../docs
+                </directory>
+                <excludes>
+                    <exclude>
+                        **/*
+                    </exclude>
+                </excludes>
             </resource>
         </resources>
 
@@ -605,12 +625,12 @@ software, even if advised of the possibility of such damage.
                 <plugin>
                     <groupId>com.bewsoftware.mojo</groupId>
                     <artifactId>bewsoftware-mdj-plugin</artifactId>
-                    <version>1.1.0</version>
+                    <version>1.1.5</version>
                 </plugin>                
                 <plugin>
                     <groupId>com.bewsoftware.mojo</groupId>
                     <artifactId>bewsoftware-version-plugin</artifactId>
-                    <version>1.0.0</version>
+                    <version>1.0.2</version>
                 </plugin>                
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -726,10 +746,10 @@ software, even if advised of the possibility of such damage.
                     <release>${maven.compiler.target}</release>
                 </configuration>
             </plugin>
-            <plugin>
+<!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-plugin</artifactId>

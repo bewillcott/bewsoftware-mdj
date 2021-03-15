@@ -6,7 +6,7 @@ on Mon Mar 15 19:55:54 AWST 2021
 -->
 <html lang="en-us" id="top">
     <head>
-        <title>BEWSoftware MDj Core Library | Lists</title>
+        <title>BEWSoftware MDj Core Library | HR - Enhanced</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <base href="">
@@ -25,7 +25,7 @@ on Mon Mar 15 19:55:54 AWST 2021
 <li><a href="#">Code Blocks</a>
 <ul>
 <li><a href="Fenced Code Blocks.html">Fenced Code Blocks</a></li></ul></li>
-<li class="active"><a href="#">Lists</a>
+<li><a href="Lists.html">Lists</a>
 <ul>
 <li><a href="Lists (Enhanced).html">Lists (Enhanced)</a></li></ul></li>
 <li><a href="#">Text</a>
@@ -34,9 +34,9 @@ on Mon Mar 15 19:55:54 AWST 2021
 <li><a href="Headings (Enhanced).html">Headings (Enhanced)</a></li>
 <li><a href="Paragraph (Enhanced).html">Paragraph (Enhanced)</a></li>
 <li><a href="Text Embellishments.html">Text Embellishments</a></li></ul></li>
-<li><a href="#">More...</a>
+<li class="subactive"><a href="#">More...</a>
 <ul>
-<li><a href="HR (Enhanced).html">HR (Enhanced)</a></li>
+<li class="active"><a href="#">HR (Enhanced)</a></li>
 <li><a href="Links (Enhanced).html">Links (Enhanced)</a></li>
 <li><a href="NavBar.html">Navigation Bar</a></li>
 <li><a href="Tables.html">Tables</a></li></ul></li>
@@ -49,43 +49,29 @@ on Mon Mar 15 19:55:54 AWST 2021
 </div>
 
             </header>
-            <h2>Lists</h2>
+            <h2>HR (Enhanced)</h2>
 
-<p>I have added bracketed options <code>[]</code> to both ordered and unordered lists.</p>
+<p>The <code>&lt;hr&gt;</code> tag now comes in three styles.</p>
 
-<p>As of this writing, only the <code>id=""</code> option <code>[#myid]</code> has been configured.</p>
-
-<p>To add an <code>id</code> to a list, place the bracketed option just before the first list
-item:</p>
-
-<pre>
-    <code>
-[#myList]
-+ This is my list
-+ Nobody is allowed to touch
-+ However you can read it.
-    </code>
-</pre>
-
-<p>Produces this code:</p>
-
-<pre>
-    <code>
-&lt;ul id="myList"&gt;
-&lt;li&gt;This is my list&lt;/li&gt;
-&lt;li&gt;Nobody is allowed to touch&lt;/li&gt;
-&lt;li&gt;However you can read it.&lt;/li&gt;
-&lt;/ul&gt;
-    </code>
-</pre>
-
-<p>And this list:</p>
-
-<ul id="myList">
-<li>This is my list</li>
-<li>Nobody is allowed to touch</li>
-<li>However you can read it.</li>
+<ul>
+<li><code>---</code> : <hr></li>
+<li><code>===</code> : <hr class="thick"></li>
+<li><code>***</code> : <hr class="bold"></li>
 </ul>
+
+<p>The supplied stylesheets have the following settings:</p>
+
+<pre>
+    <code>
+hr.bold { 
+  border-width: 3px;
+}
+
+hr.thick { 
+  border-width: 2px;
+}
+    </code>
+</pre>
 
             <footer id="bottom">
                 <hr>

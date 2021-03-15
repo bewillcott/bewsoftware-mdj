@@ -255,7 +255,7 @@ class TableRow {
 
     /**
      *
-     * @return {@code True} if attributes stored.
+     * @return {@code true} if attributes stored.
      */
     public boolean hasAttrib() {
         return status.hasAttribute();
@@ -263,7 +263,7 @@ class TableRow {
 
     /**
      *
-     * @return {@code True} if the border attribute parsed from row text.
+     * @return {@code true} if the border attribute parsed from row text.
      */
     public boolean hasBorder() {
         return status.hasBorder();
@@ -271,7 +271,7 @@ class TableRow {
 
     /**
      *
-     * @return {@code True} if borderWidth attribute parsed from row text.
+     * @return {@code true} if borderWidth attribute parsed from row text.
      */
     public boolean hasBorderWidth() {
         return hasBorder() && borderWidth > -1;
@@ -279,7 +279,7 @@ class TableRow {
 
     /**
      *
-     * @return {@code True} if cellPadding attribute parsed from row text.
+     * @return {@code true} if cellPadding attribute parsed from row text.
      */
     public boolean hasCellPadding() {
         return hasBorder() && cellPadding > -1;
@@ -287,7 +287,7 @@ class TableRow {
 
     /**
      *
-     * @return {@code True} if one or more class attributes were parsed from row text.
+     * @return {@code true} if one or more class attributes were parsed from row text.
      */
     public boolean hasClasses() {
         return status.hasClasses();
@@ -295,7 +295,7 @@ class TableRow {
 
     /**
      *
-     * @return {@code True} if id was parsed from row text.
+     * @return {@code true} if id was parsed from row text.
      */
     public boolean hasId() {
         return status.hasId();
@@ -368,7 +368,7 @@ class TableRow {
         private static final int ID = 2;
         private int status = 0;
 
-        Status() {
+        private Status() {
         }
 
         public void clear() {

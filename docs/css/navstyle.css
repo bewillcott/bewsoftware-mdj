@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 div.navbar ul {
     font-size:12px;
-    list-style-type: none;
+    list-style: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -44,7 +44,7 @@ div.navbar li a {
     vertical-align: middle;
 }
 
-div.navbar * li:not(.active) a:hover {
+div.navbar li:not(.active) a:hover {
     background-color: #555;
     color: white;
 }

@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <help_text>fontsize=12
+fontfamily=Monospaced #SansSerif
+</help_text>
+  <zoom_level>3</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>345</x>
+      <y>342</y>
+      <w>93</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>valign=center
+halign=center
+fontsize=16
+lw=2
+
+*bewsoftware-mdj-core*
+v0.6.11-SNAPSHOT
+
+group=3</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>447</x>
+      <y>369</y>
+      <w>96</w>
+      <h>15</h>
+    </coordinates>
+    <panel_attributes>valign=center
+halign=center
+
+Copyright © 2020, 2021, Bradley Willcott
+
+group=3</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>0</x>
+      <y>480</y>
+      <w>882</w>
+      <h>507</h>
+    </coordinates>
+    <panel_attributes>com.bewsoftware.mdj.core
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>780</x>
+      <y>492</y>
+      <w>81</w>
+      <h>39</h>
+    </coordinates>
+    <panel_attributes>bg=cyan
+layer=1
+&lt;&lt;utility&gt;&gt;
+Attributes
+{final}
+--
+--
+-Attributes()
+_+addClass(texts[]:String) : String_
+_+addId(text:String) : String_
+_+addStyle(text:String) : String_
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>120</x>
+      <y>498</y>
+      <w>120</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+CharacterProtector
+--
+_-GOOD_CHARS : String {final}_
+_-NUMOFCHARS : int {final}_
+_+REGEX : String {final}_
+-protectMap : ConcurrentMap&lt;String, String&gt; {final}
+-rnd : Random {final}
+-unprotectMap : ConcurrentMap&lt;String, String&gt; {final}
+
+--
++decode(coded:String) : String
++encode(literal:String) : String
++getAllEncodedTokens() : Collection&lt;String&gt;
+-addToken(literal:String) : String
+-longRandomString() : String
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>708</x>
+      <y>612</y>
+      <w>75</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>bg=gray
+layer=1
+&lt;&lt;interface&gt;&gt;
+Replacement
+--
+--
+/+replacement(m:Matcher) : String/
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>750</x>
+      <y>651</y>
+      <w>117</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+CodeBlockReplacement
+--
+-fencedCode : boolean {final}
+-m : Matcher
+
+--
+CodeBlockReplacement(fencedCode:boolean)
+-classesBlock(classes:String, text:String) : String
+-genericCodeBlock(text:String) : String
+-languageBlock(clazz:String, text:String)  : String
+-unHashBlocks(ed:TextEditor) : String
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>744</x>
+      <y>630</y>
+      <w>72</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+layer=1
+</panel_attributes>
+    <additional_attributes>10.0;10.0;220.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>696</x>
+      <y>489</y>
+      <w>69</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>bg=cyan
+layer=1
+&lt;&lt;utility&gt;&gt;
+HTMLDecoder
+--
+--
+-HTMLDecoder()
+_+decode(html:String) : String_
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>597</x>
+      <y>492</y>
+      <w>84</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+HTMLToken
+--
+-isTag : boolean {final}
+-text : String {final}
+
+--
+-HTMLToken(tag:boolean, value:String)
+_+tag(String text) : HTMLToken_
+_+text(text:String) : HTMLToken_
++isTag() : boolean
++getText() : String
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>684</x>
+      <y>540</y>
+      <w>60</w>
+      <h>51</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+LinkDefinition
+--
++classes : String {final}
++title : String {final}
++url : String {final}
+
+--
++LinkDefinition(
+    classes:String,
+    url:String,
+    title:String
+)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>597</x>
+      <y>546</y>
+      <w>78</w>
+      <h>57</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+POMProperties
+--
+_+INSTANCE : POMProperties {final}_
++artifactId : String {final}
++description : String {final}
++filename : String {final}
++groupId : String {final}
++title : String {final}
++version : String {final}
+
+--
+-POMProperties()
+_+main(args[]:String) : void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>621</x>
+      <y>651</y>
+      <w>117</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+TableReplacement
+--
+_-CAPTION_BORDER : String {final}_
+_-INDENT[] : String {final}_
+_-ROW_BORDER : String {final}_
+_-TABLE_BORDER : String {final}_
+
+--
+TableReplacement()
+-classesBlock(classes:String, text:String) : String
+-genericCodeBlock(text:String) : String
+-languageBlock(clazz:String, text:String)  : String
+-unHashBlocks(ed:TextEditor) : String
+
+{innerclass
+_TableCaption_
+{private}
+--
+_-PATTERN : Pattern {final}_
+-caption : String {final}
+-classes : String {final}
+-text : String {final}
+
+--
+-TableCaption(text:String)
++hasClasses() : boolean
+
+innerclass}
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>675</x>
+      <y>630</y>
+      <w>78</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.
+layer=1
+</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>468</x>
+      <y>498</y>
+      <w>117</w>
+      <h>234</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+TableRow
+--
+_-DEFAULT_BORDERWIDTH : int {final}_
+_-DEFAULT_CELLPADDING : int {final}_
++text : String {final}
+-borderWidth : int
+-cellPadding : int
+-cells[] : String
+-classes : String
+-id : String
+-length : int
+-readOnly : boolean
+-status : Status {final}
+
+
+--
+-TableRow(text:String)
+_+parse(text:String{final}) : TableRow_
++getBorderWidth() : int
++getCell(index:int) : String
++getCellPadding() : int
++getClasses() : String
++getId() : int
++hasAttrib() : boolean
++hasBorder() : boolean
++hasBorderWidth() : boolean
++hasCellPadding() : boolean
++hasClasses() : boolean
++hasId() : boolean
++length() : int
++setCell(index:int, text:String) : boolean
++setReadOnly() : void
+clearAttributes() : void
+
+{innerclass
+_Status_
+{private}
+--
+_-BORDER : int {final}_
+_-CLASSES : int {final}_
+_-ID : int {final}_
+-status  int
+
+--
+-Status()
++clear() : void
++hasAttribute() : boolean
++hasBorder() : boolean
++setBorder() : void
++unsetBorder() : void
++hasClasses() : boolean
++setClasses() : void
++unsetClasses() : void
++hasId() : boolean
++setId() : void
++unsetId() : void
+
+innerclass}
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>762</x>
+      <y>714</y>
+      <w>60</w>
+      <h>54</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+TableRowList
+--
+-lastIdx : int
+-length : int
+-list[] : TableRow {final}
+
+--
++TableRowList(size:int)
++add(row:TableRow) : void
++getNext() : TableRow
++hasNext() : boolean
++length() : int
++reset() : void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>594</x>
+      <y>771</y>
+      <w>180</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+TextEditor
+--
+-found : boolean
+-text : StringBuilder
+
+--
++TextEditor(text:CharSequence{final})
++append(s:CharSequence{final}) : void
++deleteAll(pattern:String{final}) : TextEditor
++detabify() : TextEditor
++detabify(tabWidth:int{final}) : TextEditor
++indent(spaces:int{final}) : TextEditor
++isEmpty() : boolean
++outdent(spaces:int{final}) : TextEditor
++outdent() : TextEditor
++prepend(s:CharSequence{final}) : void
++prependCharToLines(c:Character{final}) : TextEditor
++removePrependedCharFromLines(c:Character{final}) : TextEditor
++replaceAll(regex:String{final}, replacement:String{final}) : TextEditor
++replaceAll(pattern:Pattern{final}, replacement:Replacement{final}) : TextEditor
++replaceAllLiteral(regex:String{final}, replacement:String{final}) : TextEditor
++tokenizeHTML() : Collection&lt;HTMLToken&gt;
++trim() : TextEditor
++wasFound() : boolean
++nestedTagsRegex(depth:int{final}) : String
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>300</x>
+      <y>498</y>
+      <w>153</w>
+      <h>474</h>
+    </coordinates>
+    <panel_attributes>bg=cyan
+layer=1
+&lt;&lt;utility&gt;&gt;
+MarkdownProcessor
+--
+_-ID_REGEX : String {final}_
+_-TAB_WIDTH : int {final}_
+_-TAG_CLASS : String {final}_
+_-TAG_ID : String {final}_
+_-TARGET : String {final}_
+_-linkDefinitions : Map&lt;String, LinkDefinition&gt; {final}_
+_-listLevel : IntegerReturn {final}_
+
+_CLASS_REGEX : String {final}_
+_CLASS_REGEX_OPT : String {final}_
+_CODE_BLOCK_BEGIN : String {final}_
+_CODE_BLOCK_END : String {final}_
+_ID_REGEX_OPT : String {final}_
+_LANG_IDENTIFIER : String {final}_
+
+--
+_+main(args[]:String) : void_
+_+markdown(txt:String) : String_
+_-deleteAll(text:String{final}, regex:String{final}) : String_
+_-doAutoLinks(markup:TextEditor{final}) : TextEditor_
+_-doBlockQuotes(markup:TextEditor{final}) : TextEditor_
+_-doCodeBlocks(markup:TextEditor{final}) : TextEditor_
+_-doCodeSpans(markup:TextEditor{final}) : TextEditor_
+_-doDelIns(text:TextEditor{final}) : TextEditor_
+
+_-doExtendedListOptions(_
+_    item:TextEditor{final},_
+_    classString:StringReturn{final}_
+_) : TextEditor_
+
+_-doFencedCodeBlocks(markup:TextEditor{final}) : TextEditor_
+_-doHeaders(markup:TextEditor{final}) : TextEditor_
+_-doHorizontalRules(text:TextEditor{final}) : TextEditor_
+_-doImages(text:TextEditor{final}) : TextEditor_
+_-doLists(text:TextEditor{final}) : TextEditor_
+_-doStrongEmAndBoldItalics(markup:TextEditor{final}) : TextEditor_
+_-doSubSup(text:TextEditor{final}) : TextEditor_
+_-doTables(text:TextEditor{final}) : TextEditor_
+_-encodeAmpsAndAngles(markup:TextEditor{final}) : TextEditor_
+_-encodeBackslashEscapes(text:TextEditor{final}) : TextEditor_
+_-encodeEmail(s:String{final}) : String_
+
+_-encodeEscapes(_
+_    text:TextEditor{final},_
+_    chars[]:char{final},_
+_    slashes:String{final}_
+_) : TextEditor_
+
+_-escapeSpecialCharsWithinTagAttributes(text:TextEditor) : TextEditor_
+_-formParagraphs(markup:TextEditor) : TextEditor_
+_-hasParagraphBreak(markup:TextEditor{final}) : boolean
+_-hashHTMLBlocks(text:TextEditor{final}) : void_
+_-isEmptyString(leadingLine:String{final}) : boolean_
+
+_-processCheckBoxes(_
+_    item:TextEditor{final},_
+_    classString:StringReturn{final}_
+_) : boolean_
+
+_-processListItems(list:StringReturn{final}) : boolean_
+
+_-processListItemsWithAClass(_
+_    item:TextEditor{final},_
+_    classString:StringReturn{final}_
+_) : void_
+
+_-replaceAll(_
+_    text:String{final},_
+_    regex:String{final},_
+_    replacement:String{final}_
+_) : String_
+
+_-replaceAll(_
+_    text:String{final},_
+_    pattern:Pattern{final},_
+_    replacement:Replacement{final}_
+_) : String_
+
+_-runBlockGamut(text:TextEditor{final}) : TextEditor_
+_-runSpanGamut(text:TextEditor) : TextEditor_
+_-stripLinkDefinitions(text:TextEditor) : void_
+_-tag(textString) :Tag _
+_-unEscapeSpecialChars(ed:TextEditor{final}) : void_
+_-doAnchors(markup:TextEditor{final}) : TextEditor_
+_-encodeCode(ed:TextEditor{final}) : TextEditor_
+_processGroupText(text:String{final}) : String_
+
+{innerclass
+_Tag_
+{private}
+--
++text : String {final}
++classes : String {final}
++id : String {final}
+
+
+--
+-Tag(
+    text:String{final},
+    classes:String{final},
+    id:String{final}
+)
+
+innerclass}
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>297</x>
+      <y>396</y>
+      <w>138</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>com.bewsoftware.utils.struct
+--
+bg=orange
+group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>306</x>
+      <y>408</y>
+      <w>36</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+BooleanReturn
+group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>348</x>
+      <y>408</y>
+      <w>36</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+IntegerReturn
+group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>390</x>
+      <y>408</y>
+      <w>36</w>
+      <h>9</h>
+    </coordinates>
+    <panel_attributes>bg=green
+layer=1
+StringReturn
+group=2</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>321</x>
+      <y>414</y>
+      <w>18</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+m1=1
+m2=0..*
+layer=1
+</panel_attributes>
+    <additional_attributes>10.0;280.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>363</x>
+      <y>414</y>
+      <w>18</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+m1=1
+m2=0..*
+layer=1
+</panel_attributes>
+    <additional_attributes>10.0;280.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>405</x>
+      <y>414</y>
+      <w>18</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+m1=1
+m2=0..*
+layer=1
+</panel_attributes>
+    <additional_attributes>10.0;280.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>237</x>
+      <y>501</y>
+      <w>69</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+_-CHAR_PROTECTOR_
+{final}
+layer=1
+</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>237</x>
+      <y>513</y>
+      <w>69</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-&gt;
+_HTML_PROTECTOR_
+{final}
+layer=1
+</panel_attributes>
+    <additional_attributes>210.0;20.0;10.0;20.0</additional_attributes>
+  </element>
+</diagram>
