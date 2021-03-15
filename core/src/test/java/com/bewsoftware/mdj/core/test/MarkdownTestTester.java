@@ -96,10 +96,14 @@ public class MarkdownTestTester {
     @ParameterizedTest(name = "{index}: {arguments}")
     @MethodSource("markdownTests")
     public void runTest(String dir, String test) throws IOException {
-        System.out.println("Test: " + test);
+        System.out.println("runTest: " + dir + ", " + test);
+//        System.out.println("Test: " + test);
         String testText = slurp(dir + File.separator + test + ".text");
         String htmlText = slurp(dir + File.separator + test + ".html");
 
+//        System.out.println("-----------------------------------------------------------------\n"
+//                           + "testText:\n" + testText
+//                           + "\n-----------------------------------------------------------------");
         String markdownText = MarkdownProcessor.markdown(testText);
         assertFalse(diffStrings(htmlText, markdownText), test);
     }
