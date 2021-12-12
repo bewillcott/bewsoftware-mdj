@@ -3,8 +3,9 @@
  * Authors: Pete Bevin, John Mutchek
  * http://www.martiansoftware.com/markdownj
  *
- * Copyright (c) 2020 Bradley Willcott
+ * Copyright (c) 2020, 2021 Bradley Willcott
  * Modifications to the code.
+ * Refactored.
  *
  * All rights reserved.
  *
@@ -42,11 +43,7 @@ import java.util.regex.Pattern;
 
 import static com.bewsoftware.mdj.core.Attributes.addClass;
 import static com.bewsoftware.mdj.core.Attributes.addId;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CODE_BLOCK_BEGIN;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CODE_BLOCK_END;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.HTML_PROTECTOR;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.LANG_IDENTIFIER;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.encodeCode;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.*;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 
@@ -58,47 +55,30 @@ import static java.util.regex.Pattern.compile;
  * @since 1.0
  * @version 1.0
  */
-class CodeBlockReplacement implements Replacement {
+class CodeBlockReplacement implements Replacement
+{
 
     private final boolean fencedCode;
+
     private Matcher m;
 
-    CodeBlockReplacement(boolean fencedCode) {
+    CodeBlockReplacement(boolean fencedCode)
+    {
         this.fencedCode = fencedCode;
     }
 
     @Override
-    public String replacement(Matcher m) {
+    public String replacement(Matcher m)
+    {
         this.m = m;
-        TextEditor ed = new TextEditor(m.group("body"));
+        String text = getPreparedBodyText(m);
+        String replacement = getPreparedReplacementText(m, text);
 
-        if (!fencedCode)
-        {
-            ed.outdent();
-        }
-
-        unHashBlocks(ed);
-        encodeCode(ed);
-        ed.detabify().deleteAll("\\A\\n+").deleteAll("\\s+\\z");
-
-        String text = ed.toString();
-        String out = "";
-
-        if (m.group("class") != null)
-        {
-            out = languageBlock(m.group("class"), text);
-        } else if (m.group("classes") != null)
-        {
-            out = classesBlock(m.group("classes"), text);
-        } else
-        {
-            out = genericCodeBlock(text);
-        }
-
-        return "\n" + CODE_BLOCK_BEGIN + HTML_PROTECTOR.encode(out) + CODE_BLOCK_END + "\n";
+        return "\n" + CODE_BLOCK_BEGIN + HTML_PROTECTOR.encode(replacement) + CODE_BLOCK_END + "\n";
     }
 
-    private String classesBlock(String classes, String text) {
+    private String processClassesBlock(String classes, String text)
+    {
         Pattern p = compile("\\[(?:@(?<preClasses>\\p{Alpha}[^\\]]*)?)?\\]\\[(?:@(?<codeClasses>\\p{Alpha}[^\\]]*)?)?\\]");
         Matcher m2 = p.matcher(classes);
 
@@ -110,21 +90,58 @@ class CodeBlockReplacement implements Replacement {
             return pre + code + text + "\n    </code>\n</pre>";
         } else
         {
-            return genericCodeBlock(text);
+            return processGenericCodeBlock(text);
         }
     }
 
-    private String genericCodeBlock(String text) {
+    private String processGenericCodeBlock(String text)
+    {
         return "<pre" + addId(m.group("id")) + ">\n    <code>\n" + text + "\n    </code>\n</pre>";
     }
 
-    private String languageBlock(String clazz, String text) {
+    private String getPreparedBodyText(Matcher m1)
+    {
+        TextEditor ed = new TextEditor(m1.group("body"));
+
+        if (!fencedCode)
+        {
+            ed.outdent();
+        }
+
+        unHashBlocks(ed);
+        encodeCode(ed);
+        ed.detabify().deleteAll("\\A\\n+").deleteAll("\\s+\\z");
+
+        return ed.toString();
+    }
+
+    private String getPreparedReplacementText(Matcher m1, String text)
+    {
+        String rtn;
+
+        if (m1.group("class") != null)
+        {
+            rtn = processLanguageBlock(m1.group("class"), text);
+        } else if (m1.group("classes") != null)
+        {
+            rtn = processClassesBlock(m1.group("classes"), text);
+        } else
+        {
+            rtn = processGenericCodeBlock(text);
+        }
+
+        return rtn;
+    }
+
+    private String processLanguageBlock(String clazz, String text)
+    {
         String lang = clazz.replaceFirst(LANG_IDENTIFIER, "").trim();
 
         return "<pre" + addId(m.group("id")) + addClass(lang) + ">\n    <code>\n" + text + "\n    </code>\n</pre>";
     }
 
-    private void unHashBlocks(TextEditor ed) {
+    private void unHashBlocks(TextEditor ed)
+    {
         Matcher mLocal = Pattern.compile(CharacterProtector.FIND_ENCODED, MULTILINE).matcher(ed.toString());
 
         while (mLocal.find())

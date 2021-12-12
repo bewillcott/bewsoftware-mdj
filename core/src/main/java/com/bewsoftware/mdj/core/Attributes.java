@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, Bradley Willcott.
+ * Copyright (c) 2020, 2021 Bradley Willcott.
  * <http://www.bewsoftware.com>
  *
  * All rights reserved.
