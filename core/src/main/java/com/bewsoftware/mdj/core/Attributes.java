@@ -41,13 +41,8 @@ package com.bewsoftware.mdj.core;
  * @since 0.6.3
  * @version 0.6.7
  */
-public final class Attributes {
-
-    /**
-     * Not meant to be instantiated.
-     */
-    private Attributes() {
-    }
+public final class Attributes
+{
 
     /**
      * Wraps the texts into a "class=" string.
@@ -56,31 +51,16 @@ public final class Attributes {
      *
      * @return new attribute text.
      */
-    public static String addClass(String... texts) {
-        if (texts == null || texts.length == 0)
+    public static String addClass(String... texts)
+    {
+        String rtn = "";
+
+        if (texts != null && texts.length > 0)
         {
-            return "";
-        } else
-        {
-            StringBuilder classes = new StringBuilder();
-
-            for (String text : texts)
-            {
-                if (text != null && !text.isBlank())
-                {
-                    classes.append(text).append(" ");
-                }
-            }
-
-            String StrClasses = classes.toString().trim();
-
-            if (StrClasses.isEmpty())
-            {
-                return "";
-            }
-
-            return " class=\"" + StrClasses + "\"";
+            rtn = processTheTexts(texts);
         }
+
+        return rtn;
     }
 
     /**
@@ -90,14 +70,9 @@ public final class Attributes {
      *
      * @return new attribute text.
      */
-    public static String addId(String text) {
-        if (text == null || text.isBlank())
-        {
-            return "";
-        } else
-        {
-            return " id=\"" + text + "\"";
-        }
+    public static String addId(String text)
+    {
+        return processText(" id=\"%s\"", text);
     }
 
     /**
@@ -107,13 +82,48 @@ public final class Attributes {
      *
      * @return new attribute text.
      */
-    public static String addStyle(String text) {
-        if (text == null || text.isBlank())
+    public static String addStyle(String text)
+    {
+        return processText(" style=\"%s\"", text);
+    }
+
+    private static String processTheTexts(String[] texts)
+    {
+        String stringOfClasses = gatherClasses(texts);
+        return processText(" class=\"%s\"", stringOfClasses);
+    }
+
+    private static String gatherClasses(String[] texts)
+    {
+        StringBuilder classes = new StringBuilder();
+
+        for (String text : texts)
         {
-            return "";
-        } else
-        {
-            return " style=\"" + text + "\"";
+            if (text != null && !text.isBlank())
+            {
+                classes.append(text).append(" ");
+            }
         }
+
+        return classes.toString().trim();
+    }
+
+    private static String processText(String format, String text)
+    {
+        String rtn = "";
+
+        if (text != null && !text.isBlank())
+        {
+            rtn = String.format(format, text);
+        }
+
+        return rtn;
+    }
+
+    /**
+     * Not meant to be instantiated.
+     */
+    private Attributes()
+    {
     }
 }

@@ -43,17 +43,17 @@ software, even if advised of the possibility of such damage.
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>bewsoftware-mdj-core</artifactId>
-    <version>0.6.12</version>
+    <version>0.6.13-SNAPSHOT</version>
     <packaging>jar</packaging>
-    
+
     <name>BEWSoftware MDj Core Library</name>
     <description>This is a library of functions that provide for the processing of markdown source files into
         static HTML files.
 
-        This code is based primarily of that in the "org.markdownj" project, of which this is a fork.</description>
+        This code is based primarily on that in the "org.markdownj" project, of which this is a fork.</description>
 
-    <properties>   
-        <java.version>12</java.version>
+    <properties>
+        <java.version>17</java.version>
         <source.encoding>UTF-8</source.encoding>
         <javadoc.source.version>${java.version}</javadoc.source.version>
         <jdk.version>${java.version}</jdk.version>
@@ -72,29 +72,45 @@ software, even if advised of the possibility of such damage.
         <tag>HEAD</tag>
         <url>http://127.0.0.1/dummy</url>
     </scm>
-    
+
     <dependencies>
         <!-- TESTING DEPENDENCIES -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.7.0</version>
             <scope>test</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.bewsoftware</groupId>
             <artifactId>bewsoftware-utils</artifactId>
-            <version>1.0.8</version>
         </dependency>
         <dependency>
             <groupId>com.bewsoftware</groupId>
             <artifactId>bewsoftware-common</artifactId>
-            <version>1.0.3</version>
-            <type>jar</type>
         </dependency>
     </dependencies>
-    
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>5.8.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bewsoftware</groupId>
+                <artifactId>bewsoftware-utils</artifactId>
+                <version>1.0.10</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bewsoftware</groupId>
+                <artifactId>bewsoftware-common</artifactId>
+                <version>1.0.3</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <profiles>
         <profile>
             <id>manual-clean</id>
@@ -117,7 +133,7 @@ software, even if advised of the possibility of such damage.
                     </plugin>
                 </plugins>
             </build>
-        </profile>    
+        </profile>
 
         <profile>
             <id>manual-compile</id>
@@ -142,7 +158,7 @@ software, even if advised of the possibility of such damage.
                     </plugin>
                 </plugins>
             </build>
-        </profile>    
+        </profile>
 
         <profile>
             <id>manual-clean-compile</id>
@@ -168,7 +184,7 @@ software, even if advised of the possibility of such damage.
                     </plugin>
                 </plugins>
             </build>
-        </profile>    
+        </profile>
 
         <profile>
             <id>manual-display-mdj</id>
@@ -189,7 +205,7 @@ software, even if advised of the possibility of such damage.
                 </plugins>
             </build>
         </profile>
-        
+
         <profile>
             <id>publish-all</id>
             <build>
@@ -201,10 +217,10 @@ software, even if advised of the possibility of such damage.
                             <execution>
                                 <id>MDj-Publish-Manual</id>
                                 <goals>
-                                    <goal>mdj</goal>                                    
+                                    <goal>mdj</goal>
                                     <goal>publish</goal>
                                 </goals>
-                                <configuration>                                    
+                                <configuration>
                                     <disallowBrowserFileCaching>true</disallowBrowserFileCaching>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
@@ -229,7 +245,7 @@ software, even if advised of the possibility of such damage.
                 </plugins>
             </build>
         </profile>
-        
+
         <profile>
             <id>manual-publish</id>
             <build>
@@ -241,10 +257,10 @@ software, even if advised of the possibility of such damage.
                             <execution>
                                 <id>MDj-Publish-Manual</id>
                                 <goals>
-                                    <goal>mdj</goal>                                    
+                                    <goal>mdj</goal>
                                     <goal>publish</goal>
                                 </goals>
-                                <configuration>                                    
+                                <configuration>
                                     <disallowBrowserFileCaching>true</disallowBrowserFileCaching>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
@@ -261,7 +277,7 @@ software, even if advised of the possibility of such damage.
                 </plugins>
             </build>
         </profile>
-        
+
         <profile>
             <id>manual-clean-publish</id>
             <build>
@@ -274,10 +290,10 @@ software, even if advised of the possibility of such damage.
                                 <id>MDj-Publish-Manual</id>
                                 <goals>
                                     <goal>clean</goal>
-                                    <goal>mdj</goal>                                    
+                                    <goal>mdj</goal>
                                     <goal>publish</goal>
                                 </goals>
-                                <configuration>                                    
+                                <configuration>
                                     <disallowBrowserFileCaching>true</disallowBrowserFileCaching>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
@@ -294,7 +310,7 @@ software, even if advised of the possibility of such damage.
                 </plugins>
             </build>
         </profile>
-        
+
         <profile>
             <id>publish-api</id>
             <build>
@@ -323,7 +339,7 @@ software, even if advised of the possibility of such damage.
                 </plugins>
             </build>
         </profile>
-        
+
         <profile>
             <id>manual-package</id>
             <build>
@@ -336,8 +352,8 @@ software, even if advised of the possibility of such damage.
                                 <id>MDj-Compile(release)</id>
                                 <goals>
                                     <goal>mdj</goal>
-                                </goals>                                
-                                <configuration>                                    
+                                </goals>
+                                <configuration>
                                     <source>src/docs/manual</source>
                                     <destination>target/docs/manual</destination>
                                 </configuration>
@@ -376,10 +392,10 @@ software, even if advised of the possibility of such damage.
             <id>release-profile</id>
             <properties>
                 <skip.version.build>true</skip.version.build>
-            </properties>            
+            </properties>
             <build>
                 <plugins>
-                    <plugin>                    
+                    <plugin>
                         <groupId>com.bewsoftware.mojo</groupId>
                         <artifactId>bewsoftware-version-plugin</artifactId>
                         <executions>
@@ -393,7 +409,7 @@ software, even if advised of the possibility of such damage.
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>            
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-resources-plugin</artifactId>
@@ -401,7 +417,7 @@ software, even if advised of the possibility of such damage.
                             <encoding>${source.encoding}</encoding>
                         </configuration>
                         <executions>
-                            <execution>                        
+                            <execution>
                                 <id>Copy-Manual-to-basedir</id>
                                 <goals>
                                     <goal>copy-resources</goal>
@@ -420,7 +436,7 @@ software, even if advised of the possibility of such damage.
                             </execution>
                         </executions>
                     </plugin>
-                    
+
                     <plugin>
                         <groupId>com.bewsoftware.mojo</groupId>
                         <artifactId>bewsoftware-mdj-plugin</artifactId>
@@ -483,7 +499,7 @@ software, even if advised of the possibility of such damage.
                                         <argument>${finalBaseName}.jar</argument>
                                         <argument>${finalBaseName}-manual.jar</argument>
                                         <argument>${finalBaseName}-manual-src.jar</argument>
-                                    </arguments> 
+                                    </arguments>
                                 </configuration>
                             </execution>
                         </executions>
@@ -493,7 +509,7 @@ software, even if advised of the possibility of such damage.
                         <artifactId>maven-install-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>manual</id>                                    
+                                <id>manual</id>
                                 <phase>install</phase>
                                 <goals>
                                     <goal>install-file</goal>
@@ -523,7 +539,7 @@ software, even if advised of the possibility of such damage.
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>          
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
@@ -535,8 +551,8 @@ software, even if advised of the possibility of such damage.
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>                      
-                    <plugin>                
+                    </plugin>
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-site-plugin</artifactId>
                         <executions>
@@ -547,13 +563,13 @@ software, even if advised of the possibility of such damage.
                                     <goal>jar</goal>
                                 </goals>
                             </execution>
-                        </executions>       
+                        </executions>
                     </plugin>
-          
+
                 </plugins>
             </build>
         </profile>
-        
+
         <profile>
             <id>test</id>
             <properties>
@@ -561,9 +577,9 @@ software, even if advised of the possibility of such damage.
             </properties>
         </profile>
     </profiles>
-    
+
     <build>
-        <resources>            
+        <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
@@ -626,21 +642,21 @@ software, even if advised of the possibility of such damage.
                     <groupId>com.bewsoftware.mojo</groupId>
                     <artifactId>bewsoftware-mdj-plugin</artifactId>
                     <version>1.1.5</version>
-                </plugin>                
+                </plugin>
                 <plugin>
                     <groupId>com.bewsoftware.mojo</groupId>
                     <artifactId>bewsoftware-version-plugin</artifactId>
                     <version>1.0.2</version>
-                </plugin>                
+                </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
                     <version>3.2.0</version>
                 </plugin>
-                <plugin>                  
+                <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.6</version>
+                    <version>0.8.7</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -650,20 +666,20 @@ software, even if advised of the possibility of such damage.
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.1.0</version>
-                </plugin>                
+                </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
-                </plugin>        
-                <plugin>         
+                </plugin>
+                <plugin>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.1.2</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-deploy-plugin</artifactId>
                     <version>3.0.0-M1</version>
                 </plugin>
-                <plugin>                
+                <plugin>
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>3.0.0-M5</version>
                 </plugin>
@@ -673,7 +689,7 @@ software, even if advised of the possibility of such damage.
                 </plugin>
                 <plugin>
                     <artifactId>maven-invoker-plugin</artifactId>
-                    <version>3.2.1</version>
+                    <version>3.2.2</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
@@ -681,23 +697,23 @@ software, even if advised of the possibility of such damage.
                 </plugin>
                 <plugin>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.2.0</version>
-                </plugin>     
-                <plugin>                
+                    <version>3.3.1</version>
+                </plugin>
+                <plugin>
                     <artifactId>maven-jxr-plugin</artifactId>
-                    <version>3.0.0</version>
-                </plugin>               
+                    <version>3.1.1</version>
+                </plugin>
                 <plugin>
                     <artifactId>maven-plugin-plugin</artifactId>
-                    <version>3.6.0</version>
+                    <version>3.6.2</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>3.1.1</version>
+                    <version>3.1.2</version>
                 </plugin>
-                <plugin>                
+                <plugin>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>3.0.0-M1</version>
+                    <version>3.0.0-M4</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
@@ -705,12 +721,12 @@ software, even if advised of the possibility of such damage.
                 </plugin>
                 <plugin>
                     <artifactId>maven-scm-plugin</artifactId>
-                    <version>1.11.2</version>
+                    <version>1.12.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-site-plugin</artifactId>
                     <version>3.9.1</version>
-                </plugin>                
+                </plugin>
                 <plugin>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>3.2.1</version>
@@ -722,8 +738,8 @@ software, even if advised of the possibility of such damage.
             </plugins>
         </pluginManagement>
 
-        <plugins>                 
-            <plugin>                    
+        <plugins>
+            <plugin>
                 <groupId>com.bewsoftware.mojo</groupId>
                 <artifactId>bewsoftware-version-plugin</artifactId>
                 <executions>
@@ -746,7 +762,7 @@ software, even if advised of the possibility of such damage.
                     <release>${maven.compiler.target}</release>
                 </configuration>
             </plugin>
-<!--            <plugin>
+            <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
             </plugin>-->
@@ -766,8 +782,8 @@ software, even if advised of the possibility of such damage.
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <release>${java.version}</release>
                     <encoding>${source.encoding}</encoding>
                     <compilerArgs>
@@ -796,7 +812,7 @@ software, even if advised of the possibility of such damage.
                 <configuration>
                     <!-- Skips unit tests if the value of skip.unit.tests property is true -->
                     <skipTests>${skip.unit.tests}</skipTests>
-                    <argLine/>     
+                    <argLine/>
                     <includes>
                         <include>**/*.java</include>
                     </includes>
@@ -806,8 +822,8 @@ software, even if advised of the possibility of such damage.
                 </configuration>
             </plugin>
         </plugins>
-        
-        <!--<finalName>${project.artifactId}-${project.artifact.version}</finalName>-->    
+
+        <!--<finalName>${project.artifactId}-${project.artifact.version}</finalName>-->
     </build>
     <reporting>
         <plugins>

@@ -125,7 +125,7 @@ class CodeBlockReplacement implements Replacement {
     }
 
     private void unHashBlocks(TextEditor ed) {
-        Matcher mLocal = Pattern.compile(CharacterProtector.REGEX, MULTILINE).matcher(ed.toString());
+        Matcher mLocal = Pattern.compile(CharacterProtector.FIND_ENCODED, MULTILINE).matcher(ed.toString());
 
         while (mLocal.find())
         {
