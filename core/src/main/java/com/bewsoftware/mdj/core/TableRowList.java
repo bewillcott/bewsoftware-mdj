@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, Bradley Willcott.
+ * Copyright (c) 2020, 2021 Bradley Willcott.
  * <http://www.bewsoftware.com>
  *
  * All rights reserved.
@@ -40,14 +40,20 @@ import com.bewsoftware.common.InvalidParameterValueException;
  * that do not have any attributes set.
  *
  * @author Bradley Willcott
+ *
+ * @since 0.6.3
+ * @version 0.6.13
  */
-class TableRowList {
+class TableRowList
+{
 
     @Deprecated
     private static final int DEFAULT_SIZE = 10;
 
     private int lastIdx = -1;
+
     private int length = 0;
+
     private final TableRow[] list;
 
     /**
@@ -56,7 +62,8 @@ class TableRowList {
      * @deprecated To be removed from future version.
      */
     @Deprecated
-    public TableRowList() {
+    public TableRowList()
+    {
         list = new TableRow[DEFAULT_SIZE];
     }
 
@@ -65,7 +72,8 @@ class TableRowList {
      *
      * @param size Maximum number entries that can be stored.
      */
-    public TableRowList(int size) {
+    public TableRowList(int size)
+    {
         if (size > 0)
         {
             list = new TableRow[size];
@@ -86,17 +94,11 @@ class TableRowList {
      *
      * @param row Row to add to list.
      */
-    public void add(TableRow row) {
-        if (row.hasAttrib())
+    public void add(TableRow row)
+    {
+        if (row.hasAttribute())
         {
-            if (row.getBorderWidth() == 0)
-            {
-                row.clearAttributes();
-                reset();
-            } else
-            {
-                list[length++] = row;
-            }
+            processRowAttribute(row);
         }
 
         row.setReadOnly();
@@ -108,7 +110,10 @@ class TableRowList {
      *
      * @return next available TableRow.
      */
-    public TableRow getNext() {
+    public TableRow getNext()
+    {
+        TableRow rtn = null;
+
         if (hasNext())
         {
             if (++lastIdx == length)
@@ -116,10 +121,10 @@ class TableRowList {
                 lastIdx = 0;
             }
 
-            return list[lastIdx];
+            rtn = list[lastIdx];
         }
 
-        return null;
+        return rtn;
     }
 
     /**
@@ -127,7 +132,8 @@ class TableRowList {
      *
      * @return {@code true} if there is, {@code false} otherwise.
      */
-    public boolean hasNext() {
+    public boolean hasNext()
+    {
         return length > 0;
     }
 
@@ -136,14 +142,25 @@ class TableRowList {
      *
      * @return number of available TableRow objects.
      */
-    public int length() {
+    public int length()
+    {
         return length;
     }
 
-    /**
-     * Reset list.
-     */
-    private void reset() {
+    private void processRowAttribute(TableRow row)
+    {
+        if (row.getBorderWidth() == 0)
+        {
+            row.clearAttributes();
+            reset();
+        } else
+        {
+            list[length++] = row;
+        }
+    }
+
+    private void reset()
+    {
         length = 0;
         lastIdx = -1;
     }

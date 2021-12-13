@@ -2,6 +2,9 @@
  * Copyright (c) 2005, Pete Bevin.
  * <http://markdownj.petebevin.com>
  *
+ * Copyright (c) 2021 Bradley Willcott
+ * Refactored.
+ *
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,5 +41,5 @@ import java.util.regex.Matcher;
 
 public interface Replacement {
 
-    String replacement(Matcher m);
+    String process(Matcher m);
 }

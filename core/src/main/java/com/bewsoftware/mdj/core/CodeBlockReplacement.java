@@ -52,8 +52,8 @@ import static java.util.regex.Pattern.compile;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.7
+ * @version 0.6.13
  */
 class CodeBlockReplacement implements Replacement
 {
@@ -68,35 +68,13 @@ class CodeBlockReplacement implements Replacement
     }
 
     @Override
-    public String replacement(Matcher m)
+    public String process(Matcher m)
     {
         this.m = m;
         String text = getPreparedBodyText(m);
         String replacement = getPreparedReplacementText(m, text);
 
         return "\n" + CODE_BLOCK_BEGIN + HTML_PROTECTOR.encode(replacement) + CODE_BLOCK_END + "\n";
-    }
-
-    private String processClassesBlock(String classes, String text)
-    {
-        Pattern p = compile("\\[(?:@(?<preClasses>\\p{Alpha}[^\\]]*)?)?\\]\\[(?:@(?<codeClasses>\\p{Alpha}[^\\]]*)?)?\\]");
-        Matcher m2 = p.matcher(classes);
-
-        if (m2.find())
-        {
-            String pre = "<pre" + addId(m.group("id")) + addClass(m2.group("preClasses")) + ">\n";
-            String code = "    <code" + addClass(m2.group("codeClasses")) + ">\n";
-
-            return pre + code + text + "\n    </code>\n</pre>";
-        } else
-        {
-            return processGenericCodeBlock(text);
-        }
-    }
-
-    private String processGenericCodeBlock(String text)
-    {
-        return "<pre" + addId(m.group("id")) + ">\n    <code>\n" + text + "\n    </code>\n</pre>";
     }
 
     private String getPreparedBodyText(Matcher m1)
@@ -131,6 +109,28 @@ class CodeBlockReplacement implements Replacement
         }
 
         return rtn;
+    }
+
+    private String processClassesBlock(String classes, String text)
+    {
+        Pattern p = compile("\\[(?:@(?<preClasses>\\p{Alpha}[^\\]]*)?)?\\]\\[(?:@(?<codeClasses>\\p{Alpha}[^\\]]*)?)?\\]");
+        Matcher m2 = p.matcher(classes);
+
+        if (m2.find())
+        {
+            String pre = "<pre" + addId(m.group("id")) + addClass(m2.group("preClasses")) + ">\n";
+            String code = "    <code" + addClass(m2.group("codeClasses")) + ">\n";
+
+            return pre + code + text + "\n    </code>\n</pre>";
+        } else
+        {
+            return processGenericCodeBlock(text);
+        }
+    }
+
+    private String processGenericCodeBlock(String text)
+    {
+        return "<pre" + addId(m.group("id")) + ">\n    <code>\n" + text + "\n    </code>\n</pre>";
     }
 
     private String processLanguageBlock(String clazz, String text)

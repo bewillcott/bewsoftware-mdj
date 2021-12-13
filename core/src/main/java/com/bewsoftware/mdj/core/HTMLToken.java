@@ -2,6 +2,9 @@
  * Copyright (c) 2005, Pete Bevin.
  * <http://markdownj.petebevin.com>
  *
+ * Copyright (c) 2021 Bradley Willcott
+ * Refactored.
+ *
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,46 +36,39 @@
  */
 package com.bewsoftware.mdj.core;
 
-public class HTMLToken {
+public class HTMLToken
+{
+    public final boolean isTag;
 
-    private final boolean isTag;
-    private final String text;
+    public final String text;
 
-    private HTMLToken(boolean tag, String value) {
+    private HTMLToken(boolean tag, String value)
+    {
         isTag = tag;
         text = value;
     }
 
-    public static HTMLToken tag(String text) {
+    public static HTMLToken tag(String text)
+    {
         return new HTMLToken(true, text);
     }
 
-    public static HTMLToken text(String text) {
+    public static HTMLToken text(String text)
+    {
         return new HTMLToken(false, text);
     }
 
-    /**
-     * @return <code>true</code> if this is a tag, <code>false</code> if it's
-     *         text.
-     */
-    public boolean isTag() {
-        return isTag;
-    }
-
-    public String getText() {
-        return text;
-    }
-
     @Override
-    public String toString() {
+    public String toString()
+    {
         String type;
-        if (isTag())
+        if (isTag)
         {
             type = "tag";
         } else
         {
             type = "text";
         }
-        return type + ": " + getText();
+        return type + ": " + text;
     }
 }

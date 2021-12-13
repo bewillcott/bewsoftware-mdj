@@ -261,7 +261,7 @@ public class TextEditor {
         {
             found = true;
             sb.append(text.subSequence(lastIndex, m.start()));
-            sb.append(replacement.replacement(m));
+            sb.append(replacement.process(m));
             lastIndex = m.end();
         }
 
@@ -313,6 +313,7 @@ public class TextEditor {
 
         Matcher m = p.matcher(text);
         int lastPos = 0;
+
         while (m.find())
         {
             if (lastPos < m.start())

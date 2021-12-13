@@ -44,12 +44,12 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.bewsoftware.mdj.core.Attributes.addClass;
+import static com.bewsoftware.mdj.core.Attributes.addId;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.DOTALL;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
-import static com.bewsoftware.mdj.core.Attributes.addClass;
-import static com.bewsoftware.mdj.core.Attributes.addId;
 
 /**
  * Convert Markdown text into HTML, as per
@@ -1344,9 +1344,9 @@ public class MarkdownProcessor {
 
         tokens.stream().map(token ->
         {
-            String value = token.getText();
+            String value = token.text;
 
-            if (token.isTag())
+            if (token.isTag)
             {
                 value = value.replaceAll("\\\\", CHAR_PROTECTOR.encode("\\"));
                 value = value.replaceAll("`", CHAR_PROTECTOR.encode("`"));

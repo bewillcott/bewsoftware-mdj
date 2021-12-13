@@ -67,6 +67,13 @@ Example 204:
 
 Example 205:
 
+| abc | def | ghi |
+| --- | --- | --- |
+| bar |
+| bar | baz | boo |
+
+Example 206:
+
 | abc | def |
 | --- | --- |
 

@@ -3,8 +3,9 @@
  * Authors: Pete Bevin, John Mutchek
  * http://www.martiansoftware.com/markdownj
  *
- * Copyright (c) 2020 Bradley Willcott
+ * Copyright (c) 2020, 2021 Bradley Willcott
  * Modifications to the code.
+ * Refactored.
  *
  * All rights reserved.
  *
@@ -53,408 +54,439 @@ import static java.util.regex.Pattern.compile;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.3
+ * @version 0.6.13
  */
-class TableReplacement implements Replacement {
+class TableReplacement implements Replacement
+{
 
-    private static final String CAPTION_BORDER = "border-left: %1$dpx solid black;border-top: %1$dpx solid black;border-right: %1$dpx solid black;padding: %2$dpx";
+    private static final String CAPTION_BORDER
+            = "border-left: %1$dpx solid black;border-top: %1$dpx solid black;"
+            + "border-right: %1$dpx solid black;padding: %2$dpx";
+
     private static final String[] INDENT =
     {
         "", "  ", "    ", "      "
     };
-    private static final String ROW_BORDER = "border: %1$dpx solid black;padding: %2$dpx;";
-    private static final String TABLE_BORDER = "border: %1$dpx solid black;border-collapse: collapse;padding: %2$dpx";
 
-    TableReplacement() {
+    private static final String ROW_BORDER = "border: %1$dpx solid black;padding: %2$dpx;";
+
+    private static final String TABLE_BORDER
+            = "border: %1$dpx solid black;border-collapse: collapse;padding: %2$dpx";
+
+    TableReplacement()
+    {
+    }
+
+    private static boolean rowIsShorterThanHeader(TableRow dataRow, TableRow headerRow)
+    {
+        return dataRow.length() < headerRow.length();
+    }
+
+    private static boolean validRowLength(TableRow hRow, TableRow delRow)
+    {
+        return hRow.length() == delRow.length();
     }
 
     @Override
-    public String replacement(Matcher m) {
+    public String process(Matcher m)
+    {
 
         String rtn = m.group();
 
         String caption = m.group("caption");
         String header = processGroupText(m.group("header")).trim();
         String delrow = m.group("delrow").trim();
-        String data = processGroupText(m.group("datarows")).trim();
+        String datarows = processGroupText(m.group("datarows")).trim();
 
-        //
-        // Build <table>.
-        //
-        // Parse the 'header': hRow.
-        //
-        TableRow hRow = TableRow.parse(header);
-        hRow.setReadOnly();
-        TableRow delRow = TableRow.parse(delrow);
+        TableRow headerRow = TableRow.parse(header);
+        headerRow.setReadOnly();
 
-        int align = 0;
-        String tmp = "";
+        TableRow delimiterRow = TableRow.parse(delrow);
 
-        if (hRow.length() == delRow.length())
+        if (validRowLength(headerRow, delimiterRow))
         {
-            StringBuilder sb = new StringBuilder();
-
-            sb.append("<table");
-
-            if (delRow.hasAttrib())
-            {
-                if (delRow.hasId())
-                {
-                    sb.append(addId(delRow.getId()));
-                }
-
-                if (delRow.hasBorder())
-                {
-                    tmp = String.format(TABLE_BORDER, delRow.getBorderWidth(), delRow.getCellPadding());
-                    sb.append(addStyle(tmp));
-                } else
-                {
-                    sb.append(addClass(delRow.getClasses()));
-                }
-            }
-
-            sb.append(">\n");
-
-            //
-            // Add <caption>, if any.
-            //
-            if (caption != null && !caption.isBlank())
-            {
-                boolean captionBorders = false;
-                sb.append(INDENT[1]).append("<caption");
-                caption = processGroupText(caption.trim());
-
-                if (caption.startsWith("[") && caption.endsWith("]"))
-                {
-                    captionBorders = true;
-                    caption = caption.substring(1, caption.length() - 1).trim();
-                } else
-                {
-                    //
-                    // Process caption looking for classes.
-                    //
-                    TableCaption tc = new TableCaption(caption);
-
-                    if (tc.hasClasses())
-                    {
-                        caption = tc.caption;
-                        sb.append(addClass(tc.classes));
-                    }
-                }
-
-                //
-                // Caption borders and attributes.
-                //
-                if (captionBorders && delRow.hasAttrib())
-                {
-                    if (delRow.hasBorder())
-                    {
-                        tmp = String.format(CAPTION_BORDER, delRow.getBorderWidth(), delRow.getCellPadding());
-                        sb.append(addStyle(tmp));
-                    }
-                }
-
-                sb.append(">\n").append(caption).append("\n")
-                        .append(INDENT[1]).append("</caption>\n");
-            }
-
-            //
-            // Process column formatting.
-            //
-            // Text alignment.
-            //
-            for (int i = 0; i < delRow.length(); i++)
-            {
-                String delCol = delRow.getCell(i).trim();
-                align = (delCol.startsWith(":") ? 1 : 0);
-                align = align + (delCol.endsWith(":") ? 2 : 0);
-
-                switch (align)
-                {
-                    case 0:
-
-                        if (delCol.matches("[-]+?[:][-]+?"))
-                        {
-                            delRow.setCell(i, "text-align: center");
-                        } else
-                        {
-                            delRow.setCell(i, "");
-                        }
-
-                        break;
-
-                    case 1:
-                        delRow.setCell(i, "text-align: left");
-                        break;
-
-                    case 2:
-                        delRow.setCell(i, "text-align: right");
-                        break;
-
-                    case 3:
-                        delRow.setCell(i, "text-align: justify");
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            delRow.setReadOnly();
-
-            //
-            // Process <head>.
-            //
-            sb.append(INDENT[1]).append("<thead>\n")
-                    .append(INDENT[2]).append("<tr");
-
-            if (hRow.hasId())
-            {
-                sb.append(addId(hRow.getId()));
-            }
-
-            sb.append(">\n");
-
-            //
-            // Process <th> attributes
-            //
-            for (int i = 0; i < delRow.length(); i++)
-            {
-
-                sb.append(INDENT[3]).append("<th");
-
-                if (!hRow.hasAttrib())
-                {
-                    if (!delRow.getCell(i).isEmpty())
-                    {
-                        sb.append(addStyle(delRow.getCell(i)));
-                    }
-                } else
-                {
-                    if (hRow.hasBorder())
-                    {
-                        tmp = String.format(ROW_BORDER, hRow.getBorderWidth(), hRow.getCellPadding());
-                        sb.append(addStyle(tmp + delRow.getCell(i)));
-                    } else
-                    {
-                        if (hRow.hasClasses())
-                        {
-                            sb.append(addClass(hRow.getClasses()));
-                        }
-
-                        if (!delRow.getCell(i).isEmpty())
-                        {
-                            sb.append(addStyle(delRow.getCell(i)));
-                        }
-                    }
-                }
-
-                sb.append(">\n").append(hRow.getCell(i).trim()).append("\n")
-                        .append(INDENT[3]).append("</th>\n");
-            }
-
-            sb.append(INDENT[2]).append("</tr>\n")
-                    .append(INDENT[1]).append("</thead>\n");
-
-            //
-            // Process data rows.
-            //
-            if (!data.trim().isEmpty())
-            {
-                String[] dataRows = data.split("\n");
-
-                //
-                // Stores rotating list of row attributes.
-                //
-                TableRowList rowList = new TableRowList(dataRows.length);
-
-                sb.append(INDENT[1]).append("<tbody>\n");
-
-                //
-                // Process individual data rows.
-                //
-                for (String dataRowString : dataRows)
-                {
-                    TableRow dataRow = TableRow.parse(dataRowString);
-                    rowList.add(dataRow);
-                    sb.append(INDENT[2]).append("<tr");
-
-                    if (dataRow.hasId())
-                    {
-                        sb.append(addId(dataRow.getId()));
-                    }
-
-                    sb.append(">\n");
-                    TableRow attrib = null;
-
-                    if (rowList.hasNext())
-                    {
-                        attrib = rowList.getNext();
-                    }
-
-                    //
-                    // Process row -> columns.
-                    //
-                    for (int j = 0; j < dataRow.length() && j < delRow.length(); j++)
-                    {
-                        // Process <td> attributes
-                        sb.append(INDENT[3]).append("<td");
-
-                        //
-                        // If 'row' has attributes.
-                        //
-                        if (!dataRow.hasAttrib())
-                        {
-                            if (attrib != null)
-                            {
-
-                                if (attrib.hasBorder())
-                                {
-                                    tmp = String.format(ROW_BORDER, attrib.getBorderWidth(), attrib.getCellPadding());
-                                    sb.append(addStyle(tmp + delRow.getCell(j)));
-                                } else
-                                {
-                                    if (attrib.hasClasses())
-                                    {
-                                        sb.append(addClass(attrib.getClasses()));
-                                    }
-
-                                    if (!delRow.getCell(j).isEmpty())
-                                    {
-                                        sb.append(addStyle(delRow.getCell(j)));
-                                    }
-                                }
-                            } else if (!delRow.getCell(j).isEmpty())
-                            {
-                                sb.append(addStyle(delRow.getCell(j)));
-                            }
-                        } else
-                        {
-                            //
-                            // If 'row' has border settings.
-                            //
-                            if (dataRow.hasBorder())
-                            {
-                                tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(), dataRow.getCellPadding());
-                                sb.append(addStyle(tmp + delRow.getCell(j)));
-                            } else
-                            {
-                                //
-                                // If 'row' has class attributes.
-                                //
-                                if (dataRow.hasClasses())
-                                {
-                                    sb.append(addClass(dataRow.getClasses()));
-                                }
-
-                                //
-                                // If delimiter row has column settings.
-                                //
-                                if (!delRow.getCell(j).isEmpty())
-                                {
-                                    sb.append(addStyle(delRow.getCell(j)));
-                                }
-                            }
-                        }
-
-                        sb.append(">\n").append(dataRow.getCell(j).trim()).append("\n")
-                                .append(INDENT[3]).append("</td>\n");
-                    }
-
-                    //
-                    // If 'row' has fewer column than the delimiter row.
-                    //
-                    if (dataRow.length() < hRow.length())
-                    {
-                        sb.append(INDENT[3]).append("<td");
-
-                        //
-                        // Add missing columns.
-                        //
-                        for (int k = dataRow.length(); k < hRow.length(); k++)
-                        {
-                            //
-                            // If 'row' has attributes.
-                            //
-                            if (!dataRow.hasAttrib())
-                            {
-                                if (attrib != null)
-                                {
-                                    if (attrib.hasBorder())
-                                    {
-                                        tmp = String.format(ROW_BORDER, attrib.getBorderWidth(), attrib.getCellPadding());
-                                        sb.append(addStyle(tmp + delRow.getCell(k)));
-                                    } else
-                                    {
-                                        if (attrib.hasClasses())
-                                        {
-                                            sb.append(addClass(attrib.getClasses()));
-                                        }
-
-                                        if (!delRow.getCell(k).isEmpty())
-                                        {
-                                            sb.append(addStyle(delRow.getCell(k)));
-                                        }
-                                    }
-                                } else if (!delRow.getCell(k).isEmpty())
-                                {
-                                    sb.append(addStyle(delRow.getCell(k)));
-                                }
-                            } else
-                            {
-                                //
-                                // If 'row' has border settings.
-                                //
-                                if (dataRow.hasBorder())
-                                {
-                                    tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(), dataRow.getCellPadding());
-                                    sb.append(addStyle(tmp + delRow.getCell(k)));
-                                } else
-                                {
-                                    //
-                                    // If 'row' has class attributes.
-                                    //
-                                    if (dataRow.hasClasses())
-                                    {
-                                        sb.append(addClass(dataRow.getClasses()));
-                                    }
-
-                                    //
-                                    // If delimiter row has column settings.
-                                    //
-                                    if (!delRow.getCell(k).isEmpty())
-                                    {
-                                        sb.append(addStyle(delRow.getCell(k)));
-                                    }
-                                }
-                            }
-
-                            sb.append(">\n&nbsp;\n").append(INDENT[3]).append("</td>\n");
-                        }
-                    }
-
-                    sb.append(INDENT[2]).append("</tr>\n");
-                }
-
-                sb.append(INDENT[1]).append("</tbody>\n");
-            }
-
-            String out = sb.append("</table>\n").toString();
-
-            //
-            // Encode table html to protect it from further processing.
-            //
-            rtn = "\n\n" + HTML_PROTECTOR.encode(out) + "\n\n";
+            rtn = buildTable(delimiterRow, caption, headerRow, datarows);
         }
 
         return rtn;
     }
 
+    private void addBorderStyle(TableRow headerRow, StringBuilder sb, TableRow delimiterRow, int i)
+    {
+        String tmp = String.format(ROW_BORDER, headerRow.getBorderWidth(),
+                headerRow.getCellPadding());
+        sb.append(addStyle(tmp + delimiterRow.getCell(i)));
+    }
+
+    private void addDataRowAttribute(TableRow dataRow, StringBuilder sb, TableRow delimiterRow, int j)
+    {
+        if (dataRow.hasBorder())
+        {
+            String tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(),
+                    dataRow.getCellPadding());
+            sb.append(addStyle(tmp + delimiterRow.getCell(j)));
+        } else
+        {
+            processClassesAndDefaultStyle(dataRow, sb, delimiterRow, j);
+        }
+    }
+
+    private void addDefaultRowAttribute(TableRow defaultRowAttribute, StringBuilder sb, TableRow delimiterRow, int j)
+    {
+        if (defaultRowAttribute.hasBorder())
+        {
+            String tmp = String.format(ROW_BORDER, defaultRowAttribute.getBorderWidth(),
+                    defaultRowAttribute.getCellPadding());
+            sb.append(addStyle(tmp + delimiterRow.getCell(j)));
+        } else
+        {
+            processClassesAndDefaultStyle(defaultRowAttribute, sb, delimiterRow, j);
+        }
+    }
+
+    private void addDelimiterRowDefault(TableRow delimiterRow, int i, StringBuilder sb)
+    {
+        if (!delimiterRow.getCell(i).isEmpty())
+        {
+            sb.append(addStyle(delimiterRow.getCell(i)));
+        }
+    }
+
+    private void addMissingColumns(TableRow dataRow, TableRow headerRow, StringBuilder sb, TableRow defaultRowAttribute, TableRow delimiterRow)
+    {
+        for (int k = dataRow.length(); k < headerRow.length(); k++)
+        {
+            processTDTag(sb, dataRow, defaultRowAttribute, delimiterRow, k, "&nbsp;");
+        }
+    }
+
+    private String buildTable(TableRow delimiterRow, String caption, TableRow headerRow, String datarows)
+    {
+        String rtn;
+        StringBuilder sb = new StringBuilder();
+
+        processDelimiterRow(sb, delimiterRow, caption);
+        processTHeadTag(sb, delimiterRow, headerRow);
+
+        if (!datarows.trim().isEmpty())
+        {
+            processTBodyTag(datarows, sb, delimiterRow, headerRow);
+        }
+
+        String out = sb.append("</table>\n").toString();
+        //
+        // Encode table html to protect it from further processing.
+        //
+        rtn = "\n\n" + HTML_PROTECTOR.encode(out) + "\n\n";
+
+        return rtn;
+    }
+
+    private void processCaption(StringBuilder sb, String caption, TableRow delimiterRow)
+    {
+        boolean captionBorders = false;
+        sb.append(INDENT[1]).append("<caption");
+        caption = processGroupText(caption.trim());
+
+        if (caption.startsWith("[") && caption.endsWith("]"))
+        {
+            captionBorders = true;
+            caption = caption.substring(1, caption.length() - 1).trim();
+        } else
+        {
+            caption = processCaptionLookingForClasses(caption, sb);
+        }
+
+        processCaptionBordersAndAttributes(captionBorders, delimiterRow, sb);
+
+        sb.append(">\n").append(caption).append("\n")
+                .append(INDENT[1]).append("</caption>\n");
+    }
+
+    private void processCaptionBordersAndAttributes(boolean captionBorders,
+            TableRow delimiterRow, StringBuilder sb)
+    {
+        if (captionBorders && delimiterRow.hasAttribute() && delimiterRow.hasBorder())
+        {
+            String tmp = String.format(CAPTION_BORDER, delimiterRow.getBorderWidth(),
+                    delimiterRow.getCellPadding());
+            sb.append(addStyle(tmp));
+        }
+    }
+
+    private void processCaptionIfAny(String caption, StringBuilder sb, TableRow delimiterRow)
+    {
+        if (caption != null && !caption.isBlank())
+        {
+            processCaption(sb, caption, delimiterRow);
+        }
+    }
+
+    private String processCaptionLookingForClasses(String caption, StringBuilder sb)
+    {
+        TableCaption tc = new TableCaption(caption);
+
+        if (tc.hasClasses())
+        {
+            caption = tc.caption;
+            sb.append(addClass(tc.classes));
+        }
+
+        return caption;
+    }
+
+    private void processClassesAndDefaultStyle(TableRow headerRow, StringBuilder sb,
+            TableRow delimiterRow, int i)
+    {
+        processHeaderRowClasses(headerRow, sb);
+        addDelimiterRowDefault(delimiterRow, i, sb);
+    }
+
+    private void processColumnFormatting(TableRow delimiterRow)
+    {
+        for (int i = 0; i < delimiterRow.length(); i++)
+        {
+            String delimiterColumn = delimiterRow.getCell(i).trim();
+            int textAlignment = (delimiterColumn.startsWith(":") ? 1 : 0);
+            textAlignment = textAlignment + (delimiterColumn.endsWith(":") ? 2 : 0);
+
+            switch (textAlignment)
+            {
+                case 0 ->
+                {
+                    if (delimiterColumn.matches("[-]+?[:][-]+?"))
+                    {
+                        delimiterRow.setCell(i, "text-align: center");
+                    } else
+                    {
+                        delimiterRow.setCell(i, "");
+                    }
+                }
+
+                case 1 ->
+                    delimiterRow.setCell(i, "text-align: left");
+
+                case 2 ->
+                    delimiterRow.setCell(i, "text-align: right");
+
+                case 3 ->
+                    delimiterRow.setCell(i, "text-align: justify");
+
+                default ->
+                {
+                }
+            }
+        }
+    }
+
+    private void processDataRow(String dataRowString, TableRowList rotatingListOfRowAttributes,
+            StringBuilder sb, TableRow delimiterRow, TableRow headerRow)
+    {
+        TableRow dataRow = TableRow.parse(dataRowString);
+        rotatingListOfRowAttributes.add(dataRow);
+        sb.append(INDENT[2]).append("<tr");
+
+        processDataRowId(dataRow, sb);
+
+        sb.append(">\n");
+        TableRow defaultRowAttribute = null;
+
+        if (rotatingListOfRowAttributes.hasNext())
+        {
+            defaultRowAttribute = rotatingListOfRowAttributes.getNext();
+        }
+
+        processRowColumns(dataRow, delimiterRow, sb, defaultRowAttribute);
+
+        if (rowIsShorterThanHeader(dataRow, headerRow))
+        {
+            addMissingColumns(dataRow, headerRow, sb, defaultRowAttribute, delimiterRow);
+        }
+
+        sb.append(INDENT[2]).append("</tr>\n");
+    }
+
+    private void processDataRowId(TableRow dataRow, StringBuilder sb)
+    {
+        if (dataRow.hasId())
+        {
+            sb.append(addId(dataRow.getId()));
+        }
+    }
+
+    private void processDataRows(String[] dataRows, TableRowList rotatingListOfRowAttributes,
+            StringBuilder sb, TableRow delimiterRow, TableRow headerRow)
+    {
+        for (String dataRow : dataRows)
+        {
+            processDataRow(dataRow, rotatingListOfRowAttributes, sb, delimiterRow, headerRow);
+        }
+    }
+
+    private void processDelimiterRow(StringBuilder sb, TableRow delimiterRow, String caption)
+    {
+        processTableTag(sb, delimiterRow);
+        processCaptionIfAny(caption, sb, delimiterRow);
+        processColumnFormatting(delimiterRow);
+        delimiterRow.setReadOnly();
+    }
+
+    private void processDelimiterRowAttributes(TableRow delimiterRow, StringBuilder sb)
+    {
+        if (delimiterRow.hasAttribute())
+        {
+            processDelimiterRowId(delimiterRow, sb);
+
+            if (delimiterRow.hasBorder())
+            {
+                String tmp = String.format(TABLE_BORDER, delimiterRow.getBorderWidth(),
+                        delimiterRow.getCellPadding());
+                sb.append(addStyle(tmp));
+            } else
+            {
+                sb.append(addClass(delimiterRow.getClasses()));
+            }
+        }
+    }
+
+    private void processDelimiterRowId(TableRow delimiterRow, StringBuilder sb)
+    {
+        if (delimiterRow.hasId())
+        {
+            sb.append(addId(delimiterRow.getId()));
+        }
+    }
+
+    private void processHeaderRowClasses(TableRow headerRow, StringBuilder sb)
+    {
+        if (headerRow.hasClasses())
+        {
+            sb.append(addClass(headerRow.getClasses()));
+        }
+    }
+
+    private void processHeaderRowId(TableRow headerRow, StringBuilder sb)
+    {
+        if (headerRow.hasId())
+        {
+            sb.append(addId(headerRow.getId()));
+        }
+    }
+
+    private void processRowColumns(TableRow dataRow, TableRow delimiterRow,
+            StringBuilder sb, TableRow defaultRowAttribute)
+    {
+        for (int i = 0; i < dataRow.length() && i < delimiterRow.length(); i++)
+        {
+            processTDTag(sb, dataRow, defaultRowAttribute, delimiterRow, i, dataRow.getCell(i).trim());
+        }
+    }
+
+    private void processTBodyTag(String datarows, StringBuilder sb, TableRow delimiterRow,
+            TableRow headerRow)
+    {
+        String[] dataRows = datarows.split("\n");
+
+        TableRowList rotatingListOfRowAttributes = new TableRowList(dataRows.length);
+
+        sb.append(INDENT[1]).append("<tbody>\n");
+
+        processDataRows(dataRows, rotatingListOfRowAttributes, sb, delimiterRow, headerRow);
+
+        sb.append(INDENT[1]).append("</tbody>\n");
+    }
+
+    private void processTDTag(StringBuilder sb, TableRow dataRow, TableRow defaultRowAttribute,
+            TableRow delimiterRow, int index, String cellContent)
+    {
+        sb.append(INDENT[3]).append("<td");
+
+        processTDTagAttributes(dataRow, sb, delimiterRow, index, defaultRowAttribute);
+
+        sb.append(">\n").append(cellContent).append("\n")
+                .append(INDENT[3]).append("</td>\n");
+    }
+
+    private void processTDTagAttributes(TableRow dataRow, StringBuilder sb, TableRow delimiterRow, int index, TableRow defaultRowAttribute)
+    {
+        if (dataRow.hasAttribute())
+        {
+            addDataRowAttribute(dataRow, sb, delimiterRow, index);
+        } else
+        {
+            if (defaultRowAttribute != null)
+            {
+                addDefaultRowAttribute(defaultRowAttribute, sb, delimiterRow, index);
+            } else
+            {
+                addDelimiterRowDefault(delimiterRow, index, sb);
+            }
+        }
+    }
+
+    private void processTHAttributes(TableRow headerRow, StringBuilder sb, TableRow delimiterRow, int i)
+    {
+        if (headerRow.hasBorder())
+        {
+            addBorderStyle(headerRow, sb, delimiterRow, i);
+        } else
+        {
+            processClassesAndDefaultStyle(headerRow, sb, delimiterRow, i);
+        }
+    }
+
+    private void processTHTag(StringBuilder sb, TableRow delimiterRow, TableRow headerRow, int i)
+    {
+        sb.append(INDENT[3]).append("<th");
+
+        if (headerRow.hasAttribute())
+        {
+            processTHAttributes(headerRow, sb, delimiterRow, i);
+        } else
+        {
+            addDelimiterRowDefault(delimiterRow, i, sb);
+        }
+
+        sb.append(">\n").append(headerRow.getCell(i).trim()).append("\n")
+                .append(INDENT[3]).append("</th>\n");
+    }
+
+    private void processTHTags(StringBuilder sb, TableRow delimiterRow, TableRow headerRow)
+    {
+        for (int i = 0; i < delimiterRow.length(); i++)
+        {
+            processTHTag(sb, delimiterRow, headerRow, i);
+        }
+    }
+
+    private void processTHeadTag(StringBuilder sb, TableRow delimiterRow, TableRow headerRow)
+    {
+        sb.append(INDENT[1]).append("<thead>\n")
+                .append(INDENT[2]).append("<tr");
+
+        processHeaderRowId(headerRow, sb);
+
+        sb.append(">\n");
+
+        processTHTags(sb, delimiterRow, headerRow);
+
+        sb.append(INDENT[2]).append("</tr>\n")
+                .append(INDENT[1]).append("</thead>\n");
+    }
+
+    private void processTableTag(StringBuilder sb, TableRow delimiterRow)
+    {
+        sb.append("<table");
+        processDelimiterRowAttributes(delimiterRow, sb);
+        sb.append(">\n");
+    }
+
     /**
      * Class contains the processed version of the 'caption'.
      */
-    private static class TableCaption {
+    private static class TableCaption
+    {
 
         /**
          * Class instance of pattern.
@@ -470,6 +502,7 @@ class TableReplacement implements Replacement {
          * The classes in raw form.
          */
         public final String classes;
+
         /**
          * The raw caption text.
          */
@@ -480,7 +513,8 @@ class TableReplacement implements Replacement {
          *
          * @param text The caption.
          */
-        private TableCaption(String text) {
+        private TableCaption(String text)
+        {
             this.text = text;
 
             Matcher m = PATTERN.matcher(text);
@@ -501,16 +535,18 @@ class TableReplacement implements Replacement {
          *
          * @return {@code true} if exist, {@code false} otherwise.
          */
-        public boolean hasClasses() {
+        public boolean hasClasses()
+        {
             return classes != null;
         }
 
         @Override
-        public String toString() {
+        public String toString()
+        {
             return "TableCaption{\n"
-                   + "    text = " + text + ",\n"
-                   + "    classes = " + classes + "\n"
-                   + "}";
+                    + "    text = " + text + ",\n"
+                    + "    classes = " + classes + "\n"
+                    + "}";
         }
 
     }

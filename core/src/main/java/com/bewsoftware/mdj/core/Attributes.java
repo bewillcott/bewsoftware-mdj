@@ -41,8 +41,14 @@ package com.bewsoftware.mdj.core;
  * @since 0.6.3
  * @version 0.6.7
  */
-public final class Attributes
+final class Attributes
 {
+    /**
+     * Not meant to be instantiated.
+     */
+    private Attributes()
+    {
+    }
 
     /**
      * Wraps the texts into a "class=" string.
@@ -87,12 +93,6 @@ public final class Attributes
         return processText(" style=\"%s\"", text);
     }
 
-    private static String processTheTexts(String[] texts)
-    {
-        String stringOfClasses = gatherClasses(texts);
-        return processText(" class=\"%s\"", stringOfClasses);
-    }
-
     private static String gatherClasses(String[] texts)
     {
         StringBuilder classes = new StringBuilder();
@@ -120,10 +120,9 @@ public final class Attributes
         return rtn;
     }
 
-    /**
-     * Not meant to be instantiated.
-     */
-    private Attributes()
+    private static String processTheTexts(String[] texts)
     {
+        String stringOfClasses = gatherClasses(texts);
+        return processText(" class=\"%s\"", stringOfClasses);
     }
 }

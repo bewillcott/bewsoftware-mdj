@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, Bradley Willcott.
+ * Copyright (c) 2020, 2021 Bradley Willcott.
  * <http://www.bewsoftware.com>
  *
  * All rights reserved.
@@ -44,11 +44,43 @@ import static java.lang.Integer.parseInt;
  * Holds all the information parsed from, and about, a table row.
  *
  * @author Bradley Willcott
+ *
+ * @since 0.6.3
+ * @version 0.6.13
  */
-class TableRow {
+class TableRow
+{
 
     private static final int DEFAULT_BORDERWIDTH = 1;
+
     private static final int DEFAULT_CELLPADDING = 5;
+
+    /**
+     * The raw unprocessed row text.
+     */
+    public final String text;
+
+    private int borderWidth = -1;
+
+    private int cellPadding = -1;
+
+    private String[] cells;
+
+    private String classes = null;
+
+    private String id = "";
+
+    private int length = 0;
+
+    private boolean readOnly = false;
+
+    private final Status status = new Status();
+
+    // Restrict instantiation to the factory method: parse()
+    private TableRow(String text)
+    {
+        this.text = text;
+    }
 
     /**
      * Parses the row text, breaking out and storing all its components.
@@ -57,12 +89,28 @@ class TableRow {
      *
      * @return A fully configured new instance of this class.
      */
-    public static TableRow parse(final String text) {
+    public static TableRow parse(final String text)
+    {
         TableRow tr = new TableRow(text);
         String data = text.substring(1).trim();
         tr.cells = data.split("\\|");
         tr.length = tr.cells.length;
 
+        checkForAttributes(tr);
+
+        //
+        // If 'row' has attributes
+        //
+        if (rowHasAttributes(tr))
+        {
+            processAttributes(tr);
+        }
+
+        return tr;
+    }
+
+    private static void checkForAttributes(final TableRow tr)
+    {
         //
         // Last 'cell' may be the bracketed attributes
         //
@@ -70,138 +118,188 @@ class TableRow {
 
         if (attrib.startsWith("[") && attrib.endsWith("]"))
         {
-            if (attrib.length() == 2)
-            {
-                tr.status.setBorder();
-            } else
-            {
-                tr.classes = attrib;
-                tr.status.setClasses();
-            }
+            initializeAttributes(attrib, tr);
         }
+    }
 
+    private static Matcher checkForIdAndClassAttributes(final TableRow tr)
+    {
         //
-        // If 'row' has attributes
+        // Check for 'id' and 'class' attributes.
         //
-        if (tr.status.hasAttribute())
+        Matcher m3 = Pattern.compile("^" + ID_REGEX_OPT + CLASS_REGEX + "$").matcher(tr.classes);
+        return m3.find() ? m3 : null;
+    }
+
+    private static Matcher checkForIdAttribute(final TableRow tr)
+    {
+        Matcher m = Pattern.compile("^" + ID_REGEX_OPT + "$").matcher(tr.classes);
+        return m.find() ? m : null;
+    }
+
+    private static Matcher checkForIdAttributeWithBorderSettings(final TableRow tr)
+    {
+        Matcher m2 = Pattern.compile("^" + ID_REGEX_OPT
+                + "\\[(?<borderWidth>\\d+)"
+                + "(?:(?:[, ][ ]*)(?<cellPadding>\\d+))?\\]$")
+                .matcher(tr.classes);
+
+        return m2.find() ? m2 : null;
+    }
+
+    private static void initializeAttributes(final String attrib, final TableRow tr)
+    {
+        if (attrib.length() == 2)
         {
-            tr.length -= 1;
+            tr.status.setBorder();
+        } else
+        {
+            tr.classes = attrib;
+            tr.status.setClasses();
+        }
+    }
 
-            //
-            // If 'row' has claases
-            //
-            if (tr.status.hasClasses())
-            {
-                //
-                // If is number, then it is border settings
-                //
-                if (tr.classes.substring(1, attrib.length() - 1).trim().matches("^\\d+$"))
-                {
-                    tr.borderWidth = parseInt(tr.classes.substring(1, attrib.length() - 1).trim());
-                    tr.status.setBorder();
-                } else
-                {
-                    //
-                    // Check for 'id' attribute
-                    //
-                    Matcher m = Pattern.compile("^" + ID_REGEX_OPT + "$").matcher(tr.classes);
+    private static boolean isBorderSetting(final TableRow tr)
+    {
+        //
+        // If it is a number, then it is a border setting
+        //
+        return tr.classes.substring(1, tr.classes.length() - 1).trim().matches("^\\d+$");
+    }
 
-                    if (m.find())
-                    {
-                        tr.id = m.group("id");
-                        tr.status.setId();
-                        tr.status.unsetClasses();
+    private static void processAttributes(TableRow tr) throws NumberFormatException
+    {
+        tr.length--;
 
-                    } else
-                    {
-                        //
-                        // Check for 'id' with border settings
-                        //
-                        Matcher m2 = Pattern.compile("^" + ID_REGEX_OPT
-                                                     + "\\[(?<border>(?<borderWidth>\\d+)"
-                                                     + "(?:(?:[, ][ ]*)(?<cellPadding>\\d+))?)?\\]$")
-                                .matcher(tr.classes);
+        if (rowHasClasses(tr))
+        {
+            processClassesText(tr);
+        }
+    }
 
-                        if (m2.find())
-                        {
-                            tr.id = m2.group("id");
+    private static void processBorderSetting(final TableRow tr) throws NumberFormatException
+    {
+        tr.borderWidth = parseInt(tr.classes.substring(1, tr.classes.length() - 1).trim());
+        tr.status.setBorder();
+        tr.status.unsetClasses();
+    }
 
-                            if (tr.id != null && !tr.id.isBlank())
-                            {
-                                tr.status.setId();
-                            }
+    private static void processClassesText(final TableRow tr) throws NumberFormatException
+    {
+        if (isBorderSetting(tr))
+        {
+            processBorderSetting(tr);
+        } else
+        {
+            processIdAttributes(tr);
+        }
+    }
 
-                            String border = m2.group("border");
+    private static void processIdAndClassAttributes(final TableRow tr, final Matcher m)
+    {
+        tr.id = m.group("id");
 
-                            if (border == null)
-                            {
-                                tr.status.setBorder();
-                            } else
-                            {
-                                tr.borderWidth = parseInt(m2.group("borderWidth"));
-                                String cellPadding = m2.group("cellPadding");
-
-                                if (cellPadding != null)
-                                {
-                                    tr.cellPadding = parseInt(cellPadding);
-                                }
-
-                                tr.status.setBorder();
-                            }
-                        } else
-                        {
-                            //
-                            // Check for 'id' and 'class' attributes.
-                            //
-                            Matcher m3 = Pattern.compile("^" + ID_REGEX_OPT + CLASS_REGEX + "$").matcher(tr.classes);
-
-                            if (m3.find())
-                            {
-                                tr.id = m3.group("id");
-
-                                if (tr.id != null && !tr.id.isBlank())
-                                {
-                                    tr.status.setId();
-                                }
-
-                                tr.classes = m3.group("classes");
-                            } else
-                            {
-                                tr.status.unsetClasses();
-                            }
-                        }
-                    }
-                }
-            }
+        if (tr.id != null && !tr.id.isBlank())
+        {
+            tr.status.setId();
         }
 
-        return tr;
+        tr.classes = m.group("classes");
+    }
+
+    private static void processIdAttribute(final TableRow tr, final Matcher m)
+    {
+        tr.id = m.group("id");
+        tr.status.setId();
+        tr.status.unsetClasses();
+    }
+
+    private static void processIdAttributeWithBorderSettings(final TableRow tr, final Matcher m)
+            throws NumberFormatException
+    {
+        processIdAttribute(tr, m);
+        tr.borderWidth = parseInt(m.group("borderWidth"));
+        String cellPadding = m.group("cellPadding");
+
+        if (cellPadding != null)
+        {
+            tr.cellPadding = parseInt(cellPadding);
+        }
+
+        tr.status.setBorder();
+        tr.status.unsetClasses();
+    }
+
+    private static void processIdAttributes(final TableRow tr) throws NumberFormatException
+    {
+        Matcher m;
+
+        if ((m = checkForIdAttribute(tr)) != null)
+        {
+            processIdAttribute(tr, m);
+
+        } else
+        {
+            processIdWithOtherAttributes(tr);
+        }
+    }
+
+    private static void processIdWithOtherAttributes(final TableRow tr) throws NumberFormatException
+    {
+        Matcher m;
+
+        if ((m = checkForIdAttributeWithBorderSettings(tr)) != null)
+        {
+            processIdAttributeWithBorderSettings(tr, m);
+        } else
+        {
+            processIdWithWhatIsLeft(tr);
+        }
+    }
+
+    private static void processIdWithWhatIsLeft(final TableRow tr)
+    {
+        Matcher m;
+
+        if ((m = checkForIdAndClassAttributes(tr)) != null)
+        {
+            processIdAndClassAttributes(tr, m);
+        } else
+        {
+            tr.status.unsetClasses();
+        }
+    }
+
+    private static boolean rowHasAttributes(TableRow tr)
+    {
+        return tr.status.hasAttribute();
+    }
+
+    private static boolean rowHasClasses(TableRow tr)
+    {
+        return tr.status.hasClasses();
     }
 
     /**
-     * The raw unprocessed row text.
+     * Used by {@link TableRowList#add(TableRow) TableRowList.add(row)} when the
+     * row's borderWidth
+     * attribute is set to '0' (zero).
      */
-    public final String text;
+    public void clearAttributes()
+    {
+        if (!readOnly)
+        {
+            status.clear();
 
-    private int borderWidth = -1;
-    private int cellPadding = -1;
-    private String[] cells;
-    private String classes = null;
-    private String id = "";
-    private int length = 0;
-    private boolean readOnly = false;
-    private final Status status = new Status();
-
-    // Restrict instantiation to the static method: parse()
-    private TableRow(String text) {
-        this.text = text;
+        }
     }
 
     /**
      *
      * @return Either the valued parsed from the row text, or the default value.
      */
-    public int getBorderWidth() {
+    public int getBorderWidth()
+    {
         return hasBorderWidth() ? borderWidth : DEFAULT_BORDERWIDTH;
     }
 
@@ -211,7 +309,8 @@ class TableRow {
      *
      * @return Contents of the indexed cell.
      */
-    public String getCell(int index) {
+    public String getCell(final int index)
+    {
         if (index >= 0 && index < length)
         {
             return cells[index];
@@ -225,7 +324,8 @@ class TableRow {
      *
      * @return Either the valued parsed from the row text, or the default value.
      */
-    public int getCellPadding() {
+    public int getCellPadding()
+    {
         return hasCellPadding() ? cellPadding : DEFAULT_CELLPADDING;
     }
 
@@ -237,7 +337,8 @@ class TableRow {
      *
      * @return Either the classes text, or {@code null} if not set.
      */
-    public String getClasses() {
+    public String getClasses()
+    {
         return hasClasses() ? classes : null;
     }
 
@@ -249,7 +350,8 @@ class TableRow {
      *
      * @return Either the id text, or {@code null} if not set.
      */
-    public String getId() {
+    public String getId()
+    {
         return hasId() ? id : null;
     }
 
@@ -257,7 +359,8 @@ class TableRow {
      *
      * @return {@code true} if attributes stored.
      */
-    public boolean hasAttrib() {
+    public boolean hasAttribute()
+    {
         return status.hasAttribute();
     }
 
@@ -265,7 +368,8 @@ class TableRow {
      *
      * @return {@code true} if the border attribute parsed from row text.
      */
-    public boolean hasBorder() {
+    public boolean hasBorder()
+    {
         return status.hasBorder();
     }
 
@@ -273,7 +377,8 @@ class TableRow {
      *
      * @return {@code true} if borderWidth attribute parsed from row text.
      */
-    public boolean hasBorderWidth() {
+    public boolean hasBorderWidth()
+    {
         return hasBorder() && borderWidth > -1;
     }
 
@@ -281,15 +386,18 @@ class TableRow {
      *
      * @return {@code true} if cellPadding attribute parsed from row text.
      */
-    public boolean hasCellPadding() {
+    public boolean hasCellPadding()
+    {
         return hasBorder() && cellPadding > -1;
     }
 
     /**
      *
-     * @return {@code true} if one or more class attributes were parsed from row text.
+     * @return {@code true} if one or more class attributes were parsed from row
+     *         text.
      */
-    public boolean hasClasses() {
+    public boolean hasClasses()
+    {
         return status.hasClasses();
     }
 
@@ -297,7 +405,8 @@ class TableRow {
      *
      * @return {@code true} if id was parsed from row text.
      */
-    public boolean hasId() {
+    public boolean hasId()
+    {
         return status.hasId();
     }
 
@@ -306,7 +415,8 @@ class TableRow {
      *
      * @return The number of columns.
      */
-    public int length() {
+    public int length()
+    {
         return length;
     }
 
@@ -318,7 +428,8 @@ class TableRow {
      *
      * @return {@code true} if stored, {@code false} otherwise.
      */
-    public boolean setCell(int index, String text) {
+    public boolean setCell(final int index, final String text)
+    {
         boolean rtn = false;
 
         if (!readOnly)
@@ -342,84 +453,89 @@ class TableRow {
      * <b>WARNING:</b> This cannot be undone!
      * </p>
      */
-    public void setReadOnly() {
+    public void setReadOnly()
+    {
         readOnly = true;
-    }
-
-    /**
-     * Used by {@link TableRowList#add(TableRow) TableRowList.add(row)} when the row's borderWidth
-     * attribute is set to '0' (zero).
-     */
-    void clearAttributes() {
-        if (!readOnly)
-        {
-            status.clear();
-
-        }
     }
 
     /**
      * Holds the current status information for: Border, Classes, and Id.
      */
-    private class Status {
+    private class Status
+    {
 
         private static final int BORDER = 1;
+
         private static final int CLASSES = 4;
+
         private static final int ID = 2;
+
         private int status = 0;
 
-        private Status() {
+        private Status()
+        {
         }
 
-        public void clear() {
+        public void clear()
+        {
             status = 0;
         }
 
-        public boolean hasAttribute() {
+        public boolean hasAttribute()
+        {
             return status > 0;
         }
 
-        public boolean hasBorder() {
+        public boolean hasBorder()
+        {
             return (status & BORDER) > 0;
         }
 
-        public void setBorder() {
+        public void setBorder()
+        {
             status |= BORDER;
             unsetClasses();
         }
 
-        public void unsetBorder() {
+        public void unsetBorder()
+        {
             if (hasBorder())
             {
                 status ^= BORDER;
             }
         }
 
-        public boolean hasClasses() {
+        public boolean hasClasses()
+        {
             return (status & CLASSES) > 0;
         }
 
-        public void setClasses() {
+        public void setClasses()
+        {
             status |= CLASSES;
             unsetBorder();
         }
 
-        public void unsetClasses() {
+        public void unsetClasses()
+        {
             if (hasClasses())
             {
                 status ^= CLASSES;
             }
         }
 
-        public boolean hasId() {
+        public boolean hasId()
+        {
             return (status & ID) > 0;
         }
 
-        public void setId() {
+        public void setId()
+        {
             status |= ID;
         }
 
-        public void unsetId() {
+        public void unsetId()
+        {
             if (hasId())
             {
                 status ^= ID;
