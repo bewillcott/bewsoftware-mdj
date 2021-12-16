@@ -38,8 +38,8 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.utils.HTMLToken;
-import com.bewsoftware.mdj.core.utils.TextEditor;
+import com.bewsoftware.mdj.core.HTMLToken;
+import com.bewsoftware.mdj.core.TextEditor;
 import java.util.Collection;
 
 import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;

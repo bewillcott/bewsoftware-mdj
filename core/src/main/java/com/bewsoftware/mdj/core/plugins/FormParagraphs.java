@@ -38,7 +38,7 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.utils.TextEditor;
+import com.bewsoftware.mdj.core.TextEditor;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 

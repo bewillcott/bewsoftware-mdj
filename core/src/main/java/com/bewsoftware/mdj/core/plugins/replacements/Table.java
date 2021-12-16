@@ -38,8 +38,9 @@
  */
 package com.bewsoftware.mdj.core.plugins.replacements;
 
+import com.bewsoftware.mdj.core.Replacement;
 import com.bewsoftware.mdj.core.MarkdownProcessor;
-import com.bewsoftware.mdj.core.utils.TextEditor;
+import com.bewsoftware.mdj.core.TextEditor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -32,9 +32,8 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core.utils;
+package com.bewsoftware.mdj.core;
 
-import com.bewsoftware.mdj.core.plugins.replacements.Replacement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

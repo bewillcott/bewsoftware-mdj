@@ -37,7 +37,7 @@
  */
 package com.bewsoftware.mdj.core.plugins.utils;
 
-import com.bewsoftware.mdj.core.utils.TextEditor;
+import com.bewsoftware.mdj.core.TextEditor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

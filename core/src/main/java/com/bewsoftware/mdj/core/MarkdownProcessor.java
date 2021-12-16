@@ -40,7 +40,6 @@
 package com.bewsoftware.mdj.core;
 
 import com.bewsoftware.mdj.core.plugins.PluginInterlink;
-import com.bewsoftware.mdj.core.utils.TextEditor;
 
 /**
  * Convert Markdown text into HTML, as per

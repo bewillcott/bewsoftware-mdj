@@ -39,7 +39,7 @@
 package com.bewsoftware.mdj.core.plugins;
 
 import com.bewsoftware.mdj.core.plugins.replacements.CodeBlock;
-import com.bewsoftware.mdj.core.utils.TextEditor;
+import com.bewsoftware.mdj.core.TextEditor;
 import java.util.regex.Pattern;
 
 import static com.bewsoftware.mdj.core.plugins.utils.Constants.LANG_IDENTIFIER;

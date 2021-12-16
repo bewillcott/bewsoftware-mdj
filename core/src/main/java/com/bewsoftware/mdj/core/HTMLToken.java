@@ -34,7 +34,7 @@
  * negligence or otherwise) arising in any way out of the use of this
  * software, even if advised of the possibility of such damage.
  */
-package com.bewsoftware.mdj.core.utils;
+package com.bewsoftware.mdj.core;
 
 public class HTMLToken
 {

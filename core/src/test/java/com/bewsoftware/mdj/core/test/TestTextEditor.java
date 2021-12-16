@@ -1,6 +1,6 @@
 package com.bewsoftware.mdj.core.test;
 
-import com.bewsoftware.mdj.core.utils.TextEditor;
+import com.bewsoftware.mdj.core.TextEditor;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

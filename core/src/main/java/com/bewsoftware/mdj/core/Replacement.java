@@ -35,7 +35,7 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core.plugins.replacements;
+package com.bewsoftware.mdj.core;
 
 import java.util.regex.Matcher;
 

@@ -38,7 +38,7 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.utils.TextEditor;
+import com.bewsoftware.mdj.core.TextEditor;
 
 /**
  * Build **Strong**, *Emphasize*, __Bold__, _Italics_
