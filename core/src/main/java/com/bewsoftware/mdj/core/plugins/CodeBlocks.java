@@ -38,11 +38,11 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.TextEditor;
 import com.bewsoftware.mdj.core.plugins.replacements.CodeBlock;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 import java.util.regex.Pattern;
 
-import static com.bewsoftware.mdj.core.MarkdownProcessor.LANG_IDENTIFIER;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.LANG_IDENTIFIER;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 
@@ -54,8 +54,8 @@ import static java.util.regex.Pattern.compile;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.13
+ * @version 0.6.13
  */
 public class CodeBlocks implements TextConvertor
 {

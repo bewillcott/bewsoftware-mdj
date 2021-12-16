@@ -38,16 +38,16 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.Replacement;
-import com.bewsoftware.mdj.core.TextEditor;
+import com.bewsoftware.mdj.core.plugins.replacements.Replacement;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.bewsoftware.mdj.core.Attributes.addClass;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CLASS_REGEX_OPT;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.TARGET;
 import static com.bewsoftware.mdj.core.plugins.PluginInterlink.unEscapeSpecialChars;
+import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addClass;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.CLASS_REGEX_OPT;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.TARGET;
 import static java.util.regex.Pattern.compile;
 
 /**
@@ -55,8 +55,8 @@ import static java.util.regex.Pattern.compile;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.13
+ * @version 0.6.13
  */
 public class AutoLinks implements TextConvertor
 {

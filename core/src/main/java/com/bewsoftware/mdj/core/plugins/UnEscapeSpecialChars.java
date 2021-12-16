@@ -38,17 +38,17 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.TextEditor;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CHAR_PROTECTOR;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;
 
 /**
  * UnEscapeSpecialChars class description.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.13
+ * @version 0.6.13
  */
 public class UnEscapeSpecialChars implements TextConvertor
 {

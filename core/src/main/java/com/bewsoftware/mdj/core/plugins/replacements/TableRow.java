@@ -36,8 +36,8 @@ package com.bewsoftware.mdj.core.plugins.replacements;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CLASS_REGEX;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.ID_REGEX_OPT;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.CLASS_REGEX;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.ID_REGEX_OPT;
 import static java.lang.Integer.parseInt;
 
 /**

@@ -34,7 +34,7 @@
  */
 package com.bewsoftware.mdj.core.test;
 
-import com.bewsoftware.mdj.core.HTMLDecoder;
+import com.bewsoftware.mdj.core.plugins.utils.HTMLDecoder;
 import com.bewsoftware.mdj.core.MarkdownProcessor;
 import org.junit.jupiter.api.Test;
 

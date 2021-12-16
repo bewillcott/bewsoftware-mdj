@@ -40,8 +40,7 @@
 package com.bewsoftware.mdj.core;
 
 import com.bewsoftware.mdj.core.plugins.PluginInterlink;
-import java.util.Map;
-import java.util.TreeMap;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 
 /**
  * Convert Markdown text into HTML, as per
@@ -66,30 +65,6 @@ import java.util.TreeMap;
  */
 public class MarkdownProcessor
 {
-
-    public static final CharacterProtector CHAR_PROTECTOR = new CharacterProtector();
-
-    public static final String CLASS_REGEX = "\\[@(?<classes>(\\p{Alpha}[^\\]]*?)?(\\b\\p{Alpha}[^\\]]*?)*?)\\]";
-
-    public static final String CLASS_REGEX_OPT = "(?:\\[@(?<classes>(\\p{Alpha}[^\\]]*?)(\\b\\p{Alpha}[^\\]]*?)*?)\\])?";
-
-    public static final String CODE_BLOCK_BEGIN = "-=: ";
-
-    public static final String CODE_BLOCK_END = " :=-";
-
-    public static final CharacterProtector HTML_PROTECTOR = new CharacterProtector();
-
-    public static final String ID_REGEX_OPT = "(?:\\[#(?<id>\\w+)\\])?";
-
-    public static final String LANG_IDENTIFIER = "lang:";
-
-    public static final int TAB_WIDTH = 4;
-
-    public static final String TARGET = " target=\"" + CHAR_PROTECTOR.encode("_") + "blank\"";
-
-    public static final Map<String, LinkDefinition> linkDefinitions = new TreeMap<>();
-
-    public static final PluginController pluginController = new PluginController();
 
     private static final String TAG_CLASS = "\\[@(\\p{Alpha}[^\\]]*?)(\\b\\p{Alpha}[^\\]]*?)*?\\]";
 

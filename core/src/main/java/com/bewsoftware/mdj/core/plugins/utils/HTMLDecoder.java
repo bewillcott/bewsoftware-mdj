@@ -35,11 +35,50 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.plugins.utils;
 
+import com.bewsoftware.mdj.core.utils.TextEditor;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public interface Replacement {
+public class HTMLDecoder
+{
+    /**
+     * Not meant to be instantiated
+     */
+    private HTMLDecoder()
+    {
+    }
 
-    String process(Matcher m);
+    public static String decode(String html)
+    {
+        TextEditor ed = new TextEditor(html);
+        replaceAllDecimalChars(ed);
+        replaceAllHexadecimalChars(ed);
+
+        return ed.toString();
+    }
+
+    private static void replaceAllDecimalChars(TextEditor ed)
+    {
+        Pattern p = Pattern.compile("&#(\\d+);");
+        ed.replaceAll(p, (Matcher m) ->
+        {
+            String charDecimal = m.group(1);
+            char ch = (char) Integer.parseInt(charDecimal);
+            return Character.toString(ch);
+        });
+    }
+
+    private static void replaceAllHexadecimalChars(TextEditor ed)
+    {
+        Pattern p = Pattern.compile("&#x([0-9a-fA-F]+);");
+        ed.replaceAll(p, (Matcher m) ->
+        {
+            String charHex = m.group(1);
+            char ch = (char) Integer.parseInt(charHex, 16);
+            return Character.toString(ch);
+        });
+    }
+
 }

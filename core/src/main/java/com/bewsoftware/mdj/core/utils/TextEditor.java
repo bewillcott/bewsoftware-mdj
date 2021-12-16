@@ -32,14 +32,16 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.utils;
 
+import com.bewsoftware.mdj.core.plugins.replacements.Replacement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.TAB_WIDTH;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.MULTILINE;
 
@@ -52,9 +54,11 @@ import static java.util.regex.Pattern.MULTILINE;
  * </ul>
  * Bradley Willcott (02/01/2021)
  */
-public class TextEditor {
+public class TextEditor
+{
 
     private boolean found;
+
     private StringBuilder text;
 
     /**
@@ -63,7 +67,8 @@ public class TextEditor {
      *
      * @param text to be processed.
      */
-    public TextEditor(final CharSequence text) {
+    public TextEditor(final CharSequence text)
+    {
         this.text = new StringBuilder(text);
     }
 
@@ -72,7 +77,8 @@ public class TextEditor {
      *
      * @param s text to be processed.
      */
-    public void append(final CharSequence s) {
+    public void append(final CharSequence s)
+    {
         text.append(s);
     }
 
@@ -86,17 +92,21 @@ public class TextEditor {
      *
      * @see java.util.regex.Pattern
      */
-    public TextEditor deleteAll(final String pattern) {
+    public TextEditor deleteAll(final String pattern)
+    {
         return replaceAll(pattern, "");
     }
 
     /**
-     * Convert tabs to spaces given the default tab width of 4 spaces.
+     * Convert tabs to spaces given the default tab width.
      *
      * @return this object for chaining purposes.
+     *
+     * @see TextEditor#TAB_WIDTH
      */
-    public TextEditor detabify() {
-        return detabify(4);
+    public TextEditor detabify()
+    {
+        return detabify(TAB_WIDTH);
     }
 
     /**
@@ -106,21 +116,22 @@ public class TextEditor {
      *
      * @return this object for chaining purposes.
      */
-    public TextEditor detabify(final int tabWidth) {
+    public TextEditor detabify(final int tabWidth)
+    {
         replaceAll(Pattern.compile("(.*?)\\t"), (Matcher m) ->
-           {
-               String lineSoFar = m.group(1);
-               int width = lineSoFar.length();
-               StringBuilder replacement = new StringBuilder(lineSoFar);
+        {
+            String lineSoFar = m.group(1);
+            int width = lineSoFar.length();
+            StringBuilder replacement = new StringBuilder(lineSoFar);
 
-               do
-               {
-                   replacement.append(' ');
-                   ++width;
-               } while (width % tabWidth != 0);
+            do
+            {
+                replacement.append(' ');
+                ++width;
+            } while (width % tabWidth != 0);
 
-               return replacement.toString();
-           });
+            return replacement.toString();
+        });
 
         return this;
     }
@@ -132,15 +143,9 @@ public class TextEditor {
      *
      * @return this object for chaining purposes.
      */
-    public TextEditor indent(final int spaces) {
-        StringBuilder sb = new StringBuilder(spaces);
-
-        for (int i = 0; i < spaces; i++)
-        {
-            sb.append(' ');
-        }
-
-        return replaceAll("^", sb.toString());
+    public TextEditor indent(final int spaces)
+    {
+        return replaceAll("^", " ".repeat(spaces));
     }
 
     /**
@@ -148,7 +153,8 @@ public class TextEditor {
      *
      * @return status
      */
-    public boolean isEmpty() {
+    public boolean isEmpty()
+    {
         return text.length() == 0;
     }
 
@@ -159,17 +165,21 @@ public class TextEditor {
      *
      * @return this object for chaining purposes.
      */
-    public TextEditor outdent(final int spaces) {
+    public TextEditor outdent(final int spaces)
+    {
         return deleteAll("^(\\t|[ ]{1," + spaces + "})");
     }
 
     /**
-     * Remove one tab width (4 spaces) from the start of each line.
+     * Remove one tab width from the start of each line.
      *
      * @return this object for chaining purposes.
+     *
+     * @see TextEditor#TAB_WIDTH
      */
-    public TextEditor outdent() {
-        return outdent(4);
+    public TextEditor outdent()
+    {
+        return outdent(TAB_WIDTH);
     }
 
     /**
@@ -177,7 +187,8 @@ public class TextEditor {
      *
      * @param s text to be processed.
      */
-    public void prepend(final CharSequence s) {
+    public void prepend(final CharSequence s)
+    {
         text.insert(0, s);
     }
 
@@ -190,7 +201,8 @@ public class TextEditor {
      *
      * @return this object for chaining purposes.
      */
-    public TextEditor prependCharToLines(final Character c) {
+    public TextEditor prependCharToLines(final Character c)
+    {
         return replaceAll("^", c.toString());
     }
 
@@ -203,7 +215,8 @@ public class TextEditor {
      *
      * @return this object for chaining purposes.
      */
-    public TextEditor removePrependedCharFromLines(final Character c) {
+    public TextEditor removePrependedCharFromLines(final Character c)
+    {
         return replaceAll("^" + c.toString(), "");
     }
 
@@ -217,7 +230,8 @@ public class TextEditor {
      *
      * @return this object for chaining purposes.
      */
-    public TextEditor replaceAll(final String regex, final String replacement) {
+    public TextEditor replaceAll(final String regex, final String replacement)
+    {
         if (text.length() > 0)
         {
             final String r = replacement;
@@ -250,7 +264,8 @@ public class TextEditor {
      *
      * @return this object for chaining purposes.
      */
-    public TextEditor replaceAll(final Pattern pattern, final Replacement replacement) {
+    public TextEditor replaceAll(final Pattern pattern, final Replacement replacement)
+    {
         Matcher m = pattern.matcher(text);
         int lastIndex = 0;
         StringBuilder sb = new StringBuilder();
@@ -280,7 +295,8 @@ public class TextEditor {
      *
      * @return this object for chaining purposes.
      */
-    public TextEditor replaceAllLiteral(final String regex, final String replacement) {
+    public TextEditor replaceAllLiteral(final String regex, final String replacement)
+    {
         return replaceAll(Pattern.compile(regex, MULTILINE), (Matcher m) -> replacement);
     }
 
@@ -290,7 +306,8 @@ public class TextEditor {
      * @return this object for chaining purposes.
      */
     @Override
-    public String toString() {
+    public String toString()
+    {
         return text.toString();
     }
 
@@ -299,17 +316,18 @@ public class TextEditor {
      *
      * @return tokens collection.
      */
-    public Collection<HTMLToken> tokenizeHTML() {
+    public Collection<HTMLToken> tokenizeHTML()
+    {
         List<HTMLToken> tokens = new ArrayList<>();
         String nestedTags = nestedTagsRegex(6);
 
         Pattern p = Pattern.compile(""
-                                    + "(?s:<!(--.*?--\\s*)+>)"
-                                    + "|"
-                                    + "(?s:<\\?.*?\\?>)"
-                                    + "|"
-                                    + nestedTags
-                                    + "", CASE_INSENSITIVE);
+                + "(?s:<!(--.*?--\\s*)+>)"
+                + "|"
+                + "(?s:<\\?.*?\\?>)"
+                + "|"
+                + nestedTags
+                + "", CASE_INSENSITIVE);
 
         Matcher m = p.matcher(text);
         int lastPos = 0;
@@ -338,7 +356,8 @@ public class TextEditor {
      *
      * @return this object for chaining purposes.
      */
-    public TextEditor trim() {
+    public TextEditor trim()
+    {
         text = new StringBuilder(text.toString().trim());
 
         return this;
@@ -353,7 +372,8 @@ public class TextEditor {
      *
      * @return {@code True} if found, {@code false} otherwise.
      */
-    public boolean wasFound() {
+    public boolean wasFound()
+    {
         return found;
     }
 
@@ -364,7 +384,8 @@ public class TextEditor {
      * @param depth - How many levels of tags-within-tags to allow. The example
      *              <a href="<MTFoo>"> has depth 2.
      */
-    private String nestedTagsRegex(final int depth) {
+    private String nestedTagsRegex(final int depth)
+    {
         if (depth == 0)
         {
             return "";

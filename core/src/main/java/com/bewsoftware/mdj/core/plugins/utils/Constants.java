@@ -36,52 +36,42 @@
  * negligence or otherwise) arising in any way out of the use of this
  * software, even if advised of the possibility of such damage.
  */
-package com.bewsoftware.mdj.core.plugins;
+package com.bewsoftware.mdj.core.plugins.utils;
 
-import com.bewsoftware.mdj.core.utils.TextEditor;
-
-import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;
+import com.bewsoftware.mdj.core.utils.CharacterProtector;
+import com.bewsoftware.mdj.core.utils.LinkDefinition;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
- * EncodeBackslashEscapes class description.
+ * Constants class description.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 0.6.13
- * @version 0.6.13
+ * @since 1.0
+ * @version 1.0
  */
-public class EncodeBackslashEscapes implements TextConvertor
+public class Constants
 {
-    public EncodeBackslashEscapes()
-    {
-    }
+    public static final CharacterProtector CHAR_PROTECTOR = new CharacterProtector();
+    public static final int TAB_WIDTH = 4;
 
-    private static TextEditor encodeEscapes(final TextEditor text, final char[] chars,
-            final String slashes)
-    {
-        for (char ch : chars)
-        {
-            String regex = slashes + ch;
-            text.replaceAllLiteral(regex, CHAR_PROTECTOR.encode(String.valueOf(ch)));
-        }
+    public static final String CLASS_REGEX = "\\[@(?<classes>(\\p{Alpha}[^\\]]*?)?(\\b\\p{Alpha}[^\\]]*?)*?)\\]";
 
-        return text;
-    }
+    public static final String CLASS_REGEX_OPT = "(?:\\[@(?<classes>(\\p{Alpha}[^\\]]*?)(\\b\\p{Alpha}[^\\]]*?)*?)\\])?";
 
-    @Override
-    public TextEditor execute(TextEditor text)
-    {
-        char[] normalChars = "`_>!".toCharArray();
-        char[] escapedChars = "*{}[]()#+-.".toCharArray();
+    public static final String CODE_BLOCK_BEGIN = "-=: ";
 
-        // Two backslashes in a row
-        text.replaceAllLiteral("\\\\\\\\", CHAR_PROTECTOR.encode("\\"));
+    public static final String CODE_BLOCK_END = " :=-";
 
-        // Normal characters don't require a backslash in the regular expression
-        encodeEscapes(text, normalChars, "\\\\");
-        encodeEscapes(text, escapedChars, "\\\\\\");
+    public static final CharacterProtector HTML_PROTECTOR = new CharacterProtector();
 
-        return text;
-    }
+    public static final String ID_REGEX_OPT = "(?:\\[#(?<id>\\w+)\\])?";
+
+    public static final String LANG_IDENTIFIER = "lang:";
+
+    public static final String TARGET = " target=\"" + CHAR_PROTECTOR.encode("_") + "blank\"";
+
+    public static final Map<String, LinkDefinition> linkDefinitions = new TreeMap<>();
 
 }

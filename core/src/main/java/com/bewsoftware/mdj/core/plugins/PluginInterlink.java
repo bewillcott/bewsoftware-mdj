@@ -38,143 +38,143 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.TextEditor;
-
-import static com.bewsoftware.mdj.core.MarkdownProcessor.pluginController;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 
 /**
  * This class acts as a facade to the plugins.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.13
+ * @version 0.6.13
  */
 public class PluginInterlink
 {
+    private static final PluginController PLUGIN_CONTROLLER = new PluginController();
+
     public static TextEditor cleanupMarkdownText(final TextEditor text)
     {
-        return pluginController.runPlugin("CleanupMarkdownText", text);
+        return PLUGIN_CONTROLLER.runPlugin("CleanupMarkdownText", text);
     }
 
     public static TextEditor doAnchors(final TextEditor text)
     {
-        return pluginController.runPlugin("Anchors", text);
+        return PLUGIN_CONTROLLER.runPlugin("Anchors", text);
     }
 
     public static TextEditor doAutoLinks(final TextEditor text)
     {
-        return pluginController.runPlugin("AutoLinks", text);
+        return PLUGIN_CONTROLLER.runPlugin("AutoLinks", text);
     }
 
     public static TextEditor doBlockQuotes(final TextEditor text)
     {
-        return pluginController.runPlugin("BlockQuotes", text);
+        return PLUGIN_CONTROLLER.runPlugin("BlockQuotes", text);
     }
 
     public static TextEditor doCodeBlocks(final TextEditor text)
     {
-        return pluginController.runPlugin("CodeBlocks", text);
+        return PLUGIN_CONTROLLER.runPlugin("CodeBlocks", text);
     }
 
     public static TextEditor doCodeSpans(final TextEditor text)
     {
-        return pluginController.runPlugin("CodeSpans", text);
+        return PLUGIN_CONTROLLER.runPlugin("CodeSpans", text);
     }
 
     public static TextEditor doDelIns(final TextEditor text)
     {
-        return pluginController.runPlugin("DelIns", text);
+        return PLUGIN_CONTROLLER.runPlugin("DelIns", text);
     }
 
     public static TextEditor doFencedCodeBlocks(final TextEditor text)
     {
-        return pluginController.runPlugin("FencedCodeBlocks", text);
+        return PLUGIN_CONTROLLER.runPlugin("FencedCodeBlocks", text);
     }
 
     public static TextEditor doHeaders(final TextEditor text)
     {
-        return pluginController.runPlugin("Headers", text);
+        return PLUGIN_CONTROLLER.runPlugin("Headers", text);
     }
 
     public static TextEditor doHorizontalRules(final TextEditor text)
     {
-        return pluginController.runPlugin("HorizontalRules", text);
+        return PLUGIN_CONTROLLER.runPlugin("HorizontalRules", text);
     }
 
     public static TextEditor doImages(final TextEditor text)
     {
-        return pluginController.runPlugin("Images", text);
+        return PLUGIN_CONTROLLER.runPlugin("Images", text);
     }
 
     public static TextEditor doLists(final TextEditor text)
     {
-        return pluginController.runPlugin("Lists", text);
+        return PLUGIN_CONTROLLER.runPlugin("Lists", text);
     }
 
     public static TextEditor doStrongEmAndBoldItalics(final TextEditor text)
     {
-        return pluginController.runPlugin("StrongEmAndBoldItalics", text);
+        return PLUGIN_CONTROLLER.runPlugin("StrongEmAndBoldItalics", text);
     }
 
     public static TextEditor doSubSup(final TextEditor text)
     {
-        return pluginController.runPlugin("SubSup", text);
+        return PLUGIN_CONTROLLER.runPlugin("SubSup", text);
     }
 
     public static TextEditor doTables(final TextEditor text)
     {
-        return pluginController.runPlugin("Tables", text);
+        return PLUGIN_CONTROLLER.runPlugin("Tables", text);
     }
 
     public static TextEditor encodeAmpsAndAngles(final TextEditor text)
     {
-        return pluginController.runPlugin("EncodeAmpsAndAngles", text);
+        return PLUGIN_CONTROLLER.runPlugin("EncodeAmpsAndAngles", text);
     }
 
     public static TextEditor encodeBackslashEscapes(final TextEditor text)
     {
-        return pluginController.runPlugin("EncodeBackslashEscapes", text);
+        return PLUGIN_CONTROLLER.runPlugin("EncodeBackslashEscapes", text);
     }
 
     public static TextEditor encodeCode(final TextEditor text)
     {
-        return pluginController.runPlugin("EncodeCode", text);
+        return PLUGIN_CONTROLLER.runPlugin("EncodeCode", text);
     }
 
     public static TextEditor escapeSpecialCharsWithinTagAttributes(final TextEditor text)
     {
-        return pluginController.runPlugin("EscapeSpecialCharsWithinTagAttributes", text);
+        return PLUGIN_CONTROLLER.runPlugin("EscapeSpecialCharsWithinTagAttributes", text);
     }
 
     public static TextEditor formParagraphs(final TextEditor text)
     {
-        return pluginController.runPlugin("FormParagraphs", text);
+        return PLUGIN_CONTROLLER.runPlugin("FormParagraphs", text);
     }
 
     public static TextEditor hashHTMLBlocks(final TextEditor text)
     {
-        return pluginController.runPlugin("HashHTMLBlocks", text);
+        return PLUGIN_CONTROLLER.runPlugin("HashHTMLBlocks", text);
     }
 
     public static TextEditor runBlockGamut(final TextEditor text)
     {
-        return pluginController.runBlockGamut(text);
+        return PLUGIN_CONTROLLER.runBlockGamut(text);
     }
 
     public static TextEditor runSpanGamut(final TextEditor text)
     {
-        return pluginController.runSpanGamut(text);
+        return PLUGIN_CONTROLLER.runSpanGamut(text);
     }
 
     public static TextEditor stripLinkDefinitions(final TextEditor text)
     {
-        return pluginController.runPlugin("StripLinkDefinitions", text);
+        return PLUGIN_CONTROLLER.runPlugin("StripLinkDefinitions", text);
     }
 
     public static TextEditor unEscapeSpecialChars(final TextEditor text)
     {
-        return pluginController.runPlugin("UnEscapeSpecialChars", text);
+        return PLUGIN_CONTROLLER.runPlugin("UnEscapeSpecialChars", text);
     }
 
 }

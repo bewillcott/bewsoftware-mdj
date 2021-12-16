@@ -38,19 +38,19 @@
  */
 package com.bewsoftware.mdj.core.plugins.replacements;
 
-import com.bewsoftware.mdj.core.CharacterProtector;
-import com.bewsoftware.mdj.core.Replacement;
-import com.bewsoftware.mdj.core.TextEditor;
+import com.bewsoftware.mdj.core.MarkdownProcessor;
+import com.bewsoftware.mdj.core.utils.CharacterProtector;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.bewsoftware.mdj.core.Attributes.addClass;
-import static com.bewsoftware.mdj.core.Attributes.addId;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CODE_BLOCK_BEGIN;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CODE_BLOCK_END;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.HTML_PROTECTOR;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.LANG_IDENTIFIER;
 import static com.bewsoftware.mdj.core.plugins.PluginInterlink.encodeCode;
+import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addClass;
+import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addId;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.CODE_BLOCK_BEGIN;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.CODE_BLOCK_END;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.HTML_PROTECTOR;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.LANG_IDENTIFIER;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 

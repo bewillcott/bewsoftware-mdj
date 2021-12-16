@@ -38,8 +38,8 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.Replacement;
-import com.bewsoftware.mdj.core.TextEditor;
+import com.bewsoftware.mdj.core.plugins.replacements.Replacement;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,8 +80,8 @@ import static java.util.regex.Pattern.compile;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.13
+ * @version 0.6.13
  */
 public class BlockQuotes implements TextConvertor
 {

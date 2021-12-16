@@ -36,9 +36,9 @@
  * negligence or otherwise) arising in any way out of the use of this
  * software, even if advised of the possibility of such damage.
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.plugins.TextConvertor;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 import com.bewsoftware.utils.struct.Ref;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;

@@ -38,11 +38,11 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.HTMLToken;
-import com.bewsoftware.mdj.core.TextEditor;
+import com.bewsoftware.mdj.core.utils.HTMLToken;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 import java.util.Collection;
 
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CHAR_PROTECTOR;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;
 
 /**
  * Escape special characters within tags.
@@ -57,8 +57,8 @@ import static com.bewsoftware.mdj.core.MarkdownProcessor.CHAR_PROTECTOR;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.13
+ * @version 0.6.13
  */
 public class EscapeSpecialCharsWithinTagAttributes implements TextConvertor
 {

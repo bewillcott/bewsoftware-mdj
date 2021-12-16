@@ -38,17 +38,17 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.TextEditor;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import static com.bewsoftware.mdj.core.Attributes.addClass;
-import static com.bewsoftware.mdj.core.Attributes.addId;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CLASS_REGEX_OPT;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CODE_BLOCK_BEGIN;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CODE_BLOCK_END;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.HTML_PROTECTOR;
 import static com.bewsoftware.mdj.core.plugins.PluginInterlink.runSpanGamut;
+import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addClass;
+import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addId;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.CLASS_REGEX_OPT;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.CODE_BLOCK_BEGIN;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.CODE_BLOCK_END;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.HTML_PROTECTOR;
 import static java.util.regex.Pattern.compile;
 
 /**
@@ -56,8 +56,8 @@ import static java.util.regex.Pattern.compile;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.13
+ * @version 0.6.13
  */
 public class FormParagraphs implements TextConvertor
 {

@@ -38,13 +38,13 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.Replacement;
-import com.bewsoftware.mdj.core.TextEditor;
+import com.bewsoftware.mdj.core.plugins.replacements.Replacement;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.bewsoftware.mdj.core.MarkdownProcessor.HTML_PROTECTOR;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.TAB_WIDTH;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.HTML_PROTECTOR;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.TAB_WIDTH;
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
@@ -59,8 +59,8 @@ import static java.util.regex.Pattern.compile;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.13
+ * @version 0.6.13
  */
 public class HashHTMLBlocks implements TextConvertor
 {

@@ -38,17 +38,17 @@
  */
 package com.bewsoftware.mdj.core.plugins.replacements;
 
-import com.bewsoftware.mdj.core.Replacement;
-import com.bewsoftware.mdj.core.TextEditor;
+import com.bewsoftware.mdj.core.MarkdownProcessor;
+import com.bewsoftware.mdj.core.utils.TextEditor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.bewsoftware.mdj.core.Attributes.addClass;
-import static com.bewsoftware.mdj.core.Attributes.addId;
-import static com.bewsoftware.mdj.core.Attributes.addStyle;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.CLASS_REGEX;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.HTML_PROTECTOR;
 import static com.bewsoftware.mdj.core.plugins.PluginInterlink.runSpanGamut;
+import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addClass;
+import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addId;
+import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addStyle;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.CLASS_REGEX;
+import static com.bewsoftware.mdj.core.plugins.utils.Constants.HTML_PROTECTOR;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 

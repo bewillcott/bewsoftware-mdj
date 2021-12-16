@@ -34,7 +34,7 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.utils;
 
 /**
  * Used to store the link definitions.
