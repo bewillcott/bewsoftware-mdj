@@ -11,9 +11,9 @@
 </ul>
 
 # Test 2 (mixed OL/UL elements)
-+ a
-2. b
-+ c
++ a 
+2. b 
++ c 
 
 # Result 2
 <ul>

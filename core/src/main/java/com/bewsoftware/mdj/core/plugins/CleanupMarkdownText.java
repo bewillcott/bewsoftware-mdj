@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 2005, Pete Bevin.
- * <http://markdownj.petebevin.com>
+ * Copyright (c) 2005, Martian Software
+ * Authors: Pete Bevin, John Mutchek
+ * http://www.martiansoftware.com/markdownj
+ *
+ * Copyright (c) 2020, 2021 Bradley Willcott
+ * Modifications to the code.
+ * Refactored.
  *
  * All rights reserved.
  *
@@ -30,31 +35,52 @@
  * liability, whether in contract, strict liability, or tort (including
  * negligence or otherwise) arising in any way out of the use of this
  * software, even if advised of the possibility of such damage.
- *
  */
-package com.bewsoftware.mdj.core.test;
+package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
-import org.junit.jupiter.api.Test;
+import com.bewsoftware.mdj.core.TextEditor;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class LineConventions {
-
-    private static final String EXPECTED = "<p>a\nb\nc</p>\n";
-
-    @Test
-    public void testMacLineConventions() {
-        assertEquals(EXPECTED, MarkdownProcessor.convert("a\rb\rc\r"));
+/**
+ * CleanupMarkdownText class description.
+ *
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
+ *
+ * @since 1.0
+ * @version 1.0
+ */
+public class CleanupMarkdownText implements TextConvertor
+{
+    public CleanupMarkdownText()
+    {
     }
 
-    @Test
-    public void testUnixLineConventions() {
-        assertEquals(EXPECTED, MarkdownProcessor.convert("a\nb\nc\n"));
+    @Override
+    public TextEditor execute(TextEditor text)
+    {
+        // Standardize line endings:
+        text.replaceAll("\\r\\n", "\n"); 	// DOS to Unix
+        text.replaceAll("\\r", "\n");    	// Mac to Unix
+
+        // Strip any lines consisting only of spaces and tabs.
+        // This makes subsequent regexes easier to write, because we can
+        // match consecutive blank lines with /\n+/ instead of something
+        // contorted like /[ \t]*\n+/ .
+        text.replaceAll("^[ \\t]+$", "");
+
+        // Make sure $text ends with a couple of newlines:
+        text.append("\n\n");
+
+        text.detabify();
+        text.deleteAll("^[ ]+$");
+
+        //
+        // Convert line extensions to single spaces.
+        //
+        // Bradley Willcott (26/12/2020)
+        //
+        text.replaceAll(" \\\\\\n", " ");
+
+        return text;
     }
 
-    @Test
-    public void testWindowsLineConventions() {
-        assertEquals(EXPECTED, MarkdownProcessor.convert("a\r\nb\r\nc\r\n"));
-    }
 }

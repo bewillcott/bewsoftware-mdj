@@ -49,7 +49,7 @@ public class PreserveHtmlBlockTagsTest {
     @ParameterizedTest(name = "{index}: {1}")
     @MethodSource("testHtml")
     public void testRoundtripPreservesTags(String value) {
-        assertEquals(value, MarkdownProcessor.markdown(value).trim());
+        assertEquals(value, MarkdownProcessor.convert(value).trim());
     }
 
 }

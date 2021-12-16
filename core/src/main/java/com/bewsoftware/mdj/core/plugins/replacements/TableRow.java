@@ -31,7 +31,7 @@
  * negligence or otherwise) arising in any way out of the use of this
  * software, even if advised of the possibility of such damage.
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.plugins.replacements;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

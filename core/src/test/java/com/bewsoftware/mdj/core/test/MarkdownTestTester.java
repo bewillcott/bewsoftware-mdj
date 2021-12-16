@@ -104,7 +104,7 @@ public class MarkdownTestTester {
 //        System.out.println("-----------------------------------------------------------------\n"
 //                           + "testText:\n" + testText
 //                           + "\n-----------------------------------------------------------------");
-        String markdownText = MarkdownProcessor.markdown(testText);
+        String markdownText = MarkdownProcessor.convert(testText);
         assertFalse(diffStrings(htmlText, markdownText), test);
     }
 

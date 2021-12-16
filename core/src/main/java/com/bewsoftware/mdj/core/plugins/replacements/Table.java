@@ -36,8 +36,10 @@
  * negligence or otherwise) arising in any way out of the use of this
  * software, even if advised of the possibility of such damage.
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.plugins.replacements;
 
+import com.bewsoftware.mdj.core.Replacement;
+import com.bewsoftware.mdj.core.TextEditor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,18 +48,19 @@ import static com.bewsoftware.mdj.core.Attributes.addId;
 import static com.bewsoftware.mdj.core.Attributes.addStyle;
 import static com.bewsoftware.mdj.core.MarkdownProcessor.CLASS_REGEX;
 import static com.bewsoftware.mdj.core.MarkdownProcessor.HTML_PROTECTOR;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.processGroupText;
+import static com.bewsoftware.mdj.core.plugins.PluginInterlink.runSpanGamut;
+import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 
 /**
- * TableReplacement class moved out from {@link MarkdownProcessor} class.
+ * Table class moved out from {@link MarkdownProcessor} class.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.3
  * @version 0.6.13
  */
-class TableReplacement implements Replacement
+public class Table implements Replacement
 {
 
     private static final String CAPTION_BORDER
@@ -74,8 +77,46 @@ class TableReplacement implements Replacement
     private static final String TABLE_BORDER
             = "border: %1$dpx solid black;border-collapse: collapse;padding: %2$dpx";
 
-    TableReplacement()
+    private static final String TAG_ID = "\\[#\\w+\\]";
+
+    /*
+     * "caption" is the Title for the table
+     * "header" is the first row of the table
+     * "delrow" is the delimiter row
+     * "datarows" contains the body of the table
+     * "tail" contains straggler rows just following the table
+     *
+     * The table should be followed by a blank line
+     */
+    public static final Pattern PATTERN = compile("(?<=^\\n+)"
+            + "(?<caption>^(?:[ ]*\\[\\w+[^\\]]*?\\][ ]*|[ ]*.*?\\w+.*?[ ]*)\\n)?"
+            + "(?<header>^\\|(?:.+?\\|)+?(?:\\[[^\\]]*?\\])?)[ ]*\\n"
+            + "(?<delrow>\\|(?:[ ]*([:-]{1}[-]+?[:-]{1}|[-]+?[:][-]+?)[ ]*\\|)+?(?:"
+            + TAG_ID + ")?(?:\\[[^\\]]*?\\])?)[ ]*\\n"
+            + "(?<datarows>(?:\\|(?:[^\\|\\n]*\\|)+(?:"
+            + TAG_ID + ")?(?:\\[[^\\]]*?\\])?[ ]*\\n)*?)?"
+            // Find end of table
+            + "(?="
+            // Blank line
+            + "^\\n"
+            // End of data
+            + "|\\Z)"
+            + "", MULTILINE);
+
+    public Table()
     {
+    }
+
+    private static String processGroupText(final String text)
+    {
+        if (text != null && !text.isBlank())
+        {
+            // Escaped pipes need to be handled
+            return runSpanGamut(new TextEditor(text)).toString();
+        } else
+        {
+            return "";
+        }
     }
 
     private static boolean rowIsShorterThanHeader(TableRow dataRow, TableRow headerRow)

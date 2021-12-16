@@ -171,6 +171,6 @@ public class MarkupFileTester {
     @ParameterizedTest(name = "{index}: {1}")
     @MethodSource("testResultPairs")
     public void runTest(TestResultPair pair) {
-        assertEquals(pair.result.trim(), MarkdownProcessor.markdown(pair.test).trim(), pair.name);
+        assertEquals(pair.result.trim(), MarkdownProcessor.convert(pair.test).trim(), pair.name);
     }
 }

@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 2005, Pete Bevin.
- * <http://markdownj.petebevin.com>
+ * Copyright (c) 2005, Martian Software
+ * Authors: Pete Bevin, John Mutchek
+ * http://www.martiansoftware.com/markdownj
+ *
+ * Copyright (c) 2020, 2021 Bradley Willcott
+ * Modifications to the code.
+ * Refactored.
  *
  * All rights reserved.
  *
@@ -30,31 +35,53 @@
  * liability, whether in contract, strict liability, or tort (including
  * negligence or otherwise) arising in any way out of the use of this
  * software, even if advised of the possibility of such damage.
- *
  */
-package com.bewsoftware.mdj.core.test;
+package com.bewsoftware.mdj.core.plugins;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
-import org.junit.jupiter.api.Test;
+import com.bewsoftware.mdj.core.TextEditor;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.CHAR_PROTECTOR;
 
-public class LineConventions {
-
-    private static final String EXPECTED = "<p>a\nb\nc</p>\n";
-
-    @Test
-    public void testMacLineConventions() {
-        assertEquals(EXPECTED, MarkdownProcessor.convert("a\rb\rc\r"));
+/**
+ * EncodeBackslashEscapes class description.
+ *
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
+ *
+ * @since 1.0
+ * @version 1.0
+ */
+public class EncodeBackslashEscapes implements TextConvertor
+{
+    public EncodeBackslashEscapes()
+    {
     }
 
-    @Test
-    public void testUnixLineConventions() {
-        assertEquals(EXPECTED, MarkdownProcessor.convert("a\nb\nc\n"));
+    private static TextEditor encodeEscapes(final TextEditor text, final char[] chars,
+            final String slashes)
+    {
+        for (char ch : chars)
+        {
+            String regex = slashes + ch;
+            text.replaceAllLiteral(regex, CHAR_PROTECTOR.encode(String.valueOf(ch)));
+        }
+
+        return text;
     }
 
-    @Test
-    public void testWindowsLineConventions() {
-        assertEquals(EXPECTED, MarkdownProcessor.convert("a\r\nb\r\nc\r\n"));
+    @Override
+    public TextEditor execute(TextEditor text)
+    {
+        char[] normalChars = "`_>!".toCharArray();
+        char[] escapedChars = "*{}[]()#+-.".toCharArray();
+
+        // Two backslashes in a row
+        text.replaceAllLiteral("\\\\\\\\", CHAR_PROTECTOR.encode("\\"));
+
+        // Normal characters don't require a backslash in the regular expression
+        encodeEscapes(text, normalChars, "\\\\");
+        encodeEscapes(text, escapedChars, "\\\\\\");
+
+        return text;
     }
+
 }

@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 2005, Pete Bevin.
- * <http://markdownj.petebevin.com>
+ * Copyright (c) 2005, Martian Software
+ * Authors: Pete Bevin, John Mutchek
+ * http://www.martiansoftware.com/markdownj
+ *
+ * Copyright (c) 2020, 2021 Bradley Willcott
+ * Modifications to the code.
+ * Refactored.
  *
  * All rights reserved.
  *
@@ -30,31 +35,4 @@
  * liability, whether in contract, strict liability, or tort (including
  * negligence or otherwise) arising in any way out of the use of this
  * software, even if advised of the possibility of such damage.
- *
  */
-package com.bewsoftware.mdj.core.test;
-
-import com.bewsoftware.mdj.core.MarkdownProcessor;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-public class LineConventions {
-
-    private static final String EXPECTED = "<p>a\nb\nc</p>\n";
-
-    @Test
-    public void testMacLineConventions() {
-        assertEquals(EXPECTED, MarkdownProcessor.convert("a\rb\rc\r"));
-    }
-
-    @Test
-    public void testUnixLineConventions() {
-        assertEquals(EXPECTED, MarkdownProcessor.convert("a\nb\nc\n"));
-    }
-
-    @Test
-    public void testWindowsLineConventions() {
-        assertEquals(EXPECTED, MarkdownProcessor.convert("a\r\nb\r\nc\r\n"));
-    }
-}

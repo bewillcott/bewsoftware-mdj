@@ -44,17 +44,17 @@ public class EdgeCases {
 
     @Test
     public void testEmptyString() {
-        assertEquals("\n", MarkdownProcessor.markdown(""));
+        assertEquals("\n", MarkdownProcessor.convert(""));
     }
 
     @Test
     public void testNull() {
-        assertEquals("\n", MarkdownProcessor.markdown(null));
+        assertEquals("\n", MarkdownProcessor.convert(null));
     }
 
     @Test
     public void testSpaces() {
-        assertEquals("\n", MarkdownProcessor.markdown("  "));
+        assertEquals("\n", MarkdownProcessor.convert("  "));
     }
 
     @Test

@@ -54,7 +54,7 @@ public class EmailAddresses {
 
     @Test
     public void testEmail() {
-        String html = MarkdownProcessor.markdown("<billg@microsoft.com>");
+        String html = MarkdownProcessor.convert("<billg@microsoft.com>");
         String plain = HTMLDecoder.decode(html);
         assertEquals("<p><a href=\"mailto:billg@microsoft.com\">billg@microsoft.com</a></p>\n", plain);
         assertFalse(plain.equals(html), "Email addresses are masked");

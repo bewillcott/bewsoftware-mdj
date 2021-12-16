@@ -41,7 +41,7 @@ package com.bewsoftware.mdj.core;
  * @since 0.6.3
  * @version 0.6.7
  */
-final class Attributes
+public final class Attributes
 {
     /**
      * Not meant to be instantiated.

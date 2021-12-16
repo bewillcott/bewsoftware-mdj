@@ -36,33 +36,40 @@
  * negligence or otherwise) arising in any way out of the use of this
  * software, even if advised of the possibility of such damage.
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj.core.plugins.replacements;
 
+import com.bewsoftware.mdj.core.CharacterProtector;
+import com.bewsoftware.mdj.core.Replacement;
+import com.bewsoftware.mdj.core.TextEditor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.bewsoftware.mdj.core.Attributes.addClass;
 import static com.bewsoftware.mdj.core.Attributes.addId;
-import static com.bewsoftware.mdj.core.MarkdownProcessor.*;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.CODE_BLOCK_BEGIN;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.CODE_BLOCK_END;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.HTML_PROTECTOR;
+import static com.bewsoftware.mdj.core.MarkdownProcessor.LANG_IDENTIFIER;
+import static com.bewsoftware.mdj.core.plugins.PluginInterlink.encodeCode;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 
 /**
- * CodeBlockReplacement class moved out from {@link MarkdownProcessor} class.
+ * CodeBlock class moved out from {@link MarkdownProcessor} class.
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.7
  * @version 0.6.13
  */
-class CodeBlockReplacement implements Replacement
+public class CodeBlock implements Replacement
 {
 
     private final boolean fencedCode;
 
     private Matcher m;
 
-    CodeBlockReplacement(boolean fencedCode)
+    public CodeBlock(boolean fencedCode)
     {
         this.fencedCode = fencedCode;
     }
