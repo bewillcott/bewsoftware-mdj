@@ -34,6 +34,7 @@
  */
 package com.bewsoftware.mdj.core;
 
+import com.bewsoftware.mdj.core.plugins.utils.Constants;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -101,7 +102,7 @@ public class TextEditor
      *
      * @return this object for chaining purposes.
      *
-     * @see TextEditor#TAB_WIDTH
+     * @see Constants#TAB_WIDTH
      */
     public TextEditor detabify()
     {
@@ -174,7 +175,7 @@ public class TextEditor
      *
      * @return this object for chaining purposes.
      *
-     * @see TextEditor#TAB_WIDTH
+     * @see Constants#TAB_WIDTH
      */
     public TextEditor outdent()
     {
