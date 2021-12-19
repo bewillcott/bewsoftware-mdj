@@ -57,6 +57,7 @@ software, even if advised of the possibility of such damage.
     <properties>
         <java.version>17</java.version>
         <source.encoding>UTF-8</source.encoding>
+        <bewsoftware.version>1.0.12</bewsoftware.version>
         <javadoc.source.version>${java.version}</javadoc.source.version>
         <jdk.version>${java.version}</jdk.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -103,12 +104,12 @@ software, even if advised of the possibility of such damage.
             <dependency>
                 <groupId>com.bewsoftware</groupId>
                 <artifactId>bewsoftware-utils</artifactId>
-                <version>1.0.10</version>
+                <version>${bewsoftware.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.bewsoftware</groupId>
                 <artifactId>bewsoftware-common</artifactId>
-                <version>1.0.3</version>
+                <version>${bewsoftware.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -496,7 +497,6 @@ software, even if advised of the possibility of such damage.
                                     <includeProjectDependencies>false</includeProjectDependencies>
                                     <includePluginDependencies>false</includePluginDependencies>
                                     <arguments>
-                                        <argument>-r</argument>
                                         <argument>${finalBaseName}.zip</argument>
                                         <argument>${finalBaseName}.jar</argument>
                                         <argument>${finalBaseName}-manual.jar</argument>
@@ -582,7 +582,7 @@ software, even if advised of the possibility of such damage.
 
     <build>
         <resources>
-            <resource>
+            <!--            <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
@@ -595,7 +595,7 @@ software, even if advised of the possibility of such damage.
                 <excludes>
                     <exclude>**/pom.properties</exclude>
                 </excludes>
-            </resource>
+            </resource>-->
             <resource>
                 <directory>
                     src/docs/manual

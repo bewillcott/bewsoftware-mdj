@@ -173,7 +173,7 @@ public class PluginController
 
     private TextEditor runGamit(List<String> gamit, TextEditor text)
     {
-        final Ref<TextEditor> textRef = new Ref<>(text);
+        final Ref<TextEditor> textRef = Ref.val(text);
 
         gamit.stream().forEachOrdered(className
                 -> textRef.val = runPlugin(className, textRef.val)

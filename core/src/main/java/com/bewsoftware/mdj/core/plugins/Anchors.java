@@ -39,8 +39,8 @@
 package com.bewsoftware.mdj.core.plugins;
 
 import com.bewsoftware.mdj.core.Replacement;
-import com.bewsoftware.mdj.core.utils.LinkDefinition;
 import com.bewsoftware.mdj.core.TextEditor;
+import com.bewsoftware.mdj.core.utils.LinkDefinition;
 import com.bewsoftware.utils.struct.Ref;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -297,7 +297,6 @@ public class Anchors implements TextConvertor
 
             return replacementText.toString();
         }
-
     }
 
     private class ReferenceShortcut implements Replacement
@@ -373,7 +372,7 @@ public class Anchors implements TextConvertor
             String classAtrib = addClass(defn.classes, classes);
             String titleTag = processTitle(defn);
             String idAttrib = "";
-            Ref<String> linkTextRef = new Ref<>(linkText);
+            Ref<String> linkTextRef = Ref.val(linkText);
 
             idAttrib = processFootnote(footnote, linkTextRef, url, idAttrib, id);
             appendUrl(url, replacementText);

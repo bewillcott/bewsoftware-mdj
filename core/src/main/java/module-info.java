@@ -41,5 +41,6 @@
 module bewsoftware.mdj.core {
     requires bewsoftware.utils;
     requires bewsoftware.common;
+    requires java.logging;
     exports com.bewsoftware.mdj.core;
 }

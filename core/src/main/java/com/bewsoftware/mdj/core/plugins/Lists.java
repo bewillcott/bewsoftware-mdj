@@ -103,7 +103,7 @@ public class Lists implements TextConvertor
             + "(?![ ]*(?:" + LIST_TYPE + "|\\d+[.])[ ]+)"
             + "))";
 
-    private static final Ref<Integer> listLevel = new Ref<>(0);
+    private static final Ref<Integer> listLevel = Ref.val(0);
 
     public Lists()
     {
@@ -389,7 +389,7 @@ public class Lists implements TextConvertor
         @Override
         public String process(Matcher m)
         {
-            Ref<String> classRtn = new Ref<>();
+            Ref<String> classRtn = Ref.val();
 
             String leadingLine = m.group(1);
             TextEditor item = new TextEditor(m.group(4));
@@ -429,7 +429,7 @@ public class Lists implements TextConvertor
         @Override
         public String process(Matcher m)
         {
-            Ref<String> list = new Ref<>(m.group("list"));
+            Ref<String> list = Ref.val(m.group("list"));
             String classes = m.group("classes");
             String listType = getListType(m);
 
@@ -465,7 +465,7 @@ public class Lists implements TextConvertor
         @Override
         public String process(Matcher m)
         {
-            Ref<String> list = new Ref<>(m.group("list"));
+            Ref<String> list = Ref.val(m.group("list"));
             String id = m.group("id");
             String classes = m.group("classes");
             String listType = getListType(m);

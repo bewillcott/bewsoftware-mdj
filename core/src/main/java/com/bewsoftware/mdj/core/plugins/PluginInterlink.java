@@ -52,6 +52,10 @@ public class PluginInterlink
 {
     private static final PluginController PLUGIN_CONTROLLER = new PluginController();
 
+    private PluginInterlink()
+    {
+    }
+
     public static TextEditor cleanupMarkdownText(final TextEditor text)
     {
         return PLUGIN_CONTROLLER.runPlugin("CleanupMarkdownText", text);
