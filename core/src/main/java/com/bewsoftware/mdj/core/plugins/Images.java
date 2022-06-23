@@ -39,8 +39,8 @@
 package com.bewsoftware.mdj.core.plugins;
 
 import com.bewsoftware.mdj.core.Replacement;
-import com.bewsoftware.mdj.core.utils.LinkDefinition;
 import com.bewsoftware.mdj.core.TextEditor;
+import com.bewsoftware.mdj.core.utils.LinkDefinition;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

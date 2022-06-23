@@ -50,7 +50,7 @@ import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.7.1
  */
 public interface TextConvertor
 {
@@ -64,11 +64,12 @@ public interface TextConvertor
         return text == null || text.isEmpty();
     }
 
-    public static String protectEmphasis(String subtext)
+    public static String protectEmphasis(final String subtext)
     {
         // protect emphasis (* and _) within urls
-        subtext = subtext.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
-        subtext = subtext.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+        String rtn = subtext.replaceAll("\\*", CHAR_PROTECTOR.encode("*"));
+        rtn = rtn.replaceAll("_", CHAR_PROTECTOR.encode("_"));
+
         return subtext;
     }
 

@@ -48,6 +48,7 @@ import static java.lang.Integer.parseInt;
  * @since 0.6.3
  * @version 0.6.13
  */
+@SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
 class TableRow
 {
 

@@ -13,8 +13,8 @@ title: ${document.name} | ToDo List
 - [ ]! Add Kramdown features:
     - [ ]! Definition lists:<br>
     `term`  
-    `\&nbsp;\&nbsp;\&nbsp;\&nbsp;: definition`  
-    `\&nbsp;\&nbsp;\&nbsp;\&nbsp;: another definition`
+    `: definition`  
+    `: another definition`
     - [ ]! Abbreviations: `*[text]: Full text`
     - [x]! Footnote: `[^n]: Footnote text`
         - [x]! Can now add an 'id' attribute to the link: `[^1][#fn1]`  

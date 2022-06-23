@@ -45,7 +45,7 @@ software, even if advised of the possibility of such damage.
 
     <groupId>com.bewsoftware</groupId>
     <artifactId>bewsoftware-mdj-core</artifactId>
-    <version>0.6.14</version>
+    <version>0.7.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>BEWSoftware MDj Core Library</name>
@@ -57,7 +57,7 @@ software, even if advised of the possibility of such damage.
     <properties>
         <java.version>17</java.version>
         <source.encoding>UTF-8</source.encoding>
-        <bewsoftware.version>1.0.12</bewsoftware.version>
+        <bewsoftware.version>1.1.0</bewsoftware.version>
         <javadoc.source.version>${java.version}</javadoc.source.version>
         <jdk.version>${java.version}</jdk.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -92,6 +92,10 @@ software, even if advised of the possibility of such damage.
             <groupId>com.bewsoftware</groupId>
             <artifactId>bewsoftware-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.bewsoftware</groupId>
+            <artifactId>bewsoftware-optional</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -109,6 +113,11 @@ software, even if advised of the possibility of such damage.
             <dependency>
                 <groupId>com.bewsoftware</groupId>
                 <artifactId>bewsoftware-common</artifactId>
+                <version>${bewsoftware.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bewsoftware</groupId>
+                <artifactId>bewsoftware-optional</artifactId>
                 <version>${bewsoftware.version}</version>
             </dependency>
         </dependencies>
