@@ -21,6 +21,6 @@ but I do it for the fun.
 [BEWSoftware MDj CLI][mc] is a command-line program that uses this library.
 
 
-[here]:http://www.bewsoftware.com/bewsoftware-mdj
+[here]:http://mdj.bewsoftware.com
 [Markdownj]:https://github.com/myabc/markdownj
 [mc]:https://github.com/bewillcott/bewsoftware-mdj-cli
