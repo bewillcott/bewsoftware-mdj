@@ -12,7 +12,7 @@ The code-base for this library is a fork off the [main]! code-base on GitHub.  A
 project appears to have gone to sleep, I have decided to take up the reigns and continue
 its development. 
 
-You'll find my code-base here: <https://github.com/bewillcott/bewsoftware-mdj>!
+You'll find my code-base here: <https://github.com/bewillcott/mdj>!
 
 ## What's changed
 
