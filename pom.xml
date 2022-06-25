@@ -42,8 +42,8 @@ software, even if advised of the possibility of such damage.
     <name>BEWSoftware MDj Library</name>
     <!--<url>http://markdownj.org/</url>-->
     <description>MDj is a fork of the original Markdownj project.
-MarkdownJ is the pure Java port of Markdown, 
-a text-to-html conversion tool written by John Gruber.</description>
+        MarkdownJ is the pure Java port of Markdown,
+        a text-to-html conversion tool written by John Gruber.</description>
 
     <developers>
         <developer>
@@ -97,7 +97,7 @@ a text-to-html conversion tool written by John Gruber.</description>
     </developers>
 
     <properties>
-        <ant.version>1.7.1</ant.version>
+        <!--<ant.version>1.7.1</ant.version>-->
     </properties>
 
     <licenses>
@@ -142,17 +142,17 @@ a text-to-html conversion tool written by John Gruber.</description>
                 </excludes>
             </resource>
         </resources>
-        <plugins>
+        <!--        <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.2.0</version>
             </plugin>
-<!--            <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.0.0-M1</version>
-            </plugin>-->
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
@@ -184,7 +184,7 @@ a text-to-html conversion tool written by John Gruber.</description>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
                 <version>3.1.1</version>
             </plugin>
-        </plugins>
+        </plugins>-->
     </build>
 
     <modules>
