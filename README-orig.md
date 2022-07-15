@@ -17,7 +17,9 @@ If you're after the core functionality provided by MarkdownJ, add `markdown-core
 </dependency>
 ```
 ### Releases
+
 There is a new **Interim Release**: [0.5.15-SNAPSHOT][rel]
+
 ### Related Projects
 
 * [markdownj-ant-utils][markdownj-ant-utils] – Markdown-based `FilterReader` for Ant.

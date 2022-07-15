@@ -37,13 +37,13 @@ software, even if advised of the possibility of such damage.
     <groupId>com.bewsoftware</groupId>
     <artifactId>bewsoftware-mdj</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.9</version>
+    <version>0.6.10</version>
 
     <name>BEWSoftware MDj Library</name>
     <!--<url>http://markdownj.org/</url>-->
     <description>MDj is a fork of the original Markdownj project.
-MarkdownJ is the pure Java port of Markdown, 
-a text-to-html conversion tool written by John Gruber.</description>
+        MarkdownJ is the pure Java port of Markdown,
+        a text-to-html conversion tool written by John Gruber.</description>
 
     <developers>
         <developer>
@@ -96,10 +96,6 @@ a text-to-html conversion tool written by John Gruber.</description>
         </developer>
     </developers>
 
-    <properties>
-        <ant.version>1.7.1</ant.version>
-    </properties>
-
     <licenses>
         <license>
             <name>BSD license</name>
@@ -146,9 +142,9 @@ a text-to-html conversion tool written by John Gruber.</description>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.4.0</version>
             </plugin>
-<!--            <plugin>
+            <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
                 <version>3.0.0-M1</version>
@@ -156,7 +152,7 @@ a text-to-html conversion tool written by John Gruber.</description>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.9.1</version>
+                <version>4.0.0-M2</version>
                 <configuration>
                     <locales>en</locales>
                 </configuration>
@@ -177,12 +173,12 @@ a text-to-html conversion tool written by John Gruber.</description>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <version>3.0.0-M2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.3.0</version>
             </plugin>
         </plugins>
     </build>
