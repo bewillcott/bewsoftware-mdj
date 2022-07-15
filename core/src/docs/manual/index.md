@@ -20,7 +20,7 @@ I am not going to try and catalogue everything I have done, as I have been more 
 in getting it to compile and work, than documenting the minutia.  Suffice it to say, I 
 have put the code through the ringer. Here are a few general things that have been done:
 
-- Updated the code to incorporate features of JDK 13.0.2.  Then compiled under JDK 14.
+- Updated the code to incorporate features of JDK 18.  Then compiled under JDK 18.
     - Where appropriate, converted anonymous classes to Lambda expressions or even an inner class.
     - Tidied up and normalized code all over, but mostly in the main file: `MarkdownProcessor.java`.
 
@@ -34,12 +34,6 @@ have put the code through the ringer. Here are a few general things that have be
 
 - Changes:
     - Links - `[ids]` are now case-sensitive.
-
-- Note:
-    - Due to a compatibility limit of JDK 12 for a Maven plugin: `maven-plugin-plugin`,
-        I have reverted all code back to that version of the JDK, with no
-        _preview features_ being used.  However, this doesn't prevent the code from 
-        being compiled under a later JDK.
 
 
 ## Active Development
