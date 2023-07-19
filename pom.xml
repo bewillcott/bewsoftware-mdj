@@ -131,7 +131,65 @@ software, even if advised of the possibility of such damage.
             </comments>
         </license>
     </licenses>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <build>
+        <pluginManagement> <!-- Last updated: 19/07/2023 -->
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.11.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.6.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>4.0.0-M9</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.4.5</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <resources>
             <resource>
                 <directory>docs</directory>
@@ -140,11 +198,11 @@ software, even if advised of the possibility of such damage.
                 </excludes>
             </resource>
         </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.4.0</version>
             </plugin>
             <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -154,7 +212,6 @@ software, even if advised of the possibility of such damage.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>4.0.0-M2</version>
                 <configuration>
                     <locales>en</locales>
                 </configuration>
@@ -162,7 +219,6 @@ software, even if advised of the possibility of such damage.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>
@@ -170,17 +226,36 @@ software, even if advised of the possibility of such damage.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.0.0-M2</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.3.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
