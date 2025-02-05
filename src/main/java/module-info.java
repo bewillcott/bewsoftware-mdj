@@ -35,9 +35,9 @@
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.2
- * @version 0.6.2
+ * @version 0.8.0
  */
-module bewsoftware.mdj.core {
+module bewsoftware.mdj {
     requires bewsoftware.utils;
     requires bewsoftware.common;
     requires bewsoftware.optional;
