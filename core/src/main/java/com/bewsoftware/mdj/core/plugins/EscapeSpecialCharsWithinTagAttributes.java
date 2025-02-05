@@ -67,7 +67,7 @@ public class EscapeSpecialCharsWithinTagAttributes implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         Collection<HTMLToken> tokens = text.tokenizeHTML();
         TextEditor newText = new TextEditor("");

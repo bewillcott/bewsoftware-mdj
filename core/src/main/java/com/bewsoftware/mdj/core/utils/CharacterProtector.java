@@ -45,7 +45,6 @@ import java.util.concurrent.ConcurrentMap;
 
 public class CharacterProtector
 {
-
     private static final String GOOD_CHARS = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 
     private static final int NUMOFCHARS = 20;

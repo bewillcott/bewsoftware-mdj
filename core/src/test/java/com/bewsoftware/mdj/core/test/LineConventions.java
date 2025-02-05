@@ -34,27 +34,31 @@
  */
 package com.bewsoftware.mdj.core.test;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+import com.bewsoftware.mdj.MarkdownProcessor;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LineConventions {
+public class LineConventions
+{
 
     private static final String EXPECTED = "<p>a\nb\nc</p>\n";
 
     @Test
-    public void testMacLineConventions() {
+    public void testMacLineConventions()
+    {
         assertEquals(EXPECTED, MarkdownProcessor.convert("a\rb\rc\r"));
     }
 
     @Test
-    public void testUnixLineConventions() {
+    public void testUnixLineConventions()
+    {
         assertEquals(EXPECTED, MarkdownProcessor.convert("a\nb\nc\n"));
     }
 
     @Test
-    public void testWindowsLineConventions() {
+    public void testWindowsLineConventions()
+    {
         assertEquals(EXPECTED, MarkdownProcessor.convert("a\r\nb\r\nc\r\n"));
     }
 }

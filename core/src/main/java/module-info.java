@@ -25,10 +25,9 @@
  */
 
 /**
- * This module provides the core functionality of the MDj library.
+ * This module provides the interface into functionality of the MDj library.
  *
- * This is a library of functions that provide for the processing of markdown
- * source files into static HTML files.
+ * This is a library that provides for the processing of markdown text into HTML.
  *
  * This code is based primarily on that in the "org.markdownj" project,
  * of which this is derived from a fork.
@@ -42,7 +41,8 @@ module bewsoftware.mdj.core {
     requires bewsoftware.utils;
     requires bewsoftware.common;
     requires bewsoftware.optional;
+    requires transitive bewsoftware.annotations;
     requires java.logging;
     
-    exports com.bewsoftware.mdj.core;
+    exports com.bewsoftware.mdj;
 }

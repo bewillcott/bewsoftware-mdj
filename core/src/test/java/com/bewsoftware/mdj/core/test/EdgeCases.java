@@ -34,31 +34,36 @@
  */
 package com.bewsoftware.mdj.core.test;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+import com.bewsoftware.mdj.MarkdownProcessor;
 import java.util.regex.Pattern;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EdgeCases {
+public class EdgeCases
+{
 
     @Test
-    public void testEmptyString() {
+    public void testEmptyString()
+    {
         assertEquals("\n", MarkdownProcessor.convert(""));
     }
 
     @Test
-    public void testNull() {
+    public void testNull()
+    {
         assertEquals("\n", MarkdownProcessor.convert(null));
     }
 
     @Test
-    public void testSpaces() {
+    public void testSpaces()
+    {
         assertEquals("\n", MarkdownProcessor.convert("  "));
     }
 
     @Test
-    public void testSplitAssumption() {
+    public void testSplitAssumption()
+    {
         // In Perl, split(/x/, "") returns the empty string.
         // But in Java, it's the array { "" }.
         Pattern x = Pattern.compile("x");

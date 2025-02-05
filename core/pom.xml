@@ -3,39 +3,128 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>com.bewsoftware.mdj</groupId>
-        <artifactId>bewsoftware-mdj</artifactId>
-        <version>0.6.10</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-
-    <artifactId>bewsoftware-mdj-core</artifactId>
-    <version>0.7.4-SNAPSHOT</version>
+    <groupId>com.bewsoftware.mdj</groupId>
+    <artifactId>bewsoftware-mdj</artifactId>
+    <version>0.7.5-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>BEWSoftware MDj Core Library</name>
-    <description>This is a library of functions that provide for the processing of markdown source files into
-        static HTML files.
+    <description>MDj is a fork of the original Markdownj project - "org.markdownj".
+        MarkdownJ is the pure Java port of Markdown,
+        a text-to-html conversion tool written by John Gruber.
 
-        This code is based primarily on that in the "org.markdownj" project, of which this is a fork.</description>
+        The original code has been heavily refactorized and optimized to run on JDK 23.</description>
+
+    <url>https://mdj.bewsoftware.com/</url>
+
+    <developers>
+        <developer>
+            <name>Pete Bevin</name>
+            <email>pete@petebevin.com</email>
+            <url>http://www.petebevin.com/</url>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Marty Lamb</name>
+            <email>mlamb@martiansoftware.com</email>
+            <organization>Martian Software</organization>
+            <organizationUrl>http://www.martiansoftware.com/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>John Mutchek</name>
+            <email>jmutchek@martiansoftware.com</email>
+            <url>http://www.mutchek.com/blog/</url>
+            <organization>Martian Software</organization>
+            <organizationUrl>http://www.martiansoftware.com/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>alexbcoles</id>
+            <name>Alex Coles</name>
+            <email>opensource@alexbcoles.com</email>
+            <url>http://alexcolesportfolio.com</url>
+            <organization>Ikonoklastik Productions</organization>
+            <organizationUrl>http://www.ikonoklastik.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>UTC+5</timezone>
+        </developer>
+        <developer>
+            <id>bewillcott</id>
+            <name>Bradley Willcott</name>
+            <email>bw.opensource@yahoo.com</email>
+            <url>https://github.com/bewillcott</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Australia/Perth</timezone>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>BSD license</name>
+            <comments>
+                Redistribution and use in source and binary forms, with or without
+                modification, are permitted provided that the following conditions are
+                met:
+
+                * Redistributions of source code must retain the above copyright notice,
+                this list of conditions and the following disclaimer.
+
+                * Redistributions in binary form must reproduce the above copyright
+                notice, this list of conditions and the following disclaimer in the
+                documentation and/or other materials provided with the distribution.
+
+                * Neither the name "Markdown" nor the names of its contributors may
+                be used to endorse or promote products derived from this software
+                without specific prior written permission.
+
+                This software is provided by the copyright holders and contributors "as
+                is" and any express or implied warranties, including, but not limited
+                to, the implied warranties of merchantability and fitness for a
+                particular purpose are disclaimed. In no event shall the copyright owner
+                or contributors be liable for any direct, indirect, incidental, special,
+                exemplary, or consequential damages (including, but not limited to,
+                procurement of substitute goods or services; loss of use, data, or
+                profits; or business interruption) however caused and on any theory of
+                liability, whether in contract, strict liability, or tort (including
+                negligence or otherwise) arising in any way out of the use of this
+                software, even if advised of the possibility of such damage.
+            </comments>
+        </license>
+    </licenses>
 
     <properties>
-        <java.version>18</java.version>
+        <java.version>23</java.version>
         <source.encoding>UTF-8</source.encoding>
-        <bewsoftware.version>2.0.2</bewsoftware.version>
-        <javadoc.source.version>${java.version}</javadoc.source.version>
         <jdk.version>${java.version}</jdk.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>${source.encoding}</project.build.sourceEncoding>
         <project.reporting.outputEncoding>${source.encoding}</project.reporting.outputEncoding>
-        <javadoc.reporting.outputDirectory>${project.reporting.outputDirectory}/apidocs</javadoc.reporting.outputDirectory>
-        <keep.version.number>true</keep.version.number>
-        <skip.unit.tests>true</skip.unit.tests>
-        <skip.version.build>false</skip.version.build>
-    </properties>
 
+        <maven.compiler.version>${java.version}</maven.compiler.version>
+        <surefireArgLine>--enable-preview</surefireArgLine>
+
+        <javadoc.title>${project.name} (v${project.version})</javadoc.title>
+        <javadoc.header>${javadoc.title}</javadoc.header>
+        <javadoc.linksource>false</javadoc.linksource>
+        <javadoc.link.url.jdk>https://docs.oracle.com/en/java/javase/${java.version}/docs/api/</javadoc.link.url.jdk>
+        <javadoc.link.url.jfx>https://openjfx.io/javadoc/${javafx.version}/</javadoc.link.url.jfx>
+        <javadoc.outputDirectory>${project.reporting.outputDirectory}</javadoc.outputDirectory>
+        <javadoc.show>protected</javadoc.show>
+        <javadoc.source.version>${java.version}</javadoc.source.version>
+
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <maven.test.skip>true</maven.test.skip>
+    </properties>
 
     <distributionManagement>
         <snapshotRepository>
@@ -50,32 +139,34 @@
 
     <scm>
         <url>https://github.com/bewillcott/bewsoftware-mdj.git</url>
-        <connection>scm:git:git://github.com/bewillcott/bewsoftware-mdj.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/bewillcott/bewsoftware-mdj.git</developerConnection>
-        <tag>HEAD</tag>
+        <connection>scm:git:https://github.com/bewillcott/bewsoftware-mdj.git</connection>
+        <developerConnection>scm:git:https://git@github.com/bewillcott/bewsoftware-mdj.git</developerConnection>
     </scm>
 
-    <dependencyManagement> <!-- Last updated: 19/07/2023 -->
+    <!-- Last updated: 5/2/2025 -->
+    <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter</artifactId>
-                <version>5.9.3</version>
-            </dependency>
             <dependency>
                 <groupId>com.bewsoftware</groupId>
                 <artifactId>bewsoftware-utils</artifactId>
-                <version>${bewsoftware.version}</version>
+                <version>3.0.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.bewsoftware</groupId>
                 <artifactId>bewsoftware-common</artifactId>
-                <version>${bewsoftware.version}</version>
+                <version>3.0.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>com.bewsoftware</groupId>
                 <artifactId>bewsoftware-optional</artifactId>
-                <version>${bewsoftware.version}</version>
+                <version>3.0.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.11.4</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -93,16 +184,31 @@
             <groupId>com.bewsoftware</groupId>
             <artifactId>bewsoftware-optional</artifactId>
         </dependency>
-        <!-- TESTING DEPENDENCIES -->
+        <!-- For use by Unit Testing -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
-            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <profiles>
+        <profile>
+            <id>javadoc</id>
+            <properties>
+                <maven.javadoc.skip>false</maven.javadoc.skip>
+            </properties>
+        </profile>
         <profile>
             <id>manual-clean</id>
             <build>
@@ -387,22 +493,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>com.bewsoftware.mojo</groupId>
-                        <artifactId>bewsoftware-version-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>Release</id>
-                                <goals>
-                                    <goal>release</goal>
-                                </goals>
-                                <configuration>
-                                    <keep>${keep.version.number}</keep>
-                                    <finalBaseNamePropertyName>finalBaseName</finalBaseNamePropertyName>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-resources-plugin</artifactId>
                         <configuration>
@@ -564,27 +654,115 @@
         <profile>
             <id>test</id>
             <properties>
-                <skip.unit.tests>false</skip.unit.tests>
+                <maven.test.skip>false</maven.test.skip>
             </properties>
         </profile>
     </profiles>
 
     <build>
+        <!-- Last updated: 5/2/2025 -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.bewsoftware.mojo</groupId>
+                    <artifactId>bewsoftware-mdj-plugin</artifactId>
+                    <version>2.1.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.6.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.8.12</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>3.5.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.4.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.13.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.8.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>3.1.3</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>3.5.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>3.2.7</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>3.1.3</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-invoker-plugin</artifactId>
+                    <version>3.9.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.4.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>3.11.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-jxr-plugin</artifactId>
+                    <version>3.6.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-plugin-plugin</artifactId>
+                    <version>3.15.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>3.8.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <version>2.1.0</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>4.0.0-M16</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.3.1</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.5.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
         <resources>
-            <!--            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/pom.properties</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>**/pom.properties</exclude>
-                </excludes>
-            </resource>-->
             <resource>
                 <directory>
                     src/docs/manual
@@ -627,144 +805,136 @@
             </resource>
         </resources>
 
-        <pluginManagement> <!-- Last updated: 19/07/2023 -->
-            <plugins>
-                <plugin>
-                    <groupId>com.bewsoftware.mojo</groupId>
-                    <artifactId>bewsoftware-mdj-plugin</artifactId>
-                    <version>2.1.1</version>
-                </plugin>
-                <plugin>
-                    <groupId>com.bewsoftware.mojo</groupId>
-                    <artifactId>bewsoftware-version-plugin</artifactId>
-                    <version>1.2.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.4.0</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.jacoco</groupId>
-                    <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.10</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>3.1.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.3.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.11.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.6.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-deploy-plugin</artifactId>
-                    <version>3.1.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.1.2</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>3.1.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>3.1.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-invoker-plugin</artifactId>
-                    <version>3.6.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.3.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>3.5.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jxr-plugin</artifactId>
-                    <version>3.3.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-plugin-plugin</artifactId>
-                    <version>3.9.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>3.4.5</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-release-plugin</artifactId>
-                    <version>3.0.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>3.3.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-scm-plugin</artifactId>
-                    <version>2.0.1</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-site-plugin</artifactId>
-                    <version>4.0.0-M9</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>3.3.0</version>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.1.2</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-
         <plugins>
             <plugin>
-                <groupId>com.bewsoftware.mojo</groupId>
-                <artifactId>bewsoftware-version-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>Build</id>
-                        <goals>
-                            <goal>build</goal>
-                        </goals>
-                        <configuration>
-                            <keep>${keep.verion.number}</keep>
-                            <skip>${skip.version.build}</skip>
-                        </configuration>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <showDeprecation>true</showDeprecation>
+                    <release>${java.version}</release>
+                    <encoding>${source.encoding}</encoding>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                    </compilerArgs>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
+                <artifactId>maven-resources-plugin</artifactId>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <release>${maven.compiler.target}</release>
+                    <encoding>UTF-8</encoding>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- Skips unit tests if the value of skip.unit.tests property is true -->
+                    <skipTests>${skip.unit.tests}</skipTests>
+                    <argLine/>
+                    <includes>
+                        <include>**/*.java</include>
+                    </includes>
+                    <excludes>
+                        <exclude>**/TestResultPair.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <!--================== Maven JavaDoc ==================-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
+                        <id>javadocs-attach</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <attach>${javadoc.attach}</attach>
+                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <outputDirectory></outputDirectory>
+                    <show>${javadoc.show}</show>
+                    <doctitle>${javadoc.title}</doctitle>
+                    <header>${javadoc.header}</header>
+                    <overview>${project.build.directory}/classes/javadoc/overview.html</overview>
+                    <docfilessubdirs>true</docfilessubdirs>
+                    <source>${javadoc.source.version}</source>
+                    <links>
+                        <link>${javadoc.link.url.jdk}</link>
+                    </links>
+                    <linksource>${javadoc.linksource}</linksource>
+                    <removeUnknownThrows>false</removeUnknownThrows>
+                    <outputDirectory>${javadoc.outputDirectory}</outputDirectory>
+                    <minmemory>128m</minmemory>
+                    <maxmemory>1g</maxmemory>
+                    <additionalOptions>
+                        --enable-preview
+                    </additionalOptions>
+                    <bottom>
+                        Copyright © {currentYear} Bradley Willcott. All rights reserved.
+                    </bottom>
+                    <!--<reportOutputDirectory>${javadoc.outputDirectory}</reportOutputDirectory>-->
+                    <tags>
+                        <tag>
+                            <name>Note</name>
+                            <placement>a</placement>
+                            <head>Note:</head>
+                        </tag>
+                        <tag>
+                            <name>apiNote</name>
+                            <placement>a</placement>
+                            <head>API Note:</head>
+                        </tag>
+                        <tag>
+                            <name>implSpec</name>
+                            <placement>a</placement>
+                            <head>Implementation Requirements:</head>
+                        </tag>
+                        <tag>
+                            <name>implNote</name>
+                            <placement>a</placement>
+                            <head>Implementation Note:</head>
+                        </tag>
+                        <tag>
+                            <name>param</name>
+                        </tag>
+                        <tag>
+                            <name>return</name>
+                        </tag>
+                        <tag>
+                            <name>throws</name>
+                        </tag>
+                        <tag>
+                            <name>since</name>
+                        </tag>
+                        <tag>
+                            <name>version</name>
+                        </tag>
+                        <tag>
+                            <name>author</name>
+                        </tag>
+                        <tag>
+                            <name>serialData</name>
+                        </tag>
+                        <tag>
+                            <name>see</name>
+                        </tag>
+                        <tag>
+                            <name>todo</name>
+                            <placement>a</placement>
+                            <head>To Do:</head>
+                        </tag>
+                    </tags>
+                </configuration>
             </plugin>
             <!--            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -777,23 +947,9 @@
                     <dependency>
                         <groupId>org.apache.maven.scm</groupId>
                         <artifactId>maven-scm-provider-gitexe</artifactId>
-                        <version>2.0.0-M3</version>
+                        <version>2.1.0</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <showDeprecation>true</showDeprecation>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <release>${java.version}</release>
-                    <encoding>${source.encoding}</encoding>
-                    <compilerArgs>
-                        <arg>-Xlint:all</arg>
-                    </compilerArgs>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -833,25 +989,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <!-- Skips unit tests if the value of skip.unit.tests property is true -->
-                    <skipTests>${skip.unit.tests}</skipTests>
-                    <argLine/>
-                    <includes>
-                        <include>**/*.java</include>
-                    </includes>
-                    <excludes>
-                        <exclude>**/TestResultPair.java</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
         </plugins>
 
         <!--<finalName>${project.artifactId}-${project.artifact.version}</finalName>-->
     </build>
+
     <reporting>
         <plugins>
             <plugin>
