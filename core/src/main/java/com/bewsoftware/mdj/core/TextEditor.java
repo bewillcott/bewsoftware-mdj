@@ -338,6 +338,7 @@ public class TextEditor
             {
                 tokens.add(HTMLToken.text(text.substring(lastPos, m.start())));
             }
+
             tokens.add(HTMLToken.tag(text.substring(m.start(), m.end())));
             lastPos = m.end();
         }

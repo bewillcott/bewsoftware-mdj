@@ -33,8 +33,6 @@
  */
 package com.bewsoftware.mdj.core.plugins.replacements;
 
-import com.bewsoftware.common.InvalidParameterValueException;
-
 /**
  * Stores {@link TableRow} objects for attribute re-use in subsequent rows
  * that do not have any attributes set.
@@ -62,7 +60,7 @@ class TableRowList
      * @deprecated To be removed from future version.
      */
     @Deprecated
-    public TableRowList()
+    TableRowList()
     {
         list = new TableRow[DEFAULT_SIZE];
     }
@@ -72,14 +70,14 @@ class TableRowList
      *
      * @param size Maximum number entries that can be stored.
      */
-    public TableRowList(int size)
+    TableRowList(int size)
     {
         if (size > 0)
         {
             list = new TableRow[size];
         } else
         {
-            throw new InvalidParameterValueException("Size must be greater than zero.");
+            throw new IllegalArgumentException("Size must be greater than zero.");
         }
     }
 

@@ -42,18 +42,18 @@ public class HTMLToken
 
     public final String text;
 
-    private HTMLToken(boolean tag, String value)
+    private HTMLToken(final boolean tag,final String value)
     {
         isTag = tag;
         text = value;
     }
 
-    public static HTMLToken tag(String text)
+    public static HTMLToken tag(final String text)
     {
         return new HTMLToken(true, text);
     }
 
-    public static HTMLToken text(String text)
+    public static HTMLToken text(final String text)
     {
         return new HTMLToken(false, text);
     }
@@ -62,6 +62,7 @@ public class HTMLToken
     public String toString()
     {
         String type;
+
         if (isTag)
         {
             type = "tag";
@@ -69,6 +70,7 @@ public class HTMLToken
         {
             type = "text";
         }
+
         return type + ": " + text;
     }
 }

@@ -39,7 +39,7 @@
 package com.bewsoftware.mdj.core.plugins;
 
 import com.bewsoftware.mdj.core.TextEditor;
-import com.bewsoftware.utils.struct.Ref;
+import com.bewsoftware.utils.Ref;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
