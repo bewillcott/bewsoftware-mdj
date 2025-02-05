@@ -34,17 +34,19 @@
  */
 package com.bewsoftware.mdj.core.test;
 
+import com.bewsoftware.mdj.MarkdownProcessor;
 import com.bewsoftware.mdj.core.plugins.utils.HTMLDecoder;
-import com.bewsoftware.mdj.core.MarkdownProcessor;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class EmailAddresses {
+public class EmailAddresses
+{
 
     @Test
-    public void testDecoder() {
+    public void testDecoder()
+    {
         String encoded = "&#98;&#105;&#x6C;&#x6C;&#x67;&#64;&#x6D;i&#x63;&#x72;&#x6F;&#115;&#x6F;&#x66;&#116;&#x2E;c&#111;&#109;";
         String billg = "billg@microsoft.com";
 
@@ -53,7 +55,8 @@ public class EmailAddresses {
     }
 
     @Test
-    public void testEmail() {
+    public void testEmail()
+    {
         String html = MarkdownProcessor.convert("<billg@microsoft.com>");
         String plain = HTMLDecoder.decode(html);
         assertEquals("<p><a href=\"mailto:billg@microsoft.com\">billg@microsoft.com</a></p>\n", plain);

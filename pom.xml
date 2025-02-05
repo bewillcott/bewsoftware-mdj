@@ -41,13 +41,12 @@ software, even if advised of the possibility of such damage.
     <packaging>pom</packaging>
     <version>0.7.5-SNAPSHOT</version>
 
-    <name>BEWSoftware MDj Library</name>
+    <name>BEWSoftware MDj Converter</name>
     <description>MDj is a fork of the original Markdownj project.
         MarkdownJ is the pure Java port of Markdown,
         a text-to-html conversion tool written by John Gruber.
 
-        MDj has been heavily refactorized and optimized to the latested
-        JDK 23.
+        MDj has been heavily refactorized and optimized to run on JDK 23.
     </description>
 
     <url>https://mdj.bewsoftware.com/</url>

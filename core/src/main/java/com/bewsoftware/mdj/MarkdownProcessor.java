@@ -37,47 +37,23 @@
  * software, even if advised of the possibility of such damage.
  *
  */
-package com.bewsoftware.mdj.core;
+package com.bewsoftware.mdj;
 
+import com.bewsoftware.mdj.core.TextEditor;
 import com.bewsoftware.mdj.core.plugins.PluginInterlink;
 
 /**
- * Convert Markdown text into HTML, as per
- * http://daringfireball.net/projects/markdown/ . Usage:
- * <pre><code>
- *     MarkdownProcessor markdown = new MarkdownProcessor();
- *     String html = markdown.markdown("*italic*   **bold**\n_italic_   __bold__");
- * </code></pre>
- * <p>
- * <b>Changes:</b>
- * <ul>
- * <li>Set all methods to be {@code static}.</li>
- * <li>Set all method parameters to be {@code final}.</li>
- * <li>Converted all instance variables to be class variables.</li>
- * <li>MarkdownProcessor class is now a {@code static} class.</li>
- * <li>All dates associated with my name are formatted: (dd/MM/yyyy)</li>
- * </ul>
- * Bradley Willcott (02/01/2021)
+ * Convert Markdown text into HTML.
+ *
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.1
- * @version 0.6.13
+ * @version 0.7.5
  */
-public class MarkdownProcessor
+public interface MarkdownProcessor
 {
 
-    private static final String TAG_CLASS = "\\[@(\\p{Alpha}[^\\]]*?)(\\b\\p{Alpha}[^\\]]*?)*?\\]";
-
-    /**
-     * <del>Creates a new Markdown processor.</del>
-     *
-     * @deprecated No longer required to be instantiated, as everything is now
-     * <i>static</i>.
-     */
-    @Deprecated
-    public MarkdownProcessor()
-    {
-    }
-
+//    static final String TAG_CLASS = "\\[@(\\p{Alpha}[^\\]]*?)(\\b\\p{Alpha}[^\\]]*?)*?\\]";
     /**
      * Perform the conversion from Markdown to HTML.
      *
@@ -85,7 +61,7 @@ public class MarkdownProcessor
      *
      * @return HTML block converted from the markdown text passed in.
      */
-    public static String convert(String markdown)
+    static String convert(final String markdown)
     {
         String rtn = "\n";
 
@@ -105,32 +81,6 @@ public class MarkdownProcessor
         return rtn;
     }
 
-    /**
-     * Perform the conversion from Markdown to HTML.
-     *
-     * @param txt - input in markdown format
-     *
-     * @return HTML block corresponding to txt passed in.
-     *
-     * @deprecated This entry point has been replaced by
-     * {@linkplain #convert(java.lang.String)}.
-     */
-    @Deprecated
-    public static String markdown(String txt)
-    {
-        return convert(txt);
-    }
-
-    private static TextEditor runBlockGamut(final TextEditor text)
-    {
-        return PluginInterlink.runBlockGamut(text);
-    }
-
-    private static TextEditor unEscapeSpecialChars(final TextEditor text)
-    {
-        return PluginInterlink.unEscapeSpecialChars(text);
-    }
-
     private static TextEditor cleanupMarkdownText(final TextEditor text)
     {
         return PluginInterlink.cleanupMarkdownText(text);
@@ -141,8 +91,18 @@ public class MarkdownProcessor
         return PluginInterlink.hashHTMLBlocks(text);
     }
 
+    private static TextEditor runBlockGamut(final TextEditor text)
+    {
+        return PluginInterlink.runBlockGamut(text);
+    }
+
     private static TextEditor stripLinkDefinitions(final TextEditor text)
     {
         return PluginInterlink.stripLinkDefinitions(text);
+    }
+
+    private static TextEditor unEscapeSpecialChars(final TextEditor text)
+    {
+        return PluginInterlink.unEscapeSpecialChars(text);
     }
 }

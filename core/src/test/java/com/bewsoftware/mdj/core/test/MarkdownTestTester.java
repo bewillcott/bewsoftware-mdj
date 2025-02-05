@@ -34,7 +34,7 @@
  */
 package com.bewsoftware.mdj.core.test;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+import com.bewsoftware.mdj.MarkdownProcessor;
 import com.bewsoftware.utils.string.Diff;
 import java.io.BufferedReader;
 import java.io.File;
@@ -56,12 +56,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
  *
  * Bradley Willcott (7/1/2020)
  */
-public class MarkdownTestTester {
+public class MarkdownTestTester
+{
 
     private final static String MARKDOWN_TEST_DIR = "/MarkdownTest";
 //    private final static String MARKDOWN_TEST_DIR = "/MarkdownTest/short";
 
-    public static Collection<String[]> markdownTests() {
+    public static Collection<String[]> markdownTests()
+    {
         List<String[]> list = new ArrayList<>();
         URL fileUrl = MarkdownTestTester.class.getResource(MARKDOWN_TEST_DIR);
         File dir;
@@ -95,7 +97,8 @@ public class MarkdownTestTester {
 
     @ParameterizedTest(name = "{index}: {arguments}")
     @MethodSource("markdownTests")
-    public void runTest(String dir, String test) throws IOException {
+    public void runTest(String dir, String test) throws IOException
+    {
         System.out.println("runTest: " + dir + ", " + test);
 //        System.out.println("Test: " + test);
         String testText = slurp(dir + File.separator + test + ".text");
@@ -116,7 +119,8 @@ public class MarkdownTestTester {
      *
      * @return {@code true} if different, {@code false} if same.
      */
-    private boolean diffStrings(final String orig, final String mod) {
+    private boolean diffStrings(final String orig, final String mod)
+    {
         boolean rtn = true;
         List<Diff.ModifiedLine> mLines = Diff.lines(orig, mod);
 
@@ -140,13 +144,14 @@ public class MarkdownTestTester {
      *
      * @throws IOException if any.
      */
-    private String slurp(String fileName) throws IOException {
+    private String slurp(String fileName) throws IOException
+    {
         URL fileUrl = this.getClass().getResource(fileName);
         File file = new File(URLDecoder.decode(fileUrl.getFile(), "UTF-8"));
 
         StringBuilder sb;
 
-        try ( BufferedReader in = new BufferedReader(new FileReader(file)))
+        try (BufferedReader in = new BufferedReader(new FileReader(file)))
         {
             sb = new StringBuilder();
             String line;

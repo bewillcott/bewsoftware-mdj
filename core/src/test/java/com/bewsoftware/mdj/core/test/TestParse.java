@@ -1,16 +1,19 @@
+
 package com.bewsoftware.mdj.core.test;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+import com.bewsoftware.mdj.MarkdownProcessor;
 
 /**
  *
  * @author Bradley Willcott
  */
-public class TestParse {
+public class TestParse
+{
 
     private static final String TEST_TEXT = "**Parse** *this* ~~string~~";
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         String result = MarkdownProcessor.convert(TEST_TEXT);
 
         System.out.println("org.markdownj.test.TestParse.main()");

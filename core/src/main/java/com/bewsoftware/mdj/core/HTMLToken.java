@@ -36,6 +36,16 @@
  */
 package com.bewsoftware.mdj.core;
 
+import com.bewsoftware.annotations.jcip.Immutable;
+/**
+* Refactorized.
+*
+* Bradley Willcott (02/01/2021)
+ *
+ * @since 0.1
+ * @version 0.7.5
+ */
+@Immutable
 public class HTMLToken
 {
     public final boolean isTag;

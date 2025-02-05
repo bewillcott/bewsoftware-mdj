@@ -1,6 +1,7 @@
+
 package com.bewsoftware.mdj.core.test;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+import com.bewsoftware.mdj.MarkdownProcessor;
 import java.util.Arrays;
 import java.util.Collection;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,9 +9,11 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PreserveHtmlBlockTagsTest {
+public class PreserveHtmlBlockTagsTest
+{
 
-    public static Collection<String[]> testHtml() {
+    public static Collection<String[]> testHtml()
+    {
         return Arrays.asList(new String[][]
         {
             {
@@ -48,7 +51,8 @@ public class PreserveHtmlBlockTagsTest {
 
     @ParameterizedTest(name = "{index}: {1}")
     @MethodSource("testHtml")
-    public void testRoundtripPreservesTags(String value) {
+    public void testRoundtripPreservesTags(String value)
+    {
         assertEquals(value, MarkdownProcessor.convert(value).trim());
     }
 

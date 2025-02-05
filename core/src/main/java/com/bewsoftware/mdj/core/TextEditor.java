@@ -56,7 +56,6 @@ import static java.util.regex.Pattern.MULTILINE;
  */
 public class TextEditor
 {
-
     private boolean found;
 
     private StringBuilder text;

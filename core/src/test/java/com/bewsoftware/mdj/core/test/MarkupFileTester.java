@@ -34,7 +34,7 @@
  */
 package com.bewsoftware.mdj.core.test;
 
-import com.bewsoftware.mdj.core.MarkdownProcessor;
+import com.bewsoftware.mdj.MarkdownProcessor;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -51,7 +51,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MarkupFileTester {
+public class MarkupFileTester
+{
 
     private final static String[] TEST_FILENAMES = new String[]
     {
@@ -61,7 +62,8 @@ public class MarkupFileTester {
         "/lists.txt"
     };
 
-    public static Collection<TestResultPair[]> testResultPairs() throws IOException {
+    public static Collection<TestResultPair[]> testResultPairs() throws IOException
+    {
         List<TestResultPair> fullResultPairList = new ArrayList<>();
 
         for (String filename : TEST_FILENAMES)
@@ -82,7 +84,24 @@ public class MarkupFileTester {
         return testResultPairs;
     }
 
-    private static List<TestResultPair> newTestResultPairList(String filename) throws IOException {
+    private static void addTestResultPair(List<TestResultPair> list, StringBuilder testbuf, StringBuilder resultbuf, String testNumber, String testName)
+    {
+        if (testbuf == null || resultbuf == null)
+        {
+            return;
+        }
+
+//        String test = chomp(testbuf.toString());
+//        String result = chomp(resultbuf.toString());
+        String test = testbuf.toString().stripTrailing();
+        String result = resultbuf.toString().stripTrailing();
+        String id = testNumber + "(" + testName + ")";
+
+        list.add(new TestResultPair(id, test, result));
+    }
+
+    private static List<TestResultPair> newTestResultPairList(String filename) throws IOException
+    {
         List<TestResultPair> list = new ArrayList<>();
         URL fileUrl = MarkupFileTester.class.getResource(filename);
         File file;
@@ -144,21 +163,6 @@ public class MarkupFileTester {
         return list;
     }
 
-    private static void addTestResultPair(List<TestResultPair> list, StringBuilder testbuf, StringBuilder resultbuf, String testNumber, String testName) {
-        if (testbuf == null || resultbuf == null)
-        {
-            return;
-        }
-
-//        String test = chomp(testbuf.toString());
-//        String result = chomp(resultbuf.toString());
-        String test = testbuf.toString().stripTrailing();
-        String result = resultbuf.toString().stripTrailing();
-        String id = testNumber + "(" + testName + ")";
-
-        list.add(new TestResultPair(id, test, result));
-    }
-
 //    private static String chomp(String s) {
 //        int lastPos = s.length() - 1;
 //
@@ -170,7 +174,8 @@ public class MarkupFileTester {
 //    }
     @ParameterizedTest(name = "{index}: {1}")
     @MethodSource("testResultPairs")
-    public void runTest(TestResultPair pair) {
+    public void runTest(TestResultPair pair)
+    {
         assertEquals(pair.result.trim(), MarkdownProcessor.convert(pair.test).trim(), pair.name);
     }
 }
