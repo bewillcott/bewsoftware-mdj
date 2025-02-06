@@ -13,5 +13,14 @@
         That way multiple projects can share the same settings (useful for formatting rules for example).
         Any value defined here will override the pom.xml file value but is only applicable to the current project.
         -->
+        <netbeans.hint.licensePath>${project.basedir}/licenseheader.txt</netbeans.hint.licensePath>
+        <netbeans.compile.on.save>all</netbeans.compile.on.save>
     </properties>
+    <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+        <word>backtick</word>
+        <word>backticks</word>
+        <word>paren</word>
+        <word>unescaped</word>
+        <word>url</word>
+    </spellchecker-wordlist>
 </project-shared-configuration>
