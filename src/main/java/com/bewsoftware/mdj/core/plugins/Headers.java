@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 import static com.bewsoftware.mdj.core.plugins.PluginInterlink.doAnchors;
 import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addId;
 import static com.bewsoftware.mdj.core.plugins.utils.Constants.ID_REGEX_OPT;
+import static com.bewsoftware.utils.string.Strings.notBlank;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 
@@ -55,7 +56,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class Headers implements TextConvertor
 {
@@ -64,13 +65,13 @@ public class Headers implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         setExtStyleHeaders(text);
         return text.replaceAll(Header.PATTERN, new Header());
     }
 
-    private void setExtStyleHeaders(TextEditor text)
+    private void setExtStyleHeaders(final TextEditor text)
     {
         // set ext-style headers
         text.replaceAll("^(.*)\n[=]{4,}$", "<h1>$1</h1>");
@@ -92,13 +93,13 @@ public class Headers implements TextConvertor
         }
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
-            String marker = m.group("marker");
+            final String marker = m.group("marker");
             String id = m.group("id");
             String heading = m.group("heading");
-            String brkt1 = m.group("brkt1");
-            String brkt2 = m.group("brkt2");
+            final String brkt1 = m.group("brkt1");
+            final String brkt2 = m.group("brkt2");
             String tail = m.group("tail");
 
             id = processId(id);
@@ -108,47 +109,63 @@ public class Headers implements TextConvertor
             return finalizeHeadingTag(marker, id, heading, tail);
         }
 
-        private String finalizeHeadingTag(String marker, String id, String heading,
-                String tail)
+        private String finalizeHeadingTag(
+                final String marker,
+                final String id,
+                final String heading,
+                final String tail
+        )
         {
-            int level = marker.length();
-            String tag = "h" + level;
+            final int level = marker.length();
+            final String tag = "h" + level;
+
             return "<" + tag + id + ">" + heading + tail + "</" + tag + ">\n";
         }
 
-        private String processHeading(String brkt1, String brkt2, String heading)
+        private String processHeading(
+                final String brkt1,
+                final String brkt2,
+                final String heading
+        )
         {
+            String rtn = heading;
+
             // Process header text, looking for anchor option (BW)
             if (brkt1 != null && brkt2 != null)
             {
-                heading = doAnchors(new TextEditor(heading)).toString();
+                rtn = doAnchors(new TextEditor(heading)).toString();
             }
-            return heading;
+            return rtn;
         }
 
-        private String processId(String id)
+        private String processId(final String id)
         {
+            String rtn;
+
             if (id != null)
             {
-                id = addId(id);
+                rtn = addId(id);
             } else
             {
-                id = "";
+                rtn = "";
             }
 
-            return id;
+            return rtn;
         }
 
-        private String processTail(String tail)
+        private String processTail(final String tail)
         {
-            if (tail != null && !tail.isBlank())
+            String rtn;
+
+            if (notBlank(tail))
             {
-                tail = " " + doAnchors(new TextEditor(tail)).toString();
+                rtn = " " + doAnchors(new TextEditor(tail)).toString();
             } else
             {
-                tail = "";
+                rtn = "";
             }
-            return tail;
+
+            return rtn;
         }
     }
 }

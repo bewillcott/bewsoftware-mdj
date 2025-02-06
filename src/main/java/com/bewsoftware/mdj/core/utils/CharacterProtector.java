@@ -43,6 +43,14 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+/**
+ * CharacterProtector class.
+ *
+ * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
+ *
+ * @since 0.6.7
+ * @version 0.8.0
+ */
 public class CharacterProtector
 {
     private static final String GOOD_CHARS = "0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
@@ -72,21 +80,16 @@ public class CharacterProtector
         this.unprotectMap = new ConcurrentHashMap<>();
     }
 
-    public String decode(String coded)
+    public String decode(final String coded)
     {
         return unprotectMap.get(coded);
     }
 
-    public String encode(String literal)
+    public String encode(final String literal)
     {
-        String encoded = protectMap.get(literal);
+        final String encoded = protectMap.get(literal);
 
-        if (encoded == null)
-        {
-            encoded = getNewEncodedAtomically(encoded, literal);
-        }
-
-        return encoded;
+        return encoded == null ? getNewEncodedAtomically(literal) : encoded;
     }
 
     public Collection<String> getAllEncodedTokens()
@@ -100,9 +103,9 @@ public class CharacterProtector
         return protectMap.toString();
     }
 
-    private String addToken(String literal)
+    private String addToken(final String literal)
     {
-        String encoded = longRandomString();
+        final String encoded = longRandomString();
 
         protectMap.put(literal, encoded);
         unprotectMap.put(encoded, literal);
@@ -110,16 +113,11 @@ public class CharacterProtector
         return encoded;
     }
 
-    private synchronized String getNewEncodedAtomically(String encoded, String literal)
+    private synchronized String getNewEncodedAtomically(final String literal)
     {
-        encoded = protectMap.get(literal);
+        String encoded = protectMap.get(literal);
 
-        if (encoded == null)
-        {
-            encoded = addToken(literal);
-        }
-
-        return encoded;
+        return encoded == null ? addToken(literal) : encoded;
     }
 
     private String longRandomString()
@@ -134,5 +132,4 @@ public class CharacterProtector
 
         return sb.toString();
     }
-
 }

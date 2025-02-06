@@ -49,23 +49,26 @@ import java.util.List;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import static com.bewsoftware.mdj.core.utils.Utils.println;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /*
  * Modified to use JUnit5 instead of JUnit 4.
  *
  * Bradley Willcott (7/1/2020)
+ *
+ * @since 0.6.7
+ * @version 0.8.0
  */
 public class MarkdownTestTester
 {
-
     private final static String MARKDOWN_TEST_DIR = "/MarkdownTest";
 //    private final static String MARKDOWN_TEST_DIR = "/MarkdownTest/short";
 
     public static Collection<String[]> markdownTests()
     {
-        List<String[]> list = new ArrayList<>();
-        URL fileUrl = MarkdownTestTester.class.getResource(MARKDOWN_TEST_DIR);
+        final List<String[]> list = new ArrayList<>();
+        final URL fileUrl = MarkdownTestTester.class.getResource(MARKDOWN_TEST_DIR);
         File dir;
 
         try
@@ -76,15 +79,16 @@ public class MarkdownTestTester
             dir = new File(fileUrl.getFile());
         }
 
-        File[] dirEntries = dir.listFiles();
+        final File[] dirEntries = dir.listFiles();
 
-        for (File dirEntry : dirEntries)
+        for (final File dirEntry : dirEntries)
         {
-            String fileName = dirEntry.getName();
+            final String fileName = dirEntry.getName();
 
             if (fileName.endsWith(".text"))
             {
-                String testName = fileName.substring(0, fileName.lastIndexOf('.'));
+                final String testName = fileName.substring(0, fileName.lastIndexOf('.'));
+
                 list.add(new String[]
                 {
                     MARKDOWN_TEST_DIR, testName
@@ -97,22 +101,33 @@ public class MarkdownTestTester
 
     @ParameterizedTest(name = "{index}: {arguments}")
     @MethodSource("markdownTests")
-    public void runTest(String dir, String test) throws IOException
+    public void runTest(final String dir, final String test) throws IOException
     {
-        System.out.println("runTest: " + dir + ", " + test);
-//        System.out.println("Test: " + test);
-        String testText = slurp(dir + File.separator + test + ".text");
-        String htmlText = slurp(dir + File.separator + test + ".html");
+        println("runTest: %s, %s", dir, test);
+        println("Test: %s", test);
+        final String testText = slurp(dir + File.separator + test + ".text");
+        final String htmlText = slurp(dir + File.separator + test + ".html");
 
-//        System.out.println("-----------------------------------------------------------------\n"
-//                           + "testText:\n" + testText
-//                           + "\n-----------------------------------------------------------------");
-        String markdownText = MarkdownProcessor.convert(testText);
-        assertFalse(diffStrings(htmlText, markdownText), test);
+        final String markdownText = MarkdownProcessor.convert(testText);
+
+        final boolean result;
+
+        if (result = diffStrings(htmlText, markdownText))
+        {
+            println("-----------------------------------------------------------------\n"
+                    + "testText:%n%s"
+                    + "\n-----------------------------------------------------------------", testText);
+
+            println("-----------------------------------------------------------------\n"
+                    + "markdownText:%n%s"
+                    + "\n-----------------------------------------------------------------", markdownText);
+        }
+
+        assertFalse(result, test);
     }
 
     /**
-     * Check wether or not the String are different.
+     * Check whether or not the strings are different.
      *
      * @param orig The original text.
      * @param mod  The modified text.
@@ -122,11 +137,11 @@ public class MarkdownTestTester
     private boolean diffStrings(final String orig, final String mod)
     {
         boolean rtn = true;
-        List<Diff.ModifiedLine> mLines = Diff.lines(orig, mod);
+        final List<Diff.ModifiedLine> mLines = Diff.lines(orig, mod);
 
         if (!mLines.isEmpty())
         {
-            mLines.forEach(line -> System.out.println("----------\n" + line));
+            mLines.forEach(line -> println("----------%n%s", line));
         } else
         {
             rtn = false;
@@ -144,12 +159,12 @@ public class MarkdownTestTester
      *
      * @throws IOException if any.
      */
-    private String slurp(String fileName) throws IOException
+    private String slurp(final String fileName) throws IOException
     {
-        URL fileUrl = this.getClass().getResource(fileName);
-        File file = new File(URLDecoder.decode(fileUrl.getFile(), "UTF-8"));
+        final URL fileUrl = this.getClass().getResource(fileName);
+        final File file = new File(URLDecoder.decode(fileUrl.getFile(), "UTF-8"));
 
-        StringBuilder sb;
+        final StringBuilder sb;
 
         try (BufferedReader in = new BufferedReader(new FileReader(file)))
         {

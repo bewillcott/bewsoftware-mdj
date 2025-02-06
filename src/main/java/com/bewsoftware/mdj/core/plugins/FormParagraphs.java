@@ -38,6 +38,7 @@
  */
 package com.bewsoftware.mdj.core.plugins;
 
+import com.bewsoftware.annotations.jcip.Immutable;
 import com.bewsoftware.mdj.core.TextEditor;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -57,7 +58,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class FormParagraphs implements TextConvertor
 {
@@ -80,13 +81,13 @@ public class FormParagraphs implements TextConvertor
      *
      * @return new Tag with data.
      */
-    private static Tag tag(String text)
+    private static Tag tag(final String text)
     {
-        Pattern pId = compile("(?<!\\\\)" + ID_REGEX);
-        Pattern pClasses = compile("^(?<!\\\\)" + CLASS_REGEX_OPT);
+        final Pattern pId = compile("(?<!\\\\)" + ID_REGEX);
+        final Pattern pClasses = compile("^(?<!\\\\)" + CLASS_REGEX_OPT);
         final ArrayList<String> ids = new ArrayList<>();
         final ArrayList<String> classes = new ArrayList<>();
-        TextEditor ted = new TextEditor(text);
+        final TextEditor ted = new TextEditor(text);
 
         return new Tag(
                 ted.replaceAll(pId, m ->
@@ -106,13 +107,13 @@ public class FormParagraphs implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         text.deleteAll("\\A\\n+");
         text.deleteAll("\\n+\\z");
         text.replaceAll("(?:\\A|\\n)" + CODE_BLOCK_BEGIN + "(\\w+?)" + CODE_BLOCK_END + "(?:\\n|\\Z)", "\n\n$1\n\n");
 
-        String[] paragraphs;
+        final String[] paragraphs;
 
         if (text.isEmpty())
         {
@@ -126,7 +127,8 @@ public class FormParagraphs implements TextConvertor
         for (int i = 0; i < paragraphs.length; i++)
         {
             String paragraph = paragraphs[i];
-            String decoded = HTML_PROTECTOR.decode(paragraph);
+            final String decoded = HTML_PROTECTOR.decode(paragraph);
+
             if (decoded != null)
             {
                 paragraphs[i] = decoded;
@@ -138,19 +140,13 @@ public class FormParagraphs implements TextConvertor
                 // Changed Tag to include "class" attribute.
                 //
                 // Bradley Willcott (03/01/2021)
-                Tag tag = tag(paragraph);
+                final Tag tag = tag(paragraph);
                 paragraphs[i] = "<p" + tag.id + tag.classes + ">" + tag.text + "</p>";
             }
         }
 
         return new TextEditor(String.join("\n\n", paragraphs));
     }
-//
-//    @Override
-//    public String toString()
-//    {
-//        return "Markdown Processor for Java (v0.6.8)";
-//    }
 
     /**
      * Used by {@link #tag(java.lang.String) tag()}.
@@ -158,8 +154,9 @@ public class FormParagraphs implements TextConvertor
      * @author Bradley Willcott
      *
      * @since 0.6
-     * @version 0.6.8
+     * @version 0.8.0
      */
+    @Immutable
     private static class Tag
     {
         public final String text;

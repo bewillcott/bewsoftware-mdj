@@ -12,10 +12,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  *
  * @author alexbcoles
+ *
+ * @since 0.6.7
+ * @version 0.8.0
  */
 public class CharacterProtectorTest
 {
-
     private CharacterProtector characterProtector;
 
     @BeforeEach
@@ -27,14 +29,14 @@ public class CharacterProtectorTest
     @Test
     public void testEncodeAndDecodeRoundtrip()
     {
-        String encoded = characterProtector.encode("<h4>Warnemünde</h4>");
+        final String encoded = characterProtector.encode("<h4>Warnemünde</h4>");
         assertEquals("<h4>Warnemünde</h4>", characterProtector.decode(encoded));
     }
 
     @Test
     public void testGetAllEncodedTokens()
     {
-        Collection<String> tokens = characterProtector.getAllEncodedTokens();
+        final Collection<String> tokens = characterProtector.getAllEncodedTokens();
         assertEquals(0, tokens.size());
 
         characterProtector.encode("<nav><div></div></nav>");
@@ -47,7 +49,7 @@ public class CharacterProtectorTest
     @SuppressWarnings("ThrowableResultIgnored")
     public void testGetAllEncodedTokensCanNotModified1()
     {
-        Collection<String> tokens = characterProtector.getAllEncodedTokens();
+        final Collection<String> tokens = characterProtector.getAllEncodedTokens();
 
         assertThrows(UnsupportedOperationException.class, () -> tokens.clear(),
                 "Trying to modify an 'unmodifiableSet'");
@@ -57,7 +59,7 @@ public class CharacterProtectorTest
     @SuppressWarnings("ThrowableResultIgnored")
     public void testGetAllEncodedTokensCanNotModified2()
     {
-        Collection<String> tokens = characterProtector.getAllEncodedTokens();
+        final Collection<String> tokens = characterProtector.getAllEncodedTokens();
 
         assertThrows(UnsupportedOperationException.class, () ->
         {

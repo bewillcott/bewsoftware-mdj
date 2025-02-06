@@ -40,9 +40,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @since 0.6.7
+ * @version 0.8.0
+ */
 public class EdgeCases
 {
-
     @Test
     public void testEmptyString()
     {
@@ -66,8 +69,9 @@ public class EdgeCases
     {
         // In Perl, split(/x/, "") returns the empty string.
         // But in Java, it's the array { "" }.
-        Pattern x = Pattern.compile("x");
-        String[] xs = x.split("");
+        final Pattern x = Pattern.compile("x");
+        final String[] xs = x.split("");
+
         assertEquals(1, xs.length);
         assertEquals("", xs[0]);
     }

@@ -39,17 +39,10 @@ package com.bewsoftware.mdj.core.plugins.utils;
  * @author Bradley Willcott
  *
  * @since 0.6.3
- * @version 0.6.7
+ * @version 0.8.0
  */
-public final class Attributes
+public interface Attributes
 {
-    /**
-     * Not meant to be instantiated.
-     */
-    private Attributes()
-    {
-    }
-
     /**
      * Wraps the texts into a "class=" string.
      *
@@ -57,7 +50,7 @@ public final class Attributes
      *
      * @return new attribute text.
      */
-    public static String addClass(String... texts)
+    public static String addClass(final String... texts)
     {
         String rtn = "";
 
@@ -76,7 +69,7 @@ public final class Attributes
      *
      * @return new attribute text.
      */
-    public static String addId(String text)
+    public static String addId(final String text)
     {
         return processText(" id=\"%s\"", text);
     }
@@ -88,14 +81,14 @@ public final class Attributes
      *
      * @return new attribute text.
      */
-    public static String addStyle(String text)
+    public static String addStyle(final String text)
     {
         return processText(" style=\"%s\"", text);
     }
 
-    private static String gatherClasses(String[] texts)
+    private static String gatherClasses(final String[] texts)
     {
-        StringBuilder classes = new StringBuilder();
+        final StringBuilder classes = new StringBuilder();
 
         for (String text : texts)
         {
@@ -108,7 +101,7 @@ public final class Attributes
         return classes.toString().trim();
     }
 
-    private static String processText(String format, String text)
+    private static String processText(final String format, final String text)
     {
         String rtn = "";
 
@@ -120,9 +113,10 @@ public final class Attributes
         return rtn;
     }
 
-    private static String processTheTexts(String[] texts)
+    private static String processTheTexts(final String[] texts)
     {
-        String stringOfClasses = gatherClasses(texts);
+        final String stringOfClasses = gatherClasses(texts);
+
         return processText(" class=\"%s\"", stringOfClasses);
     }
 }

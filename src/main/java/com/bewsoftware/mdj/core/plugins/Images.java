@@ -46,6 +46,7 @@ import java.util.regex.Pattern;
 
 import static com.bewsoftware.mdj.core.plugins.TextConvertor.protectEmphasis;
 import static com.bewsoftware.mdj.core.plugins.utils.Constants.linkDefinitions;
+import static com.bewsoftware.utils.string.Strings.notEmpty;
 import static java.util.regex.Pattern.compile;
 
 /**
@@ -67,7 +68,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class Images implements TextConvertor
 {
@@ -76,14 +77,15 @@ public class Images implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         processInlineImages(text);
         text.replaceAll(Image.PATTERN, new Image());
+
         return text;
     }
 
-    private void processInlineImages(TextEditor text)
+    private void processInlineImages(final TextEditor text)
     {
         // Inline image syntax
         //
@@ -113,17 +115,17 @@ public class Images implements TextConvertor
         }
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
-            String replacementText;
-            String wholeMatch = m.group(1);
-            String altText = m.group(2);
+            final String replacementText;
+            final String wholeMatch = m.group(1);
+            final String altText = m.group(2);
             String id = m.group(3);
 
             id = processId(id, altText);
 
             // imageDefinition is the same as linkDefinition
-            LinkDefinition defn = linkDefinitions.get(id);
+            final LinkDefinition defn = linkDefinitions.get(id);
 
             if (defn != null)
             {
@@ -136,35 +138,33 @@ public class Images implements TextConvertor
             return replacementText;
         }
 
-        private String processId(String id, String altText)
+        private String processId(final String id, final String altText)
         {
             // [id] is now case sensitive
-            if (id == null || "".equals(id))
-            {
-                id = altText;
-            }
-
-            return id;
+            return id == null || "".equals(id) ? altText : id;
         }
 
-        private String processLinkDefinition(LinkDefinition defn, String altText)
+        private String processLinkDefinition(final LinkDefinition defn, final String altText)
         {
-            String replacementText;
-            String url = processUrl(defn);
+            final String replacementText;
+            final String url = processUrl(defn);
 
-            StringBuilder titleTag = processTitle(defn, altText);
+            final StringBuilder titleTag = processTitle(defn, altText);
 
             replacementText = "<img src=\"" + url + "\"" + titleTag + ">";
+
             return replacementText;
         }
 
-        private StringBuilder processTitle(LinkDefinition defn, String altText)
+        private StringBuilder processTitle(final LinkDefinition defn, final String altText)
         {
             String title = defn.title;
-            StringBuilder titleTag = new StringBuilder(" alt=\"").append(altText)
-                    .append("\"");
+            final StringBuilder titleTag
+                    = new StringBuilder(" alt=\"")
+                            .append(altText)
+                            .append("\"");
 
-            if (title != null && !title.equals(""))
+            if (notEmpty(title))
             {
                 title = protectEmphasis(title);
                 titleTag.append(" title=\"").append(title).append("\"");
@@ -173,7 +173,7 @@ public class Images implements TextConvertor
             return titleTag;
         }
 
-        private String processUrl(LinkDefinition defn)
+        private String processUrl(final LinkDefinition defn)
         {
             String url = defn.url;
 
@@ -181,8 +181,8 @@ public class Images implements TextConvertor
             {
                 url = protectEmphasis(url);
             }
+
             return url;
         }
-
     }
 }

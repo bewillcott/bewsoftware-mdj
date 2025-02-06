@@ -50,6 +50,7 @@ import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addId;
 import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addStyle;
 import static com.bewsoftware.mdj.core.plugins.utils.Constants.CLASS_REGEX;
 import static com.bewsoftware.mdj.core.plugins.utils.Constants.HTML_PROTECTOR;
+import static com.bewsoftware.utils.string.Strings.notBlank;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 
@@ -110,7 +111,7 @@ public class Table implements Replacement
 
     private static String processGroupText(final String text)
     {
-        if (text != null && !text.isBlank())
+        if (notBlank(text))
         {
             // Escaped pipes need to be handled
             return runSpanGamut(new TextEditor(text)).toString();
@@ -120,31 +121,31 @@ public class Table implements Replacement
         }
     }
 
-    private static boolean rowIsShorterThanHeader(TableRow dataRow, TableRow headerRow)
+    private static boolean rowIsShorterThanHeader(final TableRow dataRow, final TableRow headerRow)
     {
         return dataRow.length() < headerRow.length();
     }
 
-    private static boolean validRowLength(TableRow hRow, TableRow delRow)
+    private static boolean validRowLength(final TableRow hRow, final TableRow delRow)
     {
         return hRow.length() == delRow.length();
     }
 
     @Override
-    public String process(Matcher m)
+    public String process(final Matcher m)
     {
 
         String rtn = m.group();
 
-        String caption = m.group("caption");
-        String header = processGroupText(m.group("header")).trim();
-        String delrow = m.group("delrow").trim();
-        String datarows = processGroupText(m.group("datarows")).trim();
+        final String caption = m.group("caption");
+        final String header = processGroupText(m.group("header")).trim();
+        final String delrow = m.group("delrow").trim();
+        final String datarows = processGroupText(m.group("datarows")).trim();
 
-        TableRow headerRow = TableRow.parse(header);
+        final TableRow headerRow = TableRow.parse(header);
         headerRow.setReadOnly();
 
-        TableRow delimiterRow = TableRow.parse(delrow);
+        final TableRow delimiterRow = TableRow.parse(delrow);
 
         if (validRowLength(headerRow, delimiterRow))
         {
@@ -154,18 +155,28 @@ public class Table implements Replacement
         return rtn;
     }
 
-    private void addBorderStyle(TableRow headerRow, StringBuilder sb, TableRow delimiterRow, int i)
+    private void addBorderStyle(
+            final TableRow headerRow,
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final int i
+    )
     {
-        String tmp = String.format(ROW_BORDER, headerRow.getBorderWidth(),
+        final String tmp = String.format(ROW_BORDER, headerRow.getBorderWidth(),
                 headerRow.getCellPadding());
         sb.append(addStyle(tmp + delimiterRow.getCell(i)));
     }
 
-    private void addDataRowAttribute(TableRow dataRow, StringBuilder sb, TableRow delimiterRow, int j)
+    private void addDataRowAttribute(
+            final TableRow dataRow,
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final int j
+    )
     {
         if (dataRow.hasBorder())
         {
-            String tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(),
+            final String tmp = String.format(ROW_BORDER, dataRow.getBorderWidth(),
                     dataRow.getCellPadding());
             sb.append(addStyle(tmp + delimiterRow.getCell(j)));
         } else
@@ -174,11 +185,16 @@ public class Table implements Replacement
         }
     }
 
-    private void addDefaultRowAttribute(TableRow defaultRowAttribute, StringBuilder sb, TableRow delimiterRow, int j)
+    private void addDefaultRowAttribute(
+            final TableRow defaultRowAttribute,
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final int j
+    )
     {
         if (defaultRowAttribute.hasBorder())
         {
-            String tmp = String.format(ROW_BORDER, defaultRowAttribute.getBorderWidth(),
+            final String tmp = String.format(ROW_BORDER, defaultRowAttribute.getBorderWidth(),
                     defaultRowAttribute.getCellPadding());
             sb.append(addStyle(tmp + delimiterRow.getCell(j)));
         } else
@@ -187,7 +203,11 @@ public class Table implements Replacement
         }
     }
 
-    private void addDelimiterRowDefault(TableRow delimiterRow, int i, StringBuilder sb)
+    private void addDelimiterRowDefault(
+            final TableRow delimiterRow,
+            final int i,
+            final StringBuilder sb
+    )
     {
         if (!delimiterRow.getCell(i).isEmpty())
         {
@@ -195,7 +215,13 @@ public class Table implements Replacement
         }
     }
 
-    private void addMissingColumns(TableRow dataRow, TableRow headerRow, StringBuilder sb, TableRow defaultRowAttribute, TableRow delimiterRow)
+    private void addMissingColumns(
+            final TableRow dataRow,
+            final TableRow headerRow,
+            final StringBuilder sb,
+            final TableRow defaultRowAttribute,
+            final TableRow delimiterRow
+    )
     {
         for (int k = dataRow.length(); k < headerRow.length(); k++)
         {
@@ -203,10 +229,15 @@ public class Table implements Replacement
         }
     }
 
-    private String buildTable(TableRow delimiterRow, String caption, TableRow headerRow, String datarows)
+    private String buildTable(
+            final TableRow delimiterRow,
+            final String caption,
+            final TableRow headerRow,
+            final String datarows
+    )
     {
         String rtn;
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         processDelimiterRow(sb, delimiterRow, caption);
         processTHeadTag(sb, delimiterRow, headerRow);
@@ -216,7 +247,7 @@ public class Table implements Replacement
             processTBodyTag(datarows, sb, delimiterRow, headerRow);
         }
 
-        String out = sb.append("</table>\n").toString();
+        final String out = sb.append("</table>\n").toString();
         //
         // Encode table html to protect it from further processing.
         //
@@ -225,73 +256,92 @@ public class Table implements Replacement
         return rtn;
     }
 
-    private void processCaption(StringBuilder sb, String caption, TableRow delimiterRow)
+    private void processCaption(
+            final StringBuilder sb,
+            final String caption,
+            final TableRow delimiterRow
+    )
     {
+        String text = caption;
+
         boolean captionBorders = false;
         sb.append(INDENT[1]).append("<caption");
-        caption = processGroupText(caption.trim());
+        text = processGroupText(text.trim());
 
-        if (caption.startsWith("[") && caption.endsWith("]"))
+        if (text.startsWith("[") && text.endsWith("]"))
         {
             captionBorders = true;
-            caption = caption.substring(1, caption.length() - 1).trim();
+            text = text.substring(1, text.length() - 1).trim();
         } else
         {
-            caption = processCaptionLookingForClasses(caption, sb);
+            text = processCaptionLookingForClasses(text, sb);
         }
 
         processCaptionBordersAndAttributes(captionBorders, delimiterRow, sb);
 
-        sb.append(">\n").append(caption).append("\n")
+        sb.append(">\n").append(text).append("\n")
                 .append(INDENT[1]).append("</caption>\n");
     }
 
-    private void processCaptionBordersAndAttributes(boolean captionBorders,
-            TableRow delimiterRow, StringBuilder sb)
+    private void processCaptionBordersAndAttributes(
+            final boolean captionBorders,
+            final TableRow delimiterRow,
+            final StringBuilder sb
+    )
     {
         if (captionBorders && delimiterRow.hasAttribute() && delimiterRow.hasBorder())
         {
-            String tmp = String.format(CAPTION_BORDER, delimiterRow.getBorderWidth(),
+            final String tmp = String.format(CAPTION_BORDER, delimiterRow.getBorderWidth(),
                     delimiterRow.getCellPadding());
             sb.append(addStyle(tmp));
         }
     }
 
-    private void processCaptionIfAny(String caption, StringBuilder sb, TableRow delimiterRow)
+    private void processCaptionIfAny(
+            final String caption,
+            final StringBuilder sb,
+            final TableRow delimiterRow
+    )
     {
-        if (caption != null && !caption.isBlank())
+        if (notBlank(caption))
         {
             processCaption(sb, caption, delimiterRow);
         }
     }
 
-    private String processCaptionLookingForClasses(String caption, StringBuilder sb)
+    private String processCaptionLookingForClasses(final String caption, final StringBuilder sb)
     {
-        TableCaption tc = new TableCaption(caption);
+        String rtn = caption;
+
+        final TableCaption tc = new TableCaption(caption);
 
         if (tc.hasClasses())
         {
-            caption = tc.caption;
+            rtn = tc.caption;
             sb.append(addClass(tc.classes));
         }
 
-        return caption;
+        return rtn;
     }
 
-    private void processClassesAndDefaultStyle(TableRow headerRow, StringBuilder sb,
-            TableRow delimiterRow, int i)
+    private void processClassesAndDefaultStyle(
+            final TableRow headerRow,
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final int i
+    )
     {
         processHeaderRowClasses(headerRow, sb);
         addDelimiterRowDefault(delimiterRow, i, sb);
     }
 
-    private void processColumnFormatting(TableRow delimiterRow)
+    private void processColumnFormatting(final TableRow delimiterRow)
     {
         for (int i = 0; i < delimiterRow.length(); i++)
         {
             String delimiterColumn = delimiterRow.getCell(i).trim();
             int textAlignment = (delimiterColumn.startsWith(":") ? 1 : 0);
-            textAlignment = textAlignment + (delimiterColumn.endsWith(":") ? 2 : 0);
+            textAlignment += (delimiterColumn.endsWith(":") ? 2 : 0);
 
             switch (textAlignment)
             {
@@ -322,10 +372,15 @@ public class Table implements Replacement
         }
     }
 
-    private void processDataRow(String dataRowString, TableRowList rotatingListOfRowAttributes,
-            StringBuilder sb, TableRow delimiterRow, TableRow headerRow)
+    private void processDataRow(
+            final String dataRowString,
+            final TableRowList rotatingListOfRowAttributes,
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final TableRow headerRow
+    )
     {
-        TableRow dataRow = TableRow.parse(dataRowString);
+        final TableRow dataRow = TableRow.parse(dataRowString);
         rotatingListOfRowAttributes.add(dataRow);
         sb.append(INDENT[2]).append("<tr");
 
@@ -349,7 +404,7 @@ public class Table implements Replacement
         sb.append(INDENT[2]).append("</tr>\n");
     }
 
-    private void processDataRowId(TableRow dataRow, StringBuilder sb)
+    private void processDataRowId(final TableRow dataRow, final StringBuilder sb)
     {
         if (dataRow.hasId())
         {
@@ -357,8 +412,13 @@ public class Table implements Replacement
         }
     }
 
-    private void processDataRows(String[] dataRows, TableRowList rotatingListOfRowAttributes,
-            StringBuilder sb, TableRow delimiterRow, TableRow headerRow)
+    private void processDataRows(
+            final String[] dataRows,
+            final TableRowList rotatingListOfRowAttributes,
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final TableRow headerRow
+    )
     {
         for (String dataRow : dataRows)
         {
@@ -366,7 +426,11 @@ public class Table implements Replacement
         }
     }
 
-    private void processDelimiterRow(StringBuilder sb, TableRow delimiterRow, String caption)
+    private void processDelimiterRow(
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final String caption
+    )
     {
         processTableTag(sb, delimiterRow);
         processCaptionIfAny(caption, sb, delimiterRow);
@@ -374,7 +438,7 @@ public class Table implements Replacement
         delimiterRow.setReadOnly();
     }
 
-    private void processDelimiterRowAttributes(TableRow delimiterRow, StringBuilder sb)
+    private void processDelimiterRowAttributes(final TableRow delimiterRow, final StringBuilder sb)
     {
         if (delimiterRow.hasAttribute())
         {
@@ -382,7 +446,7 @@ public class Table implements Replacement
 
             if (delimiterRow.hasBorder())
             {
-                String tmp = String.format(TABLE_BORDER, delimiterRow.getBorderWidth(),
+                final String tmp = String.format(TABLE_BORDER, delimiterRow.getBorderWidth(),
                         delimiterRow.getCellPadding());
                 sb.append(addStyle(tmp));
             } else
@@ -392,7 +456,7 @@ public class Table implements Replacement
         }
     }
 
-    private void processDelimiterRowId(TableRow delimiterRow, StringBuilder sb)
+    private void processDelimiterRowId(final TableRow delimiterRow, final StringBuilder sb)
     {
         if (delimiterRow.hasId())
         {
@@ -400,7 +464,7 @@ public class Table implements Replacement
         }
     }
 
-    private void processHeaderRowClasses(TableRow headerRow, StringBuilder sb)
+    private void processHeaderRowClasses(final TableRow headerRow, final StringBuilder sb)
     {
         if (headerRow.hasClasses())
         {
@@ -408,7 +472,7 @@ public class Table implements Replacement
         }
     }
 
-    private void processHeaderRowId(TableRow headerRow, StringBuilder sb)
+    private void processHeaderRowId(final TableRow headerRow, final StringBuilder sb)
     {
         if (headerRow.hasId())
         {
@@ -416,8 +480,12 @@ public class Table implements Replacement
         }
     }
 
-    private void processRowColumns(TableRow dataRow, TableRow delimiterRow,
-            StringBuilder sb, TableRow defaultRowAttribute)
+    private void processRowColumns(
+            final TableRow dataRow,
+            final TableRow delimiterRow,
+            final StringBuilder sb,
+            final TableRow defaultRowAttribute
+    )
     {
         for (int i = 0; i < dataRow.length() && i < delimiterRow.length(); i++)
         {
@@ -425,12 +493,16 @@ public class Table implements Replacement
         }
     }
 
-    private void processTBodyTag(String datarows, StringBuilder sb, TableRow delimiterRow,
-            TableRow headerRow)
+    private void processTBodyTag(
+            final String datarows,
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final TableRow headerRow
+    )
     {
-        String[] dataRows = datarows.split("\n");
+        final String[] dataRows = datarows.split("\n");
 
-        TableRowList rotatingListOfRowAttributes = new TableRowList(dataRows.length);
+        final TableRowList rotatingListOfRowAttributes = new TableRowList(dataRows.length);
 
         sb.append(INDENT[1]).append("<tbody>\n");
 
@@ -439,8 +511,14 @@ public class Table implements Replacement
         sb.append(INDENT[1]).append("</tbody>\n");
     }
 
-    private void processTDTag(StringBuilder sb, TableRow dataRow, TableRow defaultRowAttribute,
-            TableRow delimiterRow, int index, String cellContent)
+    private void processTDTag(
+            final StringBuilder sb,
+            final TableRow dataRow,
+            final TableRow defaultRowAttribute,
+            final TableRow delimiterRow,
+            final int index,
+            final String cellContent
+    )
     {
         sb.append(INDENT[3]).append("<td");
 
@@ -450,7 +528,13 @@ public class Table implements Replacement
                 .append(INDENT[3]).append("</td>\n");
     }
 
-    private void processTDTagAttributes(TableRow dataRow, StringBuilder sb, TableRow delimiterRow, int index, TableRow defaultRowAttribute)
+    private void processTDTagAttributes(
+            final TableRow dataRow,
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final int index,
+            final TableRow defaultRowAttribute
+    )
     {
         if (dataRow.hasAttribute())
         {
@@ -467,7 +551,12 @@ public class Table implements Replacement
         }
     }
 
-    private void processTHAttributes(TableRow headerRow, StringBuilder sb, TableRow delimiterRow, int i)
+    private void processTHAttributes(
+            final TableRow headerRow,
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final int i
+    )
     {
         if (headerRow.hasBorder())
         {
@@ -478,7 +567,12 @@ public class Table implements Replacement
         }
     }
 
-    private void processTHTag(StringBuilder sb, TableRow delimiterRow, TableRow headerRow, int i)
+    private void processTHTag(
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final TableRow headerRow,
+            final int i
+    )
     {
         sb.append(INDENT[3]).append("<th");
 
@@ -494,7 +588,11 @@ public class Table implements Replacement
                 .append(INDENT[3]).append("</th>\n");
     }
 
-    private void processTHTags(StringBuilder sb, TableRow delimiterRow, TableRow headerRow)
+    private void processTHTags(
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final TableRow headerRow
+    )
     {
         for (int i = 0; i < delimiterRow.length(); i++)
         {
@@ -502,7 +600,11 @@ public class Table implements Replacement
         }
     }
 
-    private void processTHeadTag(StringBuilder sb, TableRow delimiterRow, TableRow headerRow)
+    private void processTHeadTag(
+            final StringBuilder sb,
+            final TableRow delimiterRow,
+            final TableRow headerRow
+    )
     {
         sb.append(INDENT[1]).append("<thead>\n")
                 .append(INDENT[2]).append("<tr");
@@ -517,7 +619,7 @@ public class Table implements Replacement
                 .append(INDENT[1]).append("</thead>\n");
     }
 
-    private void processTableTag(StringBuilder sb, TableRow delimiterRow)
+    private void processTableTag(final StringBuilder sb, final TableRow delimiterRow)
     {
         sb.append("<table");
         processDelimiterRowAttributes(delimiterRow, sb);
@@ -555,11 +657,11 @@ public class Table implements Replacement
          *
          * @param text The caption.
          */
-        private TableCaption(String text)
+        private TableCaption(final String text)
         {
             this.text = text;
 
-            Matcher m = PATTERN.matcher(text);
+            final Matcher m = PATTERN.matcher(text);
 
             if (m.find())
             {
@@ -590,6 +692,5 @@ public class Table implements Replacement
                     + "    classes = " + classes + "\n"
                     + "}";
         }
-
     }
 }

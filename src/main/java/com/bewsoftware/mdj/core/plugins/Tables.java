@@ -90,7 +90,7 @@ import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class Tables implements TextConvertor
 {
@@ -99,7 +99,7 @@ public class Tables implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         // Escaped pipes need to be handled
         text.replaceAll("\\x5C\\x7C", CHAR_PROTECTOR.encode("|"));

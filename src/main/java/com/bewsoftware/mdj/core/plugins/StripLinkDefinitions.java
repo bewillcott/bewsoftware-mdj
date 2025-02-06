@@ -56,7 +56,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class StripLinkDefinitions implements TextConvertor
 {
@@ -65,9 +65,9 @@ public class StripLinkDefinitions implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
-        Pattern p = compile(
+      final   Pattern p = compile(
                 "^[ ]{0,3}\\[(?<id>.+)\\]:"
                 // ID = $1
                 // BW:
@@ -83,12 +83,12 @@ public class StripLinkDefinitions implements TextConvertor
                 + "(?:\\n+|\\Z)",
                 MULTILINE);
 
-        text.replaceAll(p, (Matcher m) ->
+        text.replaceAll(p, (final Matcher m) ->
         {
-            String id = m.group("id");
-            String classes = m.group("classes");
-            String url = m.group("url");
-            String title = m.group("title");
+          final   String id = m.group("id");
+             String classes = m.group("classes");
+             String url = m.group("url");
+             String title = m.group("title");
 
             if (classes == null)
             {
@@ -107,6 +107,7 @@ public class StripLinkDefinitions implements TextConvertor
 
             title = replaceAll(title, "\"", "&quot;");
             linkDefinitions.put(id, new LinkDefinition(classes, url, title));
+
             return "";
         });
 

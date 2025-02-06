@@ -46,7 +46,7 @@ import com.bewsoftware.mdj.core.TextEditor;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class EncodeAmpsAndAngles implements TextConvertor
 {
@@ -55,7 +55,7 @@ public class EncodeAmpsAndAngles implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         // Ampersand-encoding based entirely on Nat Irons's Amputator MT plugin:
         // http://bumppo.net/projects/amputator/
@@ -64,5 +64,4 @@ public class EncodeAmpsAndAngles implements TextConvertor
 
         return text;
     }
-
 }

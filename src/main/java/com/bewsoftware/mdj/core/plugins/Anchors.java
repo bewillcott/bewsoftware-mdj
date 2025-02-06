@@ -51,6 +51,9 @@ import static com.bewsoftware.mdj.core.plugins.TextConvertor.replaceAll;
 import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addClass;
 import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addId;
 import static com.bewsoftware.mdj.core.plugins.utils.Constants.*;
+import static com.bewsoftware.utils.string.Strings.isBlank;
+import static com.bewsoftware.utils.string.Strings.notBlank;
+import static com.bewsoftware.utils.string.Strings.notEmpty;
 import static java.util.regex.Pattern.DOTALL;
 import static java.util.regex.Pattern.compile;
 
@@ -60,7 +63,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class Anchors implements TextConvertor
 {
@@ -69,7 +72,7 @@ public class Anchors implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         processInternalLinks(text);
         processInlineLinks(text);
@@ -77,34 +80,40 @@ public class Anchors implements TextConvertor
         return text;
     }
 
-    private void finalizeReplacementText(StringBuilder replacementText, String idAttrib,
-            String classAtrib, String titleTag, String targetTag, String linkText)
+    private void finalizeReplacementText(
+            final StringBuilder replacementText,
+            final String idAttrib,
+            final String classAtrib,
+            final String titleTag,
+            final String targetTag,
+            final String linkText
+    )
     {
         replacementText.append(idAttrib).append(classAtrib).append(titleTag)
                 .append(targetTag).append(">").append(linkText).append("</a>");
     }
 
-    private void processInlineLinks(TextEditor text)
+    private void processInlineLinks(final TextEditor text)
     {
         text.replaceAll(InlineLink.PATTERN, new InlineLink());
     }
 
-    private void processInternalLinks(TextEditor text)
+    private void processInternalLinks(final TextEditor text)
     {
         text.replaceAll(InternalLink.PATTERN, new InternalLink());
     }
 
-    private void processReferenceShortcuts(TextEditor text)
+    private void processReferenceShortcuts(final TextEditor text)
     {
         text.replaceAll(ReferenceShortcut.PATTERN, new ReferenceShortcut());
     }
 
-    private String processTitle(LinkDefinition defn)
+    private String processTitle(final LinkDefinition defn)
     {
         String title = defn.title;
         String titleTag = "";
 
-        if (title != null && !title.isBlank())
+        if (notBlank(title))
         {
             title = protectEmphasis(title);
             titleTag = " title=\"" + title + "\"";
@@ -113,7 +122,7 @@ public class Anchors implements TextConvertor
         return titleTag;
     }
 
-    private void processUrl(LinkDefinition defn, StringBuilder replacementText)
+    private void processUrl(final LinkDefinition defn, final StringBuilder replacementText)
     {
         String url = defn.url;
 
@@ -163,14 +172,14 @@ public class Anchors implements TextConvertor
         }
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
-            String linkText = m.group("linkText");
-            String url = m.group("url");
-            String title = m.group("title");
-            String target = m.group("target");
-            String classes = m.group("classes");
-            StringBuilder result = new StringBuilder("<a");
+            final String linkText = m.group("linkText");
+            final String url = m.group("url");
+            final String title = m.group("title");
+            final String target = m.group("target");
+            final String classes = m.group("classes");
+            final StringBuilder result = new StringBuilder("<a");
 
             processUrl(url, result);
             processClasses(classes, result);
@@ -181,50 +190,50 @@ public class Anchors implements TextConvertor
             return result.toString();
         }
 
-        private void appendTitle(StringBuilder result, String title)
+        private void appendTitle(final StringBuilder result, final String title)
         {
             result.append(" title=\"");
             result.append(title);
             result.append("\"");
         }
 
-        private void finalizeResult(StringBuilder result, String linkText)
+        private void finalizeResult(final StringBuilder result, final String linkText)
         {
             result.append(">").append(linkText);
             result.append("</a>");
         }
 
-        private void processClasses(String classes, StringBuilder result)
+        private void processClasses(final String classes, final StringBuilder result)
         {
-            String classAtrib = classes != null && !classes.isBlank()
-                    ? addClass(classes) : "";
+            final String classAtrib = notBlank(classes) ? addClass(classes) : "";
+
             result.append(classAtrib);
         }
 
-        private void processTarget(String target, StringBuilder result)
+        private void processTarget(final String target, final StringBuilder result)
         {
-            if (target != null && !target.isEmpty())
+            if (notEmpty(target))
             {
                 result.append(TARGET);
             }
         }
 
-        private void processTitle(String title, StringBuilder result)
+        private void processTitle(final String title, final StringBuilder result)
         {
             if (title != null)
             {
-                title = protectEmphasis(title);
-                title = replaceAll(title, "\"", "&quot;");
-                appendTitle(result, title);
+                final String pTitle = protectEmphasis(title);
+                final String rpTitle = replaceAll(pTitle, "\"", "&quot;");
+                appendTitle(result, rpTitle);
             }
         }
 
-        private void processUrl(String url, StringBuilder result)
+        private void processUrl(final String url, final StringBuilder result)
         {
             if (url != null)
             {
-                url = protectEmphasis(url);
-                result.append(" href=\"").append(url).append("\"");
+                final String pUrl = protectEmphasis(url);
+                result.append(" href=\"").append(pUrl).append("\"");
             }
         }
     }
@@ -252,17 +261,17 @@ public class Anchors implements TextConvertor
         }
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
-            String replacementText;
-            String wholeMatch = m.group();
-            String linkText = m.group("linkText");
-            String linkId = m.group("linkId");
-            String targetTag = m.group("target") != null ? TARGET : "";
-            String classes = m.group("classes");
+            final String replacementText;
+            final String wholeMatch = m.group();
+            final String linkText = m.group("linkText");
+            final String linkId = m.group("linkId");
+            final String targetTag = m.group("target") != null ? TARGET : "";
+            final String classes = m.group("classes");
 
-            linkId = processLinkId(linkId, linkText);
-            LinkDefinition defn = linkDefinitions.get(linkId);
+            final String pLinkId = processLinkId(linkId, linkText);
+            final LinkDefinition defn = linkDefinitions.get(pLinkId);
 
             if (defn != null)
             {
@@ -275,27 +284,26 @@ public class Anchors implements TextConvertor
             return replacementText;
         }
 
-        private String processLinkId(String linkId, String linkText)
+        private String processLinkDefinition(
+                final LinkDefinition defn,
+                final String classes,
+                final String targetTag,
+                final String linkText
+        )
         {
-            if (linkId == null || linkId.isBlank())
-            {
-                linkId = linkText;
-            }
-
-            return linkId;
-        }
-
-        private String processLinkDefinition(LinkDefinition defn, String classes,
-                String targetTag, String linkText)
-        {
-            StringBuilder replacementText = new StringBuilder("<a");
-            String classAtrib = addClass(defn.classes, classes);
-            String titleTag = processTitle(defn);
+            final StringBuilder replacementText = new StringBuilder("<a");
+            final String classAtrib = addClass(defn.classes, classes);
+            final String titleTag = processTitle(defn);
 
             processUrl(defn, replacementText);
             finalizeReplacementText(replacementText, "", classAtrib, titleTag, targetTag, linkText);
 
             return replacementText.toString();
+        }
+
+        private String processLinkId(final String linkId, final String linkText)
+        {
+            return isBlank(linkId) ? linkText : linkId;
         }
     }
 
@@ -338,24 +346,23 @@ public class Anchors implements TextConvertor
         }
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
-            String replacementText;
-            String wholeMatch = m.group();
-            String footnote = m.group("footnote");
-            String linkText = m.group("linkText");
-            String targetTag = m.group("target") != null ? TARGET : "";
-            String id = m.group("id");
-            String linkId = linkText; // link id is now case sensitive
-            linkId = linkId.replaceAll("[ ]?\\n", " "); // change embedded newlines into spaces
-            String classes = m.group("classes");
+            final String replacementText;
+            final String wholeMatch = m.group();
+            final String footnote = m.group("footnote");
+            final String linkText = m.group("linkText");
+            final String targetTag = m.group("target") != null ? TARGET : "";
+            final String id = m.group("id");
+            // link id is now case sensitive
+            final String linkId = linkText.replaceAll("[ ]?\\n", " "); // change embedded newlines into spaces
+            final String classes = m.group("classes");
 
-            LinkDefinition defn = linkDefinitions.get(linkId);
+            final LinkDefinition defn = linkDefinitions.get(linkId);
 
             if (defn != null)
             {
-                replacementText = processLinkDefinition(defn, classes, footnote,
-                        linkText, id, targetTag);
+                replacementText = processLinkDefinition(defn, classes, footnote, linkText, id, targetTag);
             } else
             {
                 replacementText = wholeMatch;
@@ -364,15 +371,69 @@ public class Anchors implements TextConvertor
             return replacementText;
         }
 
-        private String processLinkDefinition(LinkDefinition defn, String classes,
-                String footnote, final String linkText, String id, String targetTag)
+        private void appendUrl(final String url, final StringBuilder replacementText)
         {
-            StringBuilder replacementText = new StringBuilder("<a");
-            String url = processUrl(defn);
-            String classAtrib = addClass(defn.classes, classes);
-            String titleTag = processTitle(defn);
+            if (url != null)
+            {
+                replacementText.append(" href=\"").append(url).append("\"");
+            }
+        }
+
+        //TODO: Anchors.processFootnote(...) - footnote not processed?
+        private String processFootnote(
+                final String footnote,
+                final Ref<String> linkTextRef,
+                final String url,
+                final String idAttrib,
+                final String id
+        )
+        {
+            String rtn = idAttrib;
+
+            if (footnote != null)
+            {
+                linkTextRef.val = processFootnoteLink(linkTextRef.val, url);
+                rtn = processId(id, idAttrib);
+            }
+
+            return rtn;
+        }
+
+        private String processFootnoteLink(final String linkText, final String url)
+        {
+            String rtn = linkText;
+            final Matcher footnote = compile("\\A(\\d+)\\z").matcher(linkText);
+
+            if (footnote.find())
+            {
+                rtn = doSubSup(
+                        new TextEditor("++" + CHAR_PROTECTOR.encode("[")
+                                + (url != null ? linkText : "*") + "]++")
+                ).toString();
+            }
+
+            return rtn;
+        }
+
+        private String processId(final String id, final String idAttrib)
+        {
+            return notBlank(id) ? addId(id) : idAttrib;
+        }
+
+        private String processLinkDefinition(
+                final LinkDefinition defn,
+                final String classes,
+                final String footnote,
+                final String linkText,
+                final String id,
+                final String targetTag)
+        {
+            final StringBuilder replacementText = new StringBuilder("<a");
+            final String url = processUrl(defn);
+            final String classAtrib = addClass(defn.classes, classes);
+            final String titleTag = processTitle(defn);
             String idAttrib = "";
-            Ref<String> linkTextRef = Ref.val(linkText);
+            final Ref<String> linkTextRef = Ref.val(linkText);
 
             idAttrib = processFootnote(footnote, linkTextRef, url, idAttrib, id);
             appendUrl(url, replacementText);
@@ -382,27 +443,7 @@ public class Anchors implements TextConvertor
             return replacementText.toString();
         }
 
-        private String processFootnote(String footnote, Ref<String> linkTextRef,
-                String url, String idAttrib, String id)
-        {
-            if (footnote != null)
-            {
-                linkTextRef.val = processFootnoteLink(linkTextRef.val, url);
-                idAttrib = processId(id, idAttrib);
-            }
-
-            return idAttrib;
-        }
-
-        private void appendUrl(String url, StringBuilder replacementText)
-        {
-            if (url != null)
-            {
-                replacementText.append(" href=\"").append(url).append("\"");
-            }
-        }
-
-        private String processUrl(LinkDefinition defn)
+        private String processUrl(final LinkDefinition defn)
         {
             String url = defn.url;
 
@@ -412,30 +453,6 @@ public class Anchors implements TextConvertor
             }
 
             return url;
-        }
-
-        private String processId(String id, String idAttrib)
-        {
-            if (id != null)
-            {
-                idAttrib = addId(id);
-            }
-
-            return idAttrib;
-        }
-
-        private String processFootnoteLink(String linkText, String url)
-        {
-            Matcher footnote = compile("\\A(\\d+)\\z").matcher(linkText);
-
-            if (footnote.find())
-            {
-                linkText = doSubSup(new TextEditor("++" + CHAR_PROTECTOR.encode("[")
-                        + (url != null ? linkText : "*") + "]++"))
-                        .toString();
-            }
-
-            return linkText;
         }
     }
 }

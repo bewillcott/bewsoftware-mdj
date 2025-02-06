@@ -58,7 +58,7 @@ import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class EscapeSpecialCharsWithinTagAttributes implements TextConvertor
 {
@@ -69,8 +69,8 @@ public class EscapeSpecialCharsWithinTagAttributes implements TextConvertor
     @Override
     public TextEditor execute(final TextEditor text)
     {
-        Collection<HTMLToken> tokens = text.tokenizeHTML();
-        TextEditor newText = new TextEditor("");
+        final Collection<HTMLToken> tokens = text.tokenizeHTML();
+        final TextEditor newText = new TextEditor("");
 
         tokens.stream().map(token ->
         {
@@ -89,5 +89,4 @@ public class EscapeSpecialCharsWithinTagAttributes implements TextConvertor
 
         return newText;
     }
-
 }

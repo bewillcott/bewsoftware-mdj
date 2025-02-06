@@ -48,7 +48,7 @@ import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class UnEscapeSpecialChars implements TextConvertor
 {
@@ -57,11 +57,11 @@ public class UnEscapeSpecialChars implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         CHAR_PROTECTOR.getAllEncodedTokens().forEach(hash ->
         {
-            String plaintext = CHAR_PROTECTOR.decode(hash);
+            final String plaintext = CHAR_PROTECTOR.decode(hash);
             text.replaceAllLiteral(hash, plaintext);
         });
 

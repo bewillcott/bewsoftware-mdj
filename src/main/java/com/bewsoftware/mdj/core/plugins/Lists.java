@@ -55,6 +55,7 @@ import static com.bewsoftware.mdj.core.plugins.utils.Attributes.addId;
 import static com.bewsoftware.mdj.core.plugins.utils.Constants.CLASS_REGEX_OPT;
 import static com.bewsoftware.mdj.core.plugins.utils.Constants.ID_REGEX_OPT;
 import static com.bewsoftware.mdj.core.plugins.utils.Constants.TAB_WIDTH;
+import static com.bewsoftware.utils.string.Strings.notBlank;
 import static java.util.regex.Pattern.MULTILINE;
 import static java.util.regex.Pattern.compile;
 
@@ -78,7 +79,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class Lists implements TextConvertor
 {
@@ -141,7 +142,7 @@ public class Lists implements TextConvertor
     private static boolean doExtendedListOptions(final TextEditor item, final Ref<String> classString)
     {
 
-        boolean rtn = processCheckBoxes(item, classString);
+        final boolean rtn = processCheckBoxes(item, classString);
 
         if (!rtn)
         {
@@ -204,11 +205,11 @@ public class Lists implements TextConvertor
 
         Replacement processCheckBox = (Matcher m) ->
         {
-            StringBuilder sb = new StringBuilder("<input type=\"checkbox\"");
-            String checked = m.group("checked");
-            String disabled = m.group("disabled");
+            final StringBuilder sb = new StringBuilder("<input type=\"checkbox\"");
+            final String checked = m.group("checked");
+            final String disabled = m.group("disabled");
             classString.val = m.group("classes");
-            String text = m.group("text");
+            final String text = m.group("text");
 
             if (!checked.isBlank())
             {
@@ -268,10 +269,11 @@ public class Lists implements TextConvertor
 
         // Trim trailing blank lines:
         list.val = replaceAll(list.val, "\\n{2,}\\z", "\n");
-        ListItem listItem = new ListItem();
+        final ListItem listItem = new ListItem();
         list.val = replaceAll(list.val, ListItem.PATTERN, listItem);
 
         listLevel.val--;
+
         return listItem.checkBoxesFound;
     }
 
@@ -303,9 +305,9 @@ public class Lists implements TextConvertor
 
         Replacement processClass = (Matcher m) ->
         {
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
             classString.val = m.group("classes");
-            String text = m.group("text");
+            final String text = m.group("text");
 
             sb.append(text).append("\n");
 
@@ -316,7 +318,7 @@ public class Lists implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
 
         if (listLevel.val == 0)
@@ -330,32 +332,31 @@ public class Lists implements TextConvertor
         return text;
     }
 
-    private String getListType(Matcher m)
+    private String getListType(final Matcher m)
     {
         return m.group("listType").matches(LIST_TYPE) ? "ul" : "ol";
     }
 
-    private String processCheckBoxes(boolean checkboxes, String classAttrib)
+    private String processCheckBoxes(final boolean checkboxes, final String classAttrib)
     {
-        if (checkboxes)
-        {
-            classAttrib = "checkbox";
-        }
-
-        return classAttrib;
+        return checkboxes ? "checkbox" : classAttrib;
     }
 
-    private String processClasses(String classes, String classAttrib)
+    private String processClasses(final String classes, final String classAttrib)
     {
-        if (classes != null)
-        {
-            classAttrib = !classAttrib.isBlank() ? classAttrib + " " + classes : classes;
-        }
-
-        return classAttrib;
+        return classes == null
+                ? classAttrib
+                : notBlank(classAttrib)
+                ? classAttrib + " " + classes
+                : classes;
     }
 
-    private String processFinalString(String listType, String id, String classAttrib, Ref<String> list)
+    private String processFinalString(
+            final String listType,
+            final String id,
+            final String classAttrib,
+            final Ref<String> list
+    )
     {
         //
         // Added 'class=' attribute for when list contains checkboxes.
@@ -365,7 +366,7 @@ public class Lists implements TextConvertor
         return "<" + listType + addId(id) + addClass(classAttrib) + ">\n" + list + "</" + listType + ">\n";
     }
 
-    private void turnDoubleReturnsIntoTripleReturns(Ref<String> list)
+    private void turnDoubleReturnsIntoTripleReturns(final Ref<String> list)
     {
         // Turn double returns into triple returns, so that we can make a
         // paragraph for the last item in a list, if necessary:
@@ -387,11 +388,11 @@ public class Lists implements TextConvertor
         }
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
-            Ref<String> classRtn = Ref.val();
+            final Ref<String> classRtn = Ref.val();
 
-            String leadingLine = m.group(1);
+            final String leadingLine = m.group(1);
             TextEditor item = new TextEditor(m.group(4));
 
             if (!isEmptyString(leadingLine) || hasParagraphBreak(item))
@@ -408,7 +409,7 @@ public class Lists implements TextConvertor
             return processFinalString(classRtn, item);
         }
 
-        private String processFinalString(Ref<String> classRtn, TextEditor item)
+        private String processFinalString(final Ref<String> classRtn, final TextEditor item)
         {
             return "<li"
                     + (classRtn.val != null && !classRtn.val.isBlank()
@@ -427,16 +428,16 @@ public class Lists implements TextConvertor
         }
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
-            Ref<String> list = Ref.val(m.group("list"));
-            String classes = m.group("classes");
-            String listType = getListType(m);
+            final Ref<String> list = Ref.val(m.group("list"));
+            final String classes = m.group("classes");
+            final String listType = getListType(m);
 
             turnDoubleReturnsIntoTripleReturns(list);
 
             // Check boxes are processed in here...
-            boolean checkboxes = processListItems(list);
+            final boolean checkboxes = processListItems(list);
             String classAttrib = "";
 
             classAttrib = processCheckBoxes(checkboxes, classAttrib);
@@ -463,21 +464,22 @@ public class Lists implements TextConvertor
         }
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
-            Ref<String> list = Ref.val(m.group("list"));
-            String id = m.group("id");
-            String classes = m.group("classes");
-            String listType = getListType(m);
+            final Ref<String> list = Ref.val(m.group("list"));
+            final String id = m.group("id");
+            final String classes = m.group("classes");
+            final String listType = getListType(m);
 
             turnDoubleReturnsIntoTripleReturns(list);
 
             // Check boxes are processed in here...
-            boolean checkboxes = processListItems(list);
+            final boolean checkboxes = processListItems(list);
             String classAttrib = "";
 
             classAttrib = processCheckBoxes(checkboxes, classAttrib);
             classAttrib = processClasses(classes, classAttrib);
+
             return processFinalString(listType, id, classAttrib, list);
         }
     }

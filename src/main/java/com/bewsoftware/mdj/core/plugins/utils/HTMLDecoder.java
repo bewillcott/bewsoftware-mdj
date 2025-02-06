@@ -41,44 +41,48 @@ import com.bewsoftware.mdj.core.TextEditor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HTMLDecoder
+/**
+ * This is a utility class. It provides a number of helper methods.
+ *
+ * @author Bradley Willcott
+ *
+ * @since 0.6.3
+ * @version 0.8.0
+ */
+public interface HTMLDecoder
 {
-    /**
-     * Not meant to be instantiated
-     */
-    private HTMLDecoder()
+    public static String decode(final String html)
     {
-    }
-
-    public static String decode(String html)
-    {
-        TextEditor ed = new TextEditor(html);
+        final TextEditor ed = new TextEditor(html);
         replaceAllDecimalChars(ed);
         replaceAllHexadecimalChars(ed);
 
         return ed.toString();
     }
 
-    private static void replaceAllDecimalChars(TextEditor ed)
+    private static void replaceAllDecimalChars(final TextEditor ed)
     {
-        Pattern p = Pattern.compile("&#(\\d+);");
+        final Pattern p = Pattern.compile("&#(\\d+);");
+
         ed.replaceAll(p, (Matcher m) ->
         {
-            String charDecimal = m.group(1);
-            char ch = (char) Integer.parseInt(charDecimal);
+            final String charDecimal = m.group(1);
+            final char ch = (char) Integer.parseInt(charDecimal);
+
             return Character.toString(ch);
         });
     }
 
-    private static void replaceAllHexadecimalChars(TextEditor ed)
+    private static void replaceAllHexadecimalChars(final TextEditor ed)
     {
-        Pattern p = Pattern.compile("&#x([0-9a-fA-F]+);");
+        final Pattern p = Pattern.compile("&#x([0-9a-fA-F]+);");
+
         ed.replaceAll(p, (Matcher m) ->
         {
-            String charHex = m.group(1);
-            char ch = (char) Integer.parseInt(charHex, 16);
+            final String charHex = m.group(1);
+            final char ch = (char) Integer.parseInt(charHex, 16);
+
             return Character.toString(ch);
         });
     }
-
 }

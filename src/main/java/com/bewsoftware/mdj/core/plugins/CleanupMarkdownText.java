@@ -46,7 +46,7 @@ import com.bewsoftware.mdj.core.TextEditor;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class CleanupMarkdownText implements TextConvertor
 {
@@ -55,7 +55,7 @@ public class CleanupMarkdownText implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         // Standardize line endings:
         text.replaceAll("\\r\\n", "\n"); 	// DOS to Unix
@@ -82,5 +82,4 @@ public class CleanupMarkdownText implements TextConvertor
 
         return text;
     }
-
 }

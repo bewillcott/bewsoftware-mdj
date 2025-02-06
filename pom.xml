@@ -209,6 +209,7 @@
                 <maven.javadoc.skip>false</maven.javadoc.skip>
             </properties>
         </profile>
+        
         <profile>
             <id>manual-clean</id>
             <build>

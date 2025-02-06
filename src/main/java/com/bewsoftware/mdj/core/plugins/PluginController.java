@@ -51,8 +51,8 @@ import java.util.logging.Logger;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.13
+ * @version 0.8.0
  */
 public class PluginController
 {
@@ -111,7 +111,7 @@ public class PluginController
     public PluginController()
     {
         this.plugins = new ConcurrentHashMap<>();
-        SortedSet<String> classNames = new TreeSet<>();
+        final SortedSet<String> classNames = new TreeSet<>();
 
         classNames.addAll(blockGamitList);
         classNames.addAll(spanGamitList);
@@ -121,7 +121,7 @@ public class PluginController
         {
             try
             {
-                TextConvertor tc = (TextConvertor) Class.forName(PLUGIN_PACKAGE + className)
+                final TextConvertor tc = (TextConvertor) Class.forName(PLUGIN_PACKAGE + className)
                         .getDeclaredConstructor().newInstance();
 
                 plugins.put(className, tc);
@@ -141,21 +141,16 @@ public class PluginController
      *
      * @return
      */
-    public TextEditor runBlockGamut(TextEditor text)
+    public TextEditor runBlockGamut(final TextEditor text)
     {
         return runGamit(blockGamitList, text);
     }
 
-    public TextEditor runPlugin(String className, TextEditor text)
+    public TextEditor runPlugin(final String className, final TextEditor text)
     {
-        TextConvertor tc = plugins.get(className);
+        final TextConvertor tc = plugins.get(className);
 
-        if (tc != null)
-        {
-            text = tc.execute(text);
-        }
-
-        return text;
+        return tc != null ? tc.execute(text) : text;
     }
 
     /**
@@ -165,13 +160,14 @@ public class PluginController
      *
      * @return
      */
-    public TextEditor runSpanGamut(TextEditor text)
+    public TextEditor runSpanGamut(final TextEditor text)
     {
-        text = runGamit(spanGamitList, text);
-        return text.replaceAll(" {2,}\n", " <br>\n");
+        final TextEditor gText = runGamit(spanGamitList, text);
+
+        return gText.replaceAll(" {2,}\n", " <br>\n");
     }
 
-    private TextEditor runGamit(List<String> gamit, TextEditor text)
+    private TextEditor runGamit(final List<String> gamit, final TextEditor text)
     {
         final Ref<TextEditor> textRef = Ref.val(text);
 

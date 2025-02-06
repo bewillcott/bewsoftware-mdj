@@ -51,9 +51,12 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * @since 0.6.7
+ * @version 0.8.0
+ */
 public class MarkupFileTester
 {
-
     private final static String[] TEST_FILENAMES = new String[]
     {
         "/dingus.txt",
@@ -64,14 +67,14 @@ public class MarkupFileTester
 
     public static Collection<TestResultPair[]> testResultPairs() throws IOException
     {
-        List<TestResultPair> fullResultPairList = new ArrayList<>();
+        final List<TestResultPair> fullResultPairList = new ArrayList<>();
 
         for (String filename : TEST_FILENAMES)
         {
             fullResultPairList.addAll(newTestResultPairList(filename));
         }
 
-        ArrayList<TestResultPair[]> testResultPairs = new ArrayList<>();
+        final ArrayList<TestResultPair[]> testResultPairs = new ArrayList<>();
 
         fullResultPairList.forEach((p) ->
         {
@@ -84,7 +87,13 @@ public class MarkupFileTester
         return testResultPairs;
     }
 
-    private static void addTestResultPair(List<TestResultPair> list, StringBuilder testbuf, StringBuilder resultbuf, String testNumber, String testName)
+    private static void addTestResultPair(
+            final List<TestResultPair> list,
+            final StringBuilder testbuf,
+            final StringBuilder resultbuf,
+            final String testNumber,
+            final String testName
+    )
     {
         if (testbuf == null || resultbuf == null)
         {
@@ -93,17 +102,20 @@ public class MarkupFileTester
 
 //        String test = chomp(testbuf.toString());
 //        String result = chomp(resultbuf.toString());
-        String test = testbuf.toString().stripTrailing();
-        String result = resultbuf.toString().stripTrailing();
-        String id = testNumber + "(" + testName + ")";
+        final String test = testbuf.toString().stripTrailing();
+        final String result = resultbuf.toString().stripTrailing();
+        final String id = testNumber + "(" + testName + ")";
 
         list.add(new TestResultPair(id, test, result));
     }
 
-    private static List<TestResultPair> newTestResultPairList(String filename) throws IOException
+    private static List<TestResultPair> newTestResultPairList(final String filename) throws IOException
     {
-        List<TestResultPair> list = new ArrayList<>();
-        URL fileUrl = MarkupFileTester.class.getResource(filename);
+        final Pattern pTest = Pattern.compile("# Test (\\w+) \\((.*)\\)");
+        final Pattern pResult = Pattern.compile("# Result (\\w+)");
+
+        final List<TestResultPair> list = new ArrayList<>();
+        final URL fileUrl = MarkupFileTester.class.getResource(filename);
         File file;
 
         try
@@ -114,52 +126,56 @@ public class MarkupFileTester
             file = new File(fileUrl.getFile());
         }
 
-        BufferedReader in = new BufferedReader(new FileReader(file));
-        StringBuilder test = null;
-        StringBuilder result = null;
-
-        Pattern pTest = Pattern.compile("# Test (\\w+) \\((.*)\\)");
-        Pattern pResult = Pattern.compile("# Result (\\w+)");
-        String line;
-        int lineNumber = 0;
-
-        String testNumber = null;
-        String testName = null;
-        StringBuilder curbuf = null;
-        while ((line = in.readLine()) != null)
+        try (final BufferedReader in = new BufferedReader(new FileReader(file)))
         {
-            lineNumber++;
-            Matcher mTest = pTest.matcher(line);
-            Matcher mResult = pResult.matcher(line);
+            StringBuilder test = new StringBuilder();
+            StringBuilder result = new StringBuilder();
+            StringBuilder curbuf = new StringBuilder();
 
-            if (mTest.matches())
-            { // # Test
-                addTestResultPair(list, test, result, testNumber, testName);
-                testNumber = mTest.group(1);
-                testName = mTest.group(2);
-                test = new StringBuilder();
-                result = new StringBuilder();
-                curbuf = test;
-            } else if (mResult.matches())
-            { // # Result
-                if (testNumber == null)
-                {
-                    throw new RuntimeException("Test file has result without a test (line " + lineNumber + ")");
-                }
-                String resultNumber = mResult.group(1);
-                if (!testNumber.equals(resultNumber))
-                {
-                    throw new RuntimeException("Result " + resultNumber + " test " + testNumber + " (line " + lineNumber + ")");
-                }
+            String line;
+            int lineNumber = 0;
 
-                curbuf = result;
-            } else
+            String testNumber = null;
+            String testName = null;
+
+            while ((line = in.readLine()) != null)
             {
-                curbuf.append(line).append("\n");
+                lineNumber++;
+                final Matcher mTest = pTest.matcher(line);
+                final Matcher mResult = pResult.matcher(line);
+
+                if (mTest.matches())
+                { // # Test
+                    addTestResultPair(list, test, result, testNumber, testName);
+                    testNumber = mTest.group(1);
+                    testName = mTest.group(2);
+                    test = new StringBuilder();
+                    result = new StringBuilder();
+                    curbuf = test;
+                } else if (mResult.matches())
+                { // # Result
+                    if (testNumber == null)
+                    {
+                        throw new RuntimeException("Test file has result without a test (line " + lineNumber + ")");
+                    }
+
+                    final String resultNumber = mResult.group(1);
+
+                    if (!testNumber.equals(resultNumber))
+                    {
+                        throw new RuntimeException("Result " + resultNumber + " test " + testNumber + " (line " + lineNumber + ")");
+                    }
+
+                    curbuf = result;
+                } else
+                {
+                    curbuf.append(line).append("\n");
+                }
             }
+
+            addTestResultPair(list, test, result, testNumber, testName);
         }
 
-        addTestResultPair(list, test, result, testNumber, testName);
         return list;
     }
 
@@ -174,7 +190,7 @@ public class MarkupFileTester
 //    }
     @ParameterizedTest(name = "{index}: {1}")
     @MethodSource("testResultPairs")
-    public void runTest(TestResultPair pair)
+    public void runTest(final TestResultPair pair)
     {
         assertEquals(pair.result.trim(), MarkdownProcessor.convert(pair.test).trim(), pair.name);
     }

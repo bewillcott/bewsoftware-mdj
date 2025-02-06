@@ -43,12 +43,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class EmailAddresses
 {
-
     @Test
     public void testDecoder()
     {
-        String encoded = "&#98;&#105;&#x6C;&#x6C;&#x67;&#64;&#x6D;i&#x63;&#x72;&#x6F;&#115;&#x6F;&#x66;&#116;&#x2E;c&#111;&#109;";
-        String billg = "billg@microsoft.com";
+        final String encoded = "&#98;&#105;&#x6C;&#x6C;&#x67;&#64;&#x6D;i&#x63;&#x72;&#x6F;&#115;&#x6F;&#x66;&#116;&#x2E;c&#111;&#109;";
+        final String billg = "billg@microsoft.com";
 
         assertEquals(billg, HTMLDecoder.decode(encoded));
         assertEquals("", HTMLDecoder.decode(""));
@@ -57,8 +56,9 @@ public class EmailAddresses
     @Test
     public void testEmail()
     {
-        String html = MarkdownProcessor.convert("<billg@microsoft.com>");
-        String plain = HTMLDecoder.decode(html);
+        final String html = MarkdownProcessor.convert("<billg@microsoft.com>");
+        final String plain = HTMLDecoder.decode(html);
+
         assertEquals("<p><a href=\"mailto:billg@microsoft.com\">billg@microsoft.com</a></p>\n", plain);
         assertFalse(plain.equals(html), "Email addresses are masked");
     }

@@ -61,7 +61,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.7
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class CodeBlock implements Replacement
 {
@@ -70,24 +70,24 @@ public class CodeBlock implements Replacement
 
     private Matcher m;
 
-    public CodeBlock(boolean fencedCode)
+    public CodeBlock(final boolean fencedCode)
     {
         this.fencedCode = fencedCode;
     }
 
     @Override
-    public String process(Matcher m)
+    public String process(final Matcher m)
     {
         this.m = m;
-        String text = getPreparedBodyText(m);
-        String replacement = getPreparedReplacementText(m, text);
+        final String text = getPreparedBodyText(m);
+        final String replacement = getPreparedReplacementText(m, text);
 
         return "\n" + CODE_BLOCK_BEGIN + HTML_PROTECTOR.encode(replacement) + CODE_BLOCK_END + "\n";
     }
 
-    private String getPreparedBodyText(Matcher m1)
+    private String getPreparedBodyText(final Matcher m1)
     {
-        TextEditor ed = new TextEditor(m1.group("body"));
+        final TextEditor ed = new TextEditor(m1.group("body"));
 
         if (!fencedCode)
         {
@@ -101,7 +101,7 @@ public class CodeBlock implements Replacement
         return ed.toString();
     }
 
-    private String getPreparedReplacementText(Matcher m1, String text)
+    private String getPreparedReplacementText(final Matcher m1, final String text)
     {
         String rtn;
 
@@ -119,15 +119,15 @@ public class CodeBlock implements Replacement
         return rtn;
     }
 
-    private String processClassesBlock(String classes, String text)
+    private String processClassesBlock(final String classes, final String text)
     {
-        Pattern p = compile("\\[(?:@(?<preClasses>\\p{Alpha}[^\\]]*)?)?\\]\\[(?:@(?<codeClasses>\\p{Alpha}[^\\]]*)?)?\\]");
-        Matcher m2 = p.matcher(classes);
+        final Pattern p = compile("\\[(?:@(?<preClasses>\\p{Alpha}[^\\]]*)?)?\\]\\[(?:@(?<codeClasses>\\p{Alpha}[^\\]]*)?)?\\]");
+        final Matcher m2 = p.matcher(classes);
 
         if (m2.find())
         {
-            String pre = "<pre" + addId(m.group("id")) + addClass(m2.group("preClasses")) + ">\n";
-            String code = "    <code" + addClass(m2.group("codeClasses")) + ">\n";
+            final String pre = "<pre" + addId(m.group("id")) + addClass(m2.group("preClasses")) + ">\n";
+            final String code = "    <code" + addClass(m2.group("codeClasses")) + ">\n";
 
             return pre + code + text + "\n    </code>\n</pre>";
         } else
@@ -136,26 +136,26 @@ public class CodeBlock implements Replacement
         }
     }
 
-    private String processGenericCodeBlock(String text)
+    private String processGenericCodeBlock(final String text)
     {
         return "<pre" + addId(m.group("id")) + ">\n    <code>\n" + text + "\n    </code>\n</pre>";
     }
 
-    private String processLanguageBlock(String clazz, String text)
+    private String processLanguageBlock(final String clazz, final String text)
     {
-        String lang = clazz.replaceFirst(LANG_IDENTIFIER, "").trim();
+        final String lang = clazz.replaceFirst(LANG_IDENTIFIER, "").trim();
 
         return "<pre" + addId(m.group("id")) + addClass(lang) + ">\n    <code>\n" + text + "\n    </code>\n</pre>";
     }
 
-    private void unHashBlocks(TextEditor ed)
+    private void unHashBlocks(final TextEditor ed)
     {
-        Matcher mLocal = Pattern.compile(CharacterProtector.FIND_ENCODED, MULTILINE).matcher(ed.toString());
+        final Matcher mLocal = Pattern.compile(CharacterProtector.FIND_ENCODED, MULTILINE).matcher(ed.toString());
 
         while (mLocal.find())
         {
-            String encoded = mLocal.group("encoded");
-            String decoded = HTML_PROTECTOR.decode(encoded);
+            final String encoded = mLocal.group("encoded");
+            final String decoded = HTML_PROTECTOR.decode(encoded);
 
             if (decoded != null)
             {

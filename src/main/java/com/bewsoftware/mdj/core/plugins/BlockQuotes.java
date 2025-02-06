@@ -81,7 +81,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class BlockQuotes implements TextConvertor
 {
@@ -95,7 +95,7 @@ public class BlockQuotes implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         return text.replaceAll(BlockQuote.PATTERN, new BlockQuote());
     }
@@ -117,16 +117,16 @@ public class BlockQuotes implements TextConvertor
                 + ")+"
                 + ")", MULTILINE);
 
-        public BlockQuote()
+        private BlockQuote()
         {
         }
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
             String rtn;
-            String citeText = processCitation(m);
-            TextEditor blockQuote = processBlockQuote(m);
+            final String citeText = processCitation(m);
+            final TextEditor blockQuote = processBlockQuote(m);
 
             if (citeText.isBlank())
             {
@@ -139,7 +139,31 @@ public class BlockQuotes implements TextConvertor
             return rtn;
         }
 
-        private TextEditor processBlockQuote(Matcher m)
+        private void cleanupBlockQuotedText(final TextEditor blockQuote)
+        {
+            blockQuote.deleteAll("^[ \t]*>[ \t]?");
+            blockQuote.deleteAll("^[ \t]+$");
+        }
+
+        private void indentAllLines(final TextEditor blockQuote)
+        {
+            blockQuote.replaceAll("^", "  ");
+        }
+
+        private TextEditor outdentPreTagBlocks(final TextEditor blockQuote)
+        {
+            final Pattern p1 = compile("(\\s*<pre>.*?</pre>)", DOTALL);
+
+            final TextEditor rtn = blockQuote.replaceAll(p1, (final Matcher m1) ->
+            {
+                String pre = m1.group(1);
+                return deleteAll(pre, "^  ");
+            });
+
+            return rtn;
+        }
+
+        private TextEditor processBlockQuote(final Matcher m)
         {
             TextEditor blockQuote = new TextEditor(m.group("blockquote"));
             cleanupBlockQuotedText(blockQuote);
@@ -150,31 +174,7 @@ public class BlockQuotes implements TextConvertor
             return blockQuote;
         }
 
-        private TextEditor outdentPreTagBlocks(TextEditor blockQuote)
-        {
-            Pattern p1 = compile("(\\s*<pre>.*?</pre>)", DOTALL);
-
-            blockQuote = blockQuote.replaceAll(p1, (Matcher m1) ->
-            {
-                String pre = m1.group(1);
-                return deleteAll(pre, "^  ");
-            });
-
-            return blockQuote;
-        }
-
-        private void indentAllLines(TextEditor blockQuote)
-        {
-            blockQuote.replaceAll("^", "  ");
-        }
-
-        private void cleanupBlockQuotedText(TextEditor blockQuote)
-        {
-            blockQuote.deleteAll("^[ \t]*>[ \t]?");
-            blockQuote.deleteAll("^[ \t]+$");
-        }
-
-        private String processCitation(Matcher m)
+        private String processCitation(final Matcher m)
         {
             //
             // BW: Process citation link: [(<citeText)](<#link>)

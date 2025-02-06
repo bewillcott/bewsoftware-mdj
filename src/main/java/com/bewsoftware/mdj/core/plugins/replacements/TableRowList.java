@@ -40,7 +40,7 @@ package com.bewsoftware.mdj.core.plugins.replacements;
  * @author Bradley Willcott
  *
  * @since 0.6.3
- * @version 0.6.13
+ * @version 0.8.0
  */
 class TableRowList
 {
@@ -70,7 +70,7 @@ class TableRowList
      *
      * @param size Maximum number entries that can be stored.
      */
-    TableRowList(int size)
+    TableRowList(final int size)
     {
         if (size > 0)
         {
@@ -92,7 +92,7 @@ class TableRowList
      *
      * @param row Row to add to list.
      */
-    public void add(TableRow row)
+    public void add(final TableRow row)
     {
         if (row.hasAttribute())
         {
@@ -145,7 +145,7 @@ class TableRowList
         return length;
     }
 
-    private void processRowAttribute(TableRow row)
+    private void processRowAttribute(final TableRow row)
     {
         if (row.getBorderWidth() == 0)
         {

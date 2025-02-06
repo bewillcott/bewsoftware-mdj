@@ -48,10 +48,10 @@ import java.util.TreeMap;
  *
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
- * @since 1.0
- * @version 1.0
+ * @since 0.6.13
+ * @version 0.8.0
  */
-public class Constants
+public interface Constants
 {
     public static final CharacterProtector CHAR_PROTECTOR = new CharacterProtector();
     public static final int TAB_WIDTH = 4;
@@ -73,5 +73,4 @@ public class Constants
     public static final String TARGET = " target=\"" + CHAR_PROTECTOR.encode("_") + "blank\"";
 
     public static final Map<String, LinkDefinition> linkDefinitions = new TreeMap<>();
-
 }

@@ -48,7 +48,7 @@ import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class EncodeCode implements TextConvertor
 {
@@ -57,7 +57,7 @@ public class EncodeCode implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         text.replaceAll("\\\\&", CHAR_PROTECTOR.encode("&"));
         text.replaceAll("--", CHAR_PROTECTOR.encode("--"));
@@ -76,6 +76,7 @@ public class EncodeCode implements TextConvertor
         text.replaceAll("\\]", CHAR_PROTECTOR.encode("]"));
         text.replaceAll("\\x5C\\x7C", CHAR_PROTECTOR.encode("|"));
         text.replaceAll("\\\\", CHAR_PROTECTOR.encode("\\"));
+
         return text;
     }
 }

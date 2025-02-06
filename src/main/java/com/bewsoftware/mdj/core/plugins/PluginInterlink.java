@@ -46,7 +46,7 @@ import com.bewsoftware.mdj.core.TextEditor;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class PluginInterlink
 {
@@ -180,5 +180,4 @@ public class PluginInterlink
     {
         return PLUGIN_CONTROLLER.runPlugin("UnEscapeSpecialChars", text);
     }
-
 }

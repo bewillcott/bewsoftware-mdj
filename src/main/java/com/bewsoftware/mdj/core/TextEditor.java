@@ -53,6 +53,9 @@ import static java.util.regex.Pattern.MULTILINE;
  * <li>Set all method parameters to be {@code final}.</li>
  * </ul>
  * Bradley Willcott (02/01/2021)
+ *
+ * @since 0.1
+ * @version 0.8.0
  */
 public class TextEditor
 {
@@ -119,9 +122,9 @@ public class TextEditor
     {
         replaceAll(Pattern.compile("(.*?)\\t"), (Matcher m) ->
         {
-            String lineSoFar = m.group(1);
+            final String lineSoFar = m.group(1);
             int width = lineSoFar.length();
-            StringBuilder replacement = new StringBuilder(lineSoFar);
+            final StringBuilder replacement = new StringBuilder(lineSoFar);
 
             do
             {
@@ -234,9 +237,9 @@ public class TextEditor
         if (text.length() > 0)
         {
             final String r = replacement;
-            Pattern p = Pattern.compile(regex, MULTILINE);
-            Matcher m = p.matcher(text);
-            StringBuffer sb = new StringBuffer();
+            final Pattern p = Pattern.compile(regex, MULTILINE);
+            final Matcher m = p.matcher(text);
+            final StringBuffer sb = new StringBuffer();
 
             found = false;
 
@@ -265,9 +268,9 @@ public class TextEditor
      */
     public TextEditor replaceAll(final Pattern pattern, final Replacement replacement)
     {
-        Matcher m = pattern.matcher(text);
+        final Matcher m = pattern.matcher(text);
         int lastIndex = 0;
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
 
         found = false;
 
@@ -317,10 +320,10 @@ public class TextEditor
      */
     public Collection<HTMLToken> tokenizeHTML()
     {
-        List<HTMLToken> tokens = new ArrayList<>();
-        String nestedTags = nestedTagsRegex(6);
+        final List<HTMLToken> tokens = new ArrayList<>();
+        final String nestedTags = nestedTagsRegex(6);
 
-        Pattern p = Pattern.compile(""
+        final Pattern p = Pattern.compile(""
                 + "(?s:<!(--.*?--\\s*)+>)"
                 + "|"
                 + "(?s:<\\?.*?\\?>)"
@@ -328,7 +331,7 @@ public class TextEditor
                 + nestedTags
                 + "", CASE_INSENSITIVE);
 
-        Matcher m = p.matcher(text);
+        final Matcher m = p.matcher(text);
         int lastPos = 0;
 
         while (m.find())

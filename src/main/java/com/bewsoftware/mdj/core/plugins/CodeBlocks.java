@@ -55,7 +55,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class CodeBlocks implements TextConvertor
 {
@@ -64,7 +64,7 @@ public class CodeBlocks implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         /*
          * If there are any Fenced Code Blocks, they will have been protected
@@ -76,11 +76,12 @@ public class CodeBlocks implements TextConvertor
          *
          * Bradley Willcott (08/01/2020)
          */
-        Pattern pattern = compile("(?:(?<id>)?(?<classes>)?(?<=\\n\\n)|\\A)"
+        final Pattern pattern = compile("(?:(?<id>)?(?<classes>)?(?<=\\n\\n)|\\A)"
                 + "(?:^(?:> )*?[ ]{4})?(?<class>" + LANG_IDENTIFIER + ".+)?(?:\\n)?"
                 + "(?<body>(?:"
                 + "(?:^(?:> )*?[ ]{4}).*\\n+)+)"
                 + "(?:(?=^\\n+)|\\Z)", MULTILINE);
+
         return text.replaceAll(pattern, new CodeBlock(false));
     }
 }

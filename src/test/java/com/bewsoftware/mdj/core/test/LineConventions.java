@@ -41,7 +41,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LineConventions
 {
-
     private static final String EXPECTED = "<p>a\nb\nc</p>\n";
 
     @Test

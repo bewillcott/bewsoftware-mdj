@@ -36,6 +36,8 @@
  */
 package com.bewsoftware.mdj.core.utils;
 
+import com.bewsoftware.annotations.jcip.Immutable;
+
 /**
  * Used to store the link definitions.
  * <p>
@@ -50,10 +52,11 @@ package com.bewsoftware.mdj.core.utils;
  * Bradley Willcott (24/12/2020)
  *
  * @since before v0.5
- * @version 0.6.7
+ * @version 0.8.0
  */
-public class LinkDefinition {
-
+@Immutable
+public class LinkDefinition
+{
     /**
      * The link's classes: {@code class="<classes>"}.
      */
@@ -76,14 +79,20 @@ public class LinkDefinition {
      * @param url     The link's url.
      * @param title   The link's title.
      */
-    public LinkDefinition(String classes, String url, String title) {
+    public LinkDefinition(
+            final String classes,
+            final String url,
+            final String title
+    )
+    {
         this.classes = classes;
         this.url = url;
         this.title = title;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "[@" + classes + "]" + url + " (" + title + ")";
     }
 }

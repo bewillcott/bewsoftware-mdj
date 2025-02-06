@@ -60,7 +60,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class HashHTMLBlocks implements TextConvertor
 {
@@ -89,7 +89,7 @@ public class HashHTMLBlocks implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         // First, look for nested blocks, e.g.:
         //   <div>
@@ -102,12 +102,12 @@ public class HashHTMLBlocks implements TextConvertor
         // the inner nested divs must be indented.
         // We need to do this before the next, more liberal match, because the next
         // match will start at the first `<div>` and stop at the first `</div>`.
-        Pattern p1 = compile("(?:^<(" + ALTERNATION_B + ")\\b[^>]*>\n"
+        final Pattern p1 = compile("(?:^<(" + ALTERNATION_B + ")\\b[^>]*>\n"
                 + "(?:.*\\n)*?"
                 + "^</\\1>[ ]*"
                 + "(?=\\n+|\\Z))", MULTILINE | CASE_INSENSITIVE);
 
-        Replacement protectHTML = (Matcher m) ->
+        final Replacement protectHTML = (Matcher m) ->
         {
             String literal = m.group();
             return "\n\n" + HTML_PROTECTOR.encode(literal) + "\n\n";
@@ -116,7 +116,7 @@ public class HashHTMLBlocks implements TextConvertor
         text.replaceAll(p1, protectHTML);
 
         // Now match more liberally, simply from `\n<tag>` to `</tag>\n`
-        Pattern p2 = compile("(?:^<(" + ALTERNATION_A + ")\\b[^>]*>"
+        final Pattern p2 = compile("(?:^<(" + ALTERNATION_A + ")\\b[^>]*>"
                 + "(((?!(<\\1|</\\1)).)*\\n)*?"
                 + ".*</\\1\\b[^>]*>[ ]*"
                 + "(?=\\n+|\\Z))", MULTILINE | CASE_INSENSITIVE);
@@ -126,7 +126,7 @@ public class HashHTMLBlocks implements TextConvertor
         } while (text.wasFound());
 
         // Special case for <hr>
-        Pattern p3 = compile("(?:"
+        final Pattern p3 = compile("(?:"
                 + "(?<=\\n\\n)"
                 + "|"
                 + "\\A\\n?"
@@ -142,7 +142,7 @@ public class HashHTMLBlocks implements TextConvertor
         text.replaceAll(p3, protectHTML);
 
         // Special case for standalone HTML comments:
-        Pattern p4 = compile("(?:"
+        final Pattern p4 = compile("(?:"
                 + "(?<=\\n\\n)"
                 + "|"
                 + "\\A\\n?"

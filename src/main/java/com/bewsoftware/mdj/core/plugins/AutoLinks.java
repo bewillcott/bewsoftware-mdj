@@ -56,7 +56,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class AutoLinks implements TextConvertor
 {
@@ -64,14 +64,14 @@ public class AutoLinks implements TextConvertor
     {
     }
 
-    private static void appendDecimalValue(StringBuilder sb, char ch)
+    private static void appendDecimalValue(final StringBuilder sb, final char ch)
     {
         sb.append("&#");
         sb.append((int) ch);
         sb.append(';');
     }
 
-    private static void appendHexValue(StringBuilder sb, char ch)
+    private static void appendHexValue(final StringBuilder sb, final char ch)
     {
         sb.append("&#x");
         sb.append(Integer.toString((int) ch, 16));
@@ -80,7 +80,7 @@ public class AutoLinks implements TextConvertor
 
     private static String encodeEmail(final String s)
     {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         char[] email = s.toCharArray();
 
         for (char ch : email)
@@ -91,7 +91,7 @@ public class AutoLinks implements TextConvertor
         return sb.toString();
     }
 
-    private static void processCharInEmail(StringBuilder sb, char ch)
+    private static void processCharInEmail(final StringBuilder sb, final char ch)
     {
         double r = new Random().nextDouble();
 
@@ -108,19 +108,19 @@ public class AutoLinks implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         processLinks(text);
         processEmails(text);
         return text;
     }
 
-    private void processEmails(TextEditor text)
+    private void processEmails(final TextEditor text)
     {
         text.replaceAll(Email.PATTERN, new Email());
     }
 
-    private void processLinks(TextEditor text)
+    private void processLinks(final TextEditor text)
     {
         text.replaceAll(Link.PATTERN, new Link());
     }
@@ -131,13 +131,13 @@ public class AutoLinks implements TextConvertor
                 "<([-.\\w]+\\@[-a-z0-9]+(?:\\.[-a-z0-9]+)*\\.[a-z]+)>");
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
-            String address = m.group(1);
-            TextEditor ed = new TextEditor(address);
+            final String address = m.group(1);
+            final TextEditor ed = new TextEditor(address);
             unEscapeSpecialChars(ed);
-            String addr = encodeEmail(ed.toString());
-            String url = encodeEmail("mailto:" + ed.toString());
+            final String addr = encodeEmail(ed.toString());
+            final String url = encodeEmail("mailto:" + ed.toString());
             return "<a href=\"" + url + "\">" + addr + "</a>";
         }
     }
@@ -151,23 +151,21 @@ public class AutoLinks implements TextConvertor
                 + "(?<target>!)?"
                 + CLASS_REGEX_OPT);
 
-        public Link()
+        private Link()
         {
         }
 
         @Override
-        public String process(Matcher m)
+        public String process(final Matcher m)
         {
-            String url = m.group("url");
-            String targetTag = m.group("target") != null ? TARGET : "";
-            String classes = m.group("classes");
-            String classAtrib = classes != null && !classes.isBlank()
+            final String url = m.group("url");
+            final String targetTag = m.group("target") != null ? TARGET : "";
+            final String classes = m.group("classes");
+            final String classAtrib = classes != null && !classes.isBlank()
                     ? addClass(classes) : "";
 
             return "<a href=\"" + url + "\""
                     + classAtrib + targetTag + ">" + url + "</a>";
         }
-
     }
-
 }

@@ -50,7 +50,7 @@ import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.7.1
+ * @version 0.8.0
  */
 public interface TextConvertor
 {
@@ -73,20 +73,27 @@ public interface TextConvertor
         return subtext;
     }
 
-    public static String replaceAll(final String text, final String regex, final String replacement)
+    public static String replaceAll(
+            final String text,
+            final String regex,
+            final String replacement
+    )
     {
         return new TextEditor(text)
                 .replaceAll(regex, replacement)
                 .toString();
     }
 
-    public static String replaceAll(final String text, final Pattern pattern, final Replacement replacement)
+    public static String replaceAll(
+            final String text,
+            final Pattern pattern,
+            final Replacement replacement
+    )
     {
         return new TextEditor(text)
                 .replaceAll(pattern, replacement)
                 .toString();
     }
 
-    public TextEditor execute(TextEditor text);
-
+    public TextEditor execute(final TextEditor text);
 }

@@ -34,13 +34,27 @@
  */
 package com.bewsoftware.mdj.core.test;
 
-public class TestResultPair {
+import com.bewsoftware.annotations.jcip.Immutable;
 
+/**
+ * @since 0.6.7
+ * @version 0.8.0
+ */
+@Immutable
+public class TestResultPair
+{
     public final String name;
-    public final String test;
+
     public final String result;
 
-    public TestResultPair(String name, String test, String result) {
+    public final String test;
+
+    public TestResultPair(
+            final String name,
+            final String test,
+            final String result
+    )
+    {
         this.name = name;
         this.test = test;
         this.result = result;

@@ -130,7 +130,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class FencedCodeBlocks implements TextConvertor
 {
@@ -139,15 +139,16 @@ public class FencedCodeBlocks implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
-        Pattern pattern = compile("(?<frontFence>^(?:[~]{3}|[`]{3}))"
+        final Pattern pattern = compile("(?<frontFence>^(?:[~]{3}|[`]{3}))"
                 + ID_REGEX_OPT
                 + "(?:[ ]*\\n"
                 + "|(?<classes>\\[(?:@\\p{Alpha}[^\\]]*)?\\](?:\\[(?:@\\p{Alpha}[^\\]]*)?\\])?)?[ ]*\\n"
                 + "|(?<class>" + LANG_IDENTIFIER + ".+)?\\n)?"
                 + "(?<body>(?:.*?\\n+)+?)"
                 + "(?:\\k<frontFence>)[ ]*\\n", MULTILINE);
+
         return text.replaceAll(pattern, new CodeBlock(true));
     }
 }

@@ -48,7 +48,7 @@ import static com.bewsoftware.mdj.core.plugins.utils.Constants.CHAR_PROTECTOR;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class EncodeBackslashEscapes implements TextConvertor
 {
@@ -56,12 +56,14 @@ public class EncodeBackslashEscapes implements TextConvertor
     {
     }
 
-    private static TextEditor encodeEscapes(final TextEditor text, final char[] chars,
+    private static TextEditor encodeEscapes(
+            final TextEditor text,
+            final char[] chars,
             final String slashes)
     {
         for (char ch : chars)
         {
-            String regex = slashes + ch;
+            final String regex = slashes + ch;
             text.replaceAllLiteral(regex, CHAR_PROTECTOR.encode(String.valueOf(ch)));
         }
 
@@ -69,10 +71,10 @@ public class EncodeBackslashEscapes implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
-        char[] normalChars = "`_>!".toCharArray();
-        char[] escapedChars = "*{}[]()#+-.".toCharArray();
+        final char[] normalChars = "`_>!".toCharArray();
+        final char[] escapedChars = "*{}[]()#+-.".toCharArray();
 
         // Two backslashes in a row
         text.replaceAllLiteral("\\\\\\\\", CHAR_PROTECTOR.encode("\\"));
@@ -83,5 +85,4 @@ public class EncodeBackslashEscapes implements TextConvertor
 
         return text;
     }
-
 }

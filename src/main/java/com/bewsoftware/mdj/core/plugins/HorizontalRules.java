@@ -64,7 +64,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class HorizontalRules implements TextConvertor
 {
@@ -73,39 +73,41 @@ public class HorizontalRules implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
-        Pattern p = compile(
+        final Pattern p = compile(
                 "^[ ]{0,3}(?<type>([*][ ]*){3,}|([-][ ]*){3,}|([=][ ]*){3,})[ ]*$",
                 MULTILINE);
 
         text.replaceAll(p, (Matcher m) ->
         {
-            String type = m.group("type");
-            String classes = "";
-
-            switch (type.charAt(0))
+            final String type = m.group("type");
+            final String classes = switch (type.charAt(0))
             {
-                case '-':
-                    break;
+                case '-' ->
+                {
+                    yield "";
+                }
 
-                case '*':
-                    classes = addClass("bold");
-                    break;
+                case '*' ->
+                {
+                    yield addClass("bold");
+                }
 
-                case '=':
-                    classes = addClass("thick");
-                    break;
+                case '=' ->
+                {
+                    yield addClass("thick");
+                }
 
-                default:
-                    break;
-
-            }
+                default ->
+                {
+                    yield "";
+                }
+            };
 
             return "<hr" + classes + ">";
         });
 
         return text;
     }
-
 }

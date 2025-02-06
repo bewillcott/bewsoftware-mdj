@@ -50,7 +50,7 @@ import static java.util.regex.Pattern.compile;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class CodeSpans implements TextConvertor
 {
@@ -59,16 +59,16 @@ public class CodeSpans implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
-        return text.replaceAll(compile("(?<!\\\\)(`+)(.+?)(?<!`)\\1(?!`)"), (Matcher m) ->
+        return text.replaceAll(compile("(?<!\\\\)(`+)(.+?)(?<!`)\\1(?!`)"),
+                (final Matcher m) ->
         {
-            String code = m.group(2);
-            TextEditor subEditor = new TextEditor(code);
+            final String code = m.group(2);
+            final TextEditor subEditor = new TextEditor(code);
             subEditor.deleteAll("^[ \\t]+").deleteAll("[ \\t]+$");
             encodeCode(subEditor);
             return "<code>" + subEditor.toString() + "</code>";
         });
     }
-
 }

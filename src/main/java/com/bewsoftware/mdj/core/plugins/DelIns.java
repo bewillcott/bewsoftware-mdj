@@ -46,7 +46,7 @@ import com.bewsoftware.mdj.core.TextEditor;
  * @author <a href="mailto:bw.opensource@yahoo.com">Bradley Willcott</a>
  *
  * @since 0.6.13
- * @version 0.6.13
+ * @version 0.8.0
  */
 public class DelIns implements TextConvertor
 {
@@ -55,12 +55,11 @@ public class DelIns implements TextConvertor
     }
 
     @Override
-    public TextEditor execute(TextEditor text)
+    public TextEditor execute(final TextEditor text)
     {
         text.replaceAll("(-!)(?=\\S)(.+?)(?<=\\S)!", "<del>$2</del>");
         text.replaceAll("(\\+!)(?=\\S)(.+?)(?<=\\S)!", "<ins>$2</ins>");
 
         return text;
     }
-
 }

@@ -46,7 +46,7 @@ import static java.lang.Integer.parseInt;
  * @author Bradley Willcott
  *
  * @since 0.6.3
- * @version 0.6.13
+ * @version 0.8.0
  */
 @SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
 class TableRow
@@ -78,7 +78,7 @@ class TableRow
     private final Status status = new Status();
 
     // Restrict instantiation to the factory method: parse()
-    private TableRow(String text)
+    private TableRow(final String text)
     {
         this.text = text;
     }
@@ -92,8 +92,8 @@ class TableRow
      */
     public static TableRow parse(final String text)
     {
-        TableRow tr = new TableRow(text);
-        String data = text.substring(1).trim();
+        final TableRow tr = new TableRow(text);
+        final String data = text.substring(1).trim();
         tr.cells = data.split("\\|");
         tr.length = tr.cells.length;
 
@@ -115,7 +115,7 @@ class TableRow
         //
         // Last 'cell' may be the bracketed attributes
         //
-        String attrib = tr.cells[tr.length - 1];
+        final String attrib = tr.cells[tr.length - 1];
 
         if (attrib.startsWith("[") && attrib.endsWith("]"))
         {
@@ -128,19 +128,21 @@ class TableRow
         //
         // Check for 'id' and 'class' attributes.
         //
-        Matcher m3 = Pattern.compile("^" + ID_REGEX_OPT + CLASS_REGEX + "$").matcher(tr.classes);
+        final Matcher m3 = Pattern.compile("^" + ID_REGEX_OPT + CLASS_REGEX + "$").matcher(tr.classes);
+
         return m3.find() ? m3 : null;
     }
 
     private static Matcher checkForIdAttribute(final TableRow tr)
     {
-        Matcher m = Pattern.compile("^" + ID_REGEX_OPT + "$").matcher(tr.classes);
+        final Matcher m = Pattern.compile("^" + ID_REGEX_OPT + "$").matcher(tr.classes);
+
         return m.find() ? m : null;
     }
 
     private static Matcher checkForIdAttributeWithBorderSettings(final TableRow tr)
     {
-        Matcher m2 = Pattern.compile("^" + ID_REGEX_OPT
+        final Matcher m2 = Pattern.compile("^" + ID_REGEX_OPT
                 + "\\[(?<borderWidth>\\d+)"
                 + "(?:(?:[, ][ ]*)(?<cellPadding>\\d+))?\\]$")
                 .matcher(tr.classes);
@@ -168,7 +170,7 @@ class TableRow
         return tr.classes.substring(1, tr.classes.length() - 1).trim().matches("^\\d+$");
     }
 
-    private static void processAttributes(TableRow tr) throws NumberFormatException
+    private static void processAttributes(final TableRow tr) throws NumberFormatException
     {
         tr.length--;
 
@@ -220,7 +222,7 @@ class TableRow
     {
         processIdAttribute(tr, m);
         tr.borderWidth = parseInt(m.group("borderWidth"));
-        String cellPadding = m.group("cellPadding");
+        final String cellPadding = m.group("cellPadding");
 
         if (cellPadding != null)
         {
@@ -233,7 +235,7 @@ class TableRow
 
     private static void processIdAttributes(final TableRow tr) throws NumberFormatException
     {
-        Matcher m;
+        final Matcher m;
 
         if ((m = checkForIdAttribute(tr)) != null)
         {
@@ -247,7 +249,7 @@ class TableRow
 
     private static void processIdWithOtherAttributes(final TableRow tr) throws NumberFormatException
     {
-        Matcher m;
+        final Matcher m;
 
         if ((m = checkForIdAttributeWithBorderSettings(tr)) != null)
         {
@@ -260,7 +262,7 @@ class TableRow
 
     private static void processIdWithWhatIsLeft(final TableRow tr)
     {
-        Matcher m;
+        final Matcher m;
 
         if ((m = checkForIdAndClassAttributes(tr)) != null)
         {
@@ -271,12 +273,12 @@ class TableRow
         }
     }
 
-    private static boolean rowHasAttributes(TableRow tr)
+    private static boolean rowHasAttributes(final TableRow tr)
     {
         return tr.status.hasAttribute();
     }
 
-    private static boolean rowHasClasses(TableRow tr)
+    private static boolean rowHasClasses(final TableRow tr)
     {
         return tr.status.hasClasses();
     }
