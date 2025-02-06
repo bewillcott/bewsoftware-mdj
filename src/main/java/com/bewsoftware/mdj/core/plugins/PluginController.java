@@ -41,7 +41,10 @@ package com.bewsoftware.mdj.core.plugins;
 import com.bewsoftware.mdj.core.TextEditor;
 import com.bewsoftware.utils.Ref;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -102,11 +105,11 @@ public class PluginController
         "StrongEmAndBoldItalics"
     };
 
-    private final List<String> blockGamitList = new ArrayList<>(Arrays.asList(BLOCK_GAMIT_PLUGINS));
+    private final List<String> blockGamitList = Arrays.asList(BLOCK_GAMIT_PLUGINS);
 
     private final ConcurrentHashMap<String, TextConvertor> plugins;
 
-    private final List<String> spanGamitList = new ArrayList<>(Arrays.asList(SPAN_GAMIT_PLUGINS));
+    private final List<String> spanGamitList = Arrays.asList(SPAN_GAMIT_PLUGINS);
 
     public PluginController()
     {

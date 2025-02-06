@@ -5,7 +5,7 @@
 
     <groupId>com.bewsoftware.mdj</groupId>
     <artifactId>bewsoftware-mdj</artifactId>
-    <version>0.8.0-SNAPSHOT</version>
+    <version>0.8.0</version>
     <packaging>jar</packaging>
 
     <name>BEWSoftware MDj Converter</name>
@@ -149,17 +149,17 @@
             <dependency>
                 <groupId>com.bewsoftware</groupId>
                 <artifactId>bewsoftware-utils</artifactId>
-                <version>3.0.2-SNAPSHOT</version>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>com.bewsoftware</groupId>
                 <artifactId>bewsoftware-common</artifactId>
-                <version>3.0.2-SNAPSHOT</version>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>com.bewsoftware</groupId>
                 <artifactId>bewsoftware-optional</artifactId>
-                <version>3.0.2-SNAPSHOT</version>
+                <version>3.0.2</version>
             </dependency>
             <dependency>
                 <groupId>org.junit</groupId>
@@ -209,7 +209,7 @@
                 <maven.javadoc.skip>false</maven.javadoc.skip>
             </properties>
         </profile>
-        
+
         <profile>
             <id>manual-clean</id>
             <build>
@@ -885,7 +885,7 @@
                     <!--<reportOutputDirectory>${javadoc.outputDirectory}</reportOutputDirectory>-->
                     <tags>
                         <tag>
-                            <name>Note</name>
+                            <name>note</name>
                             <placement>a</placement>
                             <head>Note:</head>
                         </tag>
