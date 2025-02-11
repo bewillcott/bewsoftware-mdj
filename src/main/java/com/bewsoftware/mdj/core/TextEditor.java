@@ -34,6 +34,8 @@
  */
 package com.bewsoftware.mdj.core;
 
+import com.bewsoftware.mdj.core.HTMLToken;
+import com.bewsoftware.mdj.core.Replacement;
 import com.bewsoftware.mdj.core.plugins.utils.Constants;
 import java.util.ArrayList;
 import java.util.Collection;

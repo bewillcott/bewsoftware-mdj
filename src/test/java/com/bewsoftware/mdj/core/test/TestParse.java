@@ -18,17 +18,16 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 package com.bewsoftware.mdj.core.test;
 
 import com.bewsoftware.mdj.MarkdownProcessor;
 
-import static com.bewsoftware.mdj.core.utils.Utils.println;
+import static com.bewsoftware.utils.string.Strings.println;
 
 /**
  *
  * @author Bradley Willcott
-*
+ *
  * @since 0.6.7
  * @version 0.8.0
  */

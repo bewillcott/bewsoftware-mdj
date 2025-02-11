@@ -42,7 +42,7 @@ module bewsoftware.mdj {
     requires bewsoftware.common;
     requires bewsoftware.optional;
     requires transitive bewsoftware.annotations;
-    requires java.logging;
     
     exports com.bewsoftware.mdj;
+    exports com.bewsoftware.mdj.core;
 }

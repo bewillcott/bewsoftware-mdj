@@ -49,7 +49,7 @@ import java.util.List;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static com.bewsoftware.mdj.core.utils.Utils.println;
+import static com.bewsoftware.utils.string.Strings.println;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /*
