@@ -2,8 +2,8 @@
  * Copyright (c) 2005, Pete Bevin.
  * <http://markdownj.petebevin.com>
  *
- * Copyright (c) 2021 Bradley Willcott
- * Refactored.
+ * Copyright (c) 2020, 2021, 2025 Bradley Willcott
+ * https://github.com/bewillcott/bewsoftware-mdj
  *
  * All rights reserved.
  *

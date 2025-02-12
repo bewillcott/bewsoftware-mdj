@@ -25,8 +25,6 @@
  */
 
 /**
- * This module provides the interface into functionality of the MDj library.
- *
  * This is a library that provides for the processing of markdown text into HTML.
  *
  * This code is based primarily on that in the "org.markdownj" project,

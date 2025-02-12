@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2020, 2021 Bradley Willcott
+ * Copyright (c) 2020, 2021, 2025 Bradley Willcott
+ * https://github.com/bewillcott/bewsoftware-mdj
  *
  * All rights reserved.
  *
